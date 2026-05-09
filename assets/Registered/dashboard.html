@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Личный кабинет — DavronMarket</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{--brand:#0057FF;--brand-dark:#0040CC;--brand-light:#EEF3FF;--text:#0A0A0F;--muted:#6B7280;--border:#E5E7EB;--bg:#F0F4FF;--white:#FFFFFF;--radius:14px;--shadow:0 2px 16px rgba(0,0,0,0.07);}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);min-height:100vh;padding:0;}
+  /* Topbar */
+  .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .logo-mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:36px;height:36px;background:var(--brand);border-radius:9px;display:flex;align-items:center;justify-content:center;}
+  .logo-icon svg{width:18px;height:18px;fill:white;}
+  .logo-name{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
+  .topbar-right{display:flex;align-items:center;gap:12px;}
+  .avatar-btn{display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px;transition:background 0.2s;}
+  .avatar-btn:hover{background:var(--bg);}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+  .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+  .avatar-name{font-size:14px;font-weight:600;color:var(--text);}
+  /* Main layout */
+  .main{max-width:900px;margin:0 auto;padding:32px 24px;}
+  /* Hero */
+  .hero{background:linear-gradient(135deg,#0057FF 0%,#0040CC 100%);border-radius:20px;padding:32px 36px;color:white;margin-bottom:28px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.07);}
+  .hero::after{content:'';position:absolute;right:60px;bottom:-60px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05);}
+  .hero-inner{position:relative;z-index:1;}
+  .hero-greeting{font-size:14px;opacity:0.8;margin-bottom:8px;font-weight:500;}
+  .hero-name{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;}
+  .hero-email{font-size:14px;opacity:0.7;}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;margin-top:16px;backdrop-filter:blur(4px);}
+  .hero-badge svg{width:14px;height:14px;}
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+  .stat-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,0.04);}
+  .stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .stat-icon svg{width:20px;height:20px;}
+  .stat-icon.blue{background:#EEF3FF;}
+  .stat-icon.blue svg{stroke:#0057FF;}
+  .stat-icon.green{background:#F0FDF4;}
+  .stat-icon.green svg{stroke:#16A34A;}
+  .stat-icon.orange{background:#FFF7ED;}
+  .stat-icon.orange svg{stroke:#EA580C;}
+  .stat-val{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:2px;}
+  .stat-label{font-size:12px;color:var(--muted);}
+  /* Cards grid */
+  .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
+  .menu-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,0.04);text-decoration:none;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s;}
+  .menu-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1);}
+  .menu-card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .menu-card-icon svg{width:22px;height:22px;}
+  .c1{background:#EEF3FF;} .c1 svg{stroke:#0057FF;}
+  .c2{background:#F0FDF4;} .c2 svg{stroke:#16A34A;}
+  .c3{background:#FFF7ED;} .c3 svg{stroke:#EA580C;}
+  .c4{background:#FDF4FF;} .c4 svg{stroke:#9333EA;}
+  .menu-card-info h3{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;}
+  .menu-card-info p{font-size:12px;color:var(--muted);}
+  /* Logout */
+  .logout-section{text-align:center;padding-bottom:40px;}
+  .btn-logout{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--white);color:#DC2626;border:1.5px solid #FECACA;border-radius:var(--radius);font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s,border-color 0.2s,transform 0.1s;}
+  .btn-logout:hover{background:#FEF2F2;border-color:#DC2626;}
+  .btn-logout:active{transform:scale(0.98);}
+  .btn-logout svg{width:16px;height:16px;}
+  @media(max-width:600px){
+    .stats{grid-template-columns:1fr 1fr;}
+    .stats .stat-card:last-child{grid-column:span 2;}
+    .cards-grid{grid-template-columns:1fr;}
+    .hero{padding:24px 20px;}
+    .hero-name{font-size:22px;}
+    .main{padding:20px 16px;}
+    .topbar{padding:0 16px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/" class="logo-mark">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+    </div>
+    <span class="logo-name">DavronMarket</span>
+  </a>
+  <div class="topbar-right">
+    <button class="avatar-btn">
+      <div class="avatar">
+        <?php
+          $user = wp_get_current_user();
+          echo esc_html(mb_strtoupper(mb_substr($user->display_name, 0, 1)));
+        ?>
+      </div>
+      <span class="avatar-name"><?php echo esc_html($user->display_name); ?></span>
+    </button>
+  </div>
+</header>
+
+<main class="main">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-inner">
+      <p class="hero-greeting">Добро пожаловать 👋</p>
+      <h1 class="hero-name"><?php echo esc_html($user->display_name); ?></h1>
+      <p class="hero-email"><?php echo esc_html($user->user_email); ?></p>
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Аккаунт активен
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+      <div class="stat-val">0</div>
+      <div class="stat-label">Заказов</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      </div>
+      <div class="stat-val">0</div>
+      <div class="stat-label">Бонусов</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div class="stat-val">0</div>
+      <div class="stat-label">Избранное</div>
+    </div>
+  </div>
+
+  <!-- Menu cards -->
+  <div class="cards-grid">
+    <a href="/orders/" class="menu-card">
+      <div class="menu-card-icon c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+      <div class="menu-card-info"><h3>Мои заказы</h3><p>История покупок</p></div>
+    </a>
+    <a href="/profile/" class="menu-card">
+      <div class="menu-card-icon c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="menu-card-info"><h3>Профиль</h3><p>Личные данные</p></div>
+    </a>
+    <a href="/wishlist/" class="menu-card">
+      <div class="menu-card-icon c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <div class="menu-card-info"><h3>Избранное</h3><p>Сохранённые товары</p></div>
+    </a>
+    <a href="/settings/" class="menu-card">
+      <div class="menu-card-icon c4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <div class="menu-card-info"><h3>Настройки</h3><p>Аккаунт и безопасность</p></div>
+    </a>
+  </div>
+
+  <!-- Logout -->
+  <div class="logout-section">
+    <a href="/logout/" class="btn-logout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Выйти из аккаунта
+    </a>
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Моделирование · Анимация · Motion Design — DavronMarket</title>
+<meta name="description" content="Профессиональный курс по 3D моделированию, анимации и моушен-дизайну в Blender. 38 уроков, онлайн и офлайн.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#03020a;
+  --bg2:#07060f;
+  --bg3:#0c0a1a;
+  --gold:#c9a84c;
+  --gold2:#e8c96e;
+  --gold3:#f7e4a8;
+  --blue:#2b5fff;
+  --purple:#7c3aed;
+  --teal:#0d9488;
+  --white:#fff;
+  --gray:#7a7592;
+  --border:rgba(201,168,76,.16);
+  --border2:rgba(201,168,76,.07);
+  --g-gold:linear-gradient(135deg,#c9a84c 0%,#f7e4a8 50%,#c9a84c 100%);
+  --g-blue:linear-gradient(135deg,#2b5fff,#7c3aed);
+  --g-teal:linear-gradient(135deg,#0d9488,#2b5fff);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;}
+
+/* noise */
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");opacity:.6;}
+
+/* PROFILE HEADER */
+.dm-profile-header {
+  background: linear-gradient(135deg, rgba(3,2,10,0.98) 0%, rgba(7,6,15,0.95) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 599;
+  backdrop-filter: blur(20px);
+}
+
+.dm-profile-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(201,168,76,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dm-profile-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dm-profile-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dm-profile-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: italic;
+  background: var(--g-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.dm-profile-subtitle {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0.7;
+}
+
+/* ══ NAV ══ */
+nav{position:fixed;top:68px;left:0;right:0;z-index:600;height:68px;
+background:rgba(3,2,10,.93);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-in{max-width:1160px;margin:0 auto;padding:0 32px;height:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;font-style:italic;
+background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;}
+.nav-links{display:flex;gap:32px;}
+.nav-a{font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.38);text-decoration:none;transition:.2s;}
+.nav-a:hover{color:var(--gold2);}
+.nav-cta{padding:10px 26px;background:transparent;border:1px solid var(--gold);
+font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+color:var(--gold2);cursor:pointer;transition:.28s;position:relative;overflow:hidden;}
+.nav-cta::before{content:"";position:absolute;inset:0;background:var(--g-gold);opacity:0;transition:.28s;}
+.nav-cta:hover::before{opacity:1;}
+.nav-cta:hover{color:#000;}
+.nav-cta span{position:relative;z-index:1;}
+.nav-burger{display:none;background:none;border:none;cursor:pointer;color:var(--white);font-size:22px;}
+
+/* ══ HERO ══ */
+.hero{min-height:100vh;display:flex;align-items:center;padding:150px 32px 80px;position:relative;overflow:hidden;
+background:radial-gradient(ellipse 70% 70% at 75% 40%,rgba(44,95,255,.08),transparent 60%),
+radial-gradient(ellipse 50% 60% at 20% 80%,rgba(124,58,237,.07),transparent 60%),
+radial-gradient(ellipse 40% 40% at 50% 20%,rgba(201,168,76,.06),transparent 60%),var(--bg);}
+.hero::before{content:"";position:absolute;inset:0;
+background:repeating-linear-gradient(-55deg,transparent,transparent 70px,rgba(201,168,76,.018) 70px,rgba(201,168,76,.018) 71px);}
+/* вертикальные световые лучи */
+.hero-ray{position:absolute;width:1px;height:120%;top:-10%;
+background:linear-gradient(to bottom,transparent,rgba(44,95,255,.5),transparent);
+animation:ray 7s ease-in-out infinite;transform:rotate(15deg);}
+.hero-ray:nth-child(2){right:35%;animation-delay:2s;background:linear-gradient(to bottom,transparent,rgba(201,168,76,.4),transparent);}
+.hero-ray:nth-child(3){right:20%;animation-delay:4s;background:linear-gradient(to bottom,transparent,rgba(124,58,237,.3),transparent);}
+@keyframes ray{0%,100%{opacity:.3;transform:rotate(15deg) translateX(0)}50%{opacity:.8;transform:rotate(15deg) translateX(-20px)}}
+
+.hero-wrap{max-width:1160px;margin:0 auto;width:100%;position:relative;z-index:1;
+display:grid;grid-template-columns:1fr 420px;gap:64px;align-items:center;}
+
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:"";height:1px;width:28px;background:var(--g-gold);}
+
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,96px);font-weight:700;
+line-height:.96;letter-spacing:-2px;margin-bottom:10px;}
+.hero-h1 .accent{font-style:italic;background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;display:block;}
+.hero-h1 .sub-line{font-size:clamp(24px,3.5vw,46px);font-weight:400;font-style:normal;color:rgba(255,255,255,.2);letter-spacing:0;display:block;margin-top:6px;}
+
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0;}
+.htag{padding:6px 16px;border:1px solid rgba(255,255,255,.1);font-size:10px;font-weight:600;
+letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.htag.gold{border-color:rgba(201,168,76,.35);color:var(--gold2);}
+.htag.blue{border-color:rgba(44,95,255,.4);color:#93b4ff;}
+.htag.purple{border-color:rgba(124,58,237,.4);color:#c4b5fd;}
+
+.hero-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.48);line-height:1.9;max-width:500px;margin-bottom:40px;}
+.hero-desc strong{color:rgba(255,255,255,.82);font-weight:600;}
+
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:52px;}
+.btn-prime{padding:15px 38px;background:var(--g-gold);border:none;cursor:pointer;
+font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+color:#000;transition:.28s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);}
+.btn-prime:hover{transform:translateY(-3px);box-shadow:0 18px 48px rgba(201,168,76,.38);}
+.btn-line{padding:15px 32px;background:transparent;border:1px solid var(--border);cursor:pointer;
+font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+color:var(--gold2);transition:.26s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-line:hover{border-color:var(--gold2);background:rgba(201,168,76,.06);}
+.btn-wa{padding:15px 28px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);cursor:pointer;
+font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+color:#6ee7a0;transition:.24s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-wa:hover{background:rgba(37,211,102,.18);}
+
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border2);}
+.hstat{padding:20px;text-align:center;border-right:1px solid var(--border2);}
+.hstat:last-child{border-right:none;}
+.hstat-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;
+background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.hstat-l{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:4px;}
+
+/* Hero right — 3D card */
+.hero-card{background:var(--bg2);border:1px solid var(--border);padding:28px;position:relative;overflow:hidden;}
+.hero-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--g-gold);}
+.hcard-3d{width:100%;aspect-ratio:1;background:var(--bg3);border:1px solid var(--border2);
+display:flex;align-items:center;justify-content:center;margin-bottom:20px;position:relative;overflow:hidden;}
+.hcard-3d::before{content:"";position:absolute;inset:0;
+background:radial-gradient(ellipse at 40% 40%,rgba(44,95,255,.15),transparent 60%),
+radial-gradient(ellipse at 70% 70%,rgba(124,58,237,.12),transparent 60%);}
+.cube-wrap{position:relative;width:140px;height:140px;}
+.cube{width:100px;height:100px;position:absolute;top:50%;left:50%;
+transform-style:preserve-3d;animation:spin3d 8s linear infinite;
+transform:translate(-50%,-50%) rotateX(20deg) rotateY(0deg);}
+@keyframes spin3d{from{transform:translate(-50%,-50%) rotateX(20deg) rotateY(0deg)}to{transform:translate(-50%,-50%) rotateX(20deg) rotateY(360deg)}}
+.face{position:absolute;width:100px;height:100px;border:1px solid rgba(201,168,76,.4);
+background:rgba(201,168,76,.04);display:flex;align-items:center;justify-content:center;}
+.face.front{transform:translateZ(50px);}
+.face.back{transform:rotateY(180deg) translateZ(50px);}
+.face.left{transform:rotateY(-90deg) translateZ(50px);}
+.face.right{transform:rotateY(90deg) translateZ(50px);}
+.face.top{transform:rotateX(90deg) translateZ(50px);}
+.face.bottom{transform:rotateX(-90deg) translateZ(50px);}
+.hcard-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;}
+.hcard-info{display:flex;flex-direction:column;gap:10px;}
+.hcard-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border2);}
+.hcard-row-ic{font-size:16px;flex-shrink:0;}
+.hcard-row-t{font-size:12px;font-weight:600;}
+.hcard-row-v{font-size:11px;color:var(--gray);margin-left:auto;font-weight:400;}
+
+/* ══ SECTIONS ══ */
+.sec{padding:96px 32px;}
+.sec-alt{background:var(--bg2);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);}
+.sec-in{max-width:1160px;margin:0 auto;}
+.sec-eye{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
+.gold-ln{width:56px;height:1px;background:var(--g-gold);margin-bottom:22px;}
+.gold-ln.c{margin-left:auto;margin-right:auto;}
+.sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,58px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:14px;}
+.sec-h em{font-style:italic;background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sec-p{font-size:14px;font-weight:300;color:rgba(255,255,255,.42);line-height:1.9;max-width:500px;}
+
+/* ══ ABOUT ══ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-img-wrap{position:relative;}
+.about-img{width:100%;aspect-ratio:4/5;background:var(--bg3);border:1px solid var(--border);
+display:flex;align-items:center;justify-content:center;font-size:100px;position:relative;overflow:hidden;}
+.about-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.about-img-placeholder{position:relative;z-index:1;opacity:.3;}
+.corner{position:absolute;width:20px;height:20px;border-color:var(--gold);border-style:solid;}
+.corner.tl{top:10px;left:10px;border-width:1px 0 0 1px;}
+.corner.tr{top:10px;right:10px;border-width:1px 1px 0 0;}
+.corner.bl{bottom:10px;left:10px;border-width:0 0 1px 1px;}
+.corner.br{bottom:10px;right:10px;border-width:0 1px 1px 0;}
+.about-badge-box{position:absolute;bottom:-16px;right:-16px;background:var(--g-gold);
+width:110px;height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ab-n{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#000;line-height:1;}
+.ab-l{font-size:9px;font-weight:800;letter-spacing:.1em;color:#000;text-transform:uppercase;}
+.about-quote{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;
+color:rgba(255,255,255,.65);line-height:1.65;border-left:2px solid var(--gold);padding-left:22px;margin:28px 0;}
+.about-list{display:flex;flex-direction:column;gap:12px;margin-top:28px;}
+.about-li{display:flex;align-items:center;gap:12px;padding:13px 16px;
+background:rgba(201,168,76,.03);border:1px solid var(--border2);font-size:13px;font-weight:400;color:rgba(255,255,255,.6);}
+.about-li::before{content:"✦";color:var(--gold);flex-shrink:0;font-size:11px;}
+
+/* ══ ПРОГРАММА — АККОРДЕОН ══ */
+.curriculum{}
+.chapter{border:1px solid var(--border2);margin-bottom:2px;overflow:hidden;}
+.chapter-head{
+  display:flex;align-items:center;gap:16px;padding:20px 28px;cursor:pointer;
+  background:var(--bg2);transition:.24s;user-select:none;
+}
+.chapter-head:hover{background:rgba(201,168,76,.04);}
+.chapter-head.open{background:rgba(201,168,76,.06);border-bottom:1px solid var(--border2);}
+.chapter-num{
+  font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;
+  background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;
+  min-width:48px;line-height:1;
+}
+.chapter-info{flex:1;}
+.chapter-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:3px;}
+.chapter-meta{font-size:11px;color:var(--gray);font-weight:400;}
+.chapter-arrow{font-size:18px;color:var(--gold);transition:.3s;flex-shrink:0;}
+.chapter-head.open .chapter-arrow{transform:rotate(180deg);}
+.chapter-tag{padding:4px 12px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-left:auto;margin-right:8px;}
+.chapter-tag.theory{background:rgba(44,95,255,.12);border:1px solid rgba(44,95,255,.3);color:#93b4ff;}
+.chapter-tag.practice{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);color:#c4b5fd;}
+.chapter-tag.intro{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold2);}
+.chapter-tag.render{background:rgba(13,148,136,.12);border:1px solid rgba(13,148,136,.3);color:#5eead4;}
+
+.chapter-body{display:none;background:var(--bg);}
+.chapter-body.open{display:block;}
+.lesson-list{display:flex;flex-direction:column;}
+.lesson{
+  display:flex;align-items:center;gap:16px;padding:16px 28px 16px 76px;
+  border-bottom:1px solid var(--border2);cursor:pointer;transition:.22s;
+}
+.lesson:last-child{border-bottom:none;}
+.lesson:hover{background:rgba(201,168,76,.04);}
+.lesson:hover .lesson-more{opacity:1;}
+.lesson-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;
+color:rgba(201,168,76,.4);min-width:28px;flex-shrink:0;}
+.lesson-icon{font-size:16px;flex-shrink:0;}
+.lesson-title{font-size:13px;font-weight:500;flex:1;line-height:1.4;}
+.lesson-duration{font-size:11px;color:var(--gray);flex-shrink:0;font-weight:400;}
+.lesson-more{
+  font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);opacity:0;transition:.2s;flex-shrink:0;white-space:nowrap;
+}
+
+/* ══ ЧТО ПОЛУЧИТЕ ══ */
+.get-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);}
+.get-card{background:var(--bg);padding:36px 28px;transition:.26s;}
+.get-card:hover{background:rgba(201,168,76,.03);}
+.get-ic{font-size:32px;margin-bottom:16px;}
+.get-t{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:8px;}
+.get-d{font-size:12px;color:var(--gray);line-height:1.75;font-weight:300;}
+
+/* ══ ДЛЯ КОГО ══ */
+.who-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.who-card{background:var(--bg2);border:1px solid var(--border2);padding:28px 22px;transition:.24s;}
+.who-card:hover{border-color:var(--border);transform:translateY(-3px);}
+.who-roman{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:rgba(201,168,76,.12);line-height:1;margin-bottom:14px;}
+.who-t{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px;}
+.who-d{font-size:11px;color:var(--gray);line-height:1.75;font-weight:300;}
+
+/* ══ ФОРМАТЫ ══ */
+.formats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.format-card{background:var(--bg);padding:48px 40px;position:relative;overflow:hidden;}
+.format-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;}
+.format-card.online::before{background:var(--g-blue);}
+.format-card.offline::before{background:var(--g-gold);}
+.format-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;margin-bottom:24px;
+font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
+.format-card.online .format-badge{background:rgba(44,95,255,.1);border:1px solid rgba(44,95,255,.3);color:#93b4ff;}
+.format-card.offline .format-badge{background:rgba(201,168,76,.08);border:1px solid var(--border);color:var(--gold2);}
+.format-dot{width:7px;height:7px;border-radius:50%;animation:pulse 2s ease infinite;}
+.format-card.online .format-dot{background:#4f8aff;box-shadow:0 0 8px #4f8aff;}
+.format-card.offline .format-dot{background:var(--gold);box-shadow:0 0 8px var(--gold);}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}}
+.format-h{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;margin-bottom:10px;}
+.format-p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.8;margin-bottom:28px;font-weight:300;}
+.format-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.format-li{display:flex;align-items:flex-start;gap:12px;font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;}
+.format-li-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px;}
+.format-price{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;
+background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.format-price-note{font-size:11px;color:var(--gray);margin-top:4px;font-weight:300;}
+
+/* ══ ОТЗЫВЫ ══ */
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.rv-card{background:var(--bg2);border:1px solid var(--border2);padding:32px 26px;position:relative;transition:.24s;}
+.rv-card:hover{border-color:var(--border);}
+.rv-card::before{content:"❝";position:absolute;top:16px;right:20px;
+font-family:'Cormorant Garamond',serif;font-size:52px;color:rgba(201,168,76,.08);line-height:1;}
+.rv-stars{display:flex;gap:4px;margin-bottom:16px;}
+.rv-star{width:13px;height:13px;background:var(--g-gold);
+clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.rv-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;
+color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:24px;}
+.rv-hr{height:1px;background:var(--border2);margin-bottom:18px;}
+.rv-author{display:flex;align-items:center;gap:12px;}
+.rv-ava{width:42px;height:42px;background:var(--g-gold);display:flex;align-items:center;
+justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden;}
+.rv-ava img{width:100%;height:100%;object-fit:cover;}
+.rv-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.rv-role{font-size:11px;color:var(--gray);font-weight:300;}
+
+/* ══ CTA ══ */
+.cta-sec{padding:110px 32px;text-align:center;position:relative;overflow:hidden;
+background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(44,95,255,.07),transparent 60%),var(--bg);}
+.cta-sec::before{content:"";position:absolute;inset:0;
+background:repeating-linear-gradient(-55deg,transparent,transparent 70px,rgba(201,168,76,.013) 70px,rgba(201,168,76,.013) 71px);}
+.cta-in{position:relative;z-index:1;}
+.cta-orn{font-family:'Cormorant Garamond',serif;font-size:64px;line-height:1;color:rgba(201,168,76,.12);margin-bottom:4px;}
+.cta-h{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5.5vw,72px);font-weight:700;line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px;}
+.cta-h em{font-style:italic;background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cta-p{font-size:14px;color:rgba(255,255,255,.38);max-width:440px;margin:0 auto 40px;line-height:1.9;font-weight:300;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+.cta-limit{font-size:12px;color:var(--gray);display:flex;align-items:center;justify-content:center;gap:10px;}
+.limit-dot{width:8px;height:8px;border-radius:50%;background:#e63946;box-shadow:0 0 10px #e63946;animation:pulse 1.5s ease infinite;}
+
+/* ══ CONTACTS ══ */
+.contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.c-block{background:var(--bg);padding:52px 44px;}
+.f-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;margin-bottom:6px;}
+.f-sub{font-size:12px;color:var(--gray);margin-bottom:28px;font-weight:300;line-height:1.7;}
+.f-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.f-in{width:100%;padding:13px 16px;background:rgba(201,168,76,.04);border:1px solid var(--border2);
+border-bottom:1px solid var(--border);color:var(--white);font-family:'Montserrat',sans-serif;
+font-size:13px;font-weight:300;outline:none;transition:.22s;margin-bottom:16px;}
+.f-in::placeholder{color:rgba(255,255,255,.2);}
+.f-in:focus{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.f-select{width:100%;padding:13px 16px;background:rgba(201,168,76,.04);border:1px solid var(--border2);
+border-bottom:1px solid var(--border);color:var(--white);font-family:'Montserrat',sans-serif;
+font-size:13px;font-weight:300;outline:none;transition:.22s;margin-bottom:20px;
+-webkit-appearance:none;appearance:none;cursor:pointer;}
+.f-select option{background:var(--bg2);color:var(--white);}
+.f-submit{width:100%;padding:15px;background:var(--g-gold);border:none;cursor:pointer;
+font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+color:#000;transition:.24s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);}
+.f-submit:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,168,76,.38);}
+.ci-list{display:flex;flex-direction:column;gap:0;}
+.ci{display:flex;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid var(--border2);text-decoration:none;transition:.22s;}
+.ci:hover .ci-val{color:var(--gold2);}
+.ci-ic{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:.2s;}
+.ci:hover .ci-ic{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.ci-lbl{font-size:10px;color:var(--gray);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;}
+.ci-val{font-size:13px;font-weight:500;color:rgba(255,255,255,.7);transition:.2s;}
+
+/* ══ FOOTER ══ */
+footer{border-top:1px solid var(--border);padding:44px 32px 28px;}
+.footer-in{max-width:1160px;margin:0 auto;}
+.footer-top{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:36px;}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;font-style:italic;
+background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;display:block;margin-bottom:8px;text-decoration:none;}
+.f-tagline{font-size:11px;color:var(--gray);font-weight:300;letter-spacing:.06em;}
+.f-col h5{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.f-links{display:flex;flex-direction:column;gap:9px;}
+.f-link{font-size:12px;color:rgba(255,255,255,.3);text-decoration:none;font-weight:300;transition:.2s;letter-spacing:.04em;}
+.f-link:hover{color:var(--gold2);}
+.footer-bot{padding-top:24px;border-top:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.f-copy{font-size:11px;color:rgba(255,255,255,.16);font-weight:300;}
+
+/* ══ REVEAL ══ */
+.r{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.r.v{opacity:1;transform:none;}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}.d4{transition-delay:.32s;}.d5{transition-delay:.4s;}
+
+/* ══ MODAL ══ */
+.modal-ov{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;
+background:rgba(3,2,10,.97);backdrop-filter:blur(18px);padding:20px;}
+.modal-ov.open{display:flex;}
+.modal-box{background:var(--bg2);border:1px solid var(--border);max-width:700px;width:100%;
+max-height:90vh;overflow-y:auto;position:relative;animation:mIn .38s cubic-bezier(.16,1,.3,1) both;}
+@keyframes mIn{from{opacity:0;transform:translateY(36px) scale(.97)}to{opacity:1;transform:none}}
+.m-head{padding:36px 44px 28px;border-bottom:1px solid var(--border2);position:relative;}
+.m-close{position:absolute;top:20px;right:20px;width:34px;height:34px;
+background:rgba(255,255,255,.04);border:1px solid var(--border2);display:flex;align-items:center;
+justify-content:center;font-size:14px;color:var(--gray);cursor:pointer;transition:.2s;}
+.m-close:hover{border-color:var(--border);color:var(--white);}
+.m-eye{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block;}
+.m-title{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;line-height:1.1;margin-bottom:6px;}
+.m-sub{font-size:12px;color:var(--gray);font-weight:300;line-height:1.7;}
+.m-body{padding:32px 44px;}
+.m-sec-t{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2);
+margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.m-sec-t::after{content:"";flex:1;height:1px;background:var(--border2);}
+.m-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.m-li{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;
+background:rgba(201,168,76,.03);border:1px solid var(--border2);}
+.m-li-n{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);flex-shrink:0;min-width:22px;line-height:1;margin-top:1px;}
+.m-li-t{font-size:13px;color:rgba(255,255,255,.62);line-height:1.6;}
+.m-li-t strong{color:rgba(255,255,255,.88);font-weight:600;}
+.m-result{background:rgba(201,168,76,.06);border:1px solid var(--border);padding:24px 28px;
+display:flex;align-items:center;gap:18px;margin-bottom:28px;}
+.m-res-ic{font-size:32px;flex-shrink:0;}
+.m-res-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:4px;}
+.m-res-d{font-size:12px;color:var(--gray);font-weight:300;line-height:1.7;}
+.m-foot{padding:24px 44px;border-top:1px solid var(--border2);display:flex;gap:12px;flex-wrap:wrap;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-wrap{grid-template-columns:1fr;}
+  .hero-card{display:none;}
+  .about-grid{grid-template-columns:1fr;}
+  .about-img-wrap{display:none;}
+  .get-grid{grid-template-columns:1fr 1fr;}
+  .who-grid{grid-template-columns:1fr 1fr;}
+  .formats-grid{grid-template-columns:1fr;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .contacts-grid{grid-template-columns:1fr;}
+  .footer-top{flex-direction:column;}
+  .nav-links{display:none;}
+  .nav-burger{display:block;}
+  .m-head,.m-body,.m-foot{padding-left:22px;padding-right:22px;}
+}
+@media(max-width:600px){
+  .get-grid{grid-template-columns:1fr;}
+  .who-grid{grid-template-columns:1fr;}
+  .hero-btns{flex-direction:column;}
+  .cta-btns{flex-direction:column;align-items:center;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .lesson{padding-left:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="#">DavronMarket</a>
+    <div class="nav-links">
+      <a class="nav-a" href="#about">О курсе</a>
+      <a class="nav-a" href="#curriculum">Программа</a>
+      <a class="nav-a" href="#formats">Форматы</a>
+      <a class="nav-a" href="#contacts">Контакты</a>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('contacts').scrollIntoView({behavior:'smooth'})"><span>Записаться</span></button>
+    <button class="nav-burger" onclick="this.textContent=this.textContent==='☰'?'✕':'☰'">☰</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-ray"></div>
+  <div class="hero-ray"></div>
+  <div class="hero-ray"></div>
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <div class="hero-eyebrow">DavronMarket · Elite 3D Academy · Blender</div>
+      <h1 class="hero-h1">
+        3D<span class="accent">Моделирование</span>
+        <span class="sub-line">Анимация · Motion Design</span>
+      </h1>
+      <div class="hero-tags">
+        <span class="htag gold">✦ Blender</span>
+        <span class="htag blue">⬡ 3D Моделирование</span>
+        <span class="htag purple">◈ Анимация</span>
+        <span class="htag">Motion Design</span>
+        <span class="htag">Рендеринг</span>
+      </div>
+      <p class="hero-desc">Полный курс от <strong>нуля до профессионала</strong> — создай своего первого 3D персонажа, освой материалы, рендеринг и анимацию. Онлайн и офлайн формат.</p>
+      <div class="hero-btns">
+        <a href="#contacts" class="btn-prime">✦ Записаться на курс</a>
+        <a href="#curriculum" class="btn-line">📋 Программа</a>
+        <a href="https://wa.me/992000000000" target="_blank" class="btn-wa">💬 WhatsApp</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">38</div><div class="hstat-l">Уроков</div></div>
+        <div class="hstat"><div class="hstat-n">8</div><div class="hstat-l">Глав</div></div>
+        <div class="hstat"><div class="hstat-n">60ч+</div><div class="hstat-l">Контента</div></div>
+        <div class="hstat"><div class="hstat-n">2</div><div class="hstat-l">Формата</div></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hcard-3d">
+        <div class="cube-wrap">
+          <div class="cube" style="transform-style:preserve-3d;">
+            <div class="face front"></div>
+            <div class="face back"></div>
+            <div class="face left"></div>
+            <div class="face right"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hcard-label">Чему вы научитесь</div>
+      <div class="hcard-info">
+        <div class="hcard-row"><span class="hcard-row-ic">🧊</span><span class="hcard-row-t">3D Моделирование</span><span class="hcard-row-v">Blender</span></div>
+        <div class="hcard-row"><span class="hcard-row-ic">🎨</span><span class="hcard-row-t">Материалы и текстуры</span><span class="hcard-row-v">PBR · UV</span></div>
+        <div class="hcard-row"><span class="hcard-row-ic">🎬</span><span class="hcard-row-t">Рендеринг</span><span class="hcard-row-v">Cycles · EEVEE</span></div>
+        <div class="hcard-row"><span class="hcard-row-ic">⚡</span><span class="hcard-row-t">Анимация</span><span class="hcard-row-v">Motion</span></div>
+        <div class="hcard-row"><span class="hcard-row-ic">✨</span><span class="hcard-row-t">Пост-обработка</span><span class="hcard-row-v">Compositing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ О КУРСЕ ══ -->
+<section class="sec sec-alt" id="about">
+<div class="sec-in">
+  <div class="about-grid">
+    <div class="about-img-wrap r">
+      <div class="about-img">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <img src="ФОТО_ПРЕПОДАВАТЕЛЯ.jpg" alt="Преподаватель" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div class="about-img-placeholder" style="display:none;">👨‍🏫</div>
+      </div>
+      <div class="about-badge-box">
+        <div class="ab-n">38</div>
+        <div class="ab-l">уроков</div>
+      </div>
+    </div>
+    <div>
+      <span class="sec-eye r">О курсе</span>
+      <div class="gold-ln r"></div>
+      <h2 class="sec-h r">Профессиональный<br><em>3D с нуля</em></h2>
+      <div class="about-quote r">«Blender — это мощнейший инструмент. За 38 уроков ты пройдёшь путь от полного новичка до создателя собственных 3D персонажей и анимаций.»</div>
+      <p class="sec-p r" style="margin-bottom:24px;">Курс построен по принципу «теория + практика» — каждая глава завершается реальным проектом. Главный практический проект — <strong style="color:rgba(255,255,255,.85);">3D персонаж Шаман</strong> от моделирования до финального рендера.</p>
+      <div class="about-list r">
+        <div class="about-li">Подходит для полных новичков — без опыта</div>
+        <div class="about-li">Blender бесплатный — никаких дополнительных расходов</div>
+        <div class="about-li">Пошаговые практические задания после каждой главы</div>
+        <div class="about-li">Готовый 3D персонаж в портфолио по завершении</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ ПРОГРАММА ══ -->
+<section class="sec" id="curriculum">
+<div class="sec-in">
+  <div style="margin-bottom:52px;">
+    <span class="sec-eye r">Программа курса</span>
+    <div class="gold-ln r"></div>
+    <h2 class="sec-h r">38 уроков · 8 <em>глав</em></h2>
+    <p class="sec-p r">Нажмите на главу чтобы раскрыть уроки. Нажмите на урок чтобы узнать подробнее.</p>
+  </div>
+  <div class="curriculum r">
+
+    <!-- ГЛАВА 0 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">0</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Введение</div>
+          <div class="chapter-meta">1 урок · Добро пожаловать в курс</div>
+        </div>
+        <span class="chapter-tag intro">Вступление</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l00')">
+            <div class="lesson-num">00</div>
+            <div class="lesson-icon">🎬</div>
+            <div class="lesson-title">Вводный урок — знакомство с курсом и преподавателем</div>
+            <div class="lesson-duration">~15 мин</div>
+            <div class="lesson-more">Подробнее →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 1 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">1</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Пользовательский интерфейс</div>
+          <div class="chapter-meta">6 уроков · Изучение интерфейса Blender</div>
+        </div>
+        <span class="chapter-tag theory">Теория</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l01')"><div class="lesson-num">01</div><div class="lesson-icon">⬇️</div><div class="lesson-title">Где скачать Blender и системные требования</div><div class="lesson-duration">~20 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l02')"><div class="lesson-num">02</div><div class="lesson-icon">🖥️</div><div class="lesson-title">Splash Screen, Top bar, Status bar, Меню File, Edit, Window, Help</div><div class="lesson-duration">~30 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l03')"><div class="lesson-num">03</div><div class="lesson-icon">🪟</div><div class="lesson-title">Работа с окнами, заголовки окон, меню и рабочие пространства</div><div class="lesson-duration">~25 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l04')"><div class="lesson-num">04</div><div class="lesson-icon">🧭</div><div class="lesson-title">Навигация с помощью Gizmo, центры вращения, NumPad</div><div class="lesson-duration">~25 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l05')"><div class="lesson-num">05</div><div class="lesson-icon">🗂️</div><div class="lesson-title">Навигация по меню, способы ввода, контекстные и круговые меню</div><div class="lesson-duration">~20 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l06')"><div class="lesson-num">06</div><div class="lesson-icon">⚙️</div><div class="lesson-title">Настройки Blender — персонализация рабочего пространства</div><div class="lesson-duration">~20 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 2 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">2</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Моделирование — Теория</div>
+          <div class="chapter-meta">7 уроков · Основы полигонального моделирования</div>
+        </div>
+        <span class="chapter-tag theory">Теория</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l07')"><div class="lesson-num">07</div><div class="lesson-icon">🔧</div><div class="lesson-title">Перемещение, вращение, масштаб, структура меша, данные объекта</div><div class="lesson-duration">~35 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l08')"><div class="lesson-num">08</div><div class="lesson-icon">🎯</div><div class="lesson-title">Активный объект, 3D-курсор, нормали, координаты объекта</div><div class="lesson-duration">~30 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l09')"><div class="lesson-num">09</div><div class="lesson-icon">📐</div><div class="lesson-title">Параметр Scale, единицы измерения, панель последнего действия</div><div class="lesson-duration">~25 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l10')"><div class="lesson-num">10</div><div class="lesson-icon">🔷</div><div class="lesson-title">Топология — правила построения качественной сетки</div><div class="lesson-duration">~40 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l11')"><div class="lesson-num">11</div><div class="lesson-icon">🔗</div><div class="lesson-title">Редактирование множества объектов, объединение, разделение, дублирование</div><div class="lesson-duration">~30 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l12')"><div class="lesson-num">12</div><div class="lesson-icon">📂</div><div class="lesson-title">Сцены, слои, коллекции, видимость объектов, Outliner</div><div class="lesson-duration">~25 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l13')"><div class="lesson-num">13</div><div class="lesson-icon">🛠️</div><div class="lesson-title">Модификаторы — мощнейший инструмент Blender</div><div class="lesson-duration">~45 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 3 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">3</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Моделирование — Практика</div>
+          <div class="chapter-meta">7 уроков · Создание персонажа Шаман</div>
+        </div>
+        <span class="chapter-tag practice">Практика</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l14')"><div class="lesson-num">14</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №1 — базовая форма тела</div><div class="lesson-duration">~50 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l15')"><div class="lesson-num">15</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №2 — детализация</div><div class="lesson-duration">~55 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l16')"><div class="lesson-num">16</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №3 — голова и лицо</div><div class="lesson-duration">~50 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l17')"><div class="lesson-num">17</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №4 — одежда</div><div class="lesson-duration">~60 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l18')"><div class="lesson-num">18</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №5 — аксессуары</div><div class="lesson-duration">~55 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l19')"><div class="lesson-num">19</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №6 — финальная форма</div><div class="lesson-duration">~50 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l20')"><div class="lesson-num">20</div><div class="lesson-icon">🧙</div><div class="lesson-title">Моделирование шамана в Blender, часть №7 — чистка топологии</div><div class="lesson-duration">~45 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 4 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">4</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Материалы — Теория</div>
+          <div class="chapter-meta">5 уроков · Шейдеры, ноды, UV, рендеры</div>
+        </div>
+        <span class="chapter-tag theory">Теория</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l21')"><div class="lesson-num">21</div><div class="lesson-icon">💡</div><div class="lesson-title">Режимы Material и Rendered, свет и мир</div><div class="lesson-duration">~30 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l22')"><div class="lesson-num">22</div><div class="lesson-icon">🔵</div><div class="lesson-title">Вкладка материалов, назначение материалов объекту, редактор нодов</div><div class="lesson-duration">~40 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l23')"><div class="lesson-num">23</div><div class="lesson-icon">🎨</div><div class="lesson-title">PBR-материал и нод Material Output</div><div class="lesson-duration">~35 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l24')"><div class="lesson-num">24</div><div class="lesson-icon">🗺️</div><div class="lesson-title">UV-развёртка — подготовка модели к текстурированию</div><div class="lesson-duration">~40 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l25')"><div class="lesson-num">25</div><div class="lesson-icon">🖼️</div><div class="lesson-title">Рендеры Cycles и EEVEE — разница и когда что использовать</div><div class="lesson-duration">~30 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 5 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">5</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Материалы — Практика</div>
+          <div class="chapter-meta">9 уроков · Текстурирование шамана</div>
+        </div>
+        <span class="chapter-tag practice">Практика</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l26')"><div class="lesson-num">26</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №1 — UV-развёртка тела</div><div class="lesson-duration">~50 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l27')"><div class="lesson-num">27</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №2 — базовые цвета</div><div class="lesson-duration">~45 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l28')"><div class="lesson-num">28</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №3 — кожа и лицо</div><div class="lesson-duration">~50 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l29')"><div class="lesson-num">29</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №4 — одежда и ткань</div><div class="lesson-duration">~45 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l30')"><div class="lesson-num">30</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №5 — металл и аксессуары</div><div class="lesson-duration">~40 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l31')"><div class="lesson-num">31</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №6 — нод-граф материала</div><div class="lesson-duration">~50 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l32')"><div class="lesson-num">32</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №7 — эффекты свечения</div><div class="lesson-duration">~35 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l33')"><div class="lesson-num">33</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №8 — детали и доработка</div><div class="lesson-duration">~40 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l34')"><div class="lesson-num">34</div><div class="lesson-icon">🖌️</div><div class="lesson-title">Текстурирование шамана в Blender, часть №9 — финальный материал</div><div class="lesson-duration">~45 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 6 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">6</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Рендеринг и пост-обработка — Теория</div>
+          <div class="chapter-meta">2 урока · Финальный рендер и работа с изображением</div>
+        </div>
+        <span class="chapter-tag render">Рендер</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l35')"><div class="lesson-num">35</div><div class="lesson-icon">📷</div><div class="lesson-title">Камера и вкладка Output — настройка финального кадра</div><div class="lesson-duration">~30 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l36')"><div class="lesson-num">36</div><div class="lesson-icon">✨</div><div class="lesson-title">Рендеринг, сэмплы и пост-обработка изображения</div><div class="lesson-duration">~35 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ГЛАВА 7 -->
+    <div class="chapter">
+      <div class="chapter-head" onclick="toggleChapter(this)">
+        <div class="chapter-num">7</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Рендеринг шамана и итоги</div>
+          <div class="chapter-meta">2 урока · Финальный проект и наставления</div>
+        </div>
+        <span class="chapter-tag render">Финал</span>
+        <div class="chapter-arrow">⌄</div>
+      </div>
+      <div class="chapter-body">
+        <div class="lesson-list">
+          <div class="lesson" onclick="openLesson('l37')"><div class="lesson-num">37</div><div class="lesson-icon">🏆</div><div class="lesson-title">Рендеринг и пост-обработка шамана в Blender — финальный результат</div><div class="lesson-duration">~60 мин</div><div class="lesson-more">Подробнее →</div></div>
+          <div class="lesson" onclick="openLesson('l38')"><div class="lesson-num">38</div><div class="lesson-icon">🎓</div><div class="lesson-title">Итоги курса по основам и дальнейшие наставления</div><div class="lesson-duration">~20 мин</div><div class="lesson-more">Подробнее →</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /curriculum -->
+
+  <!-- Плашка "скоро больше" -->
+  <div style="margin-top:16px;padding:24px 32px;background:rgba(201,168,76,.05);border:1px dashed rgba(201,168,76,.2);display:flex;align-items:center;gap:16px;" class="r">
+    <div style="font-size:28px;">⏳</div>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:4px;">Скоро — дополнительные главы</div>
+      <div style="font-size:12px;color:var(--gray);font-weight:300;">Анимация персонажа · Риггинг · Motion Design · Симуляции. Список пополняется!</div>
+    </div>
+    <div style="margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);">В разработке</div>
+  </div>
+</div>
+</section>
+
+<!-- ══ ЧТО ПОЛУЧИТЕ ══ -->
+<section class="sec sec-alt">
+<div class="sec-in">
+  <div style="text-align:center;margin-bottom:52px;">
+    <span class="sec-eye r">Результаты</span>
+    <div class="gold-ln c r"></div>
+    <h2 class="sec-h r" style="text-align:center;">Что вы <em>получите</em></h2>
+  </div>
+  <div class="get-grid r">
+    <div class="get-card"><div class="get-ic">🧊</div><div class="get-t">3D Персонаж</div><div class="get-d">Полностью готовый 3D персонаж Шаман — смоделированный, текстурированный и отрендеренный</div></div>
+    <div class="get-card"><div class="get-ic">💼</div><div class="get-t">Портфолио</div><div class="get-d">Реальный проект в портфолио для работы с клиентами или устройства на работу</div></div>
+    <div class="get-card"><div class="get-ic">🎓</div><div class="get-t">Сертификат</div><div class="get-d">Официальный сертификат DavronMarket по завершении всех уроков и финального проекта</div></div>
+    <div class="get-card"><div class="get-ic">🔧</div><div class="get-t">Навык Blender</div><div class="get-d">Уверенное владение Blender — интерфейс, моделирование, материалы, рендер</div></div>
+    <div class="get-card"><div class="get-ic">🎨</div><div class="get-t">PBR-материалы</div><div class="get-d">Понимание нод-системы, UV-развёртки и создания фотореалистичных материалов</div></div>
+    <div class="get-card"><div class="get-ic">🚀</div><div class="get-t">База для роста</div><div class="get-d">Прочный фундамент для изучения анимации, риггинга, VFX и Motion Design</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ ДЛЯ КОГО ══ -->
+<section class="sec">
+<div class="sec-in">
+  <div style="margin-bottom:52px;">
+    <span class="sec-eye r">Аудитория</span>
+    <div class="gold-ln r"></div>
+    <h2 class="sec-h r">Для кого <em>этот курс</em></h2>
+  </div>
+  <div class="who-grid r">
+    <div class="who-card"><div class="who-roman">I</div><div class="who-t">Полные новички</div><div class="who-d">Никогда не работали в 3D — начнёте с нуля и создадите полноценный персонаж</div></div>
+    <div class="who-card"><div class="who-roman">II</div><div class="who-t">2D художники</div><div class="who-d">Хотите расширить навыки и добавить 3D в арсенал — идеальный переход</div></div>
+    <div class="who-card"><div class="who-roman">III</div><div class="who-t">Геймдев</div><div class="who-d">Планируете делать игровых персонажей, пропсы и окружение для игр</div></div>
+    <div class="who-card"><div class="who-roman">IV</div><div class="who-t">Фрилансеры</div><div class="who-d">Хотите добавить 3D-услуги в прайс и увеличить доход от клиентов</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ ФОРМАТЫ ══ -->
+<section class="sec sec-alt" id="formats">
+<div class="sec-in">
+  <div style="text-align:center;margin-bottom:52px;">
+    <span class="sec-eye r">Форматы обучения</span>
+    <div class="gold-ln c r"></div>
+    <h2 class="sec-h r" style="text-align:center;">Онлайн & <em>Офлайн</em></h2>
+  </div>
+  <div class="formats-grid r">
+    <div class="format-card online">
+      <div class="format-badge"><div class="format-dot"></div>Онлайн</div>
+      <div class="format-h">Online Format</div>
+      <p class="format-p">Учитесь из любой точки мира. Все уроки в записи, доступ навсегда. Поддержка в Telegram.</p>
+      <div class="format-list">
+        <div class="format-li"><div class="format-li-dot"></div>Все 38 уроков в видеозаписи — смотрите в любое время</div>
+        <div class="format-li"><div class="format-li-dot"></div>Личный кабинет с прогрессом обучения</div>
+        <div class="format-li"><div class="format-li-dot"></div>Задания с проверкой и обратной связью</div>
+        <div class="format-li"><div class="format-li-dot"></div>Чат группы в Telegram</div>
+        <div class="format-li"><div class="format-li-dot"></div>Доступ ко всем обновлениям курса</div>
+        <div class="format-li"><div class="format-li-dot"></div>Сертификат по завершении</div>
+      </div>
+      <div class="format-price">от 499 сом.</div>
+      <div class="format-price-note">единоразово · доступ навсегда</div>
+      <div style="margin-top:28px;"><a href="#contacts" class="btn-line" style="display:inline-flex;">Записаться онлайн →</a></div>
+    </div>
+    <div class="format-card offline">
+      <div class="format-badge"><div class="format-dot"></div>Офлайн</div>
+      <div class="format-h">Offline Format</div>
+      <p class="format-p">Живые занятия в классе с преподавателем. Максимальное погружение и мгновенная помощь.</p>
+      <div class="format-list">
+        <div class="format-li"><div class="format-li-dot"></div>Занятия в оборудованном компьютерном классе</div>
+        <div class="format-li"><div class="format-li-dot"></div>Прямое общение с преподавателем</div>
+        <div class="format-li"><div class="format-li-dot"></div>Моментальная помощь при затруднениях</div>
+        <div class="format-li"><div class="format-li-dot"></div>Работа в команде с другими учениками</div>
+        <div class="format-li"><div class="format-li-dot"></div>Запись уроков для домашнего просмотра</div>
+        <div class="format-li"><div class="format-li-dot"></div>Сертификат + торжественное вручение</div>
+      </div>
+      <div class="format-price">от 999 сом.</div>
+      <div class="format-price-note">за курс · Худжанд, Таджикистан</div>
+      <div style="margin-top:28px;"><a href="#contacts" class="btn-prime" style="display:inline-flex;">Записаться офлайн →</a></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ ОТЗЫВЫ ══ -->
+<section class="sec" id="reviews">
+<div class="sec-in">
+  <div style="margin-bottom:52px;">
+    <span class="sec-eye r">Отзывы</span>
+    <div class="gold-ln r"></div>
+    <h2 class="sec-h r">Говорят <em>выпускники</em></h2>
+  </div>
+  <div class="reviews-grid r">
+    <div class="rv-card">
+      <div class="rv-stars"><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div></div>
+      <div class="rv-text">«До курса никогда не открывал Blender. Теперь у меня готовый 3D персонаж и первый клиент, который заказал модель для своей игры!»</div>
+      <div class="rv-hr"></div>
+      <div class="rv-author"><div class="rv-ava"><img src="ФОТО_УЧЕНИК1.jpg" alt="" onerror="this.parentElement.textContent='👨'"></div><div><div class="rv-name">Тимур А.</div><div class="rv-role">3D художник, Душанбе</div></div></div>
+    </div>
+    <div class="rv-card">
+      <div class="rv-stars"><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div></div>
+      <div class="rv-text">«Объясняют очень понятно. Модуль по топологии открыл глаза — раньше не понимал почему мои модели выглядели кривыми. Рекомендую!»</div>
+      <div class="rv-hr"></div>
+      <div class="rv-author"><div class="rv-ava"><img src="ФОТО_УЧЕНИК2.jpg" alt="" onerror="this.parentElement.textContent='👩'"></div><div><div class="rv-name">Дильнора Р.</div><div class="rv-role">Game Artist, Ташкент</div></div></div>
+    </div>
+    <div class="rv-card">
+      <div class="rv-stars"><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div><div class="rv-star"></div></div>
+      <div class="rv-text">«Шаман получился шикарно. Прошёл весь курс за месяц, теперь занимаюсь Motion Design. База, которую дали — огонь!»</div>
+      <div class="rv-hr"></div>
+      <div class="rv-author"><div class="rv-ava"><img src="ФОТО_УЧЕНИК3.jpg" alt="" onerror="this.parentElement.textContent='👨'"></div><div><div class="rv-name">Санжар М.</div><div class="rv-role">Motion Designer, Худжанд</div></div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta-sec">
+  <div class="cta-in">
+    <div class="cta-orn">◈</div>
+    <h2 class="cta-h r">Начни создавать<br><em>в 3D сегодня</em></h2>
+    <p class="cta-p r">Первый шаг — самый важный. Запишись сейчас и уже через месяц у тебя будет готовый 3D персонаж.</p>
+    <div class="cta-btns r">
+      <a href="#contacts" class="btn-prime">✦ Записаться на курс</a>
+      <a href="https://wa.me/992000000000" target="_blank" class="btn-wa">💬 WhatsApp</a>
+      <a href="https://t.me/davronmarket" target="_blank" class="btn-line">✈️ Telegram</a>
+    </div>
+    <div class="cta-limit r">
+      <div class="limit-dot"></div>
+      Офлайн-группа: осталось мест <strong style="color:var(--gold2);margin:0 4px;">5 из 12</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACTS ══ -->
+<section class="sec sec-alt" id="contacts">
+<div class="sec-in">
+  <div style="margin-bottom:52px;">
+    <span class="sec-eye r">Запись</span>
+    <div class="gold-ln r"></div>
+    <h2 class="sec-h r">Оставить <em>заявку</em></h2>
+  </div>
+  <div class="contacts-grid r">
+    <div class="c-block">
+      <div class="f-title">Форма записи</div>
+      <div class="f-sub">Заполните форму — мы свяжемся в течение 2 часов и ответим на все вопросы</div>
+      <label class="f-lbl">Ваше имя</label>
+      <input class="f-in" type="text" placeholder="Введите имя" id="fn">
+      <label class="f-lbl">Номер телефона</label>
+      <input class="f-in" type="tel" placeholder="+992 ___ __ ____" id="fp">
+      <label class="f-lbl">Формат обучения</label>
+      <select class="f-select" id="ff">
+        <option value="">Выберите формат</option>
+        <option value="Онлайн">🌐 Онлайн</option>
+        <option value="Офлайн (Худжанд)">📍 Офлайн — Худжанд</option>
+        <option value="Онлайн + Офлайн">✦ Оба формата</option>
+      </select>
+      <button class="f-submit" onclick="submitForm3d()">Отправить заявку →</button>
+      <div style="font-size:11px;color:rgba(255,255,255,.18);text-align:center;margin-top:12px;font-weight:300;">Нажимая кнопку, вы соглашаетесь на обработку данных</div>
+    </div>
+    <div class="c-block">
+      <div class="f-title">Контакты</div>
+      <div class="f-sub">Напишите напрямую — отвечаем быстро</div>
+      <div class="ci-list">
+        <a class="ci" href="https://wa.me/992000000000" target="_blank"><div class="ci-ic">💬</div><div><div class="ci-lbl">WhatsApp</div><div class="ci-val">+992 000 000 000</div></div></a>
+        <a class="ci" href="https://t.me/davronmarket" target="_blank"><div class="ci-ic">✈️</div><div><div class="ci-lbl">Telegram</div><div class="ci-val">@davronmarket</div></div></a>
+        <a class="ci" href="https://instagram.com/davronsmm" target="_blank"><div class="ci-ic">📸</div><div><div class="ci-lbl">Instagram</div><div class="ci-val">@davronsmm</div></div></a>
+        <a class="ci" href="https://davronmarket.com" target="_blank"><div class="ci-ic">🌐</div><div><div class="ci-lbl">Сайт</div><div class="ci-val">davronmarket.com</div></div></a>
+        <div class="ci" style="cursor:default;"><div class="ci-ic">📍</div><div><div class="ci-lbl">Офлайн адрес</div><div class="ci-val">Таджикистан, Худжанд</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-in">
+    <div class="footer-top">
+      <div><a class="f-logo" href="#">DavronMarket</a><div class="f-tagline">3D · Animation · Motion Design Academy</div></div>
+      <div class="f-col"><h5>Курс</h5><div class="f-links"><a class="f-link" href="#about">О курсе</a><a class="f-link" href="#curriculum">Программа</a><a class="f-link" href="#formats">Форматы</a><a class="f-link" href="#reviews">Отзывы</a></div></div>
+      <div class="f-col"><h5>Соцсети</h5><div class="f-links"><a class="f-link" href="https://instagram.com/davronsmm" target="_blank">@davronsmm</a><a class="f-link" href="https://t.me/davronmarket" target="_blank">Telegram</a><a class="f-link" href="https://davronmarket.com" target="_blank">davronmarket.com</a></div></div>
+      <div class="f-col"><h5>Контакты</h5><div class="f-links"><a class="f-link" href="https://wa.me/992000000000">WhatsApp</a><div class="f-link">Таджикистан, Худжанд</div></div></div>
+    </div>
+    <div class="footer-bot">
+      <div class="f-copy">© 2025 DavronMarket · 3D Academy · Все права защищены</div>
+      <div class="f-copy">Blender — свободное ПО (GNU GPL)</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ МОДАЛЬНЫЕ ОКНА УРОКОВ ══════════ -->
+<div id="lesson-modal" class="modal-ov" onclick="closeLessonOutside(event)">
+<div class="modal-box">
+  <div class="m-head">
+    <button class="m-close" onclick="closeLesson()">✕</button>
+    <span class="m-eye" id="m-eye">Урок</span>
+    <div class="m-title" id="m-title">Название урока</div>
+    <div class="m-sub" id="m-sub">Описание</div>
+  </div>
+  <div class="m-body" id="m-body">
+    <!-- динамически заполняется -->
+  </div>
+  <div class="m-foot">
+    <a href="#contacts" class="btn-prime" onclick="closeLesson()">✦ Записаться на курс</a>
+    <button class="btn-line" onclick="closeLesson()">Закрыть</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ══ Данные уроков ══
+const lessons = {
+  l00:{eye:"Глава 0 · Урок 00",title:"Вводный урок",sub:"Знакомство с курсом, преподавателем и планом обучения",
+    items:["<strong>Знакомство с курсом</strong> — структура, главы, что вас ждёт","<strong>Знакомство с преподавателем</strong> — опыт, портфолио, подход к обучению","<strong>Установка Blender</strong> — первые шаги перед началом курса","<strong>Советы</strong> — как учиться эффективно, темп, домашние задания"],
+    result:"🎬","rt":"Готовность к обучению","rd":"После вводного урока вы знаете план курса и готовы приступить к первой главе."},
+  l01:{eye:"Глава 1 · Урок 01",title:"Где скачать Blender и системные требования",sub:"Установка программы и проверка компьютера",
+    items:["<strong>Официальный сайт</strong> blender.org — где скачивать безопасно","<strong>Системные требования</strong> — минимальные и рекомендуемые характеристики","<strong>Версии Blender</strong> — стабильная и LTS, какую выбрать","<strong>Установка на Windows/Mac/Linux</strong> — пошаговый процесс"],
+    result:"⬇️","rt":"Blender установлен","rd":"Blender скачан, установлен и готов к работе на вашем компьютере."},
+  l02:{eye:"Глава 1 · Урок 02",title:"Splash Screen, Top bar, Status bar, меню",sub:"Первое знакомство с интерфейсом Blender",
+    items:["<strong>Splash Screen</strong> — стартовый экран, новые файлы, недавние проекты","<strong>Top Bar</strong> — рабочие пространства и главное меню","<strong>Status Bar</strong> — информация о горячих клавишах и контексте","<strong>Меню File</strong> — открытие, сохранение, экспорт файлов","<strong>Меню Edit, Window, Help</strong> — настройки и справочная информация"],
+    result:"🖥️","rt":"Навигация по интерфейсу","rd":"Вы знаете назначение всех элементов главного интерфейса Blender."},
+  l03:{eye:"Глава 1 · Урок 03",title:"Работа с окнами и рабочие пространства",sub:"Разделение экрана и настройка рабочего окружения",
+    items:["<strong>Рабочие пространства</strong> — Layout, Modeling, Sculpting, UV Editing, Shading, Animation, Rendering","<strong>Разделение окон</strong> — создание и управление областями вьюпорта","<strong>Заголовки окон</strong> — редактор типов и их смена","<strong>Сохранение раскладки</strong> — настройка под себя"],
+    result:"🪟","rt":"Кастомный интерфейс","rd":"Вы умеете настраивать рабочее пространство Blender под свои задачи."},
+  l04:{eye:"Глава 1 · Урок 04",title:"Навигация с Gizmo и NumPad",sub:"Управление камерой в 3D пространстве",
+    items:["<strong>Gizmo</strong> — навигационный виджет, оси X/Y/Z","<strong>Орбитальное вращение</strong> — вращение вокруг объекта","<strong>Центры вращения</strong> — Individual Origins, Median Point, 3D Cursor, Active Element","<strong>NumPad</strong> — быстрые виды (фронт, бок, перспектива, орто)","<strong>Зум и панорамирование</strong> — колесо мыши, средняя кнопка"],
+    result:"🧭","rt":"Свободная навигация","rd":"Вы свободно перемещаетесь в 3D пространстве Blender с любой точки зрения."},
+  l05:{eye:"Глава 1 · Урок 05",title:"Контекстные и круговые меню",sub:"Быстрый доступ к инструментам через меню",
+    items:["<strong>Правая кнопка мыши</strong> — контекстное меню объектов","<strong>Круговое меню (W)</strong> — быстрый доступ к инструментам","<strong>Поиск (F3)</strong> — поиск любой функции Blender","<strong>Способы ввода значений</strong> — мышь, клавиатура, точный ввод","<strong>Горячие клавиши</strong> — G, R, S + X/Y/Z для трансформаций"],
+    result:"⚡","rt":"Быстрая работа","rd":"Вы умеете быстро вызывать нужные инструменты через контекстные меню."},
+  l06:{eye:"Глава 1 · Урок 06",title:"Настройки Blender",sub:"Персонализация программы под себя",
+    items:["<strong>Preferences (Ctrl+,)</strong> — основное окно настроек","<strong>Interface</strong> — размер шрифтов, язык, тема интерфейса","<strong>Keymap</strong> — изменение горячих клавиш","<strong>Add-ons</strong> — установка дополнений","<strong>Auto Save</strong> — настройка автосохранения"],
+    result:"⚙️","rt":"Blender настроен","rd":"Blender настроен под ваши предпочтения — удобный язык, тема и горячие клавиши."},
+  l07:{eye:"Глава 2 · Урок 07",title:"Перемещение, вращение, масштаб, структура меша",sub:"Базовые операции с объектами и понимание полигональной сетки",
+    items:["<strong>G, R, S</strong> — Grab, Rotate, Scale + ограничение по осям","<strong>Структура меша</strong> — вершины (Vertices), рёбра (Edges), грани (Faces)","<strong>Object Mode vs Edit Mode</strong> — разница и переключение","<strong>Данные объекта</strong> — Properties panel, Origin, данные меша","<strong>Apply Transform</strong> — применение трансформаций"],
+    result:"🔧","rt":"Управление объектами","rd":"Вы уверенно перемещаете, вращаете и масштабируете объекты с ограничением по осям."},
+  l08:{eye:"Глава 2 · Урок 08",title:"3D-курсор, нормали, координаты",sub:"Важные концепции для правильного моделирования",
+    items:["<strong>Активный объект</strong> — выделение, активный vs выбранные","<strong>3D Cursor</strong> — установка, использование как точки привязки","<strong>Нормали</strong> — что это, почему важны, как исправить перевёрнутые","<strong>Координаты объекта</strong> — мировые, локальные, нормальные","<strong>Снэппинг</strong> — привязка к сетке, к вершинам"],
+    result:"🎯","rt":"Точное моделирование","rd":"Вы понимаете систему координат и умеете работать с нормалями и курсором."},
+  l09:{eye:"Глава 2 · Урок 09",title:"Scale, единицы измерения, панель последнего действия",sub:"Точные размеры и удобная работа с историей действий",
+    items:["<strong>Параметр Scale</strong> — почему важно применять Scale перед работой","<strong>Единицы измерения</strong> — метрическая/имперская система в сцене","<strong>Размеры объектов</strong> — настройка реальных пропорций","<strong>Панель F9 (Last Action)</strong> — изменение параметров последней операции","<strong>Undo/Redo</strong> — история действий и её ограничения"],
+    result:"📐","rt":"Точные пропорции","rd":"Ваши модели имеют корректные размеры и масштаб для дальнейшей работы."},
+  l10:{eye:"Глава 2 · Урок 10",title:"Топология",sub:"Правила построения качественной полигональной сетки",
+    items:["<strong>Что такое топология</strong> — зачем важна правильная сетка","<strong>Quads vs Tris vs NGons</strong> — когда что использовать","<strong>Edge Flow</strong> — направление рёбер для анимации","<strong>Loops и Rings</strong> — Edge Loop, Face Loop, инструменты Blender","<strong>Типичные ошибки</strong> — N-gons, hanging vertices, non-manifold"],
+    result:"🔷","rt":"Чистая топология","rd":"Вы умеете строить правильную сетку, подходящую для анимации и рендеринга."},
+  l11:{eye:"Глава 2 · Урок 11",title:"Редактирование множества объектов",sub:"Объединение, разделение, дублирование и Gizmo",
+    items:["<strong>Multi-object Editing</strong> — редактирование нескольких объектов одновременно","<strong>Join (Ctrl+J)</strong> — объединение объектов в один меш","<strong>Separate (P)</strong> — разделение по выделению, по материалу","<strong>Дублирование (Shift+D, Alt+D)</strong> — обычная и связанная копия","<strong>Clipping</strong> — зеркальное моделирование с Clipping"],
+    result:"🔗","rt":"Работа с множеством объектов","rd":"Вы умеете эффективно работать с несколькими объектами и управлять сценой."},
+  l12:{eye:"Глава 2 · Урок 12",title:"Сцены, слои, коллекции, Outliner",sub:"Организация сцены и управление видимостью объектов",
+    items:["<strong>Outliner</strong> — дерево сцены, поиск, фильтры","<strong>Коллекции</strong> — группировка объектов, вложенные коллекции","<strong>Видимость</strong> — скрытие в вьюпорте, в рендере, блокировка","<strong>Сцены</strong> — несколько сцен в одном файле","<strong>ViewLayer</strong> — слои рендера для компоузинга"],
+    result:"📂","rt":"Чистая сцена","rd":"Ваши сцены организованы, всё на своих местах — легко найти и управлять."},
+  l13:{eye:"Глава 2 · Урок 13",title:"Модификаторы",sub:"Неразрушающее моделирование с помощью модификаторов",
+    items:["<strong>Subdivision Surface</strong> — сглаживание модели без изменения сетки","<strong>Mirror</strong> — симметричное моделирование","<strong>Boolean</strong> — вычитание и сложение форм","<strong>Array</strong> — массивы объектов","<strong>Solidify, Bevel, Decimate</strong> — практические модификаторы","<strong>Порядок модификаторов</strong> — важность стека"],
+    result:"🛠️","rt":"Неразрушающий воркфлоу","rd":"Вы используете модификаторы для быстрого и гибкого моделирования."},
+  l14:{eye:"Глава 3 · Урок 14",title:"Моделирование шамана — часть №1",sub:"Базовая форма тела персонажа",
+    items:["<strong>Референс и блокаут</strong> — установка изображений референса в Blender","<strong>Базовая форма</strong> — создание основного силуэта тела","<strong>Пропорции</strong> — работа с мерками персонажа","<strong>Инструменты Edit Mode</strong> — Loop Cut, Extrude, Inset","<strong>Симметрия</strong> — Mirror Modifier для половины тела"],
+    result:"🧙","rt":"Базовый блокаут","rd":"Готова базовая форма тела шамана с правильными пропорциями."},
+  l15:{eye:"Глава 3 · Урок 15",title:"Моделирование шамана — часть №2",sub:"Детализация основной формы",
+    items:["<strong>Добавление деталей</strong> — прорезание рёбер, Push/Pull","<strong>Работа с Loop Cuts</strong> — добавление геометрии в нужных местах","<strong>Proportional Editing</strong> — мягкое редактирование формы","<strong>Анатомия для 3D</strong> — основные мышцы и формы тела","<strong>Контроль сетки</strong> — проверка и исправление ошибок"],
+    result:"🧙","rt":"Детализированное тело","rd":"Тело шамана имеет детализированную форму с правильной анатомией."},
+  l16:{eye:"Глава 3 · Урок 16",title:"Моделирование шамана — часть №3",sub:"Моделирование головы и лица",
+    items:["<strong>Голова персонажа</strong> — базовая форма черепа","<strong>Лицо</strong> — топология вокруг глаз, носа, рта","<strong>Ушные раковины</strong> — сложная форма уха","<strong>Edge Flow лица</strong> — правильные петли для мимики","<strong>Крепление к телу</strong> — соединение головы и шеи"],
+    result:"🧙","rt":"Голова персонажа","rd":"Смоделирована голова шамана с правильной топологией лица."},
+  l17:{eye:"Глава 3 · Урок 17",title:"Моделирование шамана — часть №4",sub:"Моделирование одежды и ткани",
+    items:["<strong>Одежда из меша тела</strong> — дублирование и разделение частей","<strong>Solidify Modifier</strong> — придание толщины ткани","<strong>Складки и детали</strong> — ручное добавление складок ткани","<strong>Пояс и аксессуары одежды</strong> — ремни, завязки","<strong>Порядок слоёв</strong> — одежда поверх тела"],
+    result:"🧙","rt":"Одежда шамана","rd":"Персонаж одет — смоделирована шаманская одежда с деталями."},
+  l18:{eye:"Глава 3 · Урок 18",title:"Моделирование шамана — часть №5",sub:"Моделирование аксессуаров и реквизита",
+    items:["<strong>Украшения</strong> — бусы, браслеты, амулеты шамана","<strong>Волосы</strong> — моделирование прядей из мешей или Curves","<strong>Головной убор</strong> — шаманский убор с перьями","<strong>Посох</strong> — оружие/реквизит персонажа","<strong>Финальная сборка</strong> — все части вместе"],
+    result:"🧙","rt":"Аксессуары готовы","rd":"Все аксессуары смоделированы — персонаж полностью экипирован."},
+  l19:{eye:"Глава 3 · Урок 19",title:"Моделирование шамана — часть №6",sub:"Финальная форма и доработка",
+    items:["<strong>Общий осмотр</strong> — проверка силуэта и пропорций со всех сторон","<strong>Доработка деталей</strong> — мелкие детали которые бросаются в глаза","<strong>Subdivision preview</strong> — просмотр с Subdivision Surface","<strong>Сравнение с референсом</strong> — финальная сверка с изображением","<strong>Подготовка к текстурированию</strong> — проверка UV islands"],
+    result:"🧙","rt":"Финальная модель","rd":"3D модель шамана полностью готова к текстурированию."},
+  l20:{eye:"Глава 3 · Урок 20",title:"Моделирование шамана — часть №7",sub:"Чистка топологии перед текстурированием",
+    items:["<strong>Поиск ошибок</strong> — Mesh Analysis, Select Non-Manifold","<strong>Удаление дублей</strong> — Merge by Distance","<strong>Нормали</strong> — выравнивание и проверка нормалей","<strong>Применение модификаторов</strong> — Apply перед UV разворткой","<strong>Финальный LOD</strong> — оптимальный полигонаж"],
+    result:"✅","rt":"Чистая модель","rd":"Модель шамана очищена и полностью готова к UV развёртке и текстурированию."},
+  l21:{eye:"Глава 4 · Урок 21",title:"Режимы Material и Rendered, свет и мир",sub:"Настройка освещения сцены для правильного просмотра материалов",
+    items:["<strong>Режимы отображения</strong> — Wireframe, Solid, Material Preview, Rendered","<strong>HDRI освещение</strong> — World Shader, загрузка HDRI карты","<strong>Источники света</strong> — Point, Sun, Spot, Area Light","<strong>Настройка мира</strong> — фон, туман, окружающий свет","<strong>Влияние света на материалы</strong> — почему важно правильное освещение"],
+    result:"💡","rt":"Настроенное освещение","rd":"Сцена освещена правильно — материалы отображаются реалистично."},
+  l22:{eye:"Глава 4 · Урок 22",title:"Вкладка материалов и редактор нодов",sub:"Система нодов Blender — основа шейдинга",
+    items:["<strong>Material Properties</strong> — создание и назначение материалов","<strong>Shader Editor</strong> — редактор нодов материалов","<strong>Базовые ноды</strong> — Diffuse, Glossy, Emission, Mix Shader","<strong>Назначение материалов частям объекта</strong> — Material Slots","<strong>Просмотр в реальном времени</strong> — LookDev режим"],
+    result:"🔵","rt":"Основы нод-системы","rd":"Вы понимаете принципы нодов и умеете создавать базовые материалы."},
+  l23:{eye:"Глава 4 · Урок 23",title:"PBR-материал и нод Material Output",sub:"Физически корректный рендеринг — основа современной графики",
+    items:["<strong>Что такое PBR</strong> — Physically Based Rendering, почему стандарт","<strong>Principled BSDF</strong> — главный PBR шейдер Blender","<strong>Параметры</strong> — Base Color, Metallic, Roughness, Normal, Specular","<strong>Material Output</strong> — Surface, Volume, Displacement","<strong>Текстурные карты</strong> — Albedo, Roughness, Metallic, Normal Map"],
+    result:"🎨","rt":"PBR материалы","rd":"Вы умеете создавать физически корректные материалы с помощью Principled BSDF."},
+  l24:{eye:"Глава 4 · Урок 24",title:"UV-развёртка",sub:"Подготовка 3D модели к текстурированию",
+    items:["<strong>Что такое UV</strong> — проекция 3D на 2D плоскость","<strong>UV Editor</strong> — интерфейс и инструменты","<strong>Unwrap методы</strong> — Smart UV, Follow Active Quads, Seams","<strong>Расстановка швов (Seams)</strong> — где резать, правила","<strong>Упаковка UV Islands</strong> — Pack Islands, соотношение текселей"],
+    result:"🗺️","rt":"UV развёртка готова","rd":"Вы умеете делать качественную UV развёртку для текстурирования без искажений."},
+  l25:{eye:"Глава 4 · Урок 25",title:"Рендеры Cycles и EEVEE",sub:"Два движка рендеринга Blender — разница и применение",
+    items:["<strong>EEVEE</strong> — рендер реального времени, скорость, ограничения","<strong>Cycles</strong> — трассировка лучей, реализм, время рендера","<strong>Cycles X</strong> — ускоренная версия на GPU","<strong>Настройки сэмплов</strong> — качество vs скорость","<strong>Денойзинг</strong> — AI Denoise, уменьшение шума","<strong>Когда что использовать</strong> — сравнение на практике"],
+    result:"🖼️","rt":"Выбор рендера","rd":"Вы знаете разницу между Cycles и EEVEE и умеете выбрать подходящий для задачи."},
+  l26:{eye:"Глава 5 · Урок 26",title:"Текстурирование шамана — часть №1",sub:"UV-развёртка всей модели шамана",
+    items:["<strong>Расстановка швов на теле</strong> — оптимальные места разреза","<strong>UV развёртка одежды</strong> — каждый элемент отдельно","<strong>Проверка искажений</strong> — Checker Texture тест","<strong>Организация UV</strong> — группировка по материалам","<strong>Экспорт UV</strong> — PNG для рисования в Photoshop/Substance"],
+    result:"🖌️","rt":"UV карты готовы","rd":"Все UV карты шамана развёрнуты и готовы к текстурированию."},
+  l27:{eye:"Глава 5 · Урок 27",title:"Текстурирование шамана — часть №2",sub:"Создание базовых цветовых карт",
+    items:["<strong>Texture Paint в Blender</strong> — рисование прямо на 3D модели","<strong>Базовые цвета</strong> — общая цветовая схема персонажа","<strong>Слои текстур</strong> — организация работы","<strong>Кисти и настройки</strong> — типы кистей, давление, альфа","<strong>Baking</strong> — запекание AO и теней для Color Map"],
+    result:"🖌️","rt":"Базовые цвета","rd":"Цветовая карта шамана готова — общая палитра персонажа определена."},
+  l28:{eye:"Глава 5 · Урок 28",title:"Текстурирование шамана — часть №3",sub:"Текстура кожи и лица",
+    items:["<strong>Тон кожи</strong> — базовый цвет и вариации","<strong>Детали лица</strong> — румянец, тени под глазами","<strong>SSS (Subsurface Scattering)</strong> — просвечивание кожи для реализма","<strong>Normal Map кожи</strong> — поры и мелкие детали","<strong>Specularity кожи</strong> — блеск разных участков"],
+    result:"🖌️","rt":"Кожа готова","rd":"Реалистичная кожа шамана с деталями и правильным SSS."},
+  l29:{eye:"Глава 5 · Урок 29",title:"Текстурирование шамана — часть №4",sub:"Текстуры одежды и ткани",
+    items:["<strong>Материал ткани</strong> — шерсть, кожа, грубая ткань","<strong>Паттерны</strong> — орнаменты и узоры шаманской одежды","<strong>Износ и грязь</strong> — потёртости, грязь для реализма","<strong>Roughness map ткани</strong> — матовые и блестящие участки","<strong>Normal map ткани</strong> — фактура и переплетение волокон"],
+    result:"🖌️","rt":"Одежда текстурирована","rd":"Одежда шамана имеет реалистичный материал ткани с деталями и износом."},
+  l30:{eye:"Глава 5 · Урок 30",title:"Текстурирование шамана — часть №5",sub:"Металл и аксессуары",
+    items:["<strong>Металл в PBR</strong> — Metallic = 1, Roughness для полировки","<strong>Цветной металл</strong> — золото, медь, серебро","<strong>Патина и окисление</strong> — состаренный металл аксессуаров","<strong>Камни и кристаллы</strong> — стекловидные материалы","<strong>Смешение материалов</strong> — Mix Shader по маске"],
+    result:"🖌️","rt":"Металл и украшения","rd":"Все металлические элементы и украшения шамана реалистично текстурированы."},
+  l31:{eye:"Глава 5 · Урок 31",title:"Текстурирование шамана — часть №6",sub:"Нод-граф материала",
+    items:["<strong>Сложный нод-граф</strong> — объединение всех карт","<strong>Masking</strong> — маски для смешивания материалов","<strong>Detail Textures</strong> — наложение детальных текстур поверх","<strong>Color Ramp</strong> — тонкая настройка цветов","<strong>RGB Curves</strong> — коррекция тональности"],
+    result:"🖌️","rt":"Сложный шейдер","rd":"Все карты объединены в профессиональный нод-граф с масками."},
+  l32:{eye:"Глава 5 · Урок 32",title:"Текстурирование шамана — часть №7",sub:"Эффекты свечения и магии",
+    items:["<strong>Emission нод</strong> — свечение глаз, рун, магических элементов","<strong>Bloom эффект</strong> — постэффект свечения в EEVEE","<strong>Volumetric</strong> — объёмный туман вокруг персонажа","<strong>Animated Texture</strong> — движущиеся текстуры магии","<strong>Light Linking</strong> — избирательное освещение"],
+    result:"🖌️","rt":"Магические эффекты","rd":"Шаман светится магической энергией — эффекты свечения добавлены."},
+  l33:{eye:"Глава 5 · Урок 33",title:"Текстурирование шамана — часть №8",sub:"Детали и финальная доработка текстур",
+    items:["<strong>Micro Details</strong> — мельчайшие детали для крупных планов","<strong>Edge Wear</strong> — потёртости по рёбрам объектов","<strong>Dirt Maps</strong> — грязь в углублениях (AO based)","<strong>Decals</strong> — наклейки и дополнительные детали","<strong>Final Check</strong> — проверка со всех ракурсов"],
+    result:"🖌️","rt":"Детальные текстуры","rd":"Все детали прорисованы — персонаж выглядит убедительно при крупном плане."},
+  l34:{eye:"Глава 5 · Урок 34",title:"Текстурирование шама�

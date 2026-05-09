@@ -1,0 +1,1478 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Marketing — Профессиональное продвижение | DavronMarket</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════
+   DAVRONMARKET DESIGN SYSTEM
+════════════════════════════════ */
+:root{
+  --gold:#f5c842;--gs:#ffe066;--gd:#c9a030;
+  --orange:#ff6b2b;--os:#ff8a5c;
+  --blue:#2b9cff;--bs:#7dd3fc;
+  --green:#4ade80;--purple:#a78bfa;
+  --w:#fff;
+  --w90:rgba(255,255,255,.9);
+  --w70:rgba(255,255,255,.7);
+  --w50:rgba(255,255,255,.5);
+  --w30:rgba(255,255,255,.28);
+  --w10:rgba(255,255,255,.10);
+  --w06:rgba(255,255,255,.06);
+  --bdo:rgba(245,200,66,.18);
+  --bdo2:rgba(245,200,66,.08);
+  --tr:all .28s cubic-bezier(.4,0,.2,1);
+  --shadow:0 24px 64px -16px rgba(0,0,0,.85);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Mulish',sans-serif;
+  color:var(--w);
+  overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 10% 5%,  rgba(245,200,66,.07) 0%,transparent 42%),
+    radial-gradient(ellipse at 90% 95%, rgba(255,107,43,.08) 0%,transparent 42%),
+    radial-gradient(ellipse at 50% 50%, rgba(43,156,255,.04) 0%,transparent 58%),
+    repeating-linear-gradient(60deg,rgba(255,255,255,.003) 0,rgba(255,255,255,.003) 1px,transparent 1px,transparent 20px),
+    #080808;
+  background-attachment:fixed;
+  min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(2px 2px at 8%  15%,rgba(245,200,66,.55),transparent),
+    radial-gradient(2px 2px at 25% 70%,rgba(255,107,43,.45),transparent),
+    radial-gradient(2px 2px at 52% 18%,rgba(245,200,66,.40),transparent),
+    radial-gradient(2px 2px at 76% 80%,rgba(255,107,43,.45),transparent),
+    radial-gradient(2px 2px at 91% 38%,rgba(245,200,66,.50),transparent),
+    radial-gradient(2px 2px at 14% 88%,rgba(43,156,255,.35),transparent);
+  background-size:480px 480px;opacity:.25;
+  animation:dust 24s ease-in-out infinite alternate;
+}
+@keyframes dust{0%{transform:translateY(0)}100%{transform:translateY(-16px)}}
+
+a{color:var(--gold);text-decoration:none;transition:var(--tr);}
+img{max-width:100%;display:block;}
+
+/* ════ NAV ════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:9000;height:62px;
+  display:flex;align-items:center;padding:0 28px;
+  background:rgba(8,8,8,.9);border-bottom:1px solid rgba(245,200,66,.12);
+  backdrop-filter:blur(18px);
+}
+.nav-inner{max-width:1240px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.nav-logo{
+  font-family:'Unbounded',sans-serif;font-size:15px;font-weight:900;letter-spacing:-.3px;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:flex;flex-direction:column;line-height:1;text-decoration:none;
+}
+.nav-logo-sub{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,200,66,.45);margin-top:3px;}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-link{padding:7px 13px;border-radius:9px;font-size:12px;font-weight:700;color:var(--w50);text-decoration:none;transition:var(--tr);}
+.nav-link:hover{color:var(--w);background:var(--w06);}
+.nav-link.act{color:var(--gold);background:var(--bdo2);}
+.nav-cta{
+  padding:8px 18px;border-radius:10px;
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;
+  transition:var(--tr);box-shadow:0 4px 16px -4px rgba(245,200,66,.4);border:none;cursor:pointer;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(245,200,66,.55);}
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer;}
+.nav-burger span{display:block;width:22px;height:1.5px;background:var(--w);border-radius:2px;transition:var(--tr);}
+.mob-nav{display:none;position:fixed;top:62px;left:0;right:0;
+  background:rgba(6,6,6,.97);border-bottom:1px solid rgba(245,200,66,.12);
+  padding:14px 20px;flex-direction:column;gap:4px;z-index:8999;backdrop-filter:blur(18px);}
+.mob-nav.open{display:flex;}
+.mob-nav .nav-link{padding:11px 14px;font-size:14px;}
+
+/* ════ LAYOUT ════ */
+.page{position:relative;z-index:1;}
+.wrap{max-width:1240px;width:100%;margin:0 auto;padding:0 24px;}
+section{scroll-margin-top:62px;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,.12),rgba(43,156,255,.08),transparent);max-width:1240px;margin:0 auto;}
+
+/* ════ CHIP ════ */
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 20px;border-radius:60px;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.25);
+  font-size:11px;font-weight:700;color:var(--gs);letter-spacing:.06em;margin-bottom:18px;
+  animation:chipGlow 3s ease-in-out infinite alternate;
+}
+@keyframes chipGlow{to{box-shadow:0 0 22px rgba(245,200,66,.18)}}
+.chip.blue{background:rgba(43,156,255,.08);border-color:rgba(43,156,255,.28);color:var(--bs);}
+.chip.orange{background:rgba(255,107,43,.08);border-color:rgba(255,107,43,.28);color:var(--os);}
+.chip.green{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.28);color:var(--green);}
+.chip.purple{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.28);color:var(--purple);}
+
+/* ════ TITLES ════ */
+.sec-title{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(26px,4vw,54px);font-weight:900;line-height:1.05;letter-spacing:-1.5px;
+  color:var(--w);margin-bottom:14px;
+}
+.sec-title .tg{background:linear-gradient(135deg,#f5c842,#ff8a5c,#f5c842);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200%;animation:tgA 6s ease infinite;}
+.sec-title .tb{background:linear-gradient(135deg,#2b9cff,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sec-title .to{background:linear-gradient(135deg,#ff6b2b,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sec-title .tp{background:linear-gradient(135deg,#a78bfa,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent;}
+@keyframes tgA{0%,100%{background-position:0%}50%{background-position:100%}}
+.sec-title::after{content:"";display:block;width:72px;height:3px;margin:16px 0 0;border-radius:4px;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff);box-shadow:0 0 14px rgba(245,200,66,.35);}
+.sec-title.center::after{margin:16px auto 0;}
+.sec-sub{font-size:15px;color:var(--w50);line-height:1.8;max-width:560px;}
+.sec-sub.center{text-align:center;margin:0 auto;}
+.sec-head{text-align:center;margin-bottom:52px;}
+
+/* ════ BUTTONS ════ */
+.btn-gold{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 30px;border-radius:12px;border:none;
+  font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;
+  transition:var(--tr);box-shadow:0 6px 22px rgba(245,200,66,.35);text-decoration:none;cursor:pointer;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(245,200,66,.52);color:#000;}
+.btn-outline{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 26px;border-radius:12px;
+  background:var(--w06);border:1px solid var(--w10);
+  font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  color:var(--w70);transition:var(--tr);text-decoration:none;cursor:pointer;
+}
+.btn-outline:hover{background:rgba(43,156,255,.08);border-color:rgba(43,156,255,.35);color:var(--w);transform:translateY(-2px);}
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;min-height:100vh;
+  display:flex;align-items:center;padding-top:62px;
+}
+.hero-conic{
+  position:absolute;top:-50%;left:-20%;width:140%;height:140%;
+  background:conic-gradient(from 90deg at 50% 50%,transparent 0deg,rgba(255,107,43,.11) 100deg,rgba(43,156,255,.11) 230deg,transparent 360deg);
+  filter:blur(100px);animation:conicSpin 30s linear infinite;pointer-events:none;z-index:0;
+}
+@keyframes conicSpin{to{transform:rotate(360deg);}}
+.hero-stars{position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%,rgba(255,255,255,.45),transparent),
+    radial-gradient(1.5px 1.5px at 28% 72%,rgba(255,255,255,.35),transparent),
+    radial-gradient(2px   2px   at 52% 9%, rgba(255,255,255,.4),transparent),
+    radial-gradient(1.5px 1.5px at 68% 85%,rgba(255,255,255,.3),transparent),
+    radial-gradient(2px   2px   at 83% 32%,rgba(255,255,255,.35),transparent),
+    radial-gradient(1.5px 1.5px at 94% 58%,rgba(255,255,255,.28),transparent);}
+.hero-inner{
+  position:relative;z-index:2;max-width:1240px;width:100%;margin:0 auto;padding:0 28px;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;
+  min-height:calc(100vh - 62px);
+}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);
+  box-shadow:0 0 10px var(--orange);animation:blink 2.2s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero-badge-text{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w30);}
+.hero-h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(36px,5vw,68px);font-weight:900;line-height:.95;letter-spacing:-2.5px;
+  color:var(--w);margin-bottom:20px;
+}
+.hero-h1 .l1{display:block;}
+.hero-h1 .l2{
+  display:block;
+  background:linear-gradient(120deg,#f5c842 0%,#ff8a5c 35%,#2b9cff 75%,#7dd3fc 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  background-size:200%;animation:gradH 7s ease infinite;
+}
+@keyframes gradH{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-h1 .l3{display:block;font-size:.48em;color:var(--w30);letter-spacing:-1px;margin-top:6px;}
+.hero-dline{height:2px;width:80px;border-radius:2px;background:linear-gradient(90deg,#ff6b2b,#2b9cff);
+  box-shadow:0 0 14px rgba(255,107,43,.4);margin-bottom:22px;}
+.hero-sub{font-size:15px;line-height:1.82;color:var(--w50);max-width:440px;margin-bottom:36px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px;}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding-top:24px;border-top:1px solid var(--w10);position:relative;
+}
+.hero-stats::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(245,200,66,.25),rgba(43,156,255,.15),transparent);}
+.hstat{display:flex;flex-direction:column;gap:4px;padding:14px 0;border-right:1px solid var(--w10);padding-right:16px;}
+.hstat:last-child{border-right:none;}
+.hstat b{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hstat span{font-size:10px;font-weight:700;color:var(--w30);text-transform:uppercase;letter-spacing:.08em;}
+
+/* Hero right — marketing visual */
+.hero-right{display:flex;align-items:center;justify-content:center;position:relative;}
+.hero-visual{
+  position:relative;
+  width:min(480px,46vw);height:min(480px,46vw);
+  display:flex;align-items:center;justify-content:center;
+}
+/* Animated rings */
+.hv-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid var(--rc,rgba(245,200,66,.2));
+  animation:hvRot var(--rs,16s) linear infinite var(--rd,normal);
+}
+@keyframes hvRot{to{transform:rotate(360deg);}}
+.hv-ring:nth-child(1){inset:0;--rc:rgba(245,200,66,.15);--rs:22s;}
+.hv-ring:nth-child(2){inset:10%;--rc:rgba(255,107,43,.18);--rs:15s;--rd:reverse;}
+.hv-ring:nth-child(3){inset:21%;--rc:rgba(43,156,255,.2);--rs:9s;}
+.hv-ring:nth-child(4){inset:33%;--rc:rgba(167,139,250,.25);--rs:6s;--rd:reverse;}
+/* Dots on rings */
+.hv-ring::before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;
+  background:var(--dc,var(--gold));box-shadow:0 0 12px var(--dc,var(--gold));
+  top:50%;right:-4px;transform:translateY(-50%);}
+.hv-ring:nth-child(1)::before{--dc:#f5c842;}
+.hv-ring:nth-child(2)::before{--dc:#ff6b2b;}
+.hv-ring:nth-child(3)::before{--dc:#2b9cff;}
+.hv-ring:nth-child(4)::before{--dc:#a78bfa;}
+.hv-ring::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;
+  background:var(--dc2,var(--orange));box-shadow:0 0 8px var(--dc2,var(--orange));
+  bottom:-3px;left:50%;transform:translateX(-50%);}
+.hv-ring:nth-child(2)::after{--dc2:#2b9cff;}
+.hv-ring:nth-child(3)::after{--dc2:#f5c842;}
+/* Sweeps */
+.hv-sweep1{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(245,200,66,.08) 50deg,transparent 50deg);
+  animation:hvRot 5s linear infinite;}
+.hv-sweep2{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 180deg,transparent 0deg,rgba(43,156,255,.07) 65deg,transparent 65deg);
+  animation:hvRot 8s linear infinite reverse;}
+/* Hex grid */
+.hv-hex{position:absolute;inset:0;border-radius:50%;overflow:hidden;opacity:.12;
+  background:
+    repeating-linear-gradient(0deg,rgba(245,200,66,.5) 0,rgba(245,200,66,.5) 1px,transparent 1px,transparent 28px),
+    repeating-linear-gradient(60deg,rgba(245,200,66,.5) 0,rgba(245,200,66,.5) 1px,transparent 1px,transparent 28px),
+    repeating-linear-gradient(120deg,rgba(245,200,66,.5) 0,rgba(245,200,66,.5) 1px,transparent 1px,transparent 28px);
+  animation:hvRot 12s linear infinite;}
+/* Glow */
+.hv-glow{position:absolute;inset:22%;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.18),rgba(255,107,43,.12),transparent 70%);
+  filter:blur(18px);animation:glPulse 3.5s ease-in-out infinite;}
+@keyframes glPulse{0%,100%{transform:scale(1);opacity:.7;}50%{transform:scale(1.3);opacity:1;}}
+/* Core */
+.hv-core{
+  position:relative;z-index:5;
+  width:clamp(100px,20%,130px);height:clamp(100px,20%,130px);border-radius:50%;
+  background:#0d0d0f;border:1px solid rgba(245,200,66,.28);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;
+  box-shadow:0 0 40px rgba(245,200,66,.12),0 0 80px rgba(255,107,43,.08);
+  animation:corePulse 4s ease-in-out infinite;
+}
+@keyframes corePulse{0%,100%{box-shadow:0 0 40px rgba(245,200,66,.12);}50%{box-shadow:0 0 60px rgba(245,200,66,.28),0 0 100px rgba(255,107,43,.15);}}
+.hv-core-ico{font-size:36px;}
+.hv-core-txt{font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;color:var(--gs);letter-spacing:.1em;}
+/* Floating marketing labels */
+.hv-lbl{
+  position:absolute;z-index:6;
+  padding:5px 12px;border-radius:20px;
+  font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;letter-spacing:.06em;
+  background:rgba(10,10,12,.9);backdrop-filter:blur(8px);
+  animation:lblFl var(--lf,4s) ease-in-out infinite var(--ld,0s);white-space:nowrap;
+}
+@keyframes lblFl{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+/* Floating metric cards */
+.hv-metric{
+  position:absolute;z-index:7;
+  padding:10px 14px;border-radius:14px;
+  background:rgba(10,10,14,.92);border:1px solid var(--mc,rgba(245,200,66,.2));
+  backdrop-filter:blur(12px);
+  animation:metFloat var(--mf,5s) ease-in-out infinite var(--md,0s);
+}
+@keyframes metFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-10px) scale(1.02);}}
+.hv-metric-val{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:900;
+  background:var(--mc-grad,linear-gradient(135deg,#f5c842,#ff8a5c));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.hv-metric-lbl{font-size:9px;font-weight:700;color:var(--w30);letter-spacing:.06em;text-transform:uppercase;margin-top:3px;}
+.hv-metric-trend{font-size:10px;font-weight:800;color:var(--green);margin-top:4px;}
+
+/* ════════════════════════════════
+   SERVICES
+════════════════════════════════ */
+.sec-services{padding:90px 0;position:relative;z-index:1;}
+.sec-services::before{
+  content:"";position:absolute;top:-20%;left:-20%;width:140%;height:140%;
+  background:conic-gradient(from 90deg at 50% 50%,rgba(255,107,43,0) 0deg,rgba(255,107,43,.07) 120deg,rgba(43,156,255,.07) 240deg,rgba(255,107,43,0) 360deg);
+  filter:blur(90px);animation:conicSpin 28s linear infinite;pointer-events:none;z-index:-1;
+}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px;}
+.svc-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:22px;padding:26px 22px;transition:var(--tr);
+  position:relative;overflow:hidden;display:flex;flex-direction:column;
+}
+.svc-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--acc,linear-gradient(90deg,#f5c842,#ff8a5c));
+  opacity:0;transform:scaleX(0);transform-origin:left;transition:transform .38s ease,opacity .28s;}
+.svc-card:hover::before{opacity:1;transform:scaleX(1);}
+.svc-card:hover{border-color:var(--bdo);transform:translateY(-5px);box-shadow:var(--shadow);}
+.svc-ico{font-size:36px;margin-bottom:14px;display:block;
+  filter:drop-shadow(0 0 10px rgba(245,200,66,.3));transition:var(--tr);}
+.svc-card:hover .svc-ico{transform:scale(1.12) translateY(-3px);filter:drop-shadow(0 0 18px rgba(245,200,66,.6));}
+.svc-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--w);
+  line-height:1.3;margin-bottom:9px;transition:color .28s;}
+.svc-card:hover .svc-name{color:var(--gs);}
+.svc-desc{font-size:12px;color:var(--w50);line-height:1.7;flex:1;margin-bottom:14px;}
+.svc-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.svc-tag{padding:3px 9px;border-radius:20px;font-size:9px;font-weight:700;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.14);color:rgba(245,200,66,.6);transition:var(--tr);}
+.svc-card:hover .svc-tag{background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.28);color:var(--gs);}
+
+/* ════════════════════════════════
+   RESULTS (numbers)
+════════════════════════════════ */
+.sec-results{padding:90px 0;position:relative;z-index:1;}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px;}
+.res-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:22px;padding:32px 24px;text-align:center;
+  transition:var(--tr);position:relative;overflow:hidden;
+}
+.res-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--rc,linear-gradient(90deg,#f5c842,#ff8a5c));opacity:.6;}
+.res-card:hover{border-color:var(--bdo);transform:translateY(-4px);box-shadow:var(--shadow);}
+.res-ico{font-size:32px;margin-bottom:12px;display:block;}
+.res-num{
+  font-family:'Unbounded',sans-serif;font-size:clamp(28px,3.5vw,46px);font-weight:900;line-height:1;
+  background:var(--rg,linear-gradient(135deg,#f5c842,#ff8a5c));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:8px;
+}
+.res-label{font-size:12px;font-weight:700;color:var(--w50);}
+
+/* ════════════════════════════════
+   PRICING — 3 COUNTRY PLANS
+════════════════════════════════ */
+.sec-pricing{padding:90px 0;position:relative;z-index:1;}
+.country-tabs{display:flex;gap:8px;justify-content:center;margin:40px 0 36px;flex-wrap:wrap;}
+.ctab{
+  padding:10px 22px;border-radius:30px;
+  background:transparent;border:1px solid var(--w10);
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em;
+  color:var(--w50);cursor:pointer;transition:var(--tr);
+  display:flex;align-items:center;gap:8px;
+}
+.ctab:hover{border-color:rgba(245,200,66,.3);color:var(--gs);}
+.ctab.on{background:var(--bdo2);border-color:rgba(245,200,66,.3);color:var(--gs);}
+
+/* 3 Price plans grid */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+
+/* ─── COUNTRY PLAN CARD ─── */
+.plan{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:24px;overflow:hidden;display:flex;flex-direction:column;
+  transition:var(--tr);position:relative;
+}
+.plan.featured{
+  background:linear-gradient(160deg,rgba(245,200,66,.08),rgba(255,107,43,.04));
+  border-color:rgba(245,200,66,.28);
+  box-shadow:0 0 60px rgba(245,200,66,.06);
+  transform:scale(1.03);
+}
+.plan::before{content:"";display:block;height:3px;background:var(--plan-top,transparent);}
+.plan.featured::before{background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff);}
+.plan:not(.featured)::before{background:var(--plan-top,rgba(255,255,255,.08));}
+.plan:hover:not(.featured){transform:translateY(-5px);border-color:var(--bdo);}
+.plan.featured:hover{transform:scale(1.04) translateY(-3px);}
+
+/* Country flag header */
+.plan-country{
+  padding:22px 24px 16px;
+  display:flex;align-items:center;gap:14px;
+  border-bottom:1px solid var(--w10);
+}
+.plan-flag{font-size:36px;flex-shrink:0;}
+.plan-country-name{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:900;color:var(--w);line-height:1;}
+.plan-country-sub{font-size:10px;font-weight:700;color:var(--w30);letter-spacing:.06em;text-transform:uppercase;margin-top:3px;}
+.plan-badge{
+  margin-left:auto;padding:4px 12px;border-radius:20px;flex-shrink:0;
+  font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;letter-spacing:.06em;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.22);color:var(--gs);
+}
+
+/* Price block */
+.plan-price{padding:20px 24px;border-bottom:1px solid var(--w10);}
+.plan-price-row{display:flex;align-items:flex-end;gap:6px;margin-bottom:6px;}
+.plan-from{font-size:12px;font-weight:700;color:var(--w30);}
+.plan-val{
+  font-family:'Unbounded',sans-serif;font-size:clamp(28px,3.5vw,44px);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.plan-cur{font-size:18px;font-weight:700;color:var(--w50);line-height:1.4;}
+.plan-period{font-size:11px;color:var(--w30);margin-top:4px;}
+.plan-market{
+  display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+  padding:5px 12px;border-radius:20px;
+  background:rgba(43,156,255,.08);border:1px solid rgba(43,156,255,.22);
+  font-size:10px;font-weight:700;color:var(--bs);
+}
+
+/* Features list */
+.plan-feats{padding:20px 24px;flex:1;display:flex;flex-direction:column;gap:9px;}
+.pf{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:var(--w70);}
+.pf.off{color:var(--w30);}
+.pf::before{content:"✓";color:var(--gold);font-weight:700;font-size:12px;flex-shrink:0;margin-top:1px;}
+.pf.off::before{content:"—";color:var(--w30);}
+
+/* Packages inside plan */
+.plan-packages{
+  padding:16px 24px;border-top:1px solid var(--w10);
+  display:flex;flex-direction:column;gap:8px;
+}
+.pkg{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-radius:12px;
+  background:var(--w06);border:1px solid var(--w10);
+  transition:var(--tr);cursor:pointer;
+}
+.pkg:hover{background:var(--bdo2);border-color:var(--bdo);}
+.pkg-name{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--w);}
+.pkg-price{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+/* CTA */
+.plan-cta{padding:0 24px 24px;}
+
+/* What's included note */
+.plan-note{padding:12px 24px 0;font-size:11px;color:var(--w30);text-align:center;}
+
+/* ════════════════════════════════
+   COMPARE TABLE
+════════════════════════════════ */
+.sec-compare{padding:90px 0;position:relative;z-index:1;}
+.compare-table{width:100%;border-collapse:collapse;margin-top:48px;border-radius:20px;overflow:hidden;}
+.compare-table thead tr{background:rgba(245,200,66,.06);border-bottom:2px solid rgba(245,200,66,.18);}
+.compare-table th{
+  padding:18px 20px;text-align:left;
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  color:var(--gs);letter-spacing:.06em;
+}
+.compare-table th.country{text-align:center;font-size:12px;}
+.compare-table td{
+  padding:14px 20px;border-bottom:1px solid var(--w10);
+  font-size:13px;color:var(--w70);
+}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:nth-child(even) td{background:rgba(255,255,255,.015);}
+.compare-table tr:hover td{background:rgba(245,200,66,.04);}
+.compare-table td.center{text-align:center;}
+.compare-table td.feature{font-weight:700;color:var(--w);}
+.tick{color:var(--green);font-size:16px;}
+.cross{color:var(--w30);}
+.price-cell{
+  font-family:'Unbounded',sans-serif;font-size:13px;font-weight:900;text-align:center;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* ════════════════════════════════
+   PROCESS
+════════════════════════════════ */
+.sec-process{padding:90px 0;position:relative;z-index:1;}
+.process-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:52px;align-items:start;}
+.timeline{display:flex;flex-direction:column;}
+.tstep{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--w10);transition:var(--tr);}
+.tstep:last-child{border-bottom:none;}
+.tstep:hover{padding-left:8px;}
+.tstep-n{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:900;
+  color:rgba(245,200,66,.18);flex-shrink:0;width:38px;line-height:1;padding-top:4px;transition:var(--tr);}
+.tstep:hover .tstep-n{color:var(--gs);}
+.tstep h4{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.tstep p{font-size:12.5px;color:var(--w50);line-height:1.65;}
+.info-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);
+  border-radius:22px;overflow:hidden;position:sticky;top:80px;
+}
+.info-card::before{content:"";display:block;height:2px;background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff);}
+.info-head{padding:22px 24px 16px;background:rgba(245,200,66,.04);border-bottom:1px solid rgba(245,200,66,.1);}
+.info-head h3{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--gs);margin-bottom:4px;}
+.info-head p{font-size:11px;color:var(--w50);}
+.info-body{padding:16px 24px;}
+.info-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;
+  border-bottom:1px solid var(--w10);font-size:12.5px;}
+.info-row:last-child{border-bottom:none;}
+.info-row span:first-child{color:var(--w70);}
+.info-val{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.18);color:var(--gs);}
+
+/* ════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════ */
+.sec-reviews{padding:90px 0;position:relative;z-index:1;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px;}
+.rev-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:20px;padding:26px;transition:var(--tr);
+}
+.rev-card:hover{border-color:var(--bdo);}
+.rev-text{
+  font-size:14px;color:var(--w70);line-height:1.7;margin-bottom:18px;
+  position:relative;font-style:italic;
+}
+.rev-text::before{content:'"';font-size:56px;line-height:1;
+  color:rgba(245,200,66,.12);position:absolute;top:-10px;left:-8px;
+  font-family:'Unbounded',sans-serif;}
+.rev-author{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--w10);}
+.rev-ava{width:42px;height:42px;border-radius:50%;
+  background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.rev-name{font-size:13px;font-weight:700;color:var(--w);}
+.rev-role{font-size:10px;color:var(--w30);margin-top:2px;}
+.rev-stars{font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:2px;}
+.rev-country{font-size:10px;color:var(--w30);margin-top:2px;}
+
+/* ════════════════════════════════
+   FAQ
+════════════════════════════════ */
+.sec-faq{padding:90px 0;position:relative;z-index:1;}
+.faq-list{display:flex;flex-direction:column;gap:10px;margin-top:48px;max-width:800px;}
+.faq-item{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:16px;overflow:hidden;transition:var(--tr);
+}
+.faq-item:hover{border-color:var(--bdo);}
+.faq-item.open{border-color:rgba(245,200,66,.2);}
+.faq-q{
+  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  cursor:pointer;font-size:14px;font-weight:700;color:var(--w);transition:var(--tr);
+}
+.faq-q:hover{color:var(--gs);}
+.faq-arrow{font-size:16px;color:var(--gold);transition:transform .28s;flex-shrink:0;}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{font-size:13px;color:var(--w50);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;}
+.faq-item.open .faq-a{max-height:300px;padding:0 22px 18px;}
+
+/* ════════════════════════════════
+   CTA BANNER
+════════════════════════════════ */
+.sec-cta{padding:0 0 90px;position:relative;z-index:1;}
+.cta-banner{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);
+  border-radius:24px;padding:48px 44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.cta-banner::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff,#f5c842);background-size:200%;
+  animation:gradSlide 5s linear infinite;}
+@keyframes gradSlide{to{background-position:200%;}}
+.cta-banner::after{content:"";position:absolute;width:400px;height:400px;top:-100px;right:-80px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.06),transparent 65%);pointer-events:none;}
+.cta-icon{font-size:60px;flex-shrink:0;filter:drop-shadow(0 0 20px rgba(245,200,66,.4));animation:ctaFloat 3.5s ease-in-out infinite;}
+@keyframes ctaFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+.cta-text{flex:1;min-width:260px;}
+.cta-text h2{font-family:'Unbounded',sans-serif;font-size:clamp(18px,2.8vw,28px);font-weight:900;
+  color:var(--gs);margin-bottom:8px;line-height:1.2;letter-spacing:-1px;}
+.cta-text p{font-size:14px;color:var(--w50);line-height:1.75;}
+.cta-btns{display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
+
+/* ════════════════════════════════
+   CONTACT
+════════════════════════════════ */
+.sec-contact{padding:90px 0;position:relative;z-index:1;}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;margin-top:48px;align-items:start;}
+.contact-left{position:sticky;top:80px;}
+.contact-left .sec-sub{margin-bottom:28px;}
+.c-links{display:flex;flex-direction:column;gap:10px;}
+.clink{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
+  background:rgba(10,10,12,.9);border:1px solid var(--w10);
+  text-decoration:none;transition:var(--tr);
+}
+.clink:hover{background:var(--bdo2);border-color:var(--bdo);}
+.clink-ico{font-size:20px;flex-shrink:0;}
+.clink-lbl{font-size:10px;font-weight:700;color:var(--w30);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;}
+.clink-val{font-size:13px;font-weight:700;color:var(--w90);}
+.cf{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);
+  border-radius:22px;padding:34px;position:relative;overflow:hidden;
+}
+.cf::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff,#f5c842);background-size:200%;animation:gradSlide 5s linear infinite;}
+.cf-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.cf-sub{font-size:13px;color:var(--w50);margin-bottom:24px;line-height:1.6;}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.cf-field{margin-bottom:12px;}
+.cf-lbl{display:block;font-size:10px;font-weight:700;color:var(--w50);margin-bottom:5px;letter-spacing:.07em;text-transform:uppercase;}
+.cf-in,.cf-sel,.cf-ta{
+  width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid var(--w10);
+  border-radius:11px;color:var(--w);font-family:'Mulish',sans-serif;font-size:13px;font-weight:600;
+  outline:none;transition:var(--tr);-webkit-appearance:none;
+}
+.cf-in:focus,.cf-sel:focus,.cf-ta:focus{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.04);box-shadow:0 0 0 3px rgba(245,200,66,.07);}
+.cf-in::placeholder,.cf-ta::placeholder{color:var(--w30);}
+.cf-sel option{background:#111;}
+.cf-ta{resize:vertical;min-height:90px;}
+.cf-svcs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;}
+.cf-svc{padding:7px 14px;border-radius:20px;font-size:11px;font-weight:700;
+  background:var(--w06);border:1px solid var(--w10);color:var(--w50);cursor:pointer;transition:var(--tr);}
+.cf-svc:hover{border-color:rgba(245,200,66,.3);color:var(--gs);}
+.cf-svc.sel{background:var(--bdo2);border-color:rgba(245,200,66,.3);color:var(--gs);}
+.cf-submit{
+  width:100%;padding:14px;border:none;border-radius:12px;
+  font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  background:linear-gradient(135deg,#22c55e,#4ade80);color:#000;cursor:pointer;transition:var(--tr);
+  box-shadow:0 8px 24px rgba(34,197,94,.28);display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cf-submit:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(34,197,94,.42);}
+.cf-ok{display:none;text-align:center;padding:20px 0;}
+.cf-ok.on{display:block;animation:ppIn .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes ppIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.cf-ok-ico{font-size:52px;display:block;margin-bottom:12px;}
+.cf-ok h3{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;color:var(--green);margin-bottom:8px;}
+.cf-ok p{font-size:12px;color:var(--w50);line-height:1.7;}
+
+/* FOOTER */
+.footer{border-top:1px solid rgba(245,200,66,.1);padding:52px 0 28px;position:relative;z-index:1;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px;}
+.f-logo{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;margin-bottom:5px;}
+.f-sub{font-size:9px;color:var(--w30);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;display:block;}
+.f-brand p{font-size:12px;color:var(--w50);line-height:1.7;max-width:250px;}
+.f-col h5{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--gold);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+.f-col a{display:block;font-size:12.5px;color:var(--w50);text-decoration:none;margin-bottom:8px;transition:var(--tr);}
+.f-col a:hover{color:var(--w);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding-top:22px;border-top:1px solid var(--w10);}
+.f-copy{font-size:11px;color:var(--w30);}
+.f-socs{display:flex;gap:10px;}
+.fsoc{width:36px;height:36px;border-radius:10px;background:var(--w06);border:1px solid var(--w10);
+  display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;transition:var(--tr);}
+.fsoc:hover{background:var(--bdo2);border-color:var(--bdo);transform:translateY(-2px);}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:rgba(5,5,5,.97);border:1px solid var(--gold);border-radius:12px;padding:12px 22px;
+  font-size:13px;font-weight:700;color:var(--gs);z-index:9000;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;box-shadow:var(--shadow);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* STAGGER */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.si{opacity:0;transform:translateY(18px);}
+.si.v{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .nav-links,.nav-cta{display:none;}.nav-burger{display:flex;}
+  .hero-inner{grid-template-columns:1fr;min-height:auto;}
+  .hero-right{display:none;}
+  .hero-left{padding:60px 0 40px;}
+  .svc-grid{grid-template-columns:1fr 1fr;}
+  .results-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .plan.featured{transform:none;}
+  .process-grid{grid-template-columns:1fr;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .cta-banner{flex-direction:column;text-align:center;padding:32px 24px;}
+  .cta-btns{flex-direction:row;justify-content:center;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .compare-table{display:none;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .hstat:nth-child(2){border-right:none;}
+}
+@media(max-width:560px){
+  .svc-grid{grid-template-columns:1fr;}
+  .results-grid{grid-template-columns:1fr 1fr;}
+  .cf-row{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .cta-btns{flex-direction:column;}
+  .faq-list{max-width:100%;}
+}
+
+/* Performance mode: disable expensive visual effects on this page */
+html{scroll-behavior:auto;}
+*,*::before,*::after{animation:none !important;transition:none !important;}
+body{background-attachment:scroll;}
+body::before,.hero-conic,.hero-stars,.hero-right{display:none !important;}
+.nav,.mob-nav{backdrop-filter:none !important;}
+.chip,.card,.svc-card,.res-card,.plan,.review,.cta-banner,.toast{box-shadow:none !important;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+<div class="nav-inner">
+  <a href="#" class="nav-logo">
+    DavronMarket
+    <span class="nav-logo-sub">Digital Marketing</span>
+  </a>
+  <div class="nav-links">
+    <a href="#services" class="nav-link">Услуги</a>
+    <a href="#pricing" class="nav-link">Цены</a>
+    <a href="#compare" class="nav-link">Сравнение</a>
+    <a href="#process" class="nav-link">Процесс</a>
+    <a href="#reviews" class="nav-link">Отзывы</a>
+    <a href="#contact" class="nav-link">Контакты</a>
+  </div>
+  <a href="#contact" class="nav-cta">Получить оффер →</a>
+  <button class="nav-burger" onclick="document.querySelector('.mob-nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+</nav>
+<div class="mob-nav">
+  <a href="#services" class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Услуги</a>
+  <a href="#pricing"  class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Цены</a>
+  <a href="#process"  class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Процесс</a>
+  <a href="#reviews"  class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Отзывы</a>
+  <a href="#contact"  class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Контакты</a>
+</div>
+
+<div class="page">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-conic"></div>
+  <div class="hero-stars"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-dot"></div>
+        <span class="hero-badge-text">DavronMarket — Digital Marketing Agency</span>
+      </div>
+      <h1 class="hero-h1">
+        <span class="l1">Digital</span>
+        <span class="l2">Marketing</span>
+        <span class="l3">SMM · SEO · ADS · ANALYTICS · GROWTH</span>
+      </h1>
+      <div class="hero-dline"></div>
+      <p class="hero-sub">Профессиональное продвижение бизнеса в Таджикистане, Узбекистане и России. Реальные результаты: рост продаж, трафик и узнаваемость бренда под ключ.</p>
+      <div class="hero-btns">
+        <a href="#pricing" class="btn-gold">💰 Узнать цены</a>
+        <a href="#services" class="btn-outline">Наши услуги →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b>3</b><span>Рынка</span></div>
+        <div class="hstat"><b>200+</b><span>Клиентов</span></div>
+        <div class="hstat"><b>5×</b><span>ROI средний</span></div>
+        <div class="hstat"><b>5 лет</b><span>Опыта</span></div>
+      </div>
+    </div>
+
+    <!-- Hero visual -->
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="hv-ring"></div>
+        <div class="hv-ring"></div>
+        <div class="hv-ring"></div>
+        <div class="hv-ring"></div>
+        <div class="hv-sweep1"></div>
+        <div class="hv-sweep2"></div>
+        <div class="hv-hex"></div>
+        <div class="hv-glow"></div>
+        <div class="hv-core">
+          <span class="hv-core-ico">📈</span>
+          <span class="hv-core-txt">GROWTH</span>
+        </div>
+        <!-- Floating metric cards -->
+        <div class="hv-metric" style="top:8%;left:50%;transform:translateX(-50%);--mc:rgba(74,222,128,.28);--mc-grad:linear-gradient(135deg,#4ade80,#86efac);--mf:5s;--md:0s">
+          <div class="hv-metric-val">+340%</div>
+          <div class="hv-metric-lbl">Рост трафика</div>
+          <div class="hv-metric-trend">↑ за 3 мес.</div>
+        </div>
+        <div class="hv-metric" style="top:38%;left:1%;--mc:rgba(43,156,255,.28);--mc-grad:linear-gradient(135deg,#2b9cff,#7dd3fc);--mf:6s;--md:.5s">
+          <div class="hv-metric-val">12K</div>
+          <div class="hv-metric-lbl">Подписчики</div>
+          <div class="hv-metric-trend">↑ +2.1K/мес</div>
+        </div>
+        <div class="hv-metric" style="top:68%;right:1%;--mc:rgba(245,200,66,.28);--mc-grad:linear-gradient(135deg,#f5c842,#ff8a5c);--mf:4.5s;--md:1s">
+          <div class="hv-metric-val">5.2×</div>
+          <div class="hv-metric-lbl">ROAS</div>
+          <div class="hv-metric-trend">↑ Реклама</div>
+        </div>
+        <div class="hv-metric" style="bottom:7%;left:50%;transform:translateX(-50%);--mc:rgba(255,107,43,.28);--mc-grad:linear-gradient(135deg,#ff6b2b,#ff8a5c);--mf:5.5s;--md:.3s">
+          <div class="hv-metric-val">#1</div>
+          <div class="hv-metric-lbl">SEO позиция</div>
+          <div class="hv-metric-trend">↑ Google TJ</div>
+        </div>
+        <!-- Labels -->
+        <div class="hv-lbl" style="top:28%;right:0;border:1px solid rgba(167,139,250,.3);color:var(--purple);--lf:6s;--ld:.8s">SMM</div>
+        <div class="hv-lbl" style="top:55%;left:0;border:1px solid rgba(245,200,66,.3);color:var(--gs);--lf:4.5s;--ld:.2s">SEO</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="sec-services" id="services">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">🚀 Полный Digital</div>
+    <h2 class="sec-title center">Комплекс услуг<br><span class="tg">продвижения</span></h2>
+    <p class="sec-sub center">Всё необходимое для роста бизнеса в digital — от стратегии до аналитики.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#f5c842,#ff8a5c)">
+      <span class="svc-ico">📱</span>
+      <div class="svc-name">SMM & Контент</div>
+      <div class="svc-desc">Ведение Instagram, TikTok, Telegram. Стратегия, сценарии, Reels, истории, дизайн постов и рост аудитории.</div>
+      <div class="svc-tags"><span class="svc-tag">Instagram</span><span class="svc-tag">TikTok</span><span class="svc-tag">Telegram</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#2b9cff,#7dd3fc)">
+      <span class="svc-ico">🎯</span>
+      <div class="svc-name">Таргетированная реклама</div>
+      <div class="svc-desc">Facebook Ads, Instagram Ads, TikTok Ads. Настройка, оптимизация, A/B-тесты, ретаргетинг и масштабирование.</div>
+      <div class="svc-tags"><span class="svc-tag">Meta Ads</span><span class="svc-tag">TikTok Ads</span><span class="svc-tag">ROAS</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#4ade80,#f5c842)">
+      <span class="svc-ico">🔍</span>
+      <div class="svc-name">SEO Продвижение</div>
+      <div class="svc-desc">Технический аудит, семантическое ядро, внутренняя оптимизация, ссылочная масса. Топ в Google и Яндекс.</div>
+      <div class="svc-tags"><span class="svc-tag">Google</span><span class="svc-tag">Яндекс</span><span class="svc-tag">Аудит</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#ff6b2b,#ff8a5c)">
+      <span class="svc-ico">💰</span>
+      <div class="svc-name">Google & Яндекс Ads</div>
+      <div class="svc-desc">Контекстная реклама в поиске и КМС. Ключевые слова, минус-слова, стратегии ставок, расширения объявлений.</div>
+      <div class="svc-tags"><span class="svc-tag">Google Ads</span><span class="svc-tag">Яндекс.Директ</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#a78bfa,#c4b5fd)">
+      <span class="svc-ico">📊</span>
+      <div class="svc-name">Аналитика & Отчёты</div>
+      <div class="svc-desc">Google Analytics 4, Looker Studio, Pixel настройка. Еженедельные отчёты с KPI и рекомендациями.</div>
+      <div class="svc-tags"><span class="svc-tag">GA4</span><span class="svc-tag">Pixel</span><span class="svc-tag">KPI</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#f472b6,#f5c842)">
+      <span class="svc-ico">🎬</span>
+      <div class="svc-name">Видео & Reels продакшн</div>
+      <div class="svc-desc">Сценарий, съёмка, монтаж, subtitles. Вертикальные видео для TikTok и Reels, горизонтальные для YouTube.</div>
+      <div class="svc-tags"><span class="svc-tag">Reels</span><span class="svc-tag">TikTok</span><span class="svc-tag">YouTube</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#2b9cff,#f5c842)">
+      <span class="svc-ico">🤝</span>
+      <div class="svc-name">Influencer Marketing</div>
+      <div class="svc-desc">Подбор блогеров, переговоры, контроль размещений. База 500+ инфлюенсеров в TJ, UZ, RU рынках.</div>
+      <div class="svc-tags"><span class="svc-tag">Блогеры</span><span class="svc-tag">UGC</span><span class="svc-tag">TJ/UZ/RU</span></div>
+    </div>
+    <div class="svc-card si" style="--acc:linear-gradient(90deg,#f5c842,#a78bfa)">
+      <span class="svc-ico">🌐</span>
+      <div class="svc-name">Создание Landing & сайтов</div>
+      <div class="svc-desc">Продающие лендинги, корпоративные сайты, интернет-магазины. UX/UI, скорость загрузки, конверсия.</div>
+      <div class="svc-tags"><span class="svc-tag">Landing</span><span class="svc-tag">E-commerce</span><span class="svc-tag">CRO</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ RESULTS ═══ -->
+<section class="sec-results">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip green">📈 Реальные результаты</div>
+    <h2 class="sec-title center">Цифры говорят<br><span class="tg">сами за себя</span></h2>
+  </div>
+  <div class="results-grid">
+    <div class="res-card si" style="--rc:linear-gradient(90deg,#f5c842,#ff8a5c)">
+      <span class="res-ico">📈</span>
+      <div class="res-num" style="--rg:linear-gradient(135deg,#f5c842,#ff8a5c)">+340%</div>
+      <div class="res-label">Средний рост трафика за 3 месяца</div>
+    </div>
+    <div class="res-card si" style="--rc:linear-gradient(90deg,#2b9cff,#7dd3fc)">
+      <span class="res-ico">💰</span>
+      <div class="res-num" style="--rg:linear-gradient(135deg,#2b9cff,#7dd3fc)">5.2×</div>
+      <div class="res-label">Средний ROAS по рекламным кампаниям</div>
+    </div>
+    <div class="res-card si" style="--rc:linear-gradient(90deg,#4ade80,#f5c842)">
+      <span class="res-ico">👥</span>
+      <div class="res-num" style="--rg:linear-gradient(135deg,#4ade80,#86efac)">200+</div>
+      <div class="res-label">Довольных клиентов в 3 странах</div>
+    </div>
+    <div class="res-card si" style="--rc:linear-gradient(90deg,#a78bfa,#c4b5fd)">
+      <span class="res-ico">🏆</span>
+      <div class="res-num" style="--rg:linear-gradient(135deg,#a78bfa,#c4b5fd)">#1</div>
+      <div class="res-label">Позиция клиентов в Google TJ по ключам</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PRICING — 3 COUNTRY PLANS ═══ -->
+<section class="sec-pricing" id="pricing">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">💰 Тарифы по рынкам</div>
+    <h2 class="sec-title center">Выберите свой<br><span class="tg">рынок & план</span></h2>
+    <p class="sec-sub center">Три пакета для трёх рынков — Таджикистан, Узбекистан, Россия. Прозрачные цены, без скрытых платежей.</p>
+  </div>
+
+  <!-- Country selector tabs -->
+  <div class="country-tabs">
+    <button class="ctab on" onclick="showCountry('tj',this)">🇹🇯 Таджикистан</button>
+    <button class="ctab" onclick="showCountry('uz',this)">🇺🇿 Узбекистан</button>
+    <button class="ctab" onclick="showCountry('ru',this)">🇷🇺 Россия</button>
+    <button class="ctab" onclick="showCountry('all',this)">🌍 Все рынки</button>
+  </div>
+
+  <div class="pricing-grid" id="pricingGrid">
+
+    <!-- ТАДЖИКИСТАН -->
+    <div class="plan si" id="plan-tj" style="--plan-top:linear-gradient(90deg,rgba(43,156,255,.4),rgba(245,200,66,.3))">
+      <div class="plan-country">
+        <span class="plan-flag">🇹🇯</span>
+        <div>
+          <div class="plan-country-name">Таджикистан</div>
+          <div class="plan-country-sub">Рынок TJ · Сомони/USD</div>
+        </div>
+        <span class="plan-badge">Старт</span>
+      </div>
+      <div class="plan-price">
+        <div class="plan-price-row">
+          <span class="plan-from">от</span>
+          <span class="plan-val">2 500</span>
+          <span class="plan-cur">$</span>
+        </div>
+        <div class="plan-period">в месяц · 3-месячный контракт</div>
+        <div class="plan-market">🌍 Охват: Таджикистан + СНГ</div>
+      </div>
+      <div class="plan-packages">
+        <div class="pkg" onclick="selectPkg(this,'tj','Старт','2 500$')">
+          <span class="pkg-name">🌱 Старт</span><span class="pkg-price">2 500 $</span>
+        </div>
+        <div class="pkg" onclick="selectPkg(this,'tj','Бизнес','3 500$')">
+          <span class="pkg-name">🚀 Бизнес</span><span class="pkg-price">3 500 $</span>
+        </div>
+        <div class="pkg" onclick="selectPkg(this,'tj','Премиум','5 000$')">
+          <span class="pkg-name">💎 Премиум</span><span class="pkg-price">5 000 $</span>
+        </div>
+      </div>
+      <div class="plan-feats">
+        <div class="pf">SMM — 3 площадки (IG, TG, TikTok)</div>
+        <div class="pf">Таргетированная реклама Meta</div>
+        <div class="pf">SEO оптимизация сайта</div>
+        <div class="pf">Контент-план + 20 постов/мес</div>
+        <div class="pf">Еженедельные отчёты KPI</div>
+        <div class="pf">Локальные инфлюенсеры TJ</div>
+        <div class="pf off">Google Ads (Бизнес+)</div>
+        <div class="pf off">Видео-продакшн (Премиум)</div>
+      </div>
+      <div class="plan-cta">
+        <button class="btn-outline" style="width:100%" onclick="openWA('Таджикистан','2 500$')">Выбрать план TJ →</button>
+      </div>
+      <div class="plan-note">* Минимальный бюджет на рекламу оплачивается отдельно</div>
+    </div>
+
+    <!-- УЗБЕКИСТАН — FEATURED -->
+    <div class="plan featured si" id="plan-uz" style="--plan-top:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff)">
+      <div class="plan-country">
+        <span class="plan-flag">🇺🇿</span>
+        <div>
+          <div class="plan-country-name">Узбекистан</div>
+          <div class="plan-country-sub">Рынок UZ · USD/UZS</div>
+        </div>
+        <span class="plan-badge" style="background:linear-gradient(135deg,#f5c842,#ff8a5c);border:none;color:#000;">⭐ Хит</span>
+      </div>
+      <div class="plan-price">
+        <div class="plan-price-row">
+          <span class="plan-from">от</span>
+          <span class="plan-val">5 000</span>
+          <span class="plan-cur">$</span>
+        </div>
+        <div class="plan-period">в месяц · 3-месячный контракт</div>
+        <div class="plan-market">🌍 Охват: Узбекистан + Казахстан + СНГ</div>
+      </div>
+      <div class="plan-packages">
+        <div class="pkg" onclick="selectPkg(this,'uz','Старт','5 000$')">
+          <span class="pkg-name">🌱 Старт</span><span class="pkg-price">5 000 $</span>
+        </div>
+        <div class="pkg" onclick="selectPkg(this,'uz','Бизнес','7 500$')">
+          <span class="pkg-name">🚀 Бизнес</span><span class="pkg-price">7 500 $</span>
+        </div>
+        <div class="pkg" onclick="selectPkg(this,'uz','Премиум','12 000$')">
+          <span class="pkg-name">💎 Премиум</span><span class="pkg-price">12 000 $</span>
+        </div>
+      </div>
+      <div class="plan-feats">
+        <div class="pf">SMM — 5 площадок (IG,TG,TK,YT,FB)</div>
+        <div class="pf">Таргет Meta + TikTok Ads</div>
+        <div class="pf">SEO + Google Ads контекст</div>
+        <div class="pf">Контент 40 постов + 8 Reels/мес</div>
+        <div class="pf">Видео-продакшн 2 ролика/мес</div>
+        <div class="pf">Инфлюенсеры UZ рынка</div>
+        <div class="pf">Яндекс.Директ</div>
+        <div class="pf">Выделенный аккаунт-менеджер</div>
+      </div>
+      <div class="plan-cta">
+        <button class="btn-gold" style="width:100%" onclick="openWA('Узбекистан','5 000$')">Выбрать план UZ →</button>
+      </div>
+      <div class="plan-note">* Самый популярный пакет для растущего бизнеса</div>
+    </div>
+
+    <!-- РОССИЯ -->
+    <div class="plan si" id="plan-ru" style="--plan-top:linear-gradient(90deg,rgba(239,68,68,.4),rgba(245,200,66,.3))">
+      <div class="plan-country">
+        <span class="plan-flag">🇷🇺</span>
+        <div>
+          <div class="plan-country-name">Россия</div>
+          <div class="plan-country-sub">Рынок RU · USD/RUB</div>
+        </div>
+        <span class="plan-badge">Premium</span>
+      </div>
+      <div class="plan-price">
+        <div class="plan-price-row">
+          <span class="plan-from">от</span>
+          <span class="plan-val">7 500</span>
+          <span class="plan-cur">$</span>
+        </div>
+        <div class="plan-period">в месяц · 3-месячный контракт</div>
+        <div class="plan-market">🌍 Охват: Россия + весь СНГ</div>
+      </div>
+      <div class="plan-packages">
+        <div class="pkg" onclick="selectPkg(this,'ru','Старт','7 500$')">
+          <span class="pkg-name">🌱 Старт</span><span class="pkg-price">7 500 $</span>
+        </div>
+        <div class="pkg" onclick="selectPkg(this,'ru','Бизнес','12 000$')">
+          <span class="pkg-name">🚀 Бизнес</span><span class="pkg-price">12 000 $</span>
+        </div>
+        <div class="pkg" onclick="selectPkg(this,'ru','Премиум','20 000$')">
+          <span class="pkg-name">💎 Агентский</span><span class="pkg-price">20 000 $</span>
+        </div>
+      </div>
+      <div class="plan-feats">
+        <div class="pf">SMM — ВКонтакте, TG, Одноклассники</div>
+        <div class="pf">Яндекс.Директ полный</div>
+        <div class="pf">SEO в Яндекс + Google RU</div>
+        <div class="pf">Контент 60 постов + 12 видео/мес</div>
+        <div class="pf">Видео-продакшн 4 ролика/мес</div>
+        <div class="pf">Инфлюенсеры RU рынка</div>
+        <div class="pf">PR в российских СМИ</div>
+        <div class="pf">Выделенная команда 5 специалистов</div>
+      </div>
+      <div class="plan-cta">
+        <button class="btn-outline" style="width:100%" onclick="openWA('Россия','7 500$')">Выбрать план RU →</button>
+      </div>
+      <div class="plan-note">* Рекламный бюджет от $3 000/мес дополнительно</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ COMPARE TABLE ═══ -->
+<section class="sec-compare" id="compare">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip blue">📊 Что входит</div>
+    <h2 class="sec-title center">Сравнение<br><span class="tb">по рынкам</span></h2>
+  </div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Что включено</th>
+        <th class="country">🇹🇯 Таджикистан<br><small style="font-size:10px;color:var(--w50)">от $2 500</small></th>
+        <th class="country">🇺🇿 Узбекистан<br><small style="font-size:10px;color:var(--w50)">от $5 000</small></th>
+        <th class="country">🇷🇺 Россия<br><small style="font-size:10px;color:var(--w50)">от $7 500</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="feature">SMM — количество площадок</td><td class="center">3 площадки</td><td class="center">5 площадок</td><td class="center">6 площадок</td></tr>
+      <tr><td class="feature">Постов в месяц</td><td class="center">20 постов</td><td class="center">40 постов</td><td class="center">60 постов</td></tr>
+      <tr><td class="feature">Reels / TikTok видео</td><td class="center">4/мес</td><td class="center">8/мес</td><td class="center">12/мес</td></tr>
+      <tr><td class="feature">Таргетированная реклама Meta</td><td class="center"><span class="tick">✓</span></td><td class="center"><span class="tick">✓</span></td><td class="center"><span class="tick">✓</span></td></tr>
+      <tr><td class="feature">TikTok Ads</td><td class="center"><span class="cross">—</span></td><td class="center"><span class="tick">✓</span></td><td class="center"><span class="tick">✓</span></td></tr>
+      <tr><td class="feature">Google Ads / Яндекс.Директ</td><td class="center"><span class="cross">—</span></td><td class="center"><span class="tick">✓</span></td><td class="center"><span class="tick">✓</span></td></tr>
+      <tr><td class="feature">SEO продвижение</td><td class="center">Базовое</td><td class="center">Полное</td><td class="center">Полное</td></tr>
+      <tr><td class="feature">Видео-продакшн</td><td class="center"><span class="cross">—</span></td><td class="center">2 видео</td><td class="center">4 видео</td></tr>
+      <tr><td class="feature">Инфлюенсер-маркетинг</td><td class="center">2 блогера</td><td class="center">5 блогеров</td><td class="center">10 блогеров</td></tr>
+      <tr><td class="feature">Аккаунт-менеджер</td><td class="center">Общий</td><td class="center">Выделенный</td><td class="center">Команда 5</td></tr>
+      <tr><td class="feature">Отчёты</td><td class="center">Еженед.</td><td class="center">Еженед.</td><td class="center">Ежедн.</td></tr>
+      <tr><td class="feature">PR в СМИ</td><td class="center"><span class="cross">—</span></td><td class="center"><span class="cross">—</span></td><td class="center"><span class="tick">✓</span></td></tr>
+      <tr>
+        <td class="feature" style="color:var(--gs);">💰 Стартовая цена/мес</td>
+        <td class="price-cell">$2 500</td>
+        <td class="price-cell">$5 000</td>
+        <td class="price-cell">$7 500</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="sec-process" id="process">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip orange">⚙️ Как работаем</div>
+    <h2 class="sec-title center">Процесс<br><span class="to">запуска</span></h2>
+    <p class="sec-sub center">От первого созвона до первых результатов — чёткий план без воды.</p>
+  </div>
+  <div class="process-grid">
+    <div class="timeline">
+      <div class="tstep si"><div class="tstep-n">01</div><div><h4>Аудит & Анализ</h4><p>Анализ текущего состояния, конкурентов и целевой аудитории. Определение точек роста и узких мест.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">02</div><div><h4>Стратегия & КП</h4><p>Разработка индивидуальной стратегии продвижения, медиаплан, KPI на 3–6 месяцев.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">03</div><div><h4>Запуск & Настройка</h4><p>Настройка рекламных кабинетов, создание контент-плана, запуск первых кампаний.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">04</div><div><h4>Производство контента</h4><p>Создание постов, Reels, сторис, видео и рекламных креативов по брендбуку.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">05</div><div><h4>Оптимизация</h4><p>A/B-тесты, корректировка ставок, масштабирование работающих связок и отключение неэффективных.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">06</div><div><h4>Отчёты & Рост</h4><p>Еженедельные KPI-отчёты, рекомендации по развитию, планирование следующего периода.</p></div></div>
+    </div>
+    <div class="info-card si">
+      <div class="info-head">
+        <h3>📋 Что вы получаете</h3>
+        <p>В рамках любого пакета</p>
+      </div>
+      <div class="info-body">
+        <div class="info-row"><span>Договор и NDA</span><div class="info-val">✓ День 1</div></div>
+        <div class="info-row"><span>Доступ к кабинетам</span><div class="info-val">Полный</div></div>
+        <div class="info-row"><span>Отчёты в реальном времени</span><div class="info-val">24/7</div></div>
+        <div class="info-row"><span>Связь с менеджером</span><div class="info-val">WhatsApp</div></div>
+        <div class="info-row"><span>Гарантия результата</span><div class="info-val">3 мес.</div></div>
+        <div class="info-row"><span>Старт работ</span><div class="info-val">3 дня</div></div>
+        <div class="info-row"><span>Оплата</span><div class="info-val">50/50</div></div>
+        <div class="info-row"><span>Языки</span><div class="info-val">TJ/UZ/RU/EN</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ REVIEWS ═══ -->
+<section class="sec-reviews" id="reviews">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip purple">⭐ Отзывы</div>
+    <h2 class="sec-title center">Говорят<br><span class="tp">наши клиенты</span></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="rev-card si">
+      <div class="rev-text">За 3 месяца трафик вырос на 280%, Instagram вырос с 2K до 15K подписчиков. ROI по рекламе 4.8×. Очень доволен командой — всё прозрачно и в срок.</div>
+      <div class="rev-author">
+        <div class="rev-ava">🏢</div>
+        <div>
+          <div class="rev-name">Бахром Насиров</div>
+          <div class="rev-role">CEO, Строительная компания</div>
+          <div class="rev-stars">★★★★★</div>
+          <div class="rev-country">🇹🇯 Душанбе, Таджикистан</div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-card si">
+      <div class="rev-text">Запустили продвижение для ресторанной сети в Ташкенте. За 2 месяца — очереди на вход! TikTok и Instagram дали огромный охват. Команда знает узбекский рынок.</div>
+      <div class="rev-author">
+        <div class="rev-ava">🍽️</div>
+        <div>
+          <div class="rev-name">Санжар Умаров</div>
+          <div class="rev-role">Владелец, Ресторанная сеть</div>
+          <div class="rev-stars">★★★★★</div>
+          <div class="rev-country">🇺🇿 Ташкент, Узбекистан</div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-card si">
+      <div class="rev-text">Вышли на российский рынок с их помощью. Яндекс.Директ и SEO дали первые продажи уже на третьей неделе. Профессиональная команда, рекомендую всем.</div>
+      <div class="rev-author">
+        <div class="rev-ava">🛒</div>
+        <div>
+          <div class="rev-name">Алексей Петров</div>
+          <div class="rev-role">Директор, Интернет-магазин</div>
+          <div class="rev-stars">★★★★★</div>
+          <div class="rev-country">🇷🇺 Москва, Россия</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ FAQ ═══ -->
+<section class="sec-faq">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">❓ Вопросы</div>
+    <h2 class="sec-title center">Часто<br><span class="tg">задаваемые</span></h2>
+  </div>
+  <div class="faq-list" style="margin:48px auto 0;">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Почему цены разные для разных стран? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Каждый рынок имеет свою специфику: конкуренция, платёжеспособность аудитории, необходимые инструменты и объём работ. В России конкуренция выше — нужно больше ресурсов для результата. Цена отражает реальный объём работы и гарантируемый результат.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Входит ли рекламный бюджет в стоимость? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Нет. Цена пакета — это стоимость услуг агентства (стратегия, настройка, ведение, контент). Рекламный бюджет (деньги, которые уходят в Meta, Google, Яндекс) оплачивается клиентом отдельно. Рекомендуемый минимум: TJ — $500/мес, UZ — $1 500/мес, RU — $3 000/мес.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Какие гарантии результата? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Мы фиксируем KPI в договоре — рост трафика, подписчики, охваты, лиды. Если за 3 месяца KPI не выполнены, следующий месяц работаем бесплатно. Мы работаем только с теми проектами, в которых уверены в результате.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Как быстро начнётся работа после оплаты? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Через 3 рабочих дня после заключения договора и первой оплаты уже будет готова стратегия и контент-план. Первые рекламные кампании запустим на 5-7 день. Первые результаты видны через 2-3 недели.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Можно ли выбрать только одну услугу? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Да, мы предлагаем отдельные услуги: только SMM, только SEO или только таргетированная реклама. Однако комплексный подход даёт результат в 3-4 раза быстрее. Обсудим оптимальный набор услуг на бесплатном созвоне.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ CTA ═══ -->
+<div class="wrap" style="padding-bottom:0">
+<section class="sec-cta">
+  <div class="cta-banner">
+    <span class="cta-icon">📈</span>
+    <div class="cta-text">
+      <h2>Начните расти уже сегодня!</h2>
+      <p>Бесплатный аудит вашего бизнеса + стратегия продвижения за 24 часа. Выберите свой рынок и получите персональное коммерческое предложение.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="https://wa.me/992929612111?text=Привет!+Хочу+получить+бесплатный+аудит+и+КП+по+Digital+Marketing" target="_blank" class="btn-gold">💬 WhatsApp — Бесплатный аудит</a>
+      <a href="https://t.me/Davronjonsamadov" target="_blank" class="btn-outline">✈ Написать в Telegram</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="divider" style="margin-top:0;"></div>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="sec-contact" id="contact">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">📞 Связаться</div>
+    <h2 class="sec-title center">Получить<br><span class="tg">коммерческое предложение</span></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <p class="sec-sub" style="margin-bottom:28px">Заполните форму — вышлем персональное КП с ценами для вашего рынка в течение 2 часов.</p>
+      <div class="c-links">
+        <a class="clink" href="https://wa.me/992929612111" target="_blank"><span class="clink-ico">💬</span><div><div class="clink-lbl">WhatsApp</div><div class="clink-val">+992 92 961-21-11</div></div></a>
+        <a class="clink" href="https://t.me/Davronjonsamadov" target="_blank"><span class="clink-ico">✈</span><div><div class="clink-lbl">Telegram</div><div class="clink-val">@Davronjonsamadov</div></div></a>
+        <a class="clink" href="tel:+992929612111"><span class="clink-ico">📞</span><div><div class="clink-lbl">Телефон</div><div class="clink-val">+992 92 961-21-11</div></div></a>
+        <a class="clink" href="mailto:info@davronmarket.tj"><span class="clink-ico">📧</span><div><div class="clink-lbl">Email</div><div class="clink-val">info@davronmarket.tj</div></div></a>
+        <div class="clink"><span class="clink-ico">🕐</span><div><div class="clink-lbl">Время ответа</div><div class="clink-val">До 2 часов в рабочее время</div></div></div>
+      </div>
+    </div>
+    <div class="cf">
+      <div class="cf-title">Получить КП</div>
+      <p class="cf-sub">Укажите рынок — подготовим персональное предложение с ценами и ROI-прогнозом.</p>
+      <div id="cf-body">
+        <p style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;color:var(--w30)">Выберите рынок</p>
+        <div class="cf-svcs">
+          <div class="cf-svc sel" onclick="this.classList.toggle('sel')">🇹🇯 Таджикистан · от $2 500</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">🇺🇿 Узбекистан · от $5 000</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">🇷🇺 Россия · от $7 500</div>
+        </div>
+        <p style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;color:var(--w30)">Нужные услуги</p>
+        <div class="cf-svcs">
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">📱 SMM</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">🎯 Таргет</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">🔍 SEO</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">💰 Google Ads</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">🎬 Видео</div>
+          <div class="cf-svc" onclick="this.classList.toggle('sel')">🤝 Блогеры</div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-field"><label class="cf-lbl">Имя *</label><input class="cf-in" id="cf-n" type="text" placeholder="Ваше имя"></div>
+          <div class="cf-field"><label class="cf-lbl">Телефон / Telegram *</label><input class="cf-in" id="cf-p" type="tel" placeholder="+992 / +998 / +7..."></div>
+        </div>
+        <div class="cf-field">
+          <label class="cf-lbl">Ваш бизнес</label>
+          <select class="cf-sel" id="cf-b">
+            <option value="">Тип бизнеса</option>
+            <option>Розничная торговля</option>
+            <option>Рестораны / Кафе</option>
+            <option>Строительство / Недвижимость</option>
+            <option>Медицина / Клиники</option>
+            <option>Образование</option>
+            <option>Производство</option>
+            <option>E-commerce / Интернет-магазин</option>
+            <option>Другое</option>
+          </select>
+        </div>
+        <div class="cf-field"><label class="cf-lbl">О проекте</label><textarea class="cf-ta" id="cf-m" placeholder="Расскажите о бизнесе, целях и текущей ситуации..."></textarea></div>
+        <button class="cf-submit" onclick="submitCF()">📩 Получить КП в WhatsApp</button>
+      </div>
+      <div class="cf-ok" id="cf-ok">
+        <span class="cf-ok-ico">✅</span>
+        <h3>Заявка принята!</h3>
+        <p>WhatsApp откроется автоматически. Пришлём персональное КП в течение 2 часов!</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="wrap">
+  <div class="footer-grid">
+    <div class="f-brand">
+      <span class="f-logo">DavronMarket</span>
+      <span class="f-sub">Digital Marketing Agency</span>
+      <p>Профессиональное продвижение бизнеса в Таджикистане, Узбекистане и России. SMM, SEO, Ads, Контент.</p>
+    </div>
+    <div class="f-col">
+      <h5>Услуги</h5>
+      <a href="#services">SMM & Контент</a>
+      <a href="#services">Таргетированная реклама</a>
+      <a href="#services">SEO продвижение</a>
+      <a href="#services">Google & Яндекс Ads</a>
+      <a href="#services">Видео & Reels</a>
+    </div>
+    <div class="f-col">
+      <h5>Рынки</h5>
+      <a href="#pricing">🇹🇯 Таджикистан · от $2 500</a>
+      <a href="#pricing">🇺🇿 Узбекистан · от $5 000</a>
+      <a href="#pricing">🇷🇺 Россия · от $7 500</a>
+    </div>
+    <div class="f-col">
+      <h5>Контакты</h5>
+      <a href="tel:+992929612111">+992 92 961-21-11</a>
+      <a href="https://wa.me/992929612111">WhatsApp</a>
+      <a href="https://t.me/Davronjonsamadov">Telegram</a>
+      <a href="mailto:info@davronmarket.tj">info@davronmarket.tj</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="f-copy">© 2025 DavronMarket Digital Marketing — Таджикистан · Узбекистан · Россия</span>
+    <div class="f-socs">
+      <a class="fsoc" href="#">📸</a>
+      <a class="fsoc" href="https://t.me/davronmarket">✈</a>
+      <a class="fsoc" href="https://wa.me/992929612111">💬</a>
+      <a class="fsoc" href="#">▶</a>
+      <a class="fsoc" href="#">🎵</a>
+    </div>
+  </div>
+</div>
+</footer>
+
+</div><!-- /page -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* NAV active */
+window.addEventListener('scroll',function(){
+  const y=window.scrollY+70;
+  ['services','pricing','compare','process','reviews','contact'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    document.querySelectorAll('.nav-link').forEach(a=>{
+      if(a.getAttribute('href')==='#'+id){
+        if(y>=el.offsetTop&&y<el.offsetTop+el.offsetHeight)a.classList.add('act');
+        else a.classList.remove('act');
+      }
+    });
+  });
+});
+
+/* Country tabs */
+function showCountry(country, el){
+  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  const plans = ['tj','uz','ru'];
+  plans.forEach(c=>{
+    const p = document.getElementById('plan-'+c);
+    if(!p) return;
+    if(country==='all'){ p.style.display=''; }
+    else { p.style.display = (c===country)?'':'none'; }
+  });
+  // Adjust grid
+  const grid = document.getElementById('pricingGrid');
+  if(country==='all') grid.style.gridTemplateColumns='repeat(3,1fr)';
+  else if(country==='tj'||country==='uz'||country==='ru') grid.style.gridTemplateColumns='1fr';
+}
+
+/* Select package */
+function selectPkg(el, country, plan, price){
+  document.querySelectorAll('#plan-'+country+' .pkg').forEach(p=>p.style.background='');
+  el.style.background='rgba(245,200,66,.1)';
+  el.style.borderColor='rgba(245,200,66,.3)';
+  showToast('✓ Выбран: '+plan+' для '+getCountryName(country)+' — '+price);
+  setTimeout(()=>{
+    document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+    setTimeout(()=>{
+      const ta = document.getElementById('cf-m');
+      if(ta) ta.value='Интересует пакет '+plan+' для рынка '+getCountryName(country)+' ('+price+'/мес)';
+    },600);
+  },800);
+}
+function getCountryName(c){return {tj:'Таджикистан',uz:'Узбекистан',ru:'Россия'}[c]||c;}
+
+/* WhatsApp open */
+function openWA(country, price){
+  const txt = encodeURIComponent('Привет! Интересует план Digital Marketing для '+country+' (от '+price+'/мес). Хочу получить КП.');
+  window.open('https://wa.me/992929612111?text='+txt,'_blank');
+}
+
+/* FAQ */
+function toggleFaq(el){
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+/* Contact form */
+function submitCF(){
+  const n = (document.getElementById('cf-n').value||'').trim();
+  const p = (document.getElementById('cf-p').value||'').trim();
+  const b = document.getElementById('cf-b').value;
+  const m = (document.getElementById('cf-m').value||'').trim();
+  const svcs = [...document.querySelectorAll('.cf-svc.sel')].map(s=>s.textContent.trim()).join(', ');
+  if(!n){showToast('⚠️ Введите ваше имя');return;}
+  if(!p){showToast('⚠️ Введите номер телефона');return;}
+  const txt = encodeURIComponent(
+    '📈 *DavronMarket Digital Marketing — КП*\n\n'+
+    '👤 '+n+'\n📞 '+p+'\n'+
+    (b?'🏢 Бизнес: '+b+'\n':'')+
+    '🌍 Рынок/услуги: '+(svcs||'—')+'\n'+
+    (m?'\n💬 О проекте:\n'+m:'')
+  );
+  document.getElementById('cf-body').style.display='none';
+  document.getElementById('cf-ok').classList.add('on');
+  setTimeout(()=>window.open('https://wa.me/992929612111?text='+txt,'_blank'),700);
+}
+
+/* Toast */
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.style.borderColor=msg.includes('✅')||msg.includes('✓')?'#4ade80':msg.includes('⚠️')?'#ff6b2b':'#f5c842';
+  t.style.color=msg.includes('✅')||msg.includes('✓')?'#4ade80':msg.includes('⚠️')?'#ff8a5c':'#ffe066';
+  t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* Stagger observer */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>{
+        e.target.style.transition='opacity .5s ease, transform .5s ease';
+        e.target.classList.add('v');
+      }, i*70);
+    }
+  });
+},{threshold:.08});
+document.querySelectorAll('.si').forEach(el=>{obs.observe(el);});
+const st=document.createElement('style');
+st.textContent='.si{opacity:0;transform:translateY(18px);}.si.v{opacity:1;transform:none;}';
+document.head.appendChild(st);
+</script>
+</body>
+</html>

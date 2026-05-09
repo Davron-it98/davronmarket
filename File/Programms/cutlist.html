@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CutList Optimizer — Оптимизатор раскроя</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #171b25;
+    --surface2: #1e2332;
+    --border: #2a3048;
+    --accent: #f0c040;
+    --accent2: #3b82f6;
+    --accent3: #22c55e;
+    --danger: #ef4444;
+    --text: #e2e8f0;
+    --text2: #8892a4;
+    --text3: #5a6478;
+    --radius: 6px;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    height: 48px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono);
+    font-weight: 600; font-size: 14px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .logo svg { width: 22px; height: 22px; }
+  header .spacer { flex: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: var(--radius);
+    font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+    cursor: pointer; border: none; transition: all .15s;
+    letter-spacing: .3px;
+  }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #0f1117; }
+  .btn-primary:hover:not(:disabled) { background: #f5d060; }
+  .btn-secondary {
+    background: transparent; color: var(--text2);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--text2); color: var(--text); }
+  .btn-danger {
+    background: transparent; color: var(--danger);
+    border: 1px solid var(--danger);
+  }
+  .btn-danger:hover { background: var(--danger); color: white; }
+
+  /* LAYOUT */
+  .app {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    height: calc(100vh - 48px);
+  }
+
+  /* LEFT PANEL */
+  .left-panel {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .tabs {
+    display: flex; border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    flex: 1; padding: 10px 8px;
+    text-align: center;
+    font-size: 11px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .8px; color: var(--text3);
+    cursor: pointer; border: none; background: none;
+    border-bottom: 2px solid transparent;
+    transition: all .15s;
+    font-family: var(--font-sans);
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover:not(.active) { color: var(--text2); }
+  .tab-content { display: none; flex: 1; overflow-y: auto; padding: 12px; }
+  .tab-content.active { display: flex; flex-direction: column; gap: 8px; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--text3);
+    padding: 4px 0 8px;
+  }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table thead th {
+    font-size: 10px; font-weight: 600; letter-spacing: .8px;
+    text-transform: uppercase; color: var(--text3);
+    padding: 4px 6px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tbody tr:last-child { border-bottom: none; }
+  .data-table tbody tr:hover { background: var(--surface2); }
+  .data-table td { padding: 3px 2px; }
+  .data-table input[type=text],
+  .data-table input[type=number] {
+    background: transparent; border: none; outline: none;
+    color: var(--text); font-family: var(--font-mono); font-size: 12px;
+    width: 100%; padding: 3px 4px; border-radius: 3px;
+    transition: background .1s;
+  }
+  .data-table input:focus { background: var(--surface2); }
+  .data-table input[type=number] { text-align: right; }
+  .del-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text3); padding: 2px 4px; border-radius: 3px;
+    transition: color .1s;
+    font-size: 14px; line-height: 1;
+  }
+  .del-btn:hover { color: var(--danger); }
+
+  .add-row-btn {
+    width: 100%; padding: 6px;
+    background: none; border: 1px dashed var(--border);
+    color: var(--text3); border-radius: var(--radius);
+    cursor: pointer; font-family: var(--font-sans); font-size: 12px;
+    transition: all .15s; margin-top: 4px;
+  }
+  .add-row-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* OPTIONS */
+  .option-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+  }
+  .option-row:last-child { border-bottom: none; }
+  .option-label { flex: 1; color: var(--text2); font-size: 12px; }
+  .option-row input[type=number] {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font-mono);
+    font-size: 12px; padding: 4px 8px; border-radius: var(--radius);
+    width: 72px; text-align: right; outline: none;
+  }
+  .option-row input[type=number]:focus { border-color: var(--accent2); }
+  .toggle {
+    width: 34px; height: 18px; background: var(--border);
+    border-radius: 9px; cursor: pointer; border: none;
+    position: relative; transition: background .2s;
+  }
+  .toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px; background: white;
+    border-radius: 50%; transition: transform .2s;
+  }
+  .toggle.on { background: var(--accent3); }
+  .toggle.on::after { transform: translateX(16px); }
+
+  /* RIGHT PANEL */
+  .right-panel {
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .toolbar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .toolbar .spacer { flex: 1; }
+  .stats-bar {
+    display: flex; gap: 16px; align-items: center;
+    padding: 6px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px; color: var(--text2);
+    flex-wrap: wrap;
+  }
+  .stat-item { display: flex; gap: 5px; align-items: center; }
+  .stat-val { font-family: var(--font-mono); color: var(--text); font-weight: 500; }
+  .stat-good { color: var(--accent3); }
+  .stat-warn { color: var(--accent); }
+
+  .canvas-area {
+    flex: 1; overflow: auto;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 20px;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 20px,
+      rgba(42,48,72,.3) 20px, rgba(42,48,72,.3) 21px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 20px,
+      rgba(42,48,72,.3) 20px, rgba(42,48,72,.3) 21px
+    );
+  }
+
+  .sheet-wrapper { display: flex; flex-direction: column; gap: 6px; }
+  .sheet-header {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: var(--text2);
+  }
+  .sheet-number {
+    background: var(--accent); color: #0f1117;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    padding: 1px 6px; border-radius: 3px;
+  }
+
+  .sheet-canvas {
+    position: relative;
+    background: #1a1f2e;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,.4);
+  }
+  .cut-piece {
+    position: absolute;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    transition: opacity .1s;
+    cursor: default;
+  }
+  .cut-piece:hover { z-index: 10; filter: brightness(1.3); }
+  .cut-piece .piece-label {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+    text-align: center; line-height: 1.3;
+    pointer-events: none; padding: 2px;
+    overflow: hidden;
+  }
+
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex: 1; gap: 12px; color: var(--text3);
+  }
+  .empty-state svg { opacity: .3; }
+  .empty-state p { font-size: 13px; }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: fixed; z-index: 999;
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 8px 12px; border-radius: var(--radius);
+    font-size: 11px; pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,.5);
+    display: none; line-height: 1.6;
+  }
+  .tooltip b { color: var(--accent); font-family: var(--font-mono); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 20px;
+    font-size: 11px; color: var(--text2);
+  }
+  select {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font-sans); font-size: 12px;
+    padding: 4px 6px; border-radius: var(--radius); outline: none;
+    cursor: pointer;
+  }
+  select:focus { border-color: var(--accent2); }
+
+  /* UNFIT LIST */
+  .unfit-list {
+    background: rgba(239,68,68,.06); border: 1px solid rgba(239,68,68,.2);
+    border-radius: var(--radius); padding: 12px 16px;
+  }
+  .unfit-list h4 { color: var(--danger); font-size: 12px; margin-bottom: 8px; }
+  .unfit-item {
+    display: inline-block; padding: 3px 10px; margin: 2px 4px 2px 0;
+    background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.15);
+    border-radius: 4px; font-size: 11px; color: var(--danger);
+    font-family: var(--font-mono);
+  }
+
+  /* MOBILE */
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .left-panel { border-right: none; border-bottom: 1px solid var(--border); max-height: 40vh; }
+    header { padding: 0 8px; gap: 6px; }
+    .btn { padding: 5px 10px; font-size: 11px; }
+    .canvas-area { padding: 12px; }
+    .stats-bar { gap: 10px; padding: 6px 10px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" style="text-decoration:none;color:var(--text2);font-size:12px;display:flex;align-items:center;gap:4px;margin-right:4px;" title="Вернуться на DavronMarket">← DM</a>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="2" width="20" height="20" rx="2"/>
+      <line x1="2" y1="9" x2="22" y2="9"/>
+      <line x1="2" y1="15" x2="22" y2="15"/>
+      <line x1="9" y1="9" x2="9" y2="22"/>
+    </svg>
+    CutList Optimizer
+  </div>
+  <div class="spacer"></div>
+  <span class="badge">v1.0</span>
+  <button class="btn btn-secondary" onclick="resetAll()">↺ Сброс</button>
+  <button class="btn btn-primary" id="calcBtn" onclick="calculate()">▶ Рассчитать</button>
+</header>
+
+<div class="app">
+  <!-- LEFT -->
+  <div class="left-panel">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('panels',this)">Детали</button>
+      <button class="tab" onclick="switchTab('stock',this)">Материал</button>
+      <button class="tab" onclick="switchTab('options',this)">Настройки</button>
+    </div>
+
+    <!-- PANELS TAB -->
+    <div class="tab-content active" id="tab-panels">
+      <div class="section-label">Список деталей</div>
+      <table class="data-table" id="panelsTable">
+        <thead>
+          <tr>
+            <th style="width:80px">Ш (мм)</th>
+            <th style="width:80px">В (мм)</th>
+            <th style="width:40px">Кол</th>
+            <th>Метка</th>
+            <th style="width:24px"></th>
+          </tr>
+        </thead>
+        <tbody id="panelsTbody"></tbody>
+      </table>
+      <button class="add-row-btn" onclick="addPanel()">+ Добавить деталь</button>
+    </div>
+
+    <!-- STOCK TAB -->
+    <div class="tab-content" id="tab-stock">
+      <div class="section-label">Листовой материал</div>
+      <table class="data-table" id="stockTable">
+        <thead>
+          <tr>
+            <th style="width:80px">Ш (мм)</th>
+            <th style="width:80px">В (мм)</th>
+            <th style="width:40px">Кол</th>
+            <th>Метка</th>
+            <th style="width:24px"></th>
+          </tr>
+        </thead>
+        <tbody id="stockTbody"></tbody>
+      </table>
+      <button class="add-row-btn" onclick="addStock()">+ Добавить лист</button>
+    </div>
+
+    <!-- OPTIONS TAB -->
+    <div class="tab-content" id="tab-options">
+      <div class="section-label">Параметры распила</div>
+      <div class="option-row">
+        <span class="option-label">Толщина пила (мм)</span>
+        <input type="number" id="cutThickness" value="3" min="0" max="20" step="0.5">
+      </div>
+      <div class="option-row">
+        <span class="option-label">Отступ от края (мм)</span>
+        <input type="number" id="edgeGap" value="0" min="0" max="50">
+      </div>
+      <div class="option-row">
+        <span class="option-label">Учитывать направление (не вращать)</span>
+        <button class="toggle" id="orientToggle" onclick="this.classList.toggle('on')"></button>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Оптимизация (перебор стратегий)</span>
+        <button class="toggle on" id="optimizeToggle" onclick="this.classList.toggle('on')"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-panel">
+    <div class="toolbar">
+      <span style="font-size:12px;color:var(--text2)">Результат раскроя</span>
+      <div class="spacer"></div>
+      <button class="btn btn-secondary" onclick="exportSVG()">↓ SVG</button>
+    </div>
+
+    <div class="stats-bar" id="statsBar" style="display:none">
+      <div class="stat-item">Листов: <span class="stat-val" id="statSheets">—</span></div>
+      <div class="stat-item">Деталей: <span class="stat-val" id="statPieces">—</span></div>
+      <div class="stat-item">Использовано: <span class="stat-val stat-good" id="statUsed">—</span></div>
+      <div class="stat-item">Отходы: <span class="stat-val stat-warn" id="statWaste">—</span></div>
+      <div class="stat-item">Распилов: <span class="stat-val" id="statCuts">—</span></div>
+      <div class="stat-item" id="statFitWrap" style="display:none">
+        Не вошло: <span class="stat-val" style="color:var(--danger)" id="statNoFit">—</span>
+      </div>
+    </div>
+
+    <div class="canvas-area" id="canvasArea">
+      <div class="empty-state" id="emptyState">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="9" y1="9" x2="9" y2="21"/>
+          <line x1="3" y1="15" x2="9" y2="15"/>
+        </svg>
+        <p>Добавьте детали и материал, затем нажмите <b style="color:var(--accent)">Рассчитать</b></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+// DATA MODEL
+// ═══════════════════════════════════════════════════════════════════════════════
+let panels = [];
+let stocks = [];
+let panelIdCounter = 1;
+let stockIdCounter = 1;
+let lastResult = null;
+
+const COLORS = [
+  '#60a5fa','#34d399','#f87171','#fbbf24','#a78bfa',
+  '#f472b6','#38bdf8','#4ade80','#fb923c','#818cf8',
+  '#e879f9','#2dd4bf','#facc15','#f9a8d4','#86efac',
+  '#93c5fd','#fca5a5','#c4b5fd','#6ee7b7','#fcd34d'
+];
+function colorForIdx(i) { return COLORS[i % COLORS.length]; }
+function escHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function escSvg(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════════
+function init() {
+  [
+    { w: 400, h: 300, qty: 2, label: 'Боковина' },
+    { w: 600, h: 200, qty: 1, label: 'Полка' },
+    { w: 580, h: 300, qty: 2, label: 'Дверца' },
+    { w: 200, h: 200, qty: 4, label: 'Ящик' },
+  ].forEach(p => panels.push({ id: panelIdCounter++, ...p }));
+  stocks.push({ id: stockIdCounter++, w: 2440, h: 1220, qty: 2, label: 'ЛДСП 2440×1220' });
+  renderPanels();
+  renderStocks();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PANELS TABLE
+// ═══════════════════════════════════════════════════════════════════════════════
+function renderPanels() {
+  const tbody = document.getElementById('panelsTbody');
+  tbody.innerHTML = '';
+  panels.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><input type="number" value="' + p.w + '" min="1" onchange="panels[' + i + '].w=+this.value"></td>' +
+      '<td><input type="number" value="' + p.h + '" min="1" onchange="panels[' + i + '].h=+this.value"></td>' +
+      '<td><input type="number" value="' + p.qty + '" min="1" onchange="panels[' + i + '].qty=+this.value"></td>' +
+      '<td><input type="text" value="' + escHtml(p.label) + '" onchange="panels[' + i + '].label=this.value" placeholder="Метка"></td>' +
+      '<td><button class="del-btn" onclick="removePanel(' + i + ')">✕</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+function addPanel() {
+  panels.push({ id: panelIdCounter++, w: 300, h: 200, qty: 1, label: '' });
+  renderPanels();
+}
+function removePanel(i) { panels.splice(i, 1); renderPanels(); }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STOCKS TABLE
+// ═══════════════════════════════════════════════════════════════════════════════
+function renderStocks() {
+  const tbody = document.getElementById('stockTbody');
+  tbody.innerHTML = '';
+  stocks.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><input type="number" value="' + s.w + '" min="1" onchange="stocks[' + i + '].w=+this.value"></td>' +
+      '<td><input type="number" value="' + s.h + '" min="1" onchange="stocks[' + i + '].h=+this.value"></td>' +
+      '<td><input type="number" value="' + s.qty + '" min="1" onchange="stocks[' + i + '].qty=+this.value"></td>' +
+      '<td><input type="text" value="' + escHtml(s.label) + '" onchange="stocks[' + i + '].label=this.value" placeholder="Метка"></td>' +
+      '<td><button class="del-btn" onclick="removeStock(' + i + ')">✕</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+function addStock() {
+  stocks.push({ id: stockIdCounter++, w: 2440, h: 1220, qty: 1, label: 'Лист' });
+  renderStocks();
+}
+function removeStock(i) { stocks.splice(i, 1); renderStocks(); }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════════════════════════
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CALCULATE (wrapper)
+// ═══════════════════════════════════════════════════════════════════════════════
+function calculate() {
+  const btn = document.getElementById('calcBtn');
+  btn.textContent = '⏳ Считаю...';
+  btn.disabled = true;
+  setTimeout(() => {
+    try { runOptimization(); }
+    catch (e) { console.error(e); alert('Ошибка расчёта: ' + e.message); }
+    btn.textContent = '▶ Рассчитать';
+    btn.disabled = false;
+  }, 30);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ALGORITHM — Maximal Rectangles Best Short Side Fit
+// ═══════════════════════════════════════════════════════════════════════════════
+function runOptimization() {
+  const saw = Math.max(0, parseFloat(document.getElementById('cutThickness').value) || 0);
+  const edge = Math.max(0, parseInt(document.getElementById('edgeGap').value) || 0);
+  const lockOrientation = document.getElementById('orientToggle').classList.contains('on');
+  const doOptimize = document.getElementById('optimizeToggle').classList.contains('on');
+
+  // Flatten pieces
+  let pieces = [];
+  panels.forEach((p, pi) => {
+    if (p.w <= 0 || p.h <= 0 || p.qty <= 0) return;
+    for (let q = 0; q < p.qty; q++) {
+      pieces.push({
+        w: p.w, h: p.h,
+        label: p.label || (p.w + '×' + p.h),
+        colorIdx: pi
+      });
+    }
+  });
+
+  if (!pieces.length) return alert('Добавьте детали!');
+  if (!stocks.length) return alert('Добавьте листовой материал!');
+
+  // Validate stocks
+  for (const s of stocks) {
+    if (s.w <= 0 || s.h <= 0 || s.qty <= 0) return alert('Проверьте размеры материала!');
+  }
+
+  // Sort strategies for optimization
+  const strategies = doOptimize ? [
+    (a, b) => (b.w * b.h) - (a.w * a.h),
+    (a, b) => Math.max(b.w, b.h) - Math.max(a.w, a.h),
+    (a, b) => (b.w + b.h) - (a.w + a.h),
+  ] : [
+    (a, b) => (b.w * b.h) - (a.w * a.h)
+  ];
+
+  let bestRun = null;
+
+  for (const sortFn of strategies) {
+    const sortedPieces = pieces.slice().sort(sortFn);
+    const stockTypes = stocks.map(s => ({
+      w: s.w, h: s.h, remaining: s.qty,
+      label: s.label || (s.w + '×' + s.h)
+    }));
+    const result = packPieces(sortedPieces, stockTypes, saw, edge, !lockOrientation);
+    if (!bestRun || isBetterResult(result, bestRun)) {
+      bestRun = result;
+    }
+  }
+
+  lastResult = bestRun;
+  renderResult(bestRun);
+}
+
+function isBetterResult(a, b) {
+  if (a.unfit.length !== b.unfit.length) return a.unfit.length < b.unfit.length;
+  if (a.sheets.length !== b.sheets.length) return a.sheets.length < b.sheets.length;
+  return a.totalUsed > b.totalUsed;
+}
+
+function packPieces(pieces, stockTypes, saw, edge, allowRotation) {
+  const activeSheets = [];
+  const unfit = [];
+  let totalUsed = 0, totalArea = 0;
+
+  for (const piece of pieces) {
+    let placed = false;
+
+    // Try existing active sheets
+    for (let si = 0; si < activeSheets.length && !placed; si++) {
+      const pos = findPosition(activeSheets[si], piece, saw, allowRotation);
+      if (pos) {
+        activeSheets[si].placed.push(pos);
+        splitFreeRects(activeSheets[si], pos, saw);
+        placed = true;
+      }
+    }
+
+    // Try creating a new sheet
+    if (!placed) {
+      for (let ti = 0; ti < stockTypes.length && !placed; ti++) {
+        if (stockTypes[ti].remaining <= 0) continue;
+        const usableW = stockTypes[ti].w - edge * 2;
+        const usableH = stockTypes[ti].h - edge * 2;
+        if (usableW <= 0 || usableH <= 0) continue;
+
+        const newSheet = {
+          origW: stockTypes[ti].w,
+          origH: stockTypes[ti].h,
+          label: stockTypes[ti].label,
+          placed: [],
+          freeRects: [{ x: edge, y: edge, w: usableW, h: usableH }]
+        };
+
+        const pos = findPosition(newSheet, piece, saw, allowRotation);
+        if (pos) {
+          newSheet.placed.push(pos);
+          splitFreeRects(newSheet, pos, saw);
+          activeSheets.push(newSheet);
+          stockTypes[ti].remaining--;
+          placed = true;
+        }
+      }
+    }
+
+    if (!placed) unfit.push(piece);
+  }
+
+  activeSheets.forEach(s => {
+    totalUsed += s.placed.reduce((sum, p) => sum + p.w * p.h, 0);
+    totalArea += s.origW * s.origH;
+  });
+
+  return { sheets: activeSheets, unfit, totalUsed, totalArea, saw, edge };
+}
+
+// Find best position using Best Short Side Fit (BSSF)
+function findPosition(sheet, piece, saw, allowRotation) {
+  const candidates = [{ w: piece.w, h: piece.h, rot: false }];
+  if (allowRotation && piece.w !== piece.h) {
+    candidates.push({ w: piece.h, h: piece.w, rot: true });
+  }
+
+  let best = null;
+  let bestShort = Infinity;
+  let bestLong = Infinity;
+
+  for (const c of candidates) {
+    for (const rect of sheet.freeRects) {
+      if (c.w <= rect.w && c.h <= rect.h) {
+        const shortSide = Math.min(rect.w - c.w, rect.h - c.h);
+        const longSide = Math.max(rect.w - c.w, rect.h - c.h);
+        if (shortSide < bestShort || (shortSide === bestShort && longSide < bestLong)) {
+          bestShort = shortSide;
+          bestLong = longSide;
+          best = {
+            x: rect.x, y: rect.y, w: c.w, h: c.h, rot: c.rot,
+            label: piece.label, colorIdx: piece.colorIdx,
+            origW: piece.w, origH: piece.h
+          };
+        }
+      }
+    }
+  }
+
+  return best;
+}
+
+// Split free rectangles after placement (Maximal Rectangles approach)
+function splitFreeRects(sheet, placed, saw) {
+  // Occupied rectangle = piece + saw kerf on right & bottom
+  const ox = placed.x;
+  const oy = placed.y;
+  const ow = placed.w + saw;
+  const oh = placed.h + saw;
+
+  const newFree = [];
+
+  for (const r of sheet.freeRects) {
+    // No overlap → keep unchanged
+    if (ox >= r.x + r.w || ox + ow <= r.x || oy >= r.y + r.h || oy + oh <= r.y) {
+      newFree.push(r);
+      continue;
+    }
+
+    // Left part
+    if (ox > r.x) {
+      const w = ox - r.x;
+      if (w > 0) newFree.push({ x: r.x, y: r.y, w: w, h: r.h });
+    }
+    // Right part
+    if (ox + ow < r.x + r.w) {
+      const x2 = ox + ow;
+      const w = r.x + r.w - x2;
+      if (w > 0) newFree.push({ x: x2, y: r.y, w: w, h: r.h });
+    }
+    // Top part
+    if (oy > r.y) {
+      const h = oy - r.y;
+      if (h > 0) newFree.push({ x: r.x, y: r.y, w: r.w, h: h });
+    }
+    // Bottom part
+    if (oy + oh < r.y + r.h) {
+      const y2 = oy + oh;
+      const h = r.y + r.h - y2;
+      if (h > 0) newFree.push({ x: r.x, y: y2, w: r.w, h: h });
+    }
+  }
+
+  // Remove fully contained rectangles to keep list clean
+  sheet.freeRects = pruneContained(newFree);
+}
+
+function pruneContained(rects) {
+  const n = rects.length;
+  const keep = new Uint8Array(n).fill(1);
+  for (let i = 0; i < n; i++) {
+    if (!keep[i]) continue;
+    for (let j = 0; j < n; j++) {
+      if (i === j || !keep[j]) continue;
+      // Is rects[i] fully contained within rects[j]?
+      if (rects[i].x >= rects[j].x && rects[i].y >= rects[j].y &&
+          rects[i].x + rects[i].w <= rects[j].x + rects[j].w &&
+          rects[i].y + rects[i].h <= rects[j].y + rects[j].h) {
+        keep[i] = 0;
+        break;
+      }
+    }
+  }
+  return rects.filter((_, i) => keep[i]);
+}
+
+// Count unique cut lines on a sheet
+function countSheetCuts(sheet, edge) {
+  const cuts = new Set();
+  sheet.placed.forEach(p => {
+    if (p.x > edge) cuts.add('v' + p.x.toFixed(1));
+    if (p.x + p.w < sheet.origW - edge) cuts.add('v' + (p.x + p.w).toFixed(1));
+    if (p.y > edge) cuts.add('h' + p.y.toFixed(1));
+    if (p.y + p.h < sheet.origH - edge) cuts.add('h' + (p.y + p.h).toFixed(1));
+  });
+  return cuts.size;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// RENDER RESULT
+// ═══════════════════════════════════════════════════════════════════════════════
+function renderResult(result) {
+  const { sheets, unfit, totalUsed, totalArea, saw, edge } = result;
+  const area = document.getElementById('canvasArea');
+  document.getElementById('emptyState').style.display = 'none';
+  area.querySelectorAll('.sheet-wrapper, .unfit-list').forEach(el => el.remove());
+
+  const areaWidth = area.clientWidth || 700;
+  const maxW = Math.min(areaWidth - 40, 960);
+  const maxH = 520;
+  let totalPieces = 0, totalCuts = 0;
+
+  sheets.forEach((sheet, si) => {
+    const scale = Math.min(maxW / sheet.origW, maxH / sheet.origH, 0.85);
+    const dW = Math.round(sheet.origW * scale);
+    const dH = Math.round(sheet.origH * scale);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'sheet-wrapper';
+
+    // Header
+    const usedA = sheet.placed.reduce((s, p) => s + p.w * p.h, 0);
+    const eff = (usedA / (sheet.origW * sheet.origH) * 100).toFixed(1);
+    const hdr = document.createElement('div');
+    hdr.className = 'sheet-header';
+    hdr.innerHTML =
+      '<span class="sheet-number">#' + (si + 1) + '</span> ' +
+      '<span>' + escHtml(sheet.label) + '</span> ' +
+      '<span style="color:var(--text3)">' + sheet.origW + '×' + sheet.origH + ' мм</span>' +
+      '<span style="color:var(--accent3);margin-left:auto">КПД: ' + eff + '%</span> ' +
+      '<span style="color:var(--text3)">' + sheet.placed.length + ' дет.</span>';
+
+    // Canvas
+    const canvas = document.createElement('div');
+    canvas.className = 'sheet-canvas';
+    canvas.style.width = dW + 'px';
+    canvas.style.height = dH + 'px';
+
+    // Edge indicator
+    if (edge > 0) {
+      const edgeEl = document.createElement('div');
+      edgeEl.style.cssText = 'position:absolute;top:' + (edge * scale) + 'px;left:' + (edge * scale) +
+        'px;right:' + (edge * scale) + 'px;bottom:' + (edge * scale) +
+        'px;border:1px dashed rgba(240,192,64,0.3);pointer-events:none;border-radius:2px;';
+      canvas.appendChild(edgeEl);
+    }
+
+    // Pieces
+    sheet.placed.forEach(p => {
+      const px = Math.round(p.x * scale);
+      const py = Math.round(p.y * scale);
+      const pw = Math.max(1, Math.round(p.w * scale));
+      const ph = Math.max(1, Math.round(p.h * scale));
+      const color = colorForIdx(p.colorIdx);
+
+      const el = document.createElement('div');
+      el.className = 'cut-piece';
+      el.style.cssText = 'left:' + px + 'px;top:' + py + 'px;width:' + pw + 'px;height:' + ph +
+        'px;background:' + color + '22;border:1.5px solid ' + color + ';';
+
+      const lbl = document.createElement('div');
+      lbl.className = 'piece-label';
+      lbl.style.color = color;
+      if (pw > 45 && ph > 28) {
+        lbl.innerHTML = escHtml(p.label) + '<br><span style="opacity:.6;font-size:9px">' +
+          p.origW + '×' + p.origH + (p.rot ? ' ↻' : '') + '</span>';
+      } else if (pw > 24 && ph > 14) {
+        lbl.textContent = p.label;
+      }
+      el.appendChild(lbl);
+
+      el.addEventListener('mouseenter', e => showTip(e, p, color));
+      el.addEventListener('mouseleave', hideTip);
+      el.addEventListener('mousemove', moveTip);
+
+      canvas.appendChild(el);
+    });
+
+    wrapper.appendChild(hdr);
+    wrapper.appendChild(canvas);
+    area.appendChild(wrapper);
+
+    totalPieces += sheet.placed.length;
+    totalCuts += countSheetCuts(sheet, edge);
+  });
+
+  // Unfit pieces
+  if (unfit.length) {
+    const uf = document.createElement('div');
+    uf.className = 'unfit-list';
+    uf.innerHTML = '<h4>⚠ Не поместились (' + unfit.length + ' шт.)</h4>' +
+      unfit.map(p => '<span class="unfit-item">' + escHtml(p.label) + ' ' + p.w + '×' + p.h + '</span>').join('');
+    area.appendChild(uf);
+  }
+
+  // Stats bar
+  const statsBar = document.getElementById('statsBar');
+  statsBar.style.display = 'flex';
+  document.getElementById('statSheets').textContent = sheets.length;
+  document.getElementById('statPieces').textContent = totalPieces;
+  document.getElementById('statUsed').textContent = (totalUsed / (totalArea || 1) * 100).toFixed(1) + '%';
+  document.getElementById('statWaste').textContent = ((totalArea - totalUsed) / 1e6).toFixed(3) + ' м²';
+  document.getElementById('statCuts').textContent = totalCuts;
+
+  if (unfit.length) {
+    document.getElementById('statFitWrap').style.display = '';
+    document.getElementById('statNoFit').textContent = unfit.length + ' дет.';
+  } else {
+    document.getElementById('statFitWrap').style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TOOLTIP
+// ═══════════════════════════════════════════════════════════════════════════════
+const tip = document.getElementById('tooltip');
+function showTip(e, p, color) {
+  tip.style.display = 'block';
+  tip.innerHTML = '<b style="color:' + color + '">' + escHtml(p.label) + '</b><br>' +
+    p.origW + ' × ' + p.origH + ' мм' +
+    (p.rot ? '  <span style="color:var(--accent2)">↻ повёрнуто</span>' : '') +
+    '<br>Площадь: ' + (p.w * p.h / 1e4).toFixed(2) + ' дм²' +
+    '<br>Позиция: (' + p.x + ', ' + p.y + ')';
+  moveTip(e);
+}
+function moveTip(e) {
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top = (e.clientY + 14) + 'px';
+}
+function hideTip() { tip.style.display = 'none'; }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════════════════════════════════════════════
+function resetAll() {
+  if (!confirm('Сбросить все данные?')) return;
+  panels = [];
+  stocks = [];
+  panelIdCounter = 1;
+  stockIdCounter = 1;
+  lastResult = null;
+  renderPanels();
+  renderStocks();
+  document.getElementById('canvasArea').querySelectorAll('.sheet-wrapper, .unfit-list').forEach(e => e.remove());
+  document.getElementById('emptyState').style.display = '';
+  document.getElementById('statsBar').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SVG EXPORT
+// ═══════════════════════════════════════════════════════════════════════════════
+function exportSVG() {
+  if (!lastResult || !lastResult.sheets.length) {
+    return alert('Сначала выполните расчёт');
+  }
+
+  const { sheets, edge } = lastResult;
+  const margin = 30;
+  const sheetGap = 40;
+  const headerH = 22;
+
+  const maxW = Math.max(...sheets.map(s => s.origW));
+  let totalH = margin;
+  sheets.forEach(s => { totalH += headerH + s.origH + sheetGap; });
+  totalH += margin;
+
+  let svg = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  svg += '<svg xmlns="http://www.w3.org/2000/svg" width="' + (maxW + margin * 2) +
+    '" height="' + totalH + '" viewBox="0 0 ' + (maxW + margin * 2) + ' ' + totalH + '">\n';
+  svg += '<style>text{font-family:\'Courier New\',monospace}</style>\n';
+  svg += '<rect width="100%" height="100%" fill="#ffffff"/>\n';
+
+  let yOff = margin;
+
+  sheets.forEach((sheet, si) => {
+    const usedA = sheet.placed.reduce((s, p) => s + p.w * p.h, 0);
+    const eff = (usedA / (sheet.origW * sheet.origH) * 100).toFixed(1);
+
+    // Header text
+    svg += '<text x="' + margin + '" y="' + (yOff + 14) +
+      '" font-size="13" font-weight="bold" fill="#222">Лист #' + (si + 1) +
+      ' — ' + escSvg(sheet.label) + ' (' + sheet.origW + '×' + sheet.origH +
+      ' мм) — КПД: ' + eff + '%</text>\n';
+    yOff += headerH;
+
+    // Sheet outline
+    svg += '<rect x="' + margin + '" y="' + yOff + '" width="' + sheet.origW +
+      '" height="' + sheet.origH + '" fill="#f5f5f5" stroke="#444" stroke-width="1.5"/>\n';
+
+    // Edge
+    if (edge > 0) {
+      svg += '<rect x="' + (margin + edge) + '" y="' + (yOff + edge) +
+        '" width="' + (sheet.origW - edge * 2) + '" height="' + (sheet.origH - edge * 2) +
+        '" fill="none" stroke="#bbb" stroke-dasharray="5 3" stroke-width="0.5"/>\n';
+    }
+
+    // Pieces
+    sheet.placed.forEach(p => {
+      const color = colorForIdx(p.colorIdx);
+      const cx = margin + p.x;
+      const cy = yOff + p.y;
+
+      svg += '<rect x="' + cx + '" y="' + cy + '" width="' + p.w +
+        '" height="' + p.h + '" fill="' + color + '" fill-opacity="0.2" stroke="' +
+        color + '" stroke-width="1.5"/>\n';
+
+      // Labels only if big enough
+      if (p.w > 50 && p.h > 30) {
+        svg += '<text x="' + (cx + p.w / 2) + '" y="' + (cy + p.h / 2 - 5) +
+          '" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">' +
+          escSvg(p.label) + '</text>\n';
+        svg += '<text x="' + (cx + p.w / 2) + '" y="' + (cy + p.h / 2 + 9) +
+          '" text-anchor="middle" font-size="9" fill="#777">' +
+          p.origW + '×' + p.origH + (p.rot ? ' ↻' : '') + '</text>\n';
+      } else if (p.w > 25 && p.h > 16) {
+        svg += '<text x="' + (cx + p.w / 2) + '" y="' + (cy + p.h / 2 + 3) +
+          '" text-anchor="middle" font-size="8" fill="#555">' +
+          escSvg(p.label) + '</text>\n';
+      }
+    });
+
+    // Dimension labels
+    svg += '<text x="' + (margin + sheet.origW / 2) + '" y="' + (yOff + sheet.origH + 15) +
+      '" text-anchor="middle" font-size="10" fill="#999">' + sheet.origW + ' мм</text>\n';
+    svg += '<text x="' + (margin - 8) + '" y="' + (yOff + sheet.origH / 2) +
+      '" text-anchor="middle" font-size="10" fill="#999" transform="rotate(-90 ' +
+      (margin - 8) + ' ' + (yOff + sheet.origH / 2) + ')">' + sheet.origH + ' мм</text>\n';
+
+    yOff += sheet.origH + sheetGap;
+  });
+
+  svg += '</svg>';
+
+  // Download
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cutlist-' + new Date().toISOString().slice(0, 10) + '.svg';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>

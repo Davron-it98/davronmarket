@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Игры</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 10%,rgba(167,139,250,.06) 0%,transparent 45%),
+    radial-gradient(ellipse at 85% 90%,rgba(43,156,255,.06) 0%,transparent 45%),var(--bg);}
+.games-page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:80px 20px 100px;}
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.3);margin-bottom:40px;}
+[data-theme="light"] .breadcrumb{color:rgba(0,0,0,.35);}
+.breadcrumb a{color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;}
+[data-theme="light"] .breadcrumb a{color:rgba(0,0,0,.35);}
+.breadcrumb a:hover{color:#a78bfa;}
+.breadcrumb span{color:rgba(255,255,255,.55);}
+[data-theme="light"] .breadcrumb span{color:rgba(0,0,0,.55);}
+/* HERO */
+.games-hero{text-align:center;padding:20px 0 56px;}
+.games-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;
+  background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.22);
+  font-size:12px;font-weight:700;color:#a78bfa;margin-bottom:18px;}
+.games-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;
+  line-height:1.1;color:#fff;margin-bottom:14px;}
+[data-theme="light"] .games-hero h1{color:#111;}
+.games-hero h1 span{background:linear-gradient(135deg,#a78bfa,#2b9cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.games-hero p{font-size:15px;color:rgba(255,255,255,.42);max-width:520px;margin:0 auto;}
+[data-theme="light"] .games-hero p{color:rgba(0,0,0,.42);}
+/* FILTERS */
+.games-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+.gf-btn{padding:8px 18px;border-radius:30px;border:1px solid var(--brd);background:var(--card);
+  font-family:'Mulish',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.45);
+  cursor:pointer;transition:all .22s;}
+[data-theme="light"] .gf-btn{color:rgba(0,0,0,.45);}
+.gf-btn:hover,.gf-btn.active{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.35);color:#a78bfa;}
+/* GRID */
+.games-section-label{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  color:rgba(255,255,255,.28);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;}
+[data-theme="light"] .games-section-label{color:rgba(0,0,0,.28);}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:48px;}
+.game-card{background:var(--card);border:1px solid var(--brd);border-radius:20px;overflow:hidden;transition:all .25s;display:flex;flex-direction:column;}
+.game-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.game-thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:64px;
+  position:relative;background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(43,156,255,.06));}
+.game-badge{position:absolute;top:10px;right:10px;padding:3px 10px;border-radius:20px;font-size:9px;font-weight:800;}
+.game-badge.new{background:#f59e0b;color:#000;}
+.game-badge.hot{background:#ef4444;color:#fff;}
+.game-badge.free{background:rgba(74,222,128,.2);color:#4ade80;border:1px solid rgba(74,222,128,.3);}
+.game-info{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.game-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;color:#fff;}
+[data-theme="light"] .game-name{color:#111;}
+.game-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.game-tag{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;
+  background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.15);color:rgba(167,139,250,.7);}
+.game-desc{font-size:11px;color:rgba(255,255,255,.35);line-height:1.65;flex:1;}
+[data-theme="light"] .game-desc{color:rgba(0,0,0,.35);}
+.game-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px;}
+.game-size{font-size:10px;color:rgba(255,255,255,.22);}
+[data-theme="light"] .game-size{color:rgba(0,0,0,.22);}
+.game-price{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:900;color:#a78bfa;}
+.game-price.free-price{color:#4ade80;}
+.game-btn{padding:9px 14px;border:none;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:9px;
+  font-weight:800;cursor:pointer;transition:all .22s;width:100%;margin-top:8px;}
+.game-btn.btn-buy{background:linear-gradient(135deg,#a78bfa,#2b9cff);color:#fff;}
+.game-btn.btn-free{background:linear-gradient(135deg,#4ade80,#22c55e);color:#000;}
+.game-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
+/* COMING SOON */
+.coming-soon{background:var(--card);border:2px dashed var(--brd);border-radius:24px;
+  padding:56px 24px;text-align:center;margin-top:8px;}
+.cs-ico{font-size:60px;margin-bottom:16px;opacity:.35;}
+.cs-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:800;
+  color:rgba(255,255,255,.35);margin-bottom:8px;}
+[data-theme="light"] .cs-title{color:rgba(0,0,0,.35);}
+.cs-desc{font-size:13px;color:rgba(255,255,255,.22);max-width:380px;margin:0 auto 24px;line-height:1.7;}
+[data-theme="light"] .cs-desc{color:rgba(0,0,0,.22);}
+.btn-outline{padding:12px 28px;border-radius:12px;border:1px solid rgba(167,139,250,.3);
+  background:rgba(167,139,250,.07);color:#a78bfa;font-family:'Unbounded',sans-serif;
+  font-size:10px;font-weight:800;cursor:pointer;transition:all .22s;}
+.btn-outline:hover{background:rgba(167,139,250,.14);transform:translateY(-2px);}
+@media(max-width:700px){.games-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="games-page">
+
+  <div class="breadcrumb">
+    <a href="/file/">📁 Файлы</a>
+    <span>/</span>
+    <span>Игры</span>
+  </div>
+
+  <div class="games-hero">
+    <div class="games-badge">🎮 Скачиваемые игры</div>
+    <h1>Каталог <span>игр</span></h1>
+    <p>Скачивай игры для ПК и мобильных устройств. Лицензионные релизы и эксклюзивы от DavronMarket.</p>
+  </div>
+
+  <div class="games-filters">
+    <button class="gf-btn active" onclick="filterGames('all',this)">Все</button>
+    <button class="gf-btn" onclick="filterGames('pc',this)">ПК</button>
+    <button class="gf-btn" onclick="filterGames('mobile',this)">Мобильные</button>
+    <button class="gf-btn" onclick="filterGames('free',this)">Бесплатные</button>
+  </div>
+
+  <p class="games-section-label">Доступные игры</p>
+  <div class="games-grid" id="gamesGrid">
+
+    <div class="game-card" data-cat="pc">
+      <div class="game-thumb">
+        🕹️
+        <span class="game-badge new">NEW</span>
+      </div>
+      <div class="game-info">
+        <div class="game-name">DavronRacer</div>
+        <div class="game-tags"><span class="game-tag">Гонки</span><span class="game-tag">ПК</span></div>
+        <div class="game-desc">Аркадные гонки от первого лица с реалистичной физикой. Windows 10+, 4 ГБ RAM.</div>
+        <div class="game-footer">
+          <span class="game-size">📦 2.4 ГБ</span>
+          <span class="game-price">1 200 ₽</span>
+        </div>
+        <button class="game-btn btn-buy">Купить и скачать</button>
+      </div>
+    </div>
+
+    <div class="game-card" data-cat="mobile">
+      <div class="game-thumb">
+        ⚔️
+        <span class="game-badge hot">HOT</span>
+      </div>
+      <div class="game-info">
+        <div class="game-name">DavronQuest</div>
+        <div class="game-tags"><span class="game-tag">RPG</span><span class="game-tag">Мобильные</span></div>
+        <div class="game-desc">Ролевая игра с открытым миром для Android и iOS. Более 50 часов геймплея.</div>
+        <div class="game-footer">
+          <span class="game-size">📦 1.1 ГБ</span>
+          <span class="game-price">800 ₽</span>
+        </div>
+        <button class="game-btn btn-buy">Купить и скачать</button>
+      </div>
+    </div>
+
+    <div class="game-card" data-cat="pc mobile free">
+      <div class="game-thumb">
+        🧩
+        <span class="game-badge free">FREE</span>
+      </div>
+      <div class="game-info">
+        <div class="game-name">DavronPuzzle</div>
+        <div class="game-tags"><span class="game-tag">Головоломка</span><span class="game-tag">ПК</span></div>
+        <div class="game-desc">Бесплатная логическая игра для тренировки мышления. Подходит для всех возрастов.</div>
+        <div class="game-footer">
+          <span class="game-size">📦 380 МБ</span>
+          <span class="game-price free-price">Бесплатно</span>
+        </div>
+        <button class="game-btn btn-free">Скачать бесплатно</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="coming-soon">
+    <div class="cs-ico">🚀</div>
+    <div class="cs-title">Новые игры скоро</div>
+    <div class="cs-desc">Мы работаем над расширением каталога. Следите за обновлениями на платформе DavronMarket.</div>
+    <button class="btn-outline" onclick="location.href='/news/'">Смотреть новости</button>
+  </div>
+
+</div>
+<script src="../../assets/js/engine.js"></script>
+<script>
+function filterGames(cat, btn) {
+  document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.game-card').forEach(card => {
+    if (cat === 'all' || (card.dataset.cat || '').includes(cat)) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

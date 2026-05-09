@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Таргетированная реклама — DavronMarket | Профессиональный таргетолог</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#f5c842;--gs:#ffe066;--gd:#c9a030;
+  --orange:#ff6b2b;--os:#ff8a5c;
+  --blue:#2b9cff;--bs:#7dd3fc;
+  --green:#4ade80;--purple:#a78bfa;
+  --red:#ef4444;
+  --w:#fff;
+  --w90:rgba(255,255,255,.9);
+  --w70:rgba(255,255,255,.7);
+  --w50:rgba(255,255,255,.5);
+  --w30:rgba(255,255,255,.28);
+  --w10:rgba(255,255,255,.10);
+  --w06:rgba(255,255,255,.06);
+  --bdo:rgba(245,200,66,.18);
+  --bdo2:rgba(245,200,66,.08);
+  --tr:all .28s cubic-bezier(.4,0,.2,1);
+  --shadow:0 24px 64px -16px rgba(0,0,0,.85);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Mulish',sans-serif;color:var(--w);overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 10% 5%,rgba(245,200,66,.07) 0%,transparent 42%),
+    radial-gradient(ellipse at 90% 95%,rgba(255,107,43,.08) 0%,transparent 42%),
+    radial-gradient(ellipse at 50% 50%,rgba(43,156,255,.04) 0%,transparent 58%),
+    repeating-linear-gradient(60deg,rgba(255,255,255,.003) 0,rgba(255,255,255,.003) 1px,transparent 1px,transparent 20px),
+    #080808;
+  background-attachment:fixed;min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(2px 2px at 8% 15%,rgba(245,200,66,.55),transparent),
+    radial-gradient(2px 2px at 25% 70%,rgba(255,107,43,.45),transparent),
+    radial-gradient(2px 2px at 52% 18%,rgba(245,200,66,.40),transparent),
+    radial-gradient(2px 2px at 76% 80%,rgba(255,107,43,.45),transparent),
+    radial-gradient(2px 2px at 91% 38%,rgba(245,200,66,.50),transparent),
+    radial-gradient(2px 2px at 14% 88%,rgba(43,156,255,.35),transparent);
+  background-size:480px 480px;opacity:.25;animation:dust 24s ease-in-out infinite alternate;
+}
+@keyframes dust{0%{transform:translateY(0)}100%{transform:translateY(-16px)}}
+a{color:var(--gold);text-decoration:none;transition:var(--tr);}
+
+/* ════ NAV ════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:9000;height:62px;
+  display:flex;align-items:center;padding:0 28px;
+  background:rgba(8,8,8,.9);border-bottom:1px solid rgba(245,200,66,.12);
+  backdrop-filter:blur(18px);
+}
+.nav-inner{max-width:1240px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.nav-logo{
+  font-family:'Unbounded',sans-serif;font-size:15px;font-weight:900;letter-spacing:-.3px;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:flex;flex-direction:column;line-height:1;text-decoration:none;
+}
+.nav-logo-sub{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,200,66,.45);margin-top:3px;}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-link{padding:7px 13px;border-radius:9px;font-size:12px;font-weight:700;color:var(--w50);text-decoration:none;transition:var(--tr);}
+.nav-link:hover{color:var(--w);background:var(--w06);}
+.nav-link.act{color:var(--gold);background:var(--bdo2);}
+.nav-cta{
+  padding:8px 20px;border-radius:10px;
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;
+  transition:var(--tr);box-shadow:0 4px 16px -4px rgba(245,200,66,.4);border:none;cursor:pointer;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(245,200,66,.55);}
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer;}
+.nav-burger span{display:block;width:22px;height:1.5px;background:var(--w);border-radius:2px;}
+.mob-nav{display:none;position:fixed;top:62px;left:0;right:0;
+  background:rgba(6,6,6,.97);border-bottom:1px solid rgba(245,200,66,.12);
+  padding:14px 20px;flex-direction:column;gap:4px;z-index:8999;backdrop-filter:blur(18px);}
+.mob-nav.open{display:flex;}
+.mob-nav .nav-link{padding:11px 14px;font-size:14px;}
+
+/* ════ LAYOUT ════ */
+.page{position:relative;z-index:1;}
+.wrap{max-width:1240px;width:100%;margin:0 auto;padding:0 24px;}
+section{scroll-margin-top:62px;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,.12),rgba(43,156,255,.08),transparent);max-width:1240px;margin:0 auto;}
+
+/* CHIP */
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 20px;border-radius:60px;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.25);
+  font-size:11px;font-weight:700;color:var(--gs);letter-spacing:.06em;margin-bottom:18px;
+  animation:chipGlow 3s ease-in-out infinite alternate;
+}
+@keyframes chipGlow{to{box-shadow:0 0 22px rgba(245,200,66,.18)}}
+.chip.blue{background:rgba(43,156,255,.08);border-color:rgba(43,156,255,.28);color:var(--bs);}
+.chip.orange{background:rgba(255,107,43,.08);border-color:rgba(255,107,43,.28);color:var(--os);}
+.chip.green{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.28);color:var(--green);}
+
+/* TITLES */
+.sec-title{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(26px,4vw,54px);font-weight:900;line-height:1.05;letter-spacing:-1.5px;
+  color:var(--w);margin-bottom:14px;
+}
+.sec-title .tg{background:linear-gradient(135deg,#f5c842,#ff8a5c,#f5c842);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200%;animation:tgA 6s ease infinite;}
+.sec-title .tb{background:linear-gradient(135deg,#2b9cff,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sec-title .to{background:linear-gradient(135deg,#ff6b2b,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;}
+@keyframes tgA{0%,100%{background-position:0%}50%{background-position:100%}}
+.sec-title::after{content:"";display:block;width:72px;height:3px;margin:16px 0 0;border-radius:4px;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff);box-shadow:0 0 14px rgba(245,200,66,.35);}
+.sec-title.center::after{margin:16px auto 0;}
+.sec-sub{font-size:15px;color:var(--w50);line-height:1.8;max-width:560px;}
+.sec-sub.center{text-align:center;margin:0 auto;}
+.sec-head{text-align:center;margin-bottom:52px;}
+
+/* BUTTONS */
+.btn-gold{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 30px;border-radius:12px;border:none;
+  font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;
+  transition:var(--tr);box-shadow:0 6px 22px rgba(245,200,66,.35);cursor:pointer;text-decoration:none;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(245,200,66,.52);color:#000;}
+.btn-outline{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 26px;border-radius:12px;background:var(--w06);border:1px solid var(--w10);
+  font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  color:var(--w70);transition:var(--tr);cursor:pointer;text-decoration:none;
+}
+.btn-outline:hover{background:rgba(43,156,255,.08);border-color:rgba(43,156,255,.35);color:var(--w);transform:translateY(-2px);}
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;min-height:100vh;
+  display:flex;align-items:center;padding-top:62px;
+}
+.hero-conic{
+  position:absolute;top:-50%;left:-20%;width:140%;height:140%;
+  background:conic-gradient(from 90deg at 50% 50%,transparent 0deg,rgba(255,107,43,.11) 100deg,rgba(43,156,255,.11) 230deg,transparent 360deg);
+  filter:blur(100px);animation:conicSpin 30s linear infinite;pointer-events:none;z-index:0;
+}
+@keyframes conicSpin{to{transform:rotate(360deg);}}
+.hero-stars{position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%,rgba(255,255,255,.45),transparent),
+    radial-gradient(1.5px 1.5px at 28% 72%,rgba(255,255,255,.35),transparent),
+    radial-gradient(2px 2px at 52% 9%,rgba(255,255,255,.4),transparent),
+    radial-gradient(1.5px 1.5px at 68% 85%,rgba(255,255,255,.3),transparent),
+    radial-gradient(2px 2px at 83% 32%,rgba(255,255,255,.35),transparent);}
+.hero-inner{
+  position:relative;z-index:2;max-width:1240px;width:100%;margin:0 auto;padding:0 28px;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;
+  min-height:calc(100vh - 62px);
+}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);
+  box-shadow:0 0 10px var(--orange);animation:blink 2.2s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero-badge-text{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w30);}
+.hero-h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(34px,5vw,66px);font-weight:900;line-height:.95;letter-spacing:-2.5px;
+  color:var(--w);margin-bottom:20px;
+}
+.hero-h1 .l1{display:block;}
+.hero-h1 .l2{
+  display:block;
+  background:linear-gradient(120deg,#f5c842 0%,#ff8a5c 35%,#2b9cff 75%,#7dd3fc 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  background-size:200%;animation:gradH 7s ease infinite;
+}
+@keyframes gradH{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-h1 .l3{display:block;font-size:.46em;color:var(--w30);letter-spacing:-1px;margin-top:6px;}
+.hero-dline{height:2px;width:80px;border-radius:2px;background:linear-gradient(90deg,#ff6b2b,#2b9cff);box-shadow:0 0 14px rgba(255,107,43,.4);margin-bottom:22px;}
+.hero-sub{font-size:15px;line-height:1.82;color:var(--w50);max-width:440px;margin-bottom:36px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px;}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding-top:24px;border-top:1px solid var(--w10);position:relative;
+}
+.hero-stats::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(245,200,66,.25),rgba(43,156,255,.15),transparent);}
+.hstat{display:flex;flex-direction:column;gap:4px;padding:14px 0;border-right:1px solid var(--w10);padding-right:14px;}
+.hstat:last-child{border-right:none;}
+.hstat b{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hstat span{font-size:10px;font-weight:700;color:var(--w30);text-transform:uppercase;letter-spacing:.07em;}
+
+/* Hero right — visual */
+.hero-right{display:flex;align-items:center;justify-content:center;}
+.hero-visual{
+  position:relative;width:min(460px,44vw);height:min(460px,44vw);
+  display:flex;align-items:center;justify-content:center;
+}
+.hv-ring{position:absolute;border-radius:50%;border:1px solid var(--rc,rgba(245,200,66,.2));animation:hvRot var(--rs,16s) linear infinite var(--rd,normal);}
+@keyframes hvRot{to{transform:rotate(360deg);}}
+.hv-ring:nth-child(1){inset:0;--rc:rgba(245,200,66,.15);--rs:22s;}
+.hv-ring:nth-child(2){inset:10%;--rc:rgba(255,107,43,.18);--rs:15s;--rd:reverse;}
+.hv-ring:nth-child(3){inset:21%;--rc:rgba(43,156,255,.2);--rs:9s;}
+.hv-ring:nth-child(4){inset:32%;--rc:rgba(167,139,250,.25);--rs:6s;--rd:reverse;}
+.hv-ring::before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;
+  background:var(--dc,var(--gold));box-shadow:0 0 12px var(--dc,var(--gold));top:50%;right:-4px;transform:translateY(-50%);}
+.hv-ring:nth-child(1)::before{--dc:#f5c842;}
+.hv-ring:nth-child(2)::before{--dc:#ff6b2b;}
+.hv-ring:nth-child(3)::before{--dc:#2b9cff;}
+.hv-ring:nth-child(4)::before{--dc:#a78bfa;}
+.hv-sweep{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(245,200,66,.08) 50deg,transparent 50deg);
+  animation:hvRot 5s linear infinite;}
+.hv-hex{position:absolute;inset:0;border-radius:50%;overflow:hidden;opacity:.12;
+  background:
+    repeating-linear-gradient(0deg,rgba(245,200,66,.5) 0,rgba(245,200,66,.5) 1px,transparent 1px,transparent 28px),
+    repeating-linear-gradient(60deg,rgba(245,200,66,.5) 0,rgba(245,200,66,.5) 1px,transparent 1px,transparent 28px),
+    repeating-linear-gradient(120deg,rgba(245,200,66,.5) 0,rgba(245,200,66,.5) 1px,transparent 1px,transparent 28px);
+  animation:hvRot 12s linear infinite;}
+.hv-glow{position:absolute;inset:22%;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.18),rgba(255,107,43,.12),transparent 70%);
+  filter:blur(18px);animation:glPulse 3.5s ease-in-out infinite;}
+@keyframes glPulse{0%,100%{transform:scale(1);opacity:.7;}50%{transform:scale(1.3);opacity:1;}}
+.hv-core{
+  position:relative;z-index:5;width:clamp(96px,20%,124px);height:clamp(96px,20%,124px);border-radius:50%;
+  background:#0d0d0f;border:1px solid rgba(245,200,66,.28);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;
+  box-shadow:0 0 40px rgba(245,200,66,.12),0 0 80px rgba(255,107,43,.08);
+  animation:corePulse 4s ease-in-out infinite;
+}
+@keyframes corePulse{0%,100%{box-shadow:0 0 40px rgba(245,200,66,.12);}50%{box-shadow:0 0 60px rgba(245,200,66,.28),0 0 100px rgba(255,107,43,.15);}}
+.hv-core-ico{font-size:34px;}
+.hv-core-txt{font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;color:var(--gs);letter-spacing:.1em;}
+/* Floating metric cards */
+.hv-met{
+  position:absolute;z-index:7;padding:10px 14px;border-radius:14px;
+  background:rgba(10,10,14,.92);border:1px solid var(--mc,rgba(245,200,66,.2));
+  backdrop-filter:blur(12px);animation:metF var(--mf,5s) ease-in-out infinite var(--md,0s);
+}
+@keyframes metF{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.hv-met-val{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:900;
+  background:var(--mg,linear-gradient(135deg,#f5c842,#ff8a5c));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.hv-met-lbl{font-size:9px;font-weight:700;color:var(--w30);letter-spacing:.06em;text-transform:uppercase;margin-top:3px;}
+.hv-met-trend{font-size:10px;font-weight:800;color:var(--green);margin-top:3px;}
+
+/* ════════════════════════════════
+   PRICING SECTION — MAIN
+════════════════════════════════ */
+.sec-pricing{padding:90px 0;position:relative;z-index:1;}
+.sec-pricing::before{
+  content:"";position:absolute;top:-20%;left:-20%;width:140%;height:140%;
+  background:conic-gradient(from 90deg at 50% 50%,rgba(255,107,43,0) 0deg,rgba(255,107,43,.06) 120deg,rgba(43,156,255,.06) 240deg,rgba(255,107,43,0) 360deg);
+  filter:blur(90px);animation:conicSpin 28s linear infinite;pointer-events:none;z-index:-1;
+}
+
+/* ── PRICING INTRO BAR ── */
+.pricing-intro{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);border-radius:20px;
+  padding:24px 28px;margin-bottom:32px;display:flex;align-items:center;gap:16px;
+  position:relative;overflow:hidden;
+}
+.pricing-intro::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff);}
+.pricing-intro-ico{font-size:32px;flex-shrink:0;}
+.pricing-intro-text h3{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--gs);margin-bottom:4px;}
+.pricing-intro-text p{font-size:13px;color:var(--w50);line-height:1.6;}
+
+/* ── BUDGET SLIDER / CALCULATOR ── */
+.budget-calc{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);border-radius:22px;
+  padding:36px 32px;margin-bottom:36px;position:relative;overflow:hidden;
+}
+.budget-calc::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff,#f5c842);background-size:200%;animation:gradSl 5s linear infinite;}
+@keyframes gradSl{to{background-position:200%;}}
+.budget-calc::after{content:"";position:absolute;width:300px;height:300px;top:-80px;right:-60px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.06),transparent 65%);pointer-events:none;}
+.bc-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.bc-sub{font-size:13px;color:var(--w50);margin-bottom:28px;}
+.bc-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.bc-left{position:relative;z-index:1;}
+.bc-label{display:block;font-size:11px;font-weight:700;color:var(--w50);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px;}
+.bc-slider{
+  width:100%;height:8px;border-radius:8px;
+  background:var(--w10);accent-color:var(--gold);
+  -webkit-appearance:none;outline:none;cursor:pointer;
+  transition:var(--tr);
+}
+.bc-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);border:2px solid #fff;
+  cursor:pointer;box-shadow:0 4px 12px rgba(245,200,66,.4);
+}
+.bc-val-wrap{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.bc-budget-val{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:900;color:var(--gs);}
+.bc-budget-note{font-size:11px;color:var(--w30);}
+.bc-right{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1;}
+.bc-result{
+  padding:20px 22px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(245,200,66,.08),rgba(255,107,43,.04));
+  border:1px solid rgba(245,200,66,.2);
+}
+.bc-result-label{font-size:10px;font-weight:700;color:var(--w30);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px;}
+.bc-result-price{
+  font-family:'Unbounded',sans-serif;font-size:36px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.bc-result-period{font-size:11px;color:var(--w30);margin-top:4px;}
+.bc-result-roi{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(245,200,66,.12);}
+.bc-roi-item{display:flex;flex-direction:column;gap:2px;}
+.bc-roi-val{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:900;color:var(--green);}
+.bc-roi-lbl{font-size:9px;color:var(--w30);font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+
+/* ── MAIN PRICING TABLE ── */
+.pricing-table-wrap{overflow-x:auto;}
+.pricing-table{width:100%;border-collapse:collapse;border-radius:20px;overflow:hidden;}
+.pricing-table thead tr{background:rgba(245,200,66,.07);border-bottom:2px solid rgba(245,200,66,.2);}
+.pricing-table th{
+  padding:18px 16px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
+  color:var(--gs);letter-spacing:.06em;text-align:left;white-space:nowrap;
+}
+.pricing-table th.center{text-align:center;}
+.pricing-table td{padding:0;border-bottom:1px solid var(--w10);}
+.pricing-table tr:last-child td{border-bottom:none;}
+
+/* PRICE ROW CARD */
+.pr-row{
+  display:flex;align-items:center;gap:0;
+  padding:0;width:100%;
+  transition:var(--tr);cursor:pointer;
+}
+.pricing-table tr:hover .pr-row{background:rgba(245,200,66,.03);}
+.pricing-table tr.popular-row td{background:rgba(245,200,66,.04);}
+.pricing-table tr.popular-row:hover td{background:rgba(245,200,66,.08);}
+.pt-cell{
+  padding:18px 16px;white-space:nowrap;vertical-align:middle;
+}
+
+/* Tier badge */
+.tier-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:20px;
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
+  background:var(--tb-bg,rgba(245,200,66,.08));
+  border:1px solid var(--tb-border,rgba(245,200,66,.2));
+  color:var(--tb-color,var(--gs));
+  white-space:nowrap;
+}
+.tier-badge.t1{--tb-bg:rgba(74,222,128,.08);--tb-border:rgba(74,222,128,.25);--tb-color:#86efac;}
+.tier-badge.t2{--tb-bg:rgba(43,156,255,.08);--tb-border:rgba(43,156,255,.25);--tb-color:var(--bs);}
+.tier-badge.t3{--tb-bg:rgba(245,200,66,.08);--tb-border:rgba(245,200,66,.25);--tb-color:var(--gs);}
+.tier-badge.t4{--tb-bg:rgba(255,107,43,.08);--tb-border:rgba(255,107,43,.25);--tb-color:var(--os);}
+.tier-badge.t5{--tb-bg:rgba(167,139,250,.08);--tb-border:rgba(167,139,250,.25);--tb-color:var(--purple);}
+.tier-badge.t6{--tb-bg:rgba(239,68,68,.08);--tb-border:rgba(239,68,68,.3);--tb-color:#fca5a5;}
+
+/* Price cell */
+.price-main{
+  font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.price-cur{font-size:12px;font-weight:700;color:var(--w50);margin-left:2px;}
+
+/* Budget range */
+.budget-range{font-size:12px;color:var(--w70);font-weight:700;}
+.budget-range .br-from{color:var(--w30);font-size:10px;font-weight:600;}
+
+/* ROI indicator bar */
+.roi-bar-wrap{display:flex;align-items:center;gap:8px;}
+.roi-bar{height:6px;border-radius:6px;background:rgba(255,255,255,.08);flex:1;min-width:60px;overflow:hidden;}
+.roi-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--fill-c1,#f5c842),var(--fill-c2,#ff8a5c));transition:width .6s ease;}
+.roi-text{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;}
+
+/* Popular label */
+.popular-label{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;letter-spacing:.06em;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;
+  margin-left:8px;vertical-align:middle;
+}
+
+/* Select btn */
+.pt-select-btn{
+  padding:8px 16px;border-radius:10px;border:none;
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.18);color:var(--gs);
+  cursor:pointer;transition:var(--tr);white-space:nowrap;
+}
+.pt-select-btn:hover{background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;border-color:transparent;
+  box-shadow:0 4px 14px rgba(245,200,66,.35);}
+.pricing-table tr.popular-row .pt-select-btn{
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;
+  box-shadow:0 4px 14px rgba(245,200,66,.3);
+}
+
+/* ── PLATFORM ICONS ── */
+.platforms{display:flex;gap:4px;flex-wrap:wrap;}
+.plat{
+  padding:2px 8px;border-radius:8px;font-size:9px;font-weight:700;
+  background:var(--w06);border:1px solid var(--w10);color:var(--w50);
+}
+.plat.ig{background:rgba(214,50,90,.08);border-color:rgba(214,50,90,.2);color:#f472b6;}
+.plat.fb{background:rgba(24,119,242,.08);border-color:rgba(24,119,242,.2);color:#60a5fa;}
+.plat.tk{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);color:#fff;}
+.plat.yt{background:rgba(255,0,0,.08);border-color:rgba(255,0,0,.2);color:#fca5a5;}
+.plat.tg{background:rgba(43,156,255,.08);border-color:rgba(43,156,255,.2);color:var(--bs);}
+
+/* ════════════════════════════════
+   WHAT'S INCLUDED
+════════════════════════════════ */
+.sec-includes{padding:90px 0;position:relative;z-index:1;}
+.includes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px;}
+.inc-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:20px;padding:24px 20px;transition:var(--tr);
+  position:relative;overflow:hidden;
+}
+.inc-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--acc,linear-gradient(90deg,#f5c842,#ff8a5c));
+  opacity:0;transform:scaleX(0);transform-origin:left;transition:transform .38s ease,opacity .28s;}
+.inc-card:hover::before{opacity:1;transform:scaleX(1);}
+.inc-card:hover{border-color:var(--bdo);transform:translateY(-4px);box-shadow:var(--shadow);}
+.inc-ico{font-size:34px;margin-bottom:14px;display:block;transition:var(--tr);}
+.inc-card:hover .inc-ico{transform:scale(1.1);}
+.inc-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--w);margin-bottom:8px;transition:color .28s;}
+.inc-card:hover .inc-name{color:var(--gs);}
+.inc-desc{font-size:12px;color:var(--w50);line-height:1.65;}
+
+/* ════════════════════════════════
+   HOW IT WORKS
+════════════════════════════════ */
+.sec-process{padding:90px 0;position:relative;z-index:1;}
+.process-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:52px;align-items:start;}
+.timeline{display:flex;flex-direction:column;}
+.tstep{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--w10);transition:var(--tr);}
+.tstep:last-child{border-bottom:none;}
+.tstep:hover{padding-left:8px;}
+.tstep-n{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:900;
+  color:rgba(245,200,66,.18);flex-shrink:0;width:38px;line-height:1;padding-top:4px;transition:var(--tr);}
+.tstep:hover .tstep-n{color:var(--gs);}
+.tstep h4{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.tstep p{font-size:12.5px;color:var(--w50);line-height:1.65;}
+.info-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);
+  border-radius:22px;overflow:hidden;position:sticky;top:80px;
+}
+.info-card::before{content:"";display:block;height:2px;background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff);}
+.info-head{padding:22px 24px 16px;background:rgba(245,200,66,.04);border-bottom:1px solid rgba(245,200,66,.1);}
+.info-head h3{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--gs);margin-bottom:4px;}
+.info-head p{font-size:11px;color:var(--w50);}
+.info-body{padding:16px 24px;}
+.info-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;
+  border-bottom:1px solid var(--w10);font-size:12.5px;}
+.info-row:last-child{border-bottom:none;}
+.info-row span:first-child{color:var(--w70);}
+.info-val{font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;
+  padding:3px 10px;border-radius:20px;background:var(--bdo2);border:1px solid rgba(245,200,66,.18);color:var(--gs);}
+
+/* ════════════════════════════════
+   PLATFORMS
+════════════════════════════════ */
+.sec-platforms{padding:90px 0;position:relative;z-index:1;}
+.plat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px;}
+.plat-card{
+  background:rgba(10,10,12,.92);border:1px solid var(--w10);
+  border-radius:20px;padding:26px 20px;text-align:center;transition:var(--tr);
+  position:relative;overflow:hidden;
+}
+.plat-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--pa);opacity:.5;}
+.plat-card:hover{transform:translateY(-5px);border-color:var(--bdo);}
+.plat-card-ico{font-size:40px;margin-bottom:12px;display:block;filter:drop-shadow(0 0 10px var(--ps,rgba(245,200,66,.3)));transition:var(--tr);}
+.plat-card:hover .plat-card-ico{transform:scale(1.12);filter:drop-shadow(0 0 18px var(--ps,rgba(245,200,66,.6)));}
+.plat-card-name{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.plat-card-desc{font-size:11px;color:var(--w50);line-height:1.6;}
+.plat-card-stat{
+  margin-top:10px;padding:5px 10px;border-radius:20px;display:inline-block;
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
+  background:var(--bdo2);border:1px solid rgba(245,200,66,.18);color:var(--gs);
+}
+
+/* ════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════ */
+.sec-reviews{padding:90px 0;position:relative;z-index:1;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px;}
+.rev-card{background:rgba(10,10,12,.92);border:1px solid var(--w10);border-radius:20px;padding:26px;transition:var(--tr);}
+.rev-card:hover{border-color:var(--bdo);}
+.rev-stars{font-size:14px;color:var(--gold);letter-spacing:2px;margin-bottom:12px;display:block;}
+.rev-text{font-size:13.5px;color:var(--w70);line-height:1.7;margin-bottom:18px;font-style:italic;position:relative;}
+.rev-text::before{content:'"';font-size:52px;line-height:1;color:rgba(245,200,66,.12);
+  position:absolute;top:-10px;left:-8px;font-family:'Unbounded',sans-serif;}
+.rev-bottom{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--w10);}
+.rev-ava{width:42px;height:42px;border-radius:50%;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.rev-name{font-size:13px;font-weight:700;color:var(--w);}
+.rev-sub{font-size:10px;color:var(--w30);margin-top:2px;}
+.rev-result{
+  margin-left:auto;padding:4px 10px;border-radius:20px;
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
+  background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);color:var(--green);
+  white-space:nowrap;
+}
+
+/* ════════════════════════════════
+   FAQ
+════════════════════════════════ */
+.sec-faq{padding:90px 0;position:relative;z-index:1;}
+.faq-list{display:flex;flex-direction:column;gap:10px;margin-top:48px;}
+.faq-item{background:rgba(10,10,12,.92);border:1px solid var(--w10);border-radius:16px;overflow:hidden;transition:var(--tr);}
+.faq-item:hover,.faq-item.open{border-color:rgba(245,200,66,.2);}
+.faq-q{padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  cursor:pointer;font-size:14px;font-weight:700;color:var(--w);transition:var(--tr);}
+.faq-q:hover{color:var(--gs);}
+.faq-arrow{font-size:16px;color:var(--gold);transition:transform .28s;flex-shrink:0;}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{font-size:13px;color:var(--w50);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;}
+.faq-item.open .faq-a{max-height:300px;padding:0 22px 18px;}
+
+/* ════════════════════════════════
+   CTA + CONTACT
+════════════════════════════════ */
+.sec-cta{padding:0 0 90px;position:relative;z-index:1;}
+.cta-banner{
+  background:rgba(10,10,12,.92);border:1px solid var(--bdo);border-radius:24px;
+  padding:48px 44px;display:flex;align-items:center;gap:36px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.cta-banner::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff,#f5c842);background-size:200%;animation:gradSl 5s linear infinite;}
+.cta-banner::after{content:"";position:absolute;width:400px;height:400px;top:-100px;right:-80px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,200,66,.06),transparent 65%);pointer-events:none;}
+.cta-icon{font-size:60px;flex-shrink:0;filter:drop-shadow(0 0 20px rgba(245,200,66,.4));animation:ctaF 3.5s ease-in-out infinite;}
+@keyframes ctaF{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+.cta-text{flex:1;min-width:260px;}
+.cta-text h2{font-family:'Unbounded',sans-serif;font-size:clamp(18px,2.8vw,28px);font-weight:900;
+  color:var(--gs);margin-bottom:8px;line-height:1.2;letter-spacing:-1px;}
+.cta-text p{font-size:14px;color:var(--w50);line-height:1.75;}
+.cta-btns{display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
+
+.sec-contact{padding:90px 0;position:relative;z-index:1;}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;margin-top:48px;align-items:start;}
+.contact-left{position:sticky;top:80px;}
+.contact-left .sec-sub{margin-bottom:28px;}
+.c-links{display:flex;flex-direction:column;gap:10px;}
+.clink{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
+  background:rgba(10,10,12,.9);border:1px solid var(--w10);text-decoration:none;transition:var(--tr);}
+.clink:hover{background:var(--bdo2);border-color:var(--bdo);}
+.clink-ico{font-size:20px;flex-shrink:0;}
+.clink-lbl{font-size:10px;font-weight:700;color:var(--w30);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;}
+.clink-val{font-size:13px;font-weight:700;color:var(--w90);}
+.cf{background:rgba(10,10,12,.92);border:1px solid var(--bdo);border-radius:22px;padding:34px;position:relative;overflow:hidden;}
+.cf::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;
+  background:linear-gradient(90deg,#f5c842,#ff6b2b,#2b9cff,#f5c842);background-size:200%;animation:gradSl 5s linear infinite;}
+.cf-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.cf-sub{font-size:13px;color:var(--w50);margin-bottom:24px;line-height:1.6;}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.cf-field{margin-bottom:12px;}
+.cf-lbl{display:block;font-size:10px;font-weight:700;color:var(--w50);margin-bottom:5px;letter-spacing:.07em;text-transform:uppercase;}
+.cf-in,.cf-sel,.cf-ta{
+  width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid var(--w10);
+  border-radius:11px;color:var(--w);font-family:'Mulish',sans-serif;font-size:13px;font-weight:600;
+  outline:none;transition:var(--tr);-webkit-appearance:none;
+}
+.cf-in:focus,.cf-sel:focus,.cf-ta:focus{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.04);box-shadow:0 0 0 3px rgba(245,200,66,.07);}
+.cf-in::placeholder,.cf-ta::placeholder{color:var(--w30);}
+.cf-sel option{background:#111;}
+.cf-ta{resize:vertical;min-height:90px;}
+.cf-selected-plan{
+  padding:12px 16px;border-radius:12px;margin-bottom:14px;
+  background:linear-gradient(135deg,rgba(245,200,66,.08),rgba(255,107,43,.04));
+  border:1px solid rgba(245,200,66,.2);
+  font-size:13px;color:var(--gs);font-weight:700;display:none;
+}
+.cf-selected-plan.show{display:block;}
+.cf-submit{
+  width:100%;padding:14px;border:none;border-radius:12px;
+  font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  background:linear-gradient(135deg,#22c55e,#4ade80);color:#000;cursor:pointer;transition:var(--tr);
+  box-shadow:0 8px 24px rgba(34,197,94,.28);display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cf-submit:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(34,197,94,.42);}
+.cf-ok{display:none;text-align:center;padding:20px 0;}
+.cf-ok.on{display:block;animation:ppIn .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes ppIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.cf-ok-ico{font-size:52px;display:block;margin-bottom:12px;}
+.cf-ok h3{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;color:var(--green);margin-bottom:8px;}
+.cf-ok p{font-size:12px;color:var(--w50);line-height:1.7;}
+
+/* FOOTER */
+.footer{border-top:1px solid rgba(245,200,66,.1);padding:52px 0 28px;position:relative;z-index:1;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px;}
+.f-logo{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;margin-bottom:5px;}
+.f-sub{font-size:9px;color:var(--w30);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;display:block;}
+.f-brand p{font-size:12px;color:var(--w50);line-height:1.7;max-width:250px;}
+.f-col h5{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+.f-col a{display:block;font-size:12.5px;color:var(--w50);text-decoration:none;margin-bottom:8px;transition:var(--tr);}
+.f-col a:hover{color:var(--w);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding-top:22px;border-top:1px solid var(--w10);}
+.f-copy{font-size:11px;color:var(--w30);}
+.f-socs{display:flex;gap:10px;}
+.fsoc{width:36px;height:36px;border-radius:10px;background:var(--w06);border:1px solid var(--w10);
+  display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;transition:var(--tr);}
+.fsoc:hover{background:var(--bdo2);border-color:var(--bdo);transform:translateY(-2px);}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:rgba(5,5,5,.97);border:1px solid var(--gold);border-radius:12px;padding:12px 22px;
+  font-size:13px;font-weight:700;color:var(--gs);z-index:9000;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;box-shadow:var(--shadow);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* STAGGER */
+.si{opacity:0;transform:translateY(18px);}
+.si.v{opacity:1 !important;transform:none !important;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .nav-links,.nav-cta{display:none;}.nav-burger{display:flex;}
+  .hero-inner{grid-template-columns:1fr;min-height:auto;}
+  .hero-right{display:none;}
+  .hero-left{padding:60px 0 40px;}
+  .includes-grid{grid-template-columns:1fr 1fr;}
+  .process-grid{grid-template-columns:1fr;}
+  .plat-grid{grid-template-columns:1fr 1fr;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .cta-banner{flex-direction:column;text-align:center;padding:32px 24px;}
+  .cta-btns{flex-direction:row;justify-content:center;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .hstat:nth-child(2){border-right:none;}
+  .bc-row{grid-template-columns:1fr;}
+}
+@media(max-width:560px){
+  .includes-grid{grid-template-columns:1fr;}
+  .plat-grid{grid-template-columns:1fr 1fr;}
+  .cf-row{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .cta-btns{flex-direction:column;}
+  .pricing-table th,.pricing-table td{font-size:11px;}
+  .price-main{font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+<div class="nav-inner">
+  <a href="#" class="nav-logo">
+    DavronMarket
+    <span class="nav-logo-sub">Таргетированная реклама</span>
+  </a>
+  <div class="nav-links">
+    <a href="#pricing"   class="nav-link">Цены</a>
+    <a href="#includes"  class="nav-link">Что входит</a>
+    <a href="#platforms" class="nav-link">Платформы</a>
+    <a href="#process"   class="nav-link">Процесс</a>
+    <a href="#reviews"   class="nav-link">Отзывы</a>
+    <a href="#contact"   class="nav-link">Заказать</a>
+  </div>
+  <a href="#contact" class="nav-cta">Запустить рекламу →</a>
+  <button class="nav-burger" onclick="document.querySelector('.mob-nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+</nav>
+<div class="mob-nav">
+  <a href="#pricing"   class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Цены</a>
+  <a href="#includes"  class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Что входит</a>
+  <a href="#platforms" class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Платформы</a>
+  <a href="#process"   class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Процесс</a>
+  <a href="#reviews"   class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Отзывы</a>
+  <a href="#contact"   class="nav-link" onclick="this.closest('.mob-nav').classList.remove('open')">Заказать</a>
+</div>
+
+<div class="page">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-conic"></div>
+  <div class="hero-stars"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-dot"></div>
+        <span class="hero-badge-text">Профессиональный Таргетолог — DavronMarket</span>
+      </div>
+      <h1 class="hero-h1">
+        <span class="l1">Таргетная</span>
+        <span class="l2">реклама</span>
+        <span class="l3">Instagram · Facebook · TikTok · Telegram · YouTube</span>
+      </h1>
+      <div class="hero-dline"></div>
+      <p class="hero-sub">Профессиональная настройка таргетированной рекламы в социальных сетях. От 200 сомони в месяц — выберите бюджет и получите максимальный результат.</p>
+      <div class="hero-btns">
+        <a href="#pricing" class="btn-gold">💰 Выбрать тариф</a>
+        <a href="#contact" class="btn-outline">Бесплатная консультация →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b>600с</b><span>Минимум/мес</span></div>
+        <div class="hstat"><b>5.4×</b><span>ROAS средний</span></div>
+        <div class="hstat"><b>20+</b><span>Клиентов</span></div>
+        <div class="hstat"><b>24/7</b><span>Мониторинг</span></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="hv-ring"></div>
+        <div class="hv-ring"></div>
+        <div class="hv-ring"></div>
+        <div class="hv-ring"></div>
+        <div class="hv-sweep"></div>
+        <div class="hv-hex"></div>
+        <div class="hv-glow"></div>
+        <div class="hv-core">
+          <span class="hv-core-ico">🎯</span>
+          <span class="hv-core-txt">TARGET</span>
+        </div>
+        <div class="hv-met" style="top:7%;left:50%;transform:translateX(-50%);--mc:rgba(74,222,128,.28);--mg:linear-gradient(135deg,#4ade80,#86efac);--mf:5s;--md:0s">
+          <div class="hv-met-val">+420%</div>
+          <div class="hv-met-lbl">Охват</div>
+          <div class="hv-met-trend">↑ за 2 мес.</div>
+        </div>
+        <div class="hv-met" style="top:38%;left:0%;--mc:rgba(43,156,255,.28);--mg:linear-gradient(135deg,#2b9cff,#7dd3fc);--mf:6s;--md:.5s">
+          <div class="hv-met-val">5.4×</div>
+          <div class="hv-met-lbl">ROAS</div>
+          <div class="hv-met-trend">↑ реклама</div>
+        </div>
+        <div class="hv-met" style="bottom:7%;left:50%;transform:translateX(-50%);--mc:rgba(245,200,66,.28);--mg:linear-gradient(135deg,#f5c842,#ff8a5c);--mf:4.5s;--md:1s">
+          <div class="hv-met-val">1 240</div>
+          <div class="hv-met-lbl">Лидов/мес</div>
+          <div class="hv-met-trend">↑ конверсия</div>
+        </div>
+        <div class="hv-met" style="top:38%;right:0%;--mc:rgba(255,107,43,.28);--mg:linear-gradient(135deg,#ff6b2b,#ff8a5c);--mf:5.5s;--md:.3s">
+          <div class="hv-met-val">-35%</div>
+          <div class="hv-met-lbl">Цена лида</div>
+          <div class="hv-met-trend">↓ оптим.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PRICING ═══ -->
+<section class="sec-pricing" id="pricing">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">💰 Прозрачные тарифы</div>
+    <h2 class="sec-title center">Цены на<br><span class="tg">таргетную рекламу</span></h2>
+    <p class="sec-sub center">6 тарифов от 200 до 20 000 сомони. Чем выше бюджет — тем больше охват и выше ROI. Выберите свой уровень.</p>
+  </div>
+
+  <!-- Intro note -->
+  <div class="pricing-intro si">
+    <span class="pricing-intro-ico">📌</span>
+    <div class="pricing-intro-text">
+      <h3>Как работает ценообразование</h3>
+      <p>Стоимость услуги таргетолога — от 200 до 20 000 сомони в месяц. Это <strong style="color:var(--gs)">гонорар специалиста</strong>. Рекламный бюджет (деньги в платформу) — оплачивается отдельно. Указанные суммы охватов и продаж — ожидаемые результаты при правильно настроенной кампании.</p>
+    </div>
+  </div>
+
+  <!-- Budget Calculator -->
+  <div class="budget-calc si">
+    <div class="bc-title">⚡ Подберите бюджет под ваш бизнес</div>
+    <div class="bc-sub">Переместите ползунок — система подберёт оптимальный тариф</div>
+    <div class="bc-row">
+      <div class="bc-left">
+        <label class="bc-label">Ваш рекламный бюджет в месяц (сомони)</label>
+        <input type="range" class="bc-slider" id="budgetSlider" min="0" max="5" value="0" step="1">
+        <div class="bc-val-wrap">
+          <span class="bc-budget-val" id="budgetVal">до 40 000 сомони</span>
+          <span class="bc-budget-note" id="budgetNote">Стартовый уровень</span>
+        </div>
+        <!-- Visual tier indicators -->
+        <div style="display:flex;gap:4px;margin-top:14px;flex-wrap:wrap;" id="tierDots">
+          <div class="tier-badge t1" style="cursor:pointer;transition:all .2s" onclick="document.getElementById('budgetSlider').value=0;updateCalc()">200с</div>
+          <div class="tier-badge t2" style="cursor:pointer;transition:all .2s" onclick="document.getElementById('budgetSlider').value=1;updateCalc()">400с</div>
+          <div class="tier-badge t3" style="cursor:pointer;transition:all .2s" onclick="document.getElementById('budgetSlider').value=2;updateCalc()">600с</div>
+          <div class="tier-badge t4" style="cursor:pointer;transition:all .2s" onclick="document.getElementById('budgetSlider').value=3;updateCalc()">800с</div>
+          <div class="tier-badge t5" style="cursor:pointer;transition:all .2s" onclick="document.getElementById('budgetSlider').value=4;updateCalc()">1 000с</div>
+          <div class="tier-badge t6" style="cursor:pointer;transition:all .2s" onclick="document.getElementById('budgetSlider').value=5;updateCalc()">20 000с</div>
+        </div>
+      </div>
+      <div class="bc-right">
+        <div class="bc-result">
+          <div class="bc-result-label">Стоимость услуги таргетолога</div>
+          <div class="bc-result-price" id="bcPrice">200 сомони</div>
+          <div class="bc-result-period" id="bcPeriod">в месяц · Старт тариф</div>
+          <div class="bc-result-roi">
+            <div class="bc-roi-item"><div class="bc-roi-val" id="bcReach">20K–40K</div><div class="bc-roi-lbl">охват/мес</div></div>
+            <div style="width:1px;background:var(--w10);height:32px;margin:0 6px;"></div>
+            <div class="bc-roi-item"><div class="bc-roi-val" id="bcSales">до 600K сом</div><div class="bc-roi-lbl">продажи</div></div>
+          </div>
+        </div>
+        <button class="btn-gold" style="width:100%" id="calcOrderBtn">Выбрать этот тариф →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Pricing Table -->
+  <div class="pricing-table-wrap si">
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>Тариф</th>
+          <th>Услуга / мес</th>
+          <th>Рекламный охват</th>
+          <th>Продажи / мес</th>
+          <th class="center">Платформы</th>
+          <th class="center">ROI</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- 200с -->
+        <tr>
+          <td class="pt-cell"><div class="tier-badge t1">🌱 Старт</div></td>
+          <td class="pt-cell">
+            <div><span class="price-main">200</span><span class="price-cur">сомони</span></div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Охват аудитории</div>от 20 000 до 40 000</div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Прогноз продаж</div>до 600 000 сом</div>
+          </td>
+          <td class="pt-cell center">
+            <div class="platforms" style="justify-content:center">
+              <span class="plat ig">IG</span><span class="plat fb">FB</span>
+            </div>
+          </td>
+          <td class="pt-cell">
+            <div class="roi-bar-wrap">
+              <div class="roi-bar"><div class="roi-bar-fill" style="width:17%;--fill-c1:#4ade80;--fill-c2:#86efac"></div></div>
+              <span class="roi-text">3×</span>
+            </div>
+          </td>
+          <td class="pt-cell"><button class="pt-select-btn" onclick="selectPlan('Старт 200с','200 сомони','Instagram + Facebook')">Выбрать</button></td>
+        </tr>
+
+        <!-- 400с -->
+        <tr>
+          <td class="pt-cell"><div class="tier-badge t2">📈 Базовый</div></td>
+          <td class="pt-cell">
+            <div><span class="price-main">400</span><span class="price-cur">сомони</span></div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Охват аудитории</div>от 40 000 до 80 000</div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Прогноз продаж</div>до 1 200 000 сом</div>
+          </td>
+          <td class="pt-cell center">
+            <div class="platforms" style="justify-content:center">
+              <span class="plat ig">IG</span><span class="plat fb">FB</span><span class="plat tk">TK</span>
+            </div>
+          </td>
+          <td class="pt-cell">
+            <div class="roi-bar-wrap">
+              <div class="roi-bar"><div class="roi-bar-fill" style="width:33%;--fill-c1:#2b9cff;--fill-c2:#7dd3fc"></div></div>
+              <span class="roi-text">4×</span>
+            </div>
+          </td>
+          <td class="pt-cell"><button class="pt-select-btn" onclick="selectPlan('Базовый 400с','400 сомони','Instagram + Facebook + TikTok')">Выбрать</button></td>
+        </tr>
+
+        <!-- 600с — POPULAR -->
+        <tr class="popular-row">
+          <td class="pt-cell">
+            <div class="tier-badge t3">⭐ Стандарт</div>
+            <span class="popular-label">🔥 Популярный</span>
+          </td>
+          <td class="pt-cell">
+            <div><span class="price-main">600</span><span class="price-cur">сомони</span></div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Охват аудитории</div>от 80 000 до 150 000</div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Прогноз продаж</div>до 2 100 000 сом</div>
+          </td>
+          <td class="pt-cell center">
+            <div class="platforms" style="justify-content:center">
+              <span class="plat ig">IG</span><span class="plat fb">FB</span><span class="plat tk">TK</span><span class="plat tg">TG</span>
+            </div>
+          </td>
+          <td class="pt-cell">
+            <div class="roi-bar-wrap">
+              <div class="roi-bar"><div class="roi-bar-fill" style="width:50%;"></div></div>
+              <span class="roi-text">5×</span>
+            </div>
+          </td>
+          <td class="pt-cell"><button class="pt-select-btn" onclick="selectPlan('Стандарт 600с','600 сомони','Instagram + Facebook + TikTok + Telegram')">Выбрать</button></td>
+        </tr>
+
+        <!-- 800с -->
+        <tr>
+          <td class="pt-cell"><div class="tier-badge t4">🚀 Продвинутый</div></td>
+          <td class="pt-cell">
+            <div><span class="price-main">800</span><span class="price-cur">сомони</span></div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Охват аудитории</div>от 110 000 до 200 000</div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Прогноз продаж</div>до 3 000 000 сом</div>
+          </td>
+          <td class="pt-cell center">
+            <div class="platforms" style="justify-content:center">
+              <span class="plat ig">IG</span><span class="plat fb">FB</span><span class="plat tk">TK</span><span class="plat tg">TG</span>
+            </div>
+          </td>
+          <td class="pt-cell">
+            <div class="roi-bar-wrap">
+              <div class="roi-bar"><div class="roi-bar-fill" style="width:65%;--fill-c1:#ff6b2b;--fill-c2:#ff8a5c"></div></div>
+              <span class="roi-text">5.4×</span>
+            </div>
+          </td>
+          <td class="pt-cell"><button class="pt-select-btn" onclick="selectPlan('Продвинутый 800с','800 сомони','IG + FB + TikTok + Telegram')">Выбрать</button></td>
+        </tr>
+
+        <!-- 1000с -->
+        <tr>
+          <td class="pt-cell"><div class="tier-badge t5">💎 Бизнес</div></td>
+          <td class="pt-cell">
+            <div><span class="price-main">1 000</span><span class="price-cur">сомони</span></div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Охват аудитории</div>от 130 000 до 250 000</div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Прогноз продаж</div>до 4 000 000 сом</div>
+          </td>
+          <td class="pt-cell center">
+            <div class="platforms" style="justify-content:center">
+              <span class="plat ig">IG</span><span class="plat fb">FB</span><span class="plat tk">TK</span><span class="plat tg">TG</span><span class="plat yt">YT</span>
+            </div>
+          </td>
+          <td class="pt-cell">
+            <div class="roi-bar-wrap">
+              <div class="roi-bar"><div class="roi-bar-fill" style="width:80%;--fill-c1:#a78bfa;--fill-c2:#c4b5fd"></div></div>
+              <span class="roi-text">6×</span>
+            </div>
+          </td>
+          <td class="pt-cell"><button class="pt-select-btn" onclick="selectPlan('Бизнес 1000с','1 000 сомони','IG + FB + TikTok + Telegram + YouTube')">Выбрать</button></td>
+        </tr>
+
+        <!-- 20 000с -->
+        <tr>
+          <td class="pt-cell">
+            <div class="tier-badge t6">👑 Premium</div>
+          </td>
+          <td class="pt-cell">
+            <div><span class="price-main">20 000</span><span class="price-cur">сомони</span></div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Охват аудитории</div>от 2 700 000 до 5 100 000</div>
+          </td>
+          <td class="pt-cell">
+            <div class="budget-range"><div class="br-from">Прогноз продаж</div>до 60+ млн сомони</div>
+          </td>
+          <td class="pt-cell center">
+            <div class="platforms" style="justify-content:center">
+              <span class="plat ig">IG</span><span class="plat fb">FB</span><span class="plat tk">TK</span><span class="plat tg">TG</span><span class="plat yt">YT</span>
+            </div>
+          </td>
+          <td class="pt-cell">
+            <div class="roi-bar-wrap">
+              <div class="roi-bar"><div class="roi-bar-fill" style="width:100%;--fill-c1:#ef4444;--fill-c2:#fca5a5"></div></div>
+              <span class="roi-text">7×+</span>
+            </div>
+          </td>
+          <td class="pt-cell"><button class="pt-select-btn" onclick="selectPlan('Premium 20 000с','20 000 сомони','Все платформы + Выделенная команда')">Выбрать</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ WHAT'S INCLUDED ═══ -->
+<section class="sec-includes" id="includes">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip blue">📦 Что включено</div>
+    <h2 class="sec-title center">В каждый тариф<br><span class="tb">входит</span></h2>
+    <p class="sec-sub center">Всё необходимое для результативной рекламной кампании — без скрытых доплат.</p>
+  </div>
+  <div class="includes-grid">
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#f5c842,#ff8a5c)">
+      <span class="inc-ico">🔍</span>
+      <div class="inc-name">Анализ аудитории</div>
+      <div class="inc-desc">Исследование целевой аудитории, портрет покупателя, конкуренты, болевые точки и интересы.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#2b9cff,#7dd3fc)">
+      <span class="inc-ico">🎨</span>
+      <div class="inc-name">Создание креативов</div>
+      <div class="inc-desc">Дизайн рекламных баннеров, видео-крео, текст объявлений. A/B-тест разных вариантов.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#4ade80,#f5c842)">
+      <span class="inc-ico">⚙️</span>
+      <div class="inc-name">Настройка кабинета</div>
+      <div class="inc-desc">Правильная структура рекламного аккаунта, Pixel, API конверсий, события, аудитории.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#ff6b2b,#ff8a5c)">
+      <span class="inc-ico">🚀</span>
+      <div class="inc-name">Запуск кампаний</div>
+      <div class="inc-desc">Настройка групп объявлений, стратегий ставок, гео, устройств и плейсментов.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#a78bfa,#c4b5fd)">
+      <span class="inc-ico">📊</span>
+      <div class="inc-name">Мониторинг 24/7</div>
+      <div class="inc-desc">Ежедневная проверка результатов, оперативная оптимизация и корректировка ставок.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#f472b6,#f5c842)">
+      <span class="inc-ico">🔄</span>
+      <div class="inc-name">Ретаргетинг</div>
+      <div class="inc-desc">Возврат посетителей сайта и тёплой аудитории. Look-alike аудитории на основе клиентов.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#f5c842,#2b9cff)">
+      <span class="inc-ico">📈</span>
+      <div class="inc-name">Еженедельный отчёт</div>
+      <div class="inc-desc">Подробный отчёт по KPI: охват, CPM, CTR, CPC, лиды, ROAS. Рекомендации на следующий период.</div>
+    </div>
+    <div class="inc-card si" style="--acc:linear-gradient(90deg,#4ade80,#2b9cff)">
+      <span class="inc-ico">💬</span>
+      <div class="inc-name">Поддержка в WhatsApp</div>
+      <div class="inc-desc">Прямой доступ к таргетологу через WhatsApp. Ответ в течение 1 часа в рабочее время.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PLATFORMS ═══ -->
+<section class="sec-platforms" id="platforms">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip orange">📱 Платформы</div>
+    <h2 class="sec-title center">Рекламируем<br><span class="to">на всех площадках</span></h2>
+    <p class="sec-sub center">Работаем со всеми ключевыми платформами — подберём оптимальный mix для вашего бизнеса.</p>
+  </div>
+  <div class="plat-grid">
+    <div class="plat-card si" style="--pa:linear-gradient(90deg,#d6325a,#f472b6);--ps:rgba(244,114,182,.4)">
+      <span class="plat-card-ico">📸</span>
+      <div class="plat-card-name">Instagram</div>
+      <div class="plat-card-desc">Stories, Reels, Feed. Лучшая платформа для B2C и визуального бизнеса.</div>
+      <div class="plat-card-stat">850M+ пользователей</div>
+    </div>
+    <div class="plat-card si" style="--pa:linear-gradient(90deg,#1877f2,#60a5fa);--ps:rgba(96,165,250,.4)">
+      <span class="plat-card-ico">👥</span>
+      <div class="plat-card-name">Facebook</div>
+      <div class="plat-card-desc">Аудитория 30+, B2B, широкий таргетинг. Мощная аналитика и ретаргетинг.</div>
+      <div class="plat-card-stat">2.9B+ пользователей</div>
+    </div>
+    <div class="plat-card si" style="--pa:linear-gradient(90deg,#000,#fff);--ps:rgba(255,255,255,.3)">
+      <span class="plat-card-ico">🎵</span>
+      <div class="plat-card-name">TikTok</div>
+      <div class="plat-card-desc">Молодая аудитория 18-35. Вирусный контент, низкая цена за клик.</div>
+      <div class="plat-card-stat">1B+ пользователей</div>
+    </div>
+    <div class="plat-card si" style="--pa:linear-gradient(90deg,#0088cc,#7dd3fc);--ps:rgba(43,156,255,.4)">
+      <span class="plat-card-ico">✈</span>
+      <div class="plat-card-name">Telegram</div>
+      <div class="plat-card-desc">Таргет в каналах и группах. Высокий охват в Таджикистане и СНГ.</div>
+      <div class="plat-card-stat">800M+ пользователей</div>
+    </div>
+    <div class="plat-card si" style="--pa:linear-gradient(90deg,#ff0000,#fca5a5);--ps:rgba(252,165,165,.4)">
+      <span class="plat-card-ico">▶</span>
+      <div class="plat-card-name">YouTube</div>
+      <div class="plat-card-desc">Pre-roll и Discovery реклама. Видео-реклама с детальным таргетингом.</div>
+      <div class="plat-card-stat">2.5B+ пользователей</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="sec-process" id="process">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">⚙️ Как работаем</div>
+    <h2 class="sec-title center">Процесс запуска<br><span class="tg">рекламы</span></h2>
+  </div>
+  <div class="process-grid">
+    <div class="timeline">
+      <div class="tstep si"><div class="tstep-n">01</div><div><h4>Бриф & Анализ</h4><p>Изучаем бизнес, продукт, конкурентов и целевую аудиторию. Определяем цели и KPI кампании.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">02</div><div><h4>Стратегия & Аудитории</h4><p>Создаём карту аудиторий, выбираем плейсменты и форматы объявлений под каждую группу.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">03</div><div><h4>Создание креативов</h4><p>Дизайн баннеров, написание текстов, подготовка видео. A/B-тест минимум 3 вариантов.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">04</div><div><h4>Настройка & Запуск</h4><p>Pixel, события, кабинет, кампании, группы объявлений. Запуск через 3 рабочих дня после оплаты.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">05</div><div><h4>Оптимизация</h4><p>Ежедневный мониторинг, корректировка ставок, отключение неэффективных объявлений, масштабирование.</p></div></div>
+      <div class="tstep si"><div class="tstep-n">06</div><div><h4>Отчёты & Рост</h4><p>Еженедельные KPI-отчёты в WhatsApp. Рекомендации по улучшению и планирование следующего месяца.</p></div></div>
+    </div>
+    <div class="info-card si">
+      <div class="info-head">
+        <h3>📋 Гарантии и условия</h3>
+        <p>Прозрачная работа без скрытых платежей</p>
+      </div>
+      <div class="info-body">
+        <div class="info-row"><span>Договор</span><div class="info-val">✓ День 1</div></div>
+        <div class="info-row"><span>Доступ к кабинету</span><div class="info-val">Полный</div></div>
+        <div class="info-row"><span>Старт работ</span><div class="info-val">3 дня</div></div>
+        <div class="info-row"><span>Отчёты</span><div class="info-val">Еженедельно</div></div>
+        <div class="info-row"><span>Связь</span><div class="info-val">WhatsApp 24/7</div></div>
+        <div class="info-row"><span>Оплата</span><div class="info-val">Ежемесячно</div></div>
+        <div class="info-row"><span>Рекл. бюджет</span><div class="info-val">Отдельно</div></div>
+        <div class="info-row"><span>Язык</span><div class="info-val">Таджикский/Русский</div></div>
+        <div class="info-row"><span>Минимальный срок</span><div class="info-val">1 месяц</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ REVIEWS ═══ -->
+<section class="sec-reviews" id="reviews">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip green">⭐ Отзывы клиентов</div>
+    <h2 class="sec-title center">Что говорят<br><span class="tg">наши клиенты</span></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="rev-card si">
+      <span class="rev-stars">★★★★★</span>
+      <div class="rev-text">Запустил рекламу на тариф 600 сомони. За первый месяц получил 340 лидов — никогда такого не было! ROAS вышел 5.2. Рекомендую всем владельцам бизнеса в Таджикистане.</div>
+      <div class="rev-bottom">
+        <div class="rev-ava">🏪</div>
+        <div>
+          <div class="rev-name">Рустам Джураев</div>
+          <div class="rev-sub">Магазин одежды, Душанбе</div>
+        </div>
+        <div class="rev-result">ROAS 5.2×</div>
+      </div>
+    </div>
+    <div class="rev-card si">
+      <span class="rev-stars">★★★★★</span>
+      <div class="rev-text">Начала с тарифа 200 сомони — результат удивил. За месяц подписчики выросли с 800 до 4 200, продажи увеличились в 3 раза. Потом перешла на тариф 400с.</div>
+      <div class="rev-bottom">
+        <div class="rev-ava">💄</div>
+        <div>
+          <div class="rev-name">Нилуфар Хасанова</div>
+          <div class="rev-sub">Мастер красоты, Худжанд</div>
+        </div>
+        <div class="rev-result">+3× продажи</div>
+      </div>
+    </div>
+    <div class="rev-card si">
+      <span class="rev-stars">★★★★★</span>
+      <div class="rev-text">Взял тариф 1000 сомони для сети кафе. Охват вышел 180 000 человек, заявок стало в 4 раза больше. Сейчас обсуждаем переход на Premium. Профи своего дела!</div>
+      <div class="rev-bottom">
+        <div class="rev-ava">☕</div>
+        <div>
+          <div class="rev-name">Баходур Саидов</div>
+          <div class="rev-sub">Сеть кафе, Худжанд</div>
+        </div>
+        <div class="rev-result">180K охват</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ FAQ ═══ -->
+<section class="sec-faq">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">❓ Вопросы</div>
+    <h2 class="sec-title center">Часто<br><span class="tg">задаваемые вопросы</span></h2>
+  </div>
+  <div class="faq-list" style="max-width:860px;margin:48px auto 0;">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Что такое «рекламный бюджет» и он входит в тариф? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Нет. Тариф (200–20 000 сомони) — это стоимость работы таргетолога: настройка, ведение, оптимизация и отчёты. Рекламный бюджет — деньги, которые напрямую уходят в Instagram/Facebook/TikTok за показы. Это две отдельные статьи расхода. Минимальный рекламный бюджет мы рекомендуем от 500 сомони/мес.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Почему охваты и продажи указаны как «прогноз»? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Реальные результаты зависят от ниши, качества продукта, цены, сезонности и рекламного бюджета. Указанные цифры — реалистичный прогноз на основе наших кейсов в Таджикистане. Некоторые клиенты получают больше, некоторые — меньше. Мы всегда честны в ожиданиях.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">С какого тарифа лучше начать? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Для малого бизнеса (магазин, мастер, кафе) — начните с 200–400 сомони. Для среднего бизнеса (ресторан, клиника, магазин сети) — 600–1000 сомони. Для крупного бизнеса или агрессивного роста — 20 000 сомони. Можем бесплатно проконсультировать и подобрать оптимальный вариант.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Как быстро будут первые результаты? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Первые показы — в день запуска. Первые лиды обычно приходят через 3–7 дней. Оптимальные результаты достигаются на 3–4 неделю, когда алгоритм "обучается". Полная картина видна через 1–2 месяца работы.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Нужен ли свой рекламный кабинет? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Желательно да — тогда все данные и история останутся у вас. Мы помогаем создать и настроить Business Manager бесплатно. Если кабинета нет — работаем через наш, но рекомендуем иметь свой для безопасности.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<div class="wrap" style="padding-bottom:0">
+<section class="sec-cta">
+  <div class="cta-banner">
+    <span class="cta-icon">🎯</span>
+    <div class="cta-text">
+      <h2>Запустите рекламу уже сегодня!</h2>
+      <p>Бесплатная консультация + анализ вашего бизнеса. Подберём оптимальный тариф и составим стратегию за 24 часа.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="https://wa.me/992929612111?text=Привет!+Хочу+запустить+таргетную+рекламу.+Нужна+консультация." target="_blank" class="btn-gold">💬 Написать в WhatsApp</a>
+      <a href="https://t.me/Davronjonsamadov" target="_blank" class="btn-outline">✈ Telegram</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="divider" style="margin-top:0"></div>
+
+<!-- CONTACT -->
+<section class="sec-contact" id="contact">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="chip">📞 Заказать</div>
+    <h2 class="sec-title center">Выбрать тариф<br><span class="tg">и запустить рекламу</span></h2>
+    <p class="sec-sub center">Заполните форму — перезвоним и запустим рекламу за 3 рабочих дня.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <p class="sec-sub" style="margin-bottom:28px">Связывайтесь любым удобным способом. Консультация бесплатно, без обязательств.</p>
+      <div class="c-links">
+        <a class="clink" href="https://wa.me/992929612111" target="_blank"><span class="clink-ico">💬</span><div><div class="clink-lbl">WhatsApp</div><div class="clink-val">+992 92 961-21-11</div></div></a>
+        <a class="clink" href="https://t.me/Davronjonsamadov" target="_blank"><span class="clink-ico">✈</span><div><div class="clink-lbl">Telegram</div><div class="clink-val">@Davronjonsamadov</div></div></a>
+        <a class="clink" href="tel:+992929612111"><span class="clink-ico">📞</span><div><div class="clink-lbl">Телефон</div><div class="clink-val">+992 92 961-21-11</div></div></a>
+        <div class="clink"><span class="clink-ico">🕐</span><div><div class="clink-lbl">Старт работы</div><div class="clink-val">через 3 рабочих дня</div></div></div>
+      </div>
+    </div>
+    <div class="cf">
+      <div class="cf-title">Оставить заявку</div>
+      <p class="cf-sub">Выберите тариф — всё остальное обсудим в WhatsApp.</p>
+      <div id="cf-body">
+        <div class="cf-selected-plan" id="selectedPlanBox">✦ Выбранный план: <span id="selectedPlanName">не выбран</span></div>
+        <div class="cf-field">
+          <label class="cf-lbl">Выберите тариф *</label>
+          <select class="cf-sel" id="cf-plan">
+            <option value="">— Выберите тариф —</option>
+            <option value="200с — Старт (охват 20–40K)">🌱 200 сомони — Старт (охват 20–40K)</option>
+            <option value="400с — Базовый (охват 40–80K)">📈 400 сомони — Базовый (охват 40–80K)</option>
+            <option value="600с — Стандарт (охват 80–150K)">⭐ 600 сомони — Стандарт (охват 80–150K)</option>
+            <option value="800с — Продвинутый (охват 110–200K)">🚀 800 сомони — Продвинутый (110–200K)</option>
+            <option value="1000с — Бизнес (охват 130–250K)">💎 1 000 сомони — Бизнес (130–250K)</option>
+            <option value="20000с — Premium (охват 2.7M–5.1M)">👑 20 000 сомони — Premium (2.7M–5.1M)</option>
+          </select>
+        </div>
+        <div class="cf-row">
+          <div class="cf-field"><label class="cf-lbl">Имя *</label><input class="cf-in" id="cf-n" type="text" placeholder="Ваше имя"></div>
+          <div class="cf-field"><label class="cf-lbl">Телефон / Telegram *</label><input class="cf-in" id="cf-p" type="tel" placeholder="+992 92 ..."></div>
+        </div>
+        <div class="cf-field">
+          <label class="cf-lbl">Ваш бизнес</label>
+          <select class="cf-sel" id="cf-b">
+            <option value="">Тип бизнеса</option>
+            <option>Магазин / Розница</option>
+            <option>Кафе / Ресторан</option>
+            <option>Красота / Здоровье</option>
+            <option>Строительство / Ремонт</option>
+            <option>Образование</option>
+            <option>Медицина</option>
+            <option>Недвижимость</option>
+            <option>Услуги B2B</option>
+            <option>Другое</option>
+          </select>
+        </div>
+        <div class="cf-field"><label class="cf-lbl">Что хотите рекламировать</label><textarea class="cf-ta" id="cf-m" placeholder="Расскажите о продукте, товаре или услуге которую хотите продвигать..."></textarea></div>
+        <button class="cf-submit" onclick="submitCF()">🎯 Отправить заявку → WhatsApp</button>
+      </div>
+      <div class="cf-ok" id="cf-ok">
+        <span class="cf-ok-ico">✅</span>
+        <h3>Заявка принята!</h3>
+        <p>WhatsApp откроется автоматически. Ответим и запустим рекламу в течение 3 рабочих дней!</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="wrap">
+  <div class="footer-grid">
+    <div class="f-brand">
+      <span class="f-logo">DavronMarket</span>
+      <span class="f-sub">Таргетированная реклама</span>
+      <p>Профессиональный таргетолог в Таджикистане. Instagram, Facebook, TikTok, Telegram, YouTube. От 200 до 20 000 сомони.</p>
+    </div>
+    <div class="f-col">
+      <h5>Тарифы</h5>
+      <a href="#pricing">🌱 200 сомони — Старт</a>
+      <a href="#pricing">📈 400 сомони — Базовый</a>
+      <a href="#pricing">⭐ 600 сомони — Стандарт</a>
+      <a href="#pricing">🚀 800 сомони — Продвинутый</a>
+      <a href="#pricing">💎 1 000 сомони — Бизнес</a>
+      <a href="#pricing">👑 20 000 сомони — Premium</a>
+    </div>
+    <div class="f-col">
+      <h5>Услуги</h5>
+      <a href="#includes">Анализ аудитории</a>
+      <a href="#includes">Создание креативов</a>
+      <a href="#includes">Настройка рекламы</a>
+      <a href="#includes">Ретаргетинг</a>
+      <a href="#platforms">Все платформы</a>
+    </div>
+    <div class="f-col">
+      <h5>Контакты</h5>
+      <a href="tel:+992929612111">+992 92 961-21-11</a>
+      <a href="https://wa.me/992929612111">WhatsApp</a>
+      <a href="https://t.me/Davronjonsamadov">Telegram</a>
+      <a href="mailto:info@davronmarket.tj">info@davronmarket.tj</a>
+      <a href="https://davronmarket.com">davronmarket.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="f-copy">© 2025 DavronMarket — Таргетированная реклама в Таджикистане</span>
+    <div class="f-socs">
+      <a class="fsoc" href="#">📸</a>
+      <a class="fsoc" href="https://t.me/davronmarket">✈</a>
+      <a class="fsoc" href="https://wa.me/992929612111">💬</a>
+      <a class="fsoc" href="#">▶</a>
+      <a class="fsoc" href="#">🎵</a>
+    </div>
+  </div>
+</div>
+</footer>
+
+</div><!-- /page -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════ NAV ACTIVE ════ */
+window.addEventListener('scroll',function(){
+  const y=window.scrollY+70;
+  ['pricing','includes','platforms','process','reviews','contact'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    document.querySelectorAll('.nav-link').forEach(a=>{
+      if(a.getAttribute('href')==='#'+id){
+        if(y>=el.offsetTop&&y<el.offsetTop+el.offsetHeight)a.classList.add('act');
+        else a.classList.remove('act');
+      }
+    });
+  });
+});
+
+/* ════ BUDGET CALCULATOR ════ */
+const TIERS = [
+  {price:'200 сомони',label:'Старт',reach:'20 000 – 40 000',sales:'до 600 000 сом',budget:'до 40 000 сом',note:'Стартовый уровень'},
+  {price:'400 сомони',label:'Базовый',reach:'40 000 – 80 000',sales:'до 1 200 000 сом',budget:'до 80 000 сом',note:'Уверенный рост'},
+  {price:'600 сомони',label:'Стандарт',reach:'80 000 – 150 000',sales:'до 2 100 000 сом',budget:'до 150 000 сом',note:'Самый популярный'},
+  {price:'800 сомони',label:'Продвинутый',reach:'110 000 – 200 000',sales:'до 3 000 000 сом',budget:'до 200 000 сом',note:'Для активного роста'},
+  {price:'1 000 сомони',label:'Бизнес',reach:'130 000 – 250 000',sales:'до 4 000 000 сом',budget:'до 250 000 сом',note:'Полный digital'},
+  {price:'20 000 сомони',label:'Premium',reach:'2 700 000 – 5 100 000',sales:'до 60+ млн сом',budget:'до 5 100 000 сом',note:'Максимальный охват'},
+];
+
+function updateCalc(){
+  const v = parseInt(document.getElementById('budgetSlider').value);
+  const t = TIERS[v];
+  document.getElementById('budgetVal').textContent = t.budget;
+  document.getElementById('budgetNote').textContent = t.note + ' · ' + t.label;
+  document.getElementById('bcPrice').textContent = t.price;
+  document.getElementById('bcPeriod').textContent = 'в месяц · ' + t.label + ' тариф';
+  document.getElementById('bcReach').textContent = t.reach;
+  document.getElementById('bcSales').textContent = t.sales;
+  // Update tier dots highlight
+  document.querySelectorAll('#tierDots .tier-badge').forEach((d,i)=>{
+    d.style.opacity = i===v ? '1' : '0.45';
+    d.style.transform = i===v ? 'scale(1.08)' : 'scale(1)';
+  });
+}
+document.getElementById('budgetSlider').addEventListener('input', updateCalc);
+updateCalc();
+
+document.getElementById('calcOrderBtn').addEventListener('click',function(){
+  const v = parseInt(document.getElementById('budgetSlider').value);
+  const t = TIERS[v];
+  selectPlan(t.label+' '+t.price, t.price, 'Все доступные платформы');
+});
+
+/* ════ SELECT PLAN ════ */
+function selectPlan(name, price, platforms){
+  const box = document.getElementById('selectedPlanBox');
+  const nameEl = document.getElementById('selectedPlanName');
+  nameEl.textContent = name + ' · ' + platforms;
+  box.classList.add('show');
+  // Set select
+  const sel = document.getElementById('cf-plan');
+  for(let i=0;i<sel.options.length;i++){
+    if(sel.options[i].text.toLowerCase().includes(price.toLowerCase().replace(' сомони','с').replace(' сомони',''))) {
+      sel.selectedIndex = i; break;
+    }
+  }
+  showToast('✓ Выбран тариф: ' + name);
+  setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}), 500);
+}
+
+/* ════ FAQ ════ */
+function toggleFaq(el){
+  const item=el.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+/* ════ CONTACT FORM ════ */
+function submitCF(){
+  const n=(document.getElementById('cf-n').value||'').trim();
+  const p=(document.getElementById('cf-p').value||'').trim();
+  const plan=document.getElementById('cf-plan').value;
+  const b=document.getElementById('cf-b').value;
+  const m=(document.getElementById('cf-m').value||'').trim();
+  if(!n){showToast('⚠️ Введите ваше имя');return;}
+  if(!p){showToast('⚠️ Введите номер телефона');return;}
+  if(!plan){showToast('⚠️ Выберите тариф');return;}
+  const txt=encodeURIComponent(
+    '🎯 *Заявка на таргет рекламу — DavronMarket*\n\n'+
+    '👤 Имя: '+n+'\n📞 Контакт: '+p+'\n'+
+    '💰 Тариф: '+plan+'\n'+
+    (b?'🏢 Бизнес: '+b+'\n':'')+
+    (m?'\n📝 Продукт/услуга:\n'+m:'')
+  );
+  document.getElementById('cf-body').style.display='none';
+  document.getElementById('cf-ok').classList.add('on');
+  setTimeout(()=>window.open('https://wa.me/992929612111?text='+txt,'_blank'),700);
+}
+
+/* ════ TOAST ════ */
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.style.borderColor=msg.includes('✅')||msg.includes('✓')?'#4ade80':msg.includes('⚠️')?'#ff6b2b':'#f5c842';
+  t.style.color=msg.includes('✅')||msg.includes('✓')?'#4ade80':msg.includes('⚠️')?'#ff8a5c':'#ffe066';
+  t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* ════ STAGGER OBSERVER ════ */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>{
+        e.target.style.transition='opacity .5s ease, transform .5s ease';
+        e.target.classList.add('v');
+      },i*70);
+    }
+  });
+},{threshold:.08});
+document.querySelectorAll('.si').forEach(el=>obs.observe(el));
+
+/* ROI bars animate on scroll */
+const roiObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.roi-bar-fill').forEach(b=>{
+        b.style.width=b.style.width;
+      });
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.pricing-table').forEach(t=>roiObs.observe(t));
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Выход — DavronMarket</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{--brand:#0057FF;--brand-dark:#0040CC;--text:#0A0A0F;--muted:#6B7280;--border:#E5E7EB;--bg:#F8F9FC;--white:#FFFFFF;--radius:14px;--shadow:0 4px 32px rgba(0,0,0,0.08);}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(0,87,255,0.06) 0%,transparent 70%);pointer-events:none;}
+  .container{width:100%;max-width:400px;text-align:center;animation:fadeUp 0.5s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .logo{margin-bottom:32px;}
+  .logo-mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:44px;height:44px;background:var(--brand);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,87,255,0.35);}
+  .logo-icon svg{width:24px;height:24px;fill:white;}
+  .logo-name{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
+  .card{background:var(--white);border-radius:20px;padding:48px 36px;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,0.04);}
+  .wave{font-size:56px;margin-bottom:20px;display:block;animation:wave 1.2s ease-in-out infinite;}
+  @keyframes wave{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-10deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(5deg)}}
+  h1{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.5px;margin-bottom:10px;}
+  p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;}
+  .progress-wrap{background:var(--border);border-radius:4px;height:4px;margin-bottom:28px;overflow:hidden;}
+  .progress-bar{height:100%;background:var(--brand);border-radius:4px;animation:progress 2.5s linear forwards;}
+  @keyframes progress{from{width:0%}to{width:100%}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;background:var(--brand);color:white;border:none;border-radius:var(--radius);font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s,box-shadow 0.2s;box-shadow:0 4px 14px rgba(0,87,255,0.3);}
+  .btn:hover{background:var(--brand-dark);}
+  .btn svg{width:15px;height:15px;}
+  .or{font-size:13px;color:var(--muted);margin:12px 0;}
+  .btn-ghost{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);text-decoration:none;font-weight:500;transition:color 0.2s;}
+  .btn-ghost:hover{color:var(--brand);}
+</style>
+<!-- WordPress: редирект через PHP, не JS -->
+<?php
+  if ( is_user_logged_in() ) { wp_logout(); }
+  // Автоматический редирект через 3 сек
+?>
+<meta http-equiv="refresh" content="3;url=/login/"/>
+</head>
+<body>
+<div class="container">
+  <div class="logo">
+    <a href="/" class="logo-mark">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+      </div>
+      <span class="logo-name">DavronMarket</span>
+    </a>
+  </div>
+
+  <div class="card">
+    <span class="wave">👋</span>
+    <h1>До свидания!</h1>
+    <p>Вы успешно вышли из аккаунта.<br/>Перенаправляем на страницу входа…</p>
+    <div class="progress-wrap">
+      <div class="progress-bar"></div>
+    </div>
+    <a href="/login/" class="btn">
+      Войти снова
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <div class="or">или</div>
+    <a href="/" class="btn-ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      На главную
+    </a>
+  </div>
+</div>
+</body>
+</html>

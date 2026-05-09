@@ -1,0 +1,54 @@
+﻿{
+    "generatedAt":  "2026-04-26T11:00:34",
+    "count":  6,
+    "items":  [
+                  {
+                      "file":  "2d-design.html",
+                      "slug":  "2d-design",
+                      "title":  "2d Design",
+                      "description":  "Service page: 2d Design",
+                      "tag":  "Service",
+                      "url":  "../Services/2d-design.html"
+                  },
+                  {
+                      "file":  "art-studio-3d.html",
+                      "slug":  "art-studio-3d",
+                      "title":  "Art Studio 3d",
+                      "description":  "Service page: Art Studio 3d",
+                      "tag":  "Service",
+                      "url":  "../Services/art-studio-3d.html"
+                  },
+                  {
+                      "file":  "cinematic-studio.html",
+                      "slug":  "cinematic-studio",
+                      "title":  "Cinematic Studio",
+                      "description":  "Service page: Cinematic Studio",
+                      "tag":  "Service",
+                      "url":  "../Services/cinematic-studio.html"
+                  },
+                  {
+                      "file":  "digital-marketing.html",
+                      "slug":  "digital-marketing",
+                      "title":  "Digital Marketing",
+                      "description":  "Service page: Digital Marketing",
+                      "tag":  "Service",
+                      "url":  "../Services/digital-marketing.html"
+                  },
+                  {
+                      "file":  "music-studio.html",
+                      "slug":  "music-studio",
+                      "title":  "Music Studio",
+                      "description":  "Service page: Music Studio",
+                      "tag":  "Service",
+                      "url":  "../Services/music-studio.html"
+                  },
+                  {
+                      "file":  "targeting.html",
+                      "slug":  "targeting",
+                      "title":  "Targeting",
+                      "description":  "Service page: Targeting",
+                      "tag":  "Service",
+                      "url":  "../Services/targeting.html"
+                  }
+              ]
+}

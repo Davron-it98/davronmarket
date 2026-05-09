@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — 2D Дизайн</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050507;
+  --gold:#f5c842;
+  --gold2:#ffe066;
+  --orange:#ff6b2b;
+  --blue:#2b9cff;
+  --green:#4ade80;
+  --red:#ff4757;
+  --purple:#a855f7;
+  --white:#fff;
+  --g1:linear-gradient(135deg,#f5c842,#ff6b2b);
+  --g2:linear-gradient(135deg,#2b9cff,#a855f7);
+  --g3:linear-gradient(135deg,#4ade80,#2b9cff);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CURSOR */
+#cur{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--gold);
+  position:fixed;top:0;left:0;z-index:99999;
+  pointer-events:none;transform:translate(-50%,-50%);
+  transition:transform .1s,width .2s,height .2s,background .2s;
+  mix-blend-mode:difference;
+}
+#cur2{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(245,200,66,.5);
+  position:fixed;top:0;left:0;z-index:99998;
+  pointer-events:none;transform:translate(-50%,-50%);
+  transition:transform .18s cubic-bezier(.23,1,.32,1),width .3s,height .3s;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:66px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,5,7,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.nav-logo{
+  font-family:'Unbounded',sans-serif;font-size:14px;font-weight:900;
+  background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:.05em;
+}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-link{font-size:12px;font-weight:600;color:rgba(255,255,255,.45);text-decoration:none;transition:.2s;letter-spacing:.06em;text-transform:uppercase;}
+.nav-link:hover{color:var(--gold);}
+.nav-cta{
+  padding:10px 22px;border-radius:8px;
+  background:var(--g1);
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:900;
+  color:#000;border:none;cursor:none;transition:.22s;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,200,66,.35);}
+
+/* ═══ HERO ═══ */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:100px 40px 80px;
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 50%,rgba(245,200,66,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%,rgba(168,85,247,.07) 0%,transparent 60%),
+    var(--bg);
+}
+/* Сетка */
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);
+}
+/* Диагональная полоса */
+.hero::after{
+  content:"";position:absolute;
+  width:2px;height:300%;
+  background:linear-gradient(to bottom,transparent,rgba(245,200,66,.3),transparent);
+  top:-100%;right:38%;
+  transform:rotate(25deg);
+  animation:scan 6s ease-in-out infinite;
+}
+@keyframes scan{0%,100%{opacity:.3;transform:rotate(25deg) translateX(0)}50%{opacity:.7;transform:rotate(25deg) translateX(-40px)}}
+
+.hero-inner{
+  position:relative;z-index:2;
+  max-width:1100px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.hero-left{}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 18px;border-radius:4px;
+  border:1px solid rgba(245,200,66,.3);
+  font-size:10px;font-weight:700;color:var(--gold2);
+  letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:28px;
+  background:rgba(245,200,66,.06);
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s ease infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(36px,5.5vw,68px);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-2px;
+  margin-bottom:12px;
+}
+.hero-h1 em{font-style:normal;background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-h1 .dim{color:rgba(255,255,255,.18);}
+
+.hero-sub{
+  font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;
+  max-width:440px;margin-bottom:40px;
+  font-weight:400;
+}
+.hero-sub strong{color:rgba(255,255,255,.85);font-weight:700;}
+
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px;}
+.hbtn-main{
+  padding:14px 32px;border-radius:8px;
+  background:var(--g1);
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;
+  color:#000;border:none;cursor:none;transition:.25s;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.hbtn-main:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(245,200,66,.4);}
+.hbtn-sec{
+  padding:14px 28px;border-radius:8px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  color:rgba(255,255,255,.7);cursor:none;transition:.25s;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.hbtn-sec:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px);}
+
+.hero-stats{display:flex;gap:32px;}
+.hstat{}
+.hstat-n{font-family:'Unbounded',sans-serif;font-size:28px;font-weight:900;background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.hstat-l{font-size:11px;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:3px;}
+
+/* Правая часть — визуальный блок */
+.hero-right{position:relative;}
+.hero-canvas{
+  width:100%;aspect-ratio:1;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.hero-canvas::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 30% 30%,rgba(245,200,66,.08),transparent 50%),
+    radial-gradient(circle at 70% 70%,rgba(168,85,247,.08),transparent 50%);
+}
+.canvas-art{
+  position:relative;z-index:1;
+  width:80%;aspect-ratio:1;
+}
+/* SVG-арт */
+.c-circle1{animation:spin1 12s linear infinite;}
+.c-circle2{animation:spin2 8s linear infinite;}
+.c-dots{animation:spin1 20s linear infinite;}
+@keyframes spin1{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes spin2{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+
+/* Плавающие теги */
+.ftag{
+  position:absolute;
+  background:#0d0d10;border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:8px 14px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+  box-shadow:0 12px 30px rgba(0,0,0,.6);
+}
+.ftag.g1{background:rgba(245,200,66,.08);border-color:rgba(245,200,66,.25);color:var(--gold2);top:12%;left:-10%;animation:ft1 4s ease-in-out infinite;}
+.ftag.g2{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.25);color:#d8b4fe;bottom:22%;right:-8%;animation:ft2 5s ease-in-out infinite;}
+.ftag.g3{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.25);color:#86efac;top:58%;left:-12%;animation:ft1 6s ease-in-out infinite .5s;}
+@keyframes ft1{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes ft2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ═══ СЕКЦИЯ ═══ */
+.section{padding:90px 40px;max-width:1100px;margin:0 auto;}
+.sec-line{width:1px;height:60px;background:linear-gradient(to bottom,rgba(245,200,66,.5),transparent);margin-bottom:24px;}
+.sec-kicker{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-kicker::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.07);}
+h2{font-family:'Unbounded',sans-serif;font-size:clamp(26px,3.5vw,44px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;}
+h2 em{font-style:normal;background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sec-desc{font-size:14px;color:rgba(255,255,255,.45);line-height:1.8;max-width:520px;margin-bottom:56px;}
+
+/* ═══ УСЛУГИ ═══ */
+.services-wrap{background:rgba(255,255,255,.01);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);}
+.services-inner{padding:90px 40px;max-width:1100px;margin:0 auto;}
+
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,.04);}
+.srv{
+  background:var(--bg);padding:36px 28px;
+  transition:.32s;position:relative;overflow:hidden;
+  cursor:none;
+}
+.srv::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform .35s;
+}
+.srv:nth-child(1)::before{background:var(--g1);}
+.srv:nth-child(2)::before{background:var(--g2);}
+.srv:nth-child(3)::before{background:var(--g3);}
+.srv:nth-child(4)::before{background:linear-gradient(135deg,var(--red),var(--orange));}
+.srv:nth-child(5)::before{background:linear-gradient(135deg,var(--gold),var(--purple));}
+.srv:nth-child(6)::before{background:linear-gradient(135deg,var(--blue),var(--green));}
+.srv:hover::before{transform:scaleX(1);}
+.srv:hover{background:rgba(255,255,255,.025);transform:translateY(-4px);}
+.srv:hover .srv-arrow{transform:translate(4px,-4px);}
+
+.srv-num{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,.15);letter-spacing:.1em;margin-bottom:20px;}
+.srv-icon{font-size:32px;margin-bottom:16px;display:block;}
+.srv-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:800;margin-bottom:10px;line-height:1.3;}
+.srv-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.75;margin-bottom:18px;}
+.srv-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.srv-tag{
+  padding:4px 10px;border-radius:4px;
+  font-size:10px;font-weight:700;letter-spacing:.04em;
+  background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);
+  border:1px solid rgba(255,255,255,.07);
+}
+.srv-arrow{font-size:18px;color:rgba(255,255,255,.2);position:absolute;top:28px;right:24px;transition:.25s;}
+
+/* ═══ ПРОЦЕСС ═══ */
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.process-grid::before{
+  content:"";position:absolute;top:28px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(245,200,66,.3),rgba(255,107,43,.3),transparent);
+}
+.proc{padding:0 20px 0 0;position:relative;}
+.proc-n{
+  width:56px;height:56px;border-radius:12px;
+  border:1px solid rgba(245,200,66,.25);
+  background:rgba(245,200,66,.06);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;
+  color:var(--gold);
+  margin-bottom:20px;position:relative;z-index:1;
+}
+.proc-t{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:800;margin-bottom:8px;}
+.proc-d{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7;}
+
+/* ═══ УСТРОЙСТВА ═══ */
+.devices-wrap{background:rgba(255,255,255,.01);border-top:1px solid rgba(255,255,255,.05);}
+.devices-inner{padding:90px 40px;max-width:1100px;margin:0 auto;}
+
+.dev-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.dev-left{}
+.dev-right{
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;padding:32px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.dev-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:10px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  transition:.2s;cursor:none;
+}
+.dev-item:hover{background:rgba(245,200,66,.06);border-color:rgba(245,200,66,.2);}
+.dev-ic{font-size:24px;flex-shrink:0;}
+.dev-info{}
+.dev-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;margin-bottom:3px;}
+.dev-desc{font-size:11px;color:rgba(255,255,255,.4);}
+.dev-check{margin-left:auto;color:var(--green);font-size:16px;}
+
+.feat-list{display:flex;flex-direction:column;gap:16px;margin-bottom:36px;}
+.feat-item{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;}
+.feat-bullet{width:20px;height:20px;border-radius:50%;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);flex-shrink:0;margin-top:2px;}
+
+/* ═══ ПОРТФОЛИО / ПРИМЕРЫ ═══ */
+.works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.work-card{
+  border-radius:12px;overflow:hidden;position:relative;cursor:none;
+  aspect-ratio:4/3;
+  background:#0d0d0f;border:1px solid rgba(255,255,255,.06);
+  transition:.32s;
+}
+.work-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.7);}
+.work-card:hover .work-overlay{opacity:1;}
+.work-bg{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;
+}
+.work-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(5,5,7,.95) 0%,rgba(5,5,7,.3) 60%,transparent 100%);
+  opacity:0;transition:.32s;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:20px;
+}
+.work-show{opacity:1!important;}
+.work-cat{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.work-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:800;line-height:1.3;}
+
+/* ═══ ЦЕНЫ ═══ */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.price-card{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;padding:32px 26px;
+  transition:.28s;position:relative;overflow:hidden;
+  cursor:none;
+}
+.price-card.featured{
+  border-color:rgba(245,200,66,.3);
+  background:rgba(245,200,66,.04);
+}
+.price-card.featured::before{
+  content:"ХИТ";
+  position:absolute;top:14px;right:14px;
+  background:var(--g1);color:#000;
+  font-family:'Unbounded',sans-serif;font-size:9px;font-weight:900;
+  padding:4px 10px;border-radius:4px;letter-spacing:.06em;
+}
+.price-card:hover{transform:translateY(-5px);border-color:rgba(245,200,66,.2);}
+.price-name{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:800;margin-bottom:8px;letter-spacing:.02em;}
+.price-desc{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:24px;line-height:1.6;}
+.price-num{font-family:'Unbounded',sans-serif;font-size:36px;font-weight:900;background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.price-unit{font-size:12px;color:rgba(255,255,255,.3);margin-bottom:24px;margin-top:4px;}
+.price-hr{height:1px;background:rgba(255,255,255,.06);margin:20px 0;}
+.price-features{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.pf{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,.55);}
+.pf::before{content:"✓";color:var(--green);font-weight:700;font-size:13px;flex-shrink:0;}
+.pf.no{color:rgba(255,255,255,.2);}
+.pf.no::before{content:"×";color:rgba(255,255,255,.2);}
+.price-btn{
+  display:block;width:100%;padding:13px;border-radius:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:900;
+  color:rgba(255,255,255,.7);text-align:center;text-decoration:none;
+  transition:.22s;letter-spacing:.04em;text-transform:uppercase;cursor:none;
+}
+.price-card.featured .price-btn{background:var(--g1);border:none;color:#000;}
+.price-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(245,200,66,.25);}
+
+/* ═══ ПОЧЕМУ МЫ ═══ */
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.why-card{
+  padding:28px 22px;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:12px;
+  transition:.25s;
+}
+.why-card:hover{background:rgba(255,255,255,.04);transform:translateY(-3px);}
+.why-ic{font-size:28px;margin-bottom:14px;}
+.why-t{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:800;margin-bottom:8px;}
+.why-d{font-size:11px;color:rgba(255,255,255,.4);line-height:1.7;}
+
+/* ═══ CTA ═══ */
+.cta-wrap{
+  margin:0 40px 80px;
+  background:
+    radial-gradient(ellipse at 30% 50%,rgba(245,200,66,.1),transparent 60%),
+    radial-gradient(ellipse at 70% 50%,rgba(168,85,247,.08),transparent 60%),
+    rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:70px 60px;
+  text-align:center;position:relative;overflow:hidden;
+  max-width:1020px;margin:0 auto 80px;
+}
+.cta-wrap::before{
+  content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.cta-inner{position:relative;z-index:1;}
+.cta-h{font-family:'Unbounded',sans-serif;font-size:clamp(24px,3.5vw,42px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;}
+.cta-h em{font-style:normal;background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cta-p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.75;max-width:480px;margin:0 auto 36px;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.cta-btn-main{
+  padding:15px 36px;border-radius:8px;background:var(--g1);
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;
+  color:#000;border:none;cursor:none;transition:.25s;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;display:inline-block;
+}
+.cta-btn-main:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(245,200,66,.45);}
+.cta-btn-sec{
+  padding:15px 30px;border-radius:8px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  color:rgba(255,255,255,.6);cursor:none;transition:.22s;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;display:inline-block;
+}
+.cta-btn-sec:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:48px 40px 32px;
+}
+.footer-inner{max-width:1100px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.f-logo{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:900;background:var(--g1);-webkit-background-clip:text;background-clip:text;color:transparent;display:block;margin-bottom:12px;}
+.f-tag{font-size:12px;color:rgba(255,255,255,.4);line-height:1.75;max-width:240px;margin-bottom:20px;}
+.f-social{display:flex;gap:8px;}
+.f-soc{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:none;transition:.2s;text-decoration:none;}
+.f-soc:hover{background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.25);}
+.f-col h5{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;}
+.f-links{display:flex;flex-direction:column;gap:8px;}
+.f-lnk{font-size:12px;color:rgba(255,255,255,.4);text-decoration:none;transition:.2s;}
+.f-lnk:hover{color:var(--white);}
+.footer-bottom{
+  padding-top:24px;border-top:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.f-copy{font-size:11px;color:rgba(255,255,255,.2);}
+.f-made{font-size:11px;color:rgba(255,255,255,.2);}
+.f-made span{color:var(--gold);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:.1s;}
+.reveal-d2{transition-delay:.2s;}
+.reveal-d3{transition-delay:.3s;}
+.reveal-d4{transition-delay:.4s;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .srv-grid{grid-template-columns:1fr 1fr;}
+  .process-grid{grid-template-columns:1fr 1fr;}
+  .dev-grid{grid-template-columns:1fr;}
+  .works-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .hero{padding:90px 20px 60px;}
+  .section,.services-inner,.devices-inner{padding:60px 20px;}
+  .cta-wrap{padding:50px 28px;}
+  h2{font-size:28px;}
+}
+@media(max-width:560px){
+  .srv-grid{grid-template-columns:1fr;}
+  .works-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .process-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DavronMarket</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#services">Услуги</a>
+    <a class="nav-link" href="#devices">Устройства</a>
+    <a class="nav-link" href="#works">Портфолио</a>
+    <a class="nav-link" href="#pricing">Цены</a>
+  </div>
+  <button class="nav-cta" onclick="document.querySelector('.cta-wrap').scrollIntoView({behavior:'smooth'})">Заказать</button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="badge"><span class="badge-dot"></span>Профессиональный 2D дизайн</div>
+
+      <h1 class="hero-h1">
+        2D Дизайн<br>
+        <em>Любого</em><br>
+        <span class="dim">Уровня</span>
+      </h1>
+
+      <p class="hero-sub">
+        Создаём <strong>визуальные решения</strong> для игр, приложений, брендов и медиа.
+        Иконки, иллюстрации, UI, персонажи — для любых устройств и платформ.
+      </p>
+
+      <div class="hero-btns">
+        <button class="hbtn-main" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Посмотреть услуги</button>
+        <button class="hbtn-sec" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Узнать цены</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">500+</div><div class="hstat-l">Проектов</div></div>
+        <div class="hstat"><div class="hstat-n">3 года</div><div class="hstat-l">Опыта</div></div>
+        <div class="hstat"><div class="hstat-n">48ч</div><div class="hstat-l">Срок сдачи</div></div>
+        <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">Доволен</div></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-canvas">
+        <div class="ftag g1">✦ Векторная графика</div>
+        <div class="ftag g2">⬡ UI / UX дизайн</div>
+        <div class="ftag g3">◈ Иллюстрации</div>
+
+        <svg class="canvas-art" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Внешнее кольцо -->
+          <g class="c-circle1" style="transform-origin:150px 150px">
+            <circle cx="150" cy="150" r="120" stroke="rgba(245,200,66,0.12)" stroke-width="1" stroke-dasharray="8 6"/>
+            <circle cx="150" cy="30" r="5" fill="rgba(245,200,66,0.6)"/>
+            <circle cx="270" cy="150" r="5" fill="rgba(245,200,66,0.6)"/>
+            <circle cx="150" cy="270" r="4" fill="rgba(255,107,43,0.5)"/>
+            <circle cx="30" cy="150" r="4" fill="rgba(168,85,247,0.5)"/>
+          </g>
+          <!-- Среднее кольцо -->
+          <g class="c-circle2" style="transform-origin:150px 150px">
+            <circle cx="150" cy="150" r="80" stroke="rgba(168,85,247,0.15)" stroke-width="1" stroke-dasharray="4 8"/>
+            <circle cx="150" cy="70" r="6" fill="rgba(168,85,247,0.7)"/>
+            <circle cx="230" cy="150" r="6" fill="rgba(43,156,255,0.7)"/>
+            <circle cx="150" cy="230" r="5" fill="rgba(74,222,128,0.6)"/>
+            <circle cx="70" cy="150" r="5" fill="rgba(255,107,43,0.6)"/>
+          </g>
+          <!-- Центральный элемент -->
+          <polygon points="150,100 190,165 150,145 110,165" fill="rgba(245,200,66,0.15)" stroke="rgba(245,200,66,0.4)" stroke-width="1"/>
+          <polygon points="150,200 110,135 150,155 190,135" fill="rgba(255,107,43,0.12)" stroke="rgba(255,107,43,0.35)" stroke-width="1"/>
+          <circle cx="150" cy="150" r="18" fill="rgba(245,200,66,0.1)" stroke="rgba(245,200,66,0.5)" stroke-width="1.5"/>
+          <circle cx="150" cy="150" r="8" fill="rgba(245,200,66,0.8)"/>
+          <!-- Точки-акценты -->
+          <g class="c-dots" style="transform-origin:150px 150px">
+            <rect x="143" y="118" width="4" height="4" rx="1" fill="rgba(43,156,255,0.7)" transform="rotate(45 145 120)"/>
+            <rect x="175" y="143" width="4" height="4" rx="1" fill="rgba(74,222,128,0.7)" transform="rotate(45 177 145)"/>
+            <rect x="143" y="174" width="4" height="4" rx="1" fill="rgba(168,85,247,0.7)" transform="rotate(45 145 176)"/>
+            <rect x="113" y="143" width="4" height="4" rx="1" fill="rgba(255,71,87,0.7)" transform="rotate(45 115 145)"/>
+          </g>
+          <!-- Линии -->
+          <line x1="150" y1="30" x2="150" y2="70" stroke="rgba(245,200,66,0.2)" stroke-width="1"/>
+          <line x1="270" y1="150" x2="230" y2="150" stroke="rgba(43,156,255,0.2)" stroke-width="1"/>
+          <line x1="150" y1="270" x2="150" y2="230" stroke="rgba(74,222,128,0.2)" stroke-width="1"/>
+          <line x1="30" y1="150" x2="70" y2="150" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
+          <!-- Угловые элементы -->
+          <path d="M50 50 L70 50 L70 70" stroke="rgba(245,200,66,0.25)" stroke-width="1.5" fill="none"/>
+          <path d="M250 50 L230 50 L230 70" stroke="rgba(245,200,66,0.25)" stroke-width="1.5" fill="none"/>
+          <path d="M50 250 L70 250 L70 230" stroke="rgba(245,200,66,0.25)" stroke-width="1.5" fill="none"/>
+          <path d="M250 250 L230 250 L230 230" stroke="rgba(245,200,66,0.25)" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ УСЛУГИ ═══ -->
+<div class="services-wrap" id="services">
+<div class="services-inner">
+  <div class="sec-kicker reveal">🎨 Что мы делаем</div>
+  <h2 class="reveal">Наши <em>услуги</em></h2>
+  <p class="sec-desc reveal">Полный спектр 2D дизайна — от иконки до полного визуального стиля проекта.</p>
+
+  <div class="srv-grid">
+    <div class="srv reveal reveal-d1">
+      <div class="srv-arrow">↗</div>
+      <div class="srv-num">01</div>
+      <span class="srv-icon">🎮</span>
+      <div class="srv-title">Игровой 2D арт</div>
+      <div class="srv-desc">Персонажи, окружение, предметы, анимационные спрайты для мобильных и ПК игр. Любой стиль — от пиксель-арта до мультяшного.</div>
+      <div class="srv-tags">
+        <span class="srv-tag">Спрайты</span>
+        <span class="srv-tag">Персонажи</span>
+        <span class="srv-tag">Тайлсеты</span>
+        <span class="srv-tag">Анимация</span>
+      </div>
+    </div>
+
+    <div class="srv reveal reveal-d2">
+      <div class="srv-arrow">↗</div>
+      <div class="srv-num">02</div>
+      <span class="srv-icon">📱</span>
+      <div class="srv-title">UI / UX дизайн</div>
+      <div class="srv-desc">Интерфейсы для мобильных приложений, веб-сайтов и игр. Удобно, красиво и конвертирует пользователей.</div>
+      <div class="srv-tags">
+        <span class="srv-tag">Мобайл UI</span>
+        <span class="srv-tag">Веб UI</span>
+        <span class="srv-tag">Игровой HUD</span>
+        <span class="srv-tag">Figma</span>
+      </div>
+    </div>
+
+    <div class="srv reveal reveal-d3">
+      <div class="srv-arrow">↗</div>
+      <div class="srv-num">03</div>
+      <span class="srv-icon">🖼️</span>
+      <div class="srv-title">Иллюстрации</div>
+      <div class="srv-desc">Векторные и растровые иллюстрации для соцсетей, маркетинга, книг и брендинга. Уникальный стиль под ваш проект.</div>
+      <div class="srv-tags">
+        <span class="srv-tag">Вектор</span>
+        <span class="srv-tag">Растр</span>
+        <span class="srv-tag">Обложки</span>
+        <span class="srv-tag">Постеры</span>
+      </div>
+    </div>
+
+    <div class="srv reveal reveal-d1">
+      <div class="srv-arrow">↗</div>
+      <div class="srv-num">04</div>
+      <span class="srv-icon">🏷️</span>
+      <div class="srv-title">Логотип и брендинг</div>
+      <div class="srv-desc">Создание фирменного стиля, логотипа, цветовой палитры и гайдлайна для вашего бизнеса или проекта.</div>
+      <div class="srv-tags">
+        <span class="srv-tag">Логотип</span>
+        <span class="srv-tag">Брендбук</span>
+        <span class="srv-tag">Стиль</span>
+        <span class="srv-tag">Айдентика</span>
+      </div>
+    </div>
+
+    <div class="srv reveal reveal-d2">
+      <div class="srv-arrow">↗</div>
+      <div class="srv-num">05</div>
+      <span class="srv-icon">⚡</span>
+      <div class="srv-title">Иконки и стикеры</div>
+      <div class="srv-desc">Пакеты иконок для приложений, Telegram-стикеры, эмодзи и иконографика. Быстро и качественно.</div>
+      <div class="srv-tags">
+        <span class="srv-tag">App иконки</span>
+        <span class="srv-tag">Стикеры</span>
+        <span class="srv-tag">Emoji</span>
+        <span class="srv-tag">Иконографика</span>
+      </div>
+    </div>
+
+    <div class="srv reveal reveal-d3">
+      <div class="srv-arrow">↗</div>
+      <div class="srv-num">06</div>
+      <span class="srv-icon">🎬</span>
+      <div class="srv-title">Анимация и GIF</div>
+      <div class="srv-desc">2D анимация для игр, приложений, рекламы и соцсетей. Плавные анимации, лоадеры, GIF-стикеры.</div>
+      <div class="srv-tags">
+        <span class="srv-tag">Frame анимация</span>
+        <span class="srv-tag">GIF</span>
+        <span class="srv-tag">Лоадеры</span>
+        <span class="srv-tag">Интро</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ ПРОЦЕСС ═══ -->
+<div class="section" id="process">
+  <div class="sec-kicker reveal">⚙️ Как мы работаем</div>
+  <h2 class="reveal">Процесс <em>работы</em></h2>
+  <p class="sec-desc reveal">Прозрачно и быстро — вы всегда знаете что происходит с вашим заказом.</p>
+
+  <div class="process-grid">
+    <div class="proc reveal reveal-d1">
+      <div class="proc-n">01</div>
+      <div class="proc-t">Бриф</div>
+      <div class="proc-d">Вы описываете задачу, цели и стиль. Мы задаём вопросы и уточняем детали через Telegram.</div>
+    </div>
+    <div class="proc reveal reveal-d2">
+      <div class="proc-n">02</div>
+      <div class="proc-t">Концепт</div>
+      <div class="proc-d">В течение 24 часов показываем первые эскизы и концепции. Вы выбираете направление.</div>
+    </div>
+    <div class="proc reveal reveal-d3">
+      <div class="proc-n">03</div>
+      <div class="proc-t">Разработка</div>
+      <div class="proc-d">Делаем финальный дизайн с правками по вашим комментариям. До 3 итераций включено.</div>
+    </div>
+    <div class="proc reveal reveal-d4">
+      <div class="proc-n">04</div>
+      <div class="proc-t">Сдача</div>
+      <div class="proc-d">Отдаём все исходники в нужных форматах: PNG, SVG, AI, PSD, WebP — что нужно для вашего проекта.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ДЛЯ КАКИХ УСТРОЙСТВ ═══ -->
+<div class="devices-wrap" id="devices">
+<div class="devices-inner">
+  <div class="sec-kicker reveal">📲 Адаптация</div>
+  <h2 class="reveal">Для <em>любых</em> устройств</h2>
+  <p class="sec-desc reveal reveal-d1">Оптимизируем дизайн под конкретную платформу — размеры, разрешение, форматы.</p>
+
+  <div class="dev-grid">
+    <div class="dev-left">
+      <div class="feat-list">
+        <div class="feat-item reveal reveal-d1">
+          <div class="feat-bullet">✦</div>
+          Масштабируемые векторные файлы (SVG) — идеально для любого размера экрана
+        </div>
+        <div class="feat-item reveal reveal-d2">
+          <div class="feat-bullet">✦</div>
+          Экспорт в нужных разрешениях: @1x, @2x, @3x для Retina дисплеев
+        </div>
+        <div class="feat-item reveal reveal-d3">
+          <div class="feat-bullet">✦</div>
+          Форматы для App Store и Google Play с нужными размерами иконок
+        </div>
+        <div class="feat-item reveal reveal-d4">
+          <div class="feat-bullet">✦</div>
+          Оптимизация WebP и AVIF для быстрой загрузки на мобильных устройствах
+        </div>
+      </div>
+      <button class="hbtn-main reveal" onclick="document.querySelector('.cta-wrap').scrollIntoView({behavior:'smooth'})">Заказать адаптацию</button>
+    </div>
+
+    <div class="dev-right reveal">
+      <div class="dev-item">
+        <span class="dev-ic">📱</span>
+        <div class="dev-info">
+          <div class="dev-name">Смартфоны iOS & Android</div>
+          <div class="dev-desc">1x, 2x, 3x / PNG, WebP, SVG</div>
+        </div>
+        <span class="dev-check">✓</span>
+      </div>
+      <div class="dev-item">
+        <span class="dev-ic">💻</span>
+        <div class="dev-info">
+          <div class="dev-name">Веб-сайты и PWA</div>
+          <div class="dev-desc">SVG, WebP, AVIF, PNG</div>
+        </div>
+        <span class="dev-check">✓</span>
+      </div>
+      <div class="dev-item">
+        <span class="dev-ic">🖥️</span>
+        <div class="dev-info">
+          <div class="dev-name">Десктоп приложения</div>
+          <div class="dev-desc">ICO, PNG @4x, SVG</div>
+        </div>
+        <span class="dev-check">✓</span>
+      </div>
+      <div class="dev-item">
+        <span class="dev-ic">🎮</span>
+        <div class="dev-info">
+          <div class="dev-name">Игровые движки</div>
+          <div class="dev-desc">Unity, Godot, GameMaker — спрайты и атласы</div>
+        </div>
+        <span class="dev-check">✓</span>
+      </div>
+      <div class="dev-item">
+        <span class="dev-ic">📺</span>
+        <div class="dev-info">
+          <div class="dev-name">Smart TV & планшеты</div>
+          <div class="dev-desc">1080p, 4K PNG, SVG</div>
+        </div>
+        <span class="dev-check">✓</span>
+      </div>
+      <div class="dev-item">
+        <span class="dev-ic">✈️</span>
+        <div class="dev-info">
+          <div class="dev-name">Telegram, соцсети</div>
+          <div class="dev-desc">Стикеры, GIF, WebM, PNG</div>
+        </div>
+        <span class="dev-check">✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ РАБОТЫ ═══ -->
+<div class="section" id="works">
+  <div class="sec-kicker reveal">🖼️ Портфолио</div>
+  <h2 class="reveal">Примеры <em>работ</em></h2>
+  <p class="sec-desc reveal">Часть наших проектов — игры, приложения, брендинг, иллюстрации.</p>
+
+  <div class="works-grid">
+    <div class="work-card reveal reveal-d1">
+      <div class="work-bg" style="background:linear-gradient(135deg,#1a0a00,#3d1a00)">🎮</div>
+      <div class="work-overlay work-show">
+        <div class="work-cat">Игровой арт</div>
+        <div class="work-title">Мобильная RPG — персонажи и локации</div>
+      </div>
+    </div>
+    <div class="work-card reveal reveal-d2">
+      <div class="work-bg" style="background:linear-gradient(135deg,#001a2d,#003366)">📱</div>
+      <div class="work-overlay work-show">
+        <div class="work-cat">UI дизайн</div>
+        <div class="work-title">Приложение доставки — полный UI Kit</div>
+      </div>
+    </div>
+    <div class="work-card reveal reveal-d3">
+      <div class="work-bg" style="background:linear-gradient(135deg,#0a001a,#220044)">✨</div>
+      <div class="work-overlay work-show">
+        <div class="work-cat">Иллюстрация</div>
+        <div class="work-title">Серия постеров для музыкального фестиваля</div>
+      </div>
+    </div>
+    <div class="work-card reveal reveal-d1">
+      <div class="work-bg" style="background:linear-gradient(135deg,#001a00,#003300)">🏷️</div>
+      <div class="work-overlay work-show">
+        <div class="work-cat">Брендинг</div>
+        <div class="work-title">Логотип и айдентика ресторана</div>
+      </div>
+    </div>
+    <div class="work-card reveal reveal-d2">
+      <div class="work-bg" style="background:linear-gradient(135deg,#1a0000,#3d0000)">⚡</div>
+      <div class="work-overlay work-show">
+        <div class="work-cat">Стикеры</div>
+        <div class="work-title">Telegram пак — 30 анимированных стикеров</div>
+      </div>
+    </div>
+    <div class="work-card reveal reveal-d3">
+      <div class="work-bg" style="background:linear-gradient(135deg,#1a1a00,#3d3d00)">🎬</div>
+      <div class="work-overlay work-show">
+        <div class="work-cat">Анимация</div>
+        <div class="work-title">Анимированный логотип и интро-ролик</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ЦЕНЫ ═══ -->
+<div class="services-wrap" id="pricing">
+<div class="services-inner">
+  <div class="sec-kicker reveal">💰 Стоимость</div>
+  <h2 class="reveal">Прозрачные <em>цены</em></h2>
+  <p class="sec-desc reveal">Фиксированные тарифы без скрытых доплат. Итоговая цена зависит от объёма и сложности.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card reveal reveal-d1">
+      <div class="price-name">Стартовый</div>
+      <div class="price-desc">Небольшие задачи — иконки, стикеры, простые иллюстрации</div>
+      <div class="price-num">от 50 сом.</div>
+      <div class="price-unit">за единицу</div>
+      <div class="price-hr"></div>
+      <div class="price-features">
+        <div class="pf">До 3 иконок / стикеров</div>
+        <div class="pf">Срок — 24 часа</div>
+        <div class="pf">PNG + SVG</div>
+        <div class="pf">1 правка</div>
+        <div class="pf no">Исходник AI/PSD</div>
+        <div class="pf no">Анимация</div>
+      </div>
+      <a href="https://t.me/davronmarket" target="_blank" class="price-btn">Заказать →</a>
+    </div>
+
+    <div class="price-card featured reveal reveal-d2">
+      <div class="price-name">Профи</div>
+      <div class="price-desc">Комплексные проекты — UI Kit, персонаж, брендинг, серия иллюстраций</div>
+      <div class="price-num">от 300 сом.</div>
+      <div class="price-unit">за проект</div>
+      <div class="price-hr"></div>
+      <div class="price-features">
+        <div class="pf">Без ограничений</div>
+        <div class="pf">Срок — 48–72 часа</div>
+        <div class="pf">Все форматы</div>
+        <div class="pf">До 3 правок</div>
+        <div class="pf">Исходник AI/PSD</div>
+        <div class="pf">Анимация по запросу</div>
+      </div>
+      <a href="https://t.me/davronmarket" target="_blank" class="price-btn">Заказать →</a>
+    </div>
+
+    <div class="price-card reveal reveal-d3">
+      <div class="price-name">Командный</div>
+      <div class="price-desc">Постоянное сотрудничество — месячный абонемент для компаний</div>
+      <div class="price-num">от 2000 сом.</div>
+      <div class="price-unit">в месяц</div>
+      <div class="price-hr"></div>
+      <div class="price-features">
+        <div class="pf">Неограниченные задачи</div>
+        <div class="pf">Приоритетная очередь</div>
+        <div class="pf">Все форматы</div>
+        <div class="pf">Неограниченные правки</div>
+        <div class="pf">Все исходники</div>
+        <div class="pf">Выделенный менеджер</div>
+      </div>
+      <a href="https://t.me/davronmarket" target="_blank" class="price-btn">Обсудить →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ ПОЧЕМУ МЫ ═══ -->
+<div class="section">
+  <div class="sec-kicker reveal">🏆 Наши преимущества</div>
+  <h2 class="reveal">Почему <em>выбирают</em> нас</h2>
+
+  <div class="why-grid">
+    <div class="why-card reveal reveal-d1">
+      <div class="why-ic">⚡</div>
+      <div class="why-t">Быстрая сдача</div>
+      <div class="why-d">Первый концепт — через 24 часа. Финал — через 48–72 часа максимум.</div>
+    </div>
+    <div class="why-card reveal reveal-d2">
+      <div class="why-ic">🎯</div>
+      <div class="why-t">Точно в стиль</div>
+      <div class="why-d">Изучаем референсы и создаём дизайн под ваш продукт, а не шаблонный.</div>
+    </div>
+    <div class="why-card reveal reveal-d3">
+      <div class="why-ic">📦</div>
+      <div class="why-t">Все исходники</div>
+      <div class="why-d">Отдаём полные права и все рабочие файлы: AI, PSD, Figma, SVG.</div>
+    </div>
+    <div class="why-card reveal reveal-d4">
+      <div class="why-ic">💬</div>
+      <div class="why-t">Прямая связь</div>
+      <div class="why-d">Общение напрямую в Telegram — без посредников, быстрая обратная связь.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div style="padding:0 40px;margin-bottom:80px;max-width:1180px;margin-left:auto;margin-right:auto;">
+<div class="cta-wrap reveal">
+  <div class="cta-inner">
+    <div class="cta-h">Готовы начать<br><em>ваш проект?</em></div>
+    <p class="cta-p">Напишите нам в Telegram — обсудим задачу и пришлём коммерческое предложение в течение 2 часов.</p>
+    <div class="cta-btns">
+      <a href="https://t.me/davronmarket" target="_blank" class="cta-btn-main">✈️ Написать в Telegram</a>
+      <a href="https://davronmarket.tj" class="cta-btn-sec">Открыть сайт →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <span class="f-logo">DavronMarket</span>
+        <p class="f-tag">Профессиональный 2D дизайн для игр, приложений и брендов. Таджикистан.</p>
+        <div class="f-social">
+          <a class="f-soc" href="https://t.me/davronmarket" target="_blank">✈️</a>
+          <a class="f-soc" href="#" target="_blank">📸</a>
+          <a class="f-soc" href="#" target="_blank">▶️</a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h5>Услуги</h5>
+        <div class="f-links">
+          <a class="f-lnk" href="#services">Игровой арт</a>
+          <a class="f-lnk" href="#services">UI / UX</a>
+          <a class="f-lnk" href="#services">Иллюстрации</a>
+          <a class="f-lnk" href="#services">Анимация</a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h5>Проект</h5>
+        <div class="f-links">
+          <a class="f-lnk" href="#process">Процесс</a>
+          <a class="f-lnk" href="#works">Портфолио</a>
+          <a class="f-lnk" href="#pricing">Цены</a>
+          <a class="f-lnk" href="#devices">Устройства</a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h5>Контакты</h5>
+        <div class="f-links">
+          <a class="f-lnk" href="https://t.me/davronmarket" target="_blank">Telegram</a>
+          <a class="f-lnk" href="#">WhatsApp</a>
+          <a class="f-lnk" href="#">Instagram</a>
+          <a class="f-lnk" href="#">Худжанд, Таджикистан</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="f-copy">© 2025 DavronMarket. Все права защищены.</div>
+      <div class="f-made">Дизайн от <span>DavronMarket</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+function animCur(){cx+=(mx-cx)*.15;cy+=(my-cy)*.15;cur2.style.left=cx+'px';cur2.style.top=cy+'px';requestAnimationFrame(animCur);}animCur();
+
+// Hover эффекты для кнопок/карточек
+document.querySelectorAll('button,a,.srv,.work-card,.price-card,.dev-item,.why-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';cur2.style.width='50px';cur2.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';cur2.style.width='36px';cur2.style.height='36px';});
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Nav scroll effect
+window.addEventListener('scroll',()=>{
+  const n=document.querySelector('nav');
+  n.style.background=window.scrollY>60?'rgba(5,5,7,.97)':'rgba(5,5,7,.85)';
+});
+
+// Hover on work cards
+document.querySelectorAll('.work-card').forEach(c=>{
+  c.addEventListener('mouseenter',()=>c.querySelector('.work-overlay').style.opacity='1');
+  c.addEventListener('mouseleave',()=>c.querySelector('.work-overlay').style.opacity='0');
+});
+</script>
+
+</body>
+</html>

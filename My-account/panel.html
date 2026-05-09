@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<link rel="stylesheet" href="../assets/css/engine.css">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Личный кабинет</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="../assets/js/engine.js"></script>
+
+<style>
+.job-select-wrap{ ... }
+:root{--bg:#0b0d12;--bg2:#141821;--bg3:#1c2132;--card:rgba(20,24,33,.95);--brd:rgba(255,255,255,.07);--orange:#ff6b2b;--blue:#2b9cff;--gold:#f5c842;--green:#4ade80;--purple:#a78bfa;--red:#f87171;--w:rgba(255,255,255,.9);--w6:rgba(255,255,255,.6);--w3:rgba(255,255,255,.3);--w1:rgba(255,255,255,.06);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--w);min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1200px;margin:0 auto;padding:84px 20px 80px;}
+.wrap{
+  max-width:1200px;
+  margin:0 auto;
+  padding:84px 20px 80px;
+}
+
+.panel-grid{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:20px;
+  align-items:start;
+}
+display:grid;
+grid-template-columns:260px 1fr;
+gap:20px;
+align-items:start;
+}.sidebar{background:var(--card);border:1px solid var(--brd);border-radius:20px;overflow:hidden;position:sticky;top:80px;}
+.sb-profile{padding:22px;border-bottom:1px solid var(--brd);text-align:center;}
+.sb-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:22px;font-weight:800;color:#000;margin:0 auto 12px;}
+.sb-name{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px;}
+.sb-email{font-size:12px;color:var(--w6);}
+.sb-role{display:inline-block;margin-top:8px;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:800;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);color:var(--gold);}
+.sb-nav{padding:10px;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;color:var(--w6);cursor:pointer;transition:.22s;border:none;background:none;width:100%;text-align:left;}
+.sb-item:hover{background:var(--w1);color:var(--w);}
+.sb-item.active{background:rgba(255,107,43,.1);border:1px solid rgba(255,107,43,.2);color:var(--orange);}
+.sb-item-ico{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+.sb-badge{margin-left:auto;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:800;background:rgba(255,107,43,.2);color:var(--orange);}
+.sb-badge.blue{background:rgba(43,156,255,.2);color:var(--blue);}
+.sb-badge.green{background:rgba(74,222,128,.2);color:var(--green);}
+.sb-divider{height:1px;background:var(--brd);margin:6px 14px;}
+.sb-logout{width:calc(100% - 20px);margin:10px;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;color:var(--red);background:none;border:1px solid rgba(248,113,113,.15);cursor:pointer;transition:.22s;}
+.sb-logout:hover{background:rgba(248,113,113,.1);}
+.main{display:flex;flex-direction:column;gap:18px;}
+.tab-pane{display:none;}
+.tab-pane.active{display:flex;flex-direction:column;gap:18px;}
+.p-card{background:var(--card);border:1px solid var(--brd);border-radius:20px;padding:24px;}
+.p-card-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:var(--w);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.p-card-title span{font-size:20px;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.stat-box{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;text-align:center;}
+.stat-box b{display:block;font-family:'Unbounded',sans-serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
+.stat-box span{font-size:11px;color:var(--w3);text-transform:uppercase;letter-spacing:.06em;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:800;border:none;cursor:pointer;text-decoration:none;transition:.25s;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#111;}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-outline{background:var(--w1);border:1px solid var(--brd);color:var(--w);}
+.btn-outline:hover{background:rgba(255,255,255,.1);}
+.btn-blue{background:rgba(43,156,255,.12);border:1px solid rgba(43,156,255,.3);color:var(--blue);}
+.btn-red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--red);}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.f-field{display:flex;flex-direction:column;gap:6px;}
+.f-field.full{grid-column:1/-1;}
+.f-label{font-size:12px;font-weight:600;color:var(--w6);}
+.f-input,.f-textarea,.f-select{background:var(--bg3);border:1px solid var(--brd);border-radius:10px;padding:10px 14px;color:var(--w);font-family:'Mulish',sans-serif;font-size:14px;outline:none;width:100%;transition:.22s;}
+.f-input:focus,.f-textarea:focus,.f-select:focus{border-color:rgba(255,107,43,.5);box-shadow:0 0 0 3px rgba(255,107,43,.1);}
+.f-textarea{min-height:80px;resize:vertical;}
+.f-select option{background:var(--bg);}
+.p-list{display:flex;flex-direction:column;gap:10px;}
+.p-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg3);border:1px solid var(--brd);border-radius:14px;transition:.22s;}
+.p-item:hover{border-color:rgba(255,255,255,.12);}
+.p-item-ico{font-size:22px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--w1);border-radius:12px;flex-shrink:0;}
+.p-item-name{font-size:14px;font-weight:700;color:var(--w);margin-bottom:3px;}
+.p-item-meta{font-size:12px;color:var(--w6);}
+.p-item-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.pill{display:inline-flex;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;}
+.pill-pending{background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.2);}
+.pill-done{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);}
+.pill-new{background:rgba(43,156,255,.12);color:var(--blue);border:1px solid rgba(43,156,255,.2);}
+.empty{text-align:center;padding:40px 20px;color:var(--w3);font-size:14px;}
+.star-row{display:flex;gap:6px;font-size:26px;cursor:pointer;margin-bottom:10px;}
+.star{color:rgba(255,255,255,.15);transition:.15s;user-select:none;}
+.star.active{color:var(--gold);}
+.chat-wrap{display:flex;height:500px;border-radius:16px;overflow:hidden;border:1px solid var(--brd);}
+.chat-list{width:220px;flex-shrink:0;border-right:1px solid var(--brd);background:var(--bg3);overflow-y:auto;}
+.chat-dialog{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--brd);cursor:pointer;transition:.2s;}
+.chat-dialog:hover,.chat-dialog.active{background:rgba(255,107,43,.06);}
+.chat-ava{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:13px;flex-shrink:0;}
+.chat-dname{font-size:13px;font-weight:600;color:var(--w);}
+.chat-dlast{font-size:11px;color:var(--w6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;}
+.chat-main{flex:1;display:flex;flex-direction:column;}
+.chat-header{padding:12px 16px;border-bottom:1px solid var(--brd);background:var(--bg3);font-weight:700;font-size:13px;}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.chat-msg{max-width:70%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+.chat-msg.out{align-self:flex-end;background:rgba(255,107,43,.18);border:1px solid rgba(255,107,43,.3);}
+.chat-msg.in{align-self:flex-start;background:var(--bg3);border:1px solid var(--brd);}
+.chat-msg-time{font-size:10px;color:var(--w3);margin-top:4px;text-align:right;}
+.chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--brd);}
+.chat-input{flex:1;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;padding:10px 14px;color:var(--w);font-family:'Mulish',sans-serif;font-size:13px;outline:none;}
+.chat-input:focus{border-color:rgba(255,107,43,.4);}
+.chat-send{padding:10px 18px;border-radius:10px;background:var(--orange);color:#000;font-weight:800;border:none;cursor:pointer;transition:.2s;}
+.wish-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.wish-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;}
+.wish-card:hover{border-color:rgba(255,107,43,.3);}
+.wish-img{width:100%;height:120px;object-fit:cover;display:block;}
+.wish-body{padding:12px;}
+.wish-name{font-size:13px;font-weight:700;color:var(--w);margin-bottom:4px;}
+.wish-price{font-size:13px;color:var(--green);}
+.wish-rm{width:100%;margin-top:10px;padding:7px;border-radius:8px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);color:var(--red);font-size:11px;font-weight:700;cursor:pointer;}
+@media(max-width:900px){
+  .panel-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:static;
+  }
+
+  .stats-row{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .f-grid{
+    grid-template-columns:1fr;
+  }
+
+  .wish-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+}@media(max-width:540px){.wrap{padding:76px 12px 60px;}.stats-row{grid-template-columns:1fr 1fr;}.chat-list{display:none;}.wish-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script>
+  if (window.dmEngine && window.dmEngine.renderHeader) window.dmEngine.renderHeader();
+</script>
+<div class="wrap">
+  <div class="panel-grid">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar">
+      <div class="sb-profile">
+        <div class="sb-avatar" id="sb-ava">?</div>
+        <div class="sb-name"  id="sb-name">Загрузка...</div>
+        <div class="sb-email" id="sb-email">—</div>
+        <div class="sb-role"  id="sb-role">Пользователь</div>
+      </div>
+      <nav class="sb-nav">
+        <button class="sb-item active" data-tab="account"><span class="sb-item-ico">👤</span> Мой аккаунт</button>
+        <button class="sb-item" data-tab="wishlist"><span class="sb-item-ico">❤️</span> Wishlist <span class="sb-badge blue" id="badge-wish">0</span></button>
+        <button class="sb-item" data-tab="cart"><span class="sb-item-ico">🛒</span> Корзина <span class="sb-badge" id="badge-cart">0</span></button>
+        <button class="sb-item" data-tab="orders"><span class="sb-item-ico">📦</span> История заказов</button>
+        <button class="sb-item" data-tab="downloads"><span class="sb-item-ico">⬇️</span> Загрузки</button>
+        <button class="sb-item" data-tab="address"><span class="sb-item-ico">📍</span> Адрес</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="anketa"><span class="sb-item-ico">📋</span> Анкета</button>
+        <button class="sb-item" data-tab="announcements"><span class="sb-item-ico">📢</span> Объявления</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="comments"><span class="sb-item-ico">💬</span> Комментарии <span class="sb-badge green" id="badge-comments">0</span></button>
+        <button class="sb-item" data-tab="reviews"><span class="sb-item-ico">⭐</span> Отзывы <span class="sb-badge blue" id="badge-reviews">0</span></button>
+        <button class="sb-item" data-tab="chat"><span class="sb-item-ico">✉️</span> Сообщения <span class="sb-badge" id="badge-chat">0</span></button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" id="btn-admin" style="display:none"><span class="sb-item-ico">⚙️</span> Админ-панель</button>
+        <button class="sb-item" id="btn-owner" style="display:none"><span class="sb-item-ico">👑</span> Панель владельца</button>
+      </nav>
+      <button class="sb-logout" id="btn-logout">🚪 Выйти из аккаунта</button>
+    </aside>
+
+    <!-- ═══ КОНТЕНТ ═══ -->
+    <div class="main">
+
+      <!-- Аккаунт -->
+      <div class="tab-pane active" id="tab-account">
+        <div class="stats-row" id="stats-row"></div>
+        <div class="p-card">
+          <div class="p-card-title"><span>👤</span> Личные данные</div>
+          <div class="f-grid">
+            <div class="f-field"><label class="f-label">Имя</label><input class="f-input" id="f-name" type="text" placeholder="Ваше имя"></div>
+            <div class="f-field"><label class="f-label">Телефон</label><input class="f-input" id="f-phone" type="tel" placeholder="+992 …"></div>
+            <div class="f-field"><label class="f-label">Email</label><input class="f-input" id="f-email" type="email"></div>
+            <div class="f-field"><label class="f-label">Новый пароль</label><input class="f-input" id="f-pass" type="password" placeholder="Оставьте пустым если не меняете"></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="saveProfile()">💾 Сохранить</button></div>
+        </div>
+      </div>
+
+      <!-- Wishlist -->
+      <div class="tab-pane" id="tab-wishlist">
+        <div class="p-card">
+          <div class="p-card-title"><span>❤️</span> Избранные товары</div>
+          <div class="wish-grid" id="wish-grid"><div class="empty">В избранном пока ничего нет</div></div>
+        </div>
+      </div>
+
+      <!-- Корзина -->
+      <div class="tab-pane" id="tab-cart">
+        <div class="p-card">
+          <div class="p-card-title"><span>🛒</span> Корзина</div>
+          <div class="p-list" id="cart-list"><div class="empty">Корзина пуста</div></div>
+          <div id="cart-total" style="margin-top:16px;font-family:'Unbounded',sans-serif;font-size:15px;display:none;"></div>
+          <div id="cart-btns" class="btn-row" style="display:none;">
+            <a class="btn btn-gold" href="https://davronmarket.com/cart/" target="_blank" rel="noopener">Оформить заказ →</a>
+            <button class="btn btn-outline" onclick="clearCart()">Очистить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- История заказов -->
+      <div class="tab-pane" id="tab-orders">
+        <div class="p-card">
+          <div class="p-card-title"><span>📦</span> История заказов</div>
+          <div class="p-list" id="orders-list"><div class="empty">Заказов пока нет</div></div>
+        </div>
+      </div>
+
+      <!-- Загрузки -->
+      <div class="tab-pane" id="tab-downloads">
+        <div class="p-card">
+          <div class="p-card-title"><span>⬇️</span> Мои загрузки</div>
+          <div class="p-list" id="downloads-list"><div class="empty">Платные загрузки появятся здесь после оплаты</div></div>
+        </div>
+      </div>
+
+      <!-- Адрес -->
+      <div class="tab-pane" id="tab-address">
+        <div class="p-card">
+          <div class="p-card-title"><span>📍</span> Адрес доставки</div>
+          <div class="f-grid">
+            <div class="f-field"><label class="f-label">Город</label><input class="f-input" id="addr-city" type="text" placeholder="Худжанд"></div>
+            <div class="f-field"><label class="f-label">Район / массив</label><input class="f-input" id="addr-district" type="text" placeholder="32 мкр"></div>
+            <div class="f-field full"><label class="f-label">Улица, дом, квартира</label><input class="f-input" id="addr-street" type="text" placeholder="ул. Ленина, д.1, кв.1"></div>
+            <div class="f-field"><label class="f-label">Ориентир</label><input class="f-input" id="addr-note" type="text" placeholder="Рядом с рынком..."></div>
+            <div class="f-field"><label class="f-label">Телефон для доставки</label><input class="f-input" id="addr-phone" type="tel" placeholder="+992 …"></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="saveAddress()">💾 Сохранить адрес</button></div>
+        </div>
+      </div>
+
+<!-- ═════════ ПРОФЕССИОНАЛЬНАЯ АНКЕТА ═════════ -->
+
+<div class="tab-pane" id="tab-anketa">
+
+  <div class="p-card">
+
+    <div class="p-card-title">
+      <span>📋</span>
+      Профессиональная анкета специалиста
+    </div>
+
+    <!-- SEARCH / FILTER STYLE -->
+    <div class="f-grid">
+
+      <!-- СПЕЦИАЛИЗАЦИЯ -->
+      <div class="f-field full">
+
+        <label class="f-label">
+          Должность / специализация
+        </label>
+
+        <!-- SEARCH BOX -->
+        <div class="job-select-wrap">
+
+          <input
+            type="text"
+            id="job-search"
+            class="f-input"
+            placeholder="Начните писать профессию..."
+            autocomplete="off"
+          >
+
+          <!-- DROPDOWN -->
+          <div class="job-dropdown" id="job-dropdown">
+
+            <div class="job-item">Веб-разработчик</div>
+            <div class="job-item">Frontend разработчик</div>
+            <div class="job-item">Backend разработчик</div>
+            <div class="job-item">Full Stack разработчик</div>
+            <div class="job-item">UX/UI дизайнер</div>
+            <div class="job-item">Графический дизайнер</div>
+            <div class="job-item">Motion дизайнер</div>
+            <div class="job-item">3D дизайнер</div>
+            <div class="job-item">Видеомонтажёр</div>
+            <div class="job-item">SMM специалист</div>
+            <div class="job-item">Маркетолог</div>
+            <div class="job-item">SEO специалист</div>
+            <div class="job-item">Копирайтер</div>
+            <div class="job-item">Переводчик</div>
+            <div class="job-item">Фотограф</div>
+            <div class="job-item">Оператор</div>
+            <div class="job-item">Программист</div>
+            <div class="job-item">Мобильный разработчик</div>
+            <div class="job-item">Python разработчик</div>
+            <div class="job-item">JavaScript разработчик</div>
+            <div class="job-item">React разработчик</div>
+            <div class="job-item">Flutter разработчик</div>
+            <div class="job-item">WordPress разработчик</div>
+            <div class="job-item">Инженер</div>
+            <div class="job-item">Архитектор</div>
+            <div class="job-item">Бухгалтер</div>
+            <div class="job-item">Юрист</div>
+            <div class="job-item">Продавец</div>
+            <div class="job-item">Менеджер</div>
+            <div class="job-item">Барбер</div>
+            <div class="job-item">Парикмахер</div>
+            <div class="job-item">Мастер маникюра</div>
+            <div class="job-item">Автомеханик</div>
+            <div class="job-item">Электрик</div>
+            <div class="job-item">Сантехник</div>
+            <div class="job-item">Сварщик</div>
+            <div class="job-item">Строитель</div>
+            <div class="job-item">Повар</div>
+            <div class="job-item">Кондитер</div>
+            <div class="job-item">Курьер</div>
+
+          </div>
+
+        </div>
+
+        <div class="job-help">
+          Нажмите на поле или начните вводить текст —
+          система покажет подходящие профессии.
+        </div>
+
+      </div>
+
+      <!-- ОПЫТ -->
+      <div class="f-field">
+        <label class="f-label">Опыт работы</label>
+
+        <select class="f-select" id="a-exp">
+
+          <option>Без опыта</option>
+          <option>До 1 года</option>
+          <option>1-2 года</option>
+          <option>3-5 лет</option>
+          <option>5-10 лет</option>
+          <option>10+ лет</option>
+
+        </select>
+      </div>
+
+      <!-- ГОРОД -->
+      <div class="f-field">
+        <label class="f-label">Город</label>
+
+        <input
+          class="f-input"
+          id="a-city"
+          type="text"
+          placeholder="Худжанд"
+        >
+      </div>
+
+      <!-- YOUTUBE -->
+      <div class="f-field full">
+
+        <label class="f-label">
+          Видео работы (YouTube)
+        </label>
+
+        <div class="video-row">
+
+          <input
+            class="f-input"
+            id="a-video"
+            type="url"
+            placeholder="https://www.youtube.com/watch?v=..."
+          >
+
+          <a
+            class="btn btn-outline"
+            href="https://www.youtube.com/watch?v=FEuvnWdTOUs"
+            target="_blank"
+          >
+            ▶ Пример
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- PHOTO -->
+      <div class="f-field full">
+
+        <label class="f-label">
+          Фото ваших работ
+        </label>
+
+        <div class="upload-box">
+
+          <input
+            type="file"
+            id="a-photos"
+            accept="image/*"
+            multiple
+          >
+
+          <div class="upload-info">
+
+            <div>📸 До 10 фотографий</div>
+            <div>💾 Максимум 20 MB</div>
+            <div>🖼 JPG / PNG / WEBP</div>
+
+          </div>
+
+          <div id="photo-preview"></div>
+
+        </div>
+
+      </div>
+
+      <!-- ABOUT -->
+      <div class="f-field full">
+
+        <label class="f-label">
+          О себе
+        </label>
+
+        <textarea
+          class="f-textarea"
+          id="a-about"
+          placeholder="Подробно расскажите о ваших услугах, навыках, опыте работы и достижениях..."
+        ></textarea>
+
+      </div>
+
+      <!-- CONTACT -->
+      <div class="f-field full">
+
+        <label class="f-label">
+          Контакты
+        </label>
+
+        <input
+          class="f-input"
+          id="a-contact"
+          type="text"
+          placeholder="WhatsApp / Telegram / Телефон"
+        >
+
+      </div>
+
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btn-row">
+
+      <button
+        class="btn btn-gold"
+        onclick="saveAnketa()"
+      >
+        💾 Сохранить анкету
+      </button>
+
+      <a
+        class="btn btn-outline"
+        href="anketa.html"
+      >
+        📋 Смотреть анкеты
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ═════════ STYLES ═════════ -->
+
+<style>
+
+.job-select-wrap{
+  position:relative;
+}
+
+.job-dropdown{
+  position:absolute;
+  top:100%;
+  left:0;
+  width:100%;
+  max-height:260px;
+  overflow-y:auto;
+  background:var(--bg3);
+  border:1px solid var(--brd);
+  border-radius:14px;
+  margin-top:8px;
+  z-index:100;
+  display:none;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.job-item{
+  padding:12px 14px;
+  cursor:pointer;
+  transition:.2s;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  font-size:14px;
+}
+
+.job-item:hover{
+  background:rgba(255,107,43,.12);
+  color:var(--orange);
+}
+
+.job-help{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--w6);
+}
+
+.video-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.upload-box{
+  border:1px dashed rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:18px;
+  background:rgba(255,255,255,.02);
+}
+
+.upload-info{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-top:12px;
+  font-size:12px;
+  color:var(--w6);
+}
+
+#photo-preview{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:12px;
+  margin-top:18px;
+}
+
+.preview-card{
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  height:120px;
+}
+
+.preview-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+</style>
+
+<!-- ═════════ JS FILTER + PHOTO ═════════ -->
+
+<script>
+
+/* JOB FILTER */
+
+const searchInput = document.getElementById('job-search');
+const dropdown = document.getElementById('job-dropdown');
+const items = document.querySelectorAll('.job-item');
+
+searchInput.addEventListener('focus', () => {
+  dropdown.style.display = 'block';
+});
+
+searchInput.addEventListener('input', () => {
+
+  const value = searchInput.value.toLowerCase();
+
+  dropdown.style.display = 'block';
+
+  items.forEach(item => {
+
+    const text = item.textContent.toLowerCase();
+
+    item.style.display =
+      text.includes(value)
+      ? 'block'
+      : 'none';
+
+  });
+
+});
+
+items.forEach(item => {
+
+  item.addEventListener('click', () => {
+
+    searchInput.value = item.textContent;
+    dropdown.style.display = 'none';
+
+  });
+
+});
+
+document.addEventListener('click', (e) => {
+
+  if(!e.target.closest('.job-select-wrap')){
+    dropdown.style.display = 'none';
+  }
+
+});
+
+/* PHOTO PREVIEW */
+
+const photoInput = document.getElementById('a-photos');
+const preview = document.getElementById('photo-preview');
+
+photoInput.addEventListener('change', function(){
+
+  preview.innerHTML = '';
+
+  const files = Array.from(this.files);
+
+  if(files.length > 10){
+    alert('Можно загрузить максимум 10 фото');
+    this.value = '';
+    return;
+  }
+
+  const totalSize = files.reduce((sum,file)=>{
+    return sum + file.size;
+  },0);
+
+  if(totalSize > 20 * 1024 * 1024){
+    alert('Максимальный общий размер 20 MB');
+    this.value = '';
+    return;
+  }
+
+  files.forEach(file => {
+
+    if(!file.type.startsWith('image/')){
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+      const div = document.createElement('div');
+
+      div.className = 'preview-card';
+
+      div.innerHTML = `
+        <img src="${e.target.result}">
+      `;
+
+      preview.appendChild(div);
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+});
+
+</script>
+      <!-- Объявления -->
+      <div class="tab-pane" id="tab-announcements">
+        <div class="p-card">
+          <div class="p-card-title"><span>📢</span> Новое объявление</div>
+          <div class="f-grid">
+            <div class="f-field full"><label class="f-label">Заголовок</label><input class="f-input" id="an-title" type="text" placeholder="Название объявления"></div>
+            <div class="f-field full"><label class="f-label">Описание</label><textarea class="f-textarea" id="an-text" placeholder="Подробное описание..."></textarea></div>
+            <div class="f-field"><label class="f-label">Категория</label>
+              <select class="f-select" id="an-cat"><option>Продаю</option><option>Купить</option><option>Услуги</option><option>Работа</option><option>Аренда</option><option>Другое</option></select>
+            </div>
+            <div class="f-field"><label class="f-label">Цена (TJS)</label><input class="f-input" id="an-price" type="number" placeholder="0"></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="addAnnouncement()">📢 Опубликовать</button></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>📢</span> Мои объявления</div>
+          <div class="p-list" id="ann-list"><div class="empty">Объявлений пока нет</div></div>
+        </div>
+      </div>
+
+      <!-- Комментарии -->
+      <div class="tab-pane" id="tab-comments">
+        <div class="p-card">
+          <div class="p-card-title"><span>💬</span> Мои комментарии</div>
+          <div class="p-list" id="comments-list"><div class="empty">Комментариев пока нет</div></div>
+        </div>
+      </div>
+
+      <!-- Отзывы -->
+      <div class="tab-pane" id="tab-reviews">
+        <div class="p-card">
+          <div class="p-card-title"><span>⭐</span> Написать отзыв</div>
+          <div class="f-grid">
+            <div class="f-field full"><label class="f-label">Тип отзыва</label>
+              <select class="f-select" id="rev-type"><option value="product">О товаре</option><option value="seller">О продавце</option><option value="announcement">По объявлению</option><option value="service">Об услуге</option></select>
+            </div>
+            <div class="f-field full"><label class="f-label">Объект (название товара, продавец...)</label><input class="f-input" id="rev-target" type="text" placeholder="Название товара или имя продавца"></div>
+            <div class="f-field full">
+              <label class="f-label">Оценка</label>
+              <div class="star-row" id="star-row">
+                <span class="star" data-v="1">★</span><span class="star" data-v="2">★</span><span class="star" data-v="3">★</span><span class="star" data-v="4">★</span><span class="star" data-v="5">★</span>
+              </div>
+            </div>
+            <div class="f-field full"><label class="f-label">Текст отзыва</label><textarea class="f-textarea" id="rev-text" placeholder="Расскажите о вашем опыте..."></textarea></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="submitReview()">⭐ Отправить отзыв</button></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>⭐</span> Мои отзывы</div>
+          <div class="p-list" id="reviews-list"><div class="empty">Отзывов пока нет</div></div>
+        </div>
+      </div>
+
+      <!-- Сообщения / Чат -->
+      <div class="tab-pane" id="tab-chat">
+        <div class="p-card" style="padding:0;overflow:hidden;">
+          <div class="chat-wrap">
+            <div class="chat-list" id="chat-list">
+              <div style="padding:20px;font-size:12px;color:rgba(255,255,255,.35);text-align:center;margin-top:30px;">Диалогов пока нет</div>
+            </div>
+            <div class="chat-main">
+              <div class="chat-header" id="chat-title">Выберите диалог</div>
+              <div class="chat-messages" id="chat-messages"><div class="empty">Выберите диалог из списка</div></div>
+              <div class="chat-input-row">
+                <input class="chat-input" id="chat-msg-input" type="text" placeholder="Написать сообщение...">
+                <button class="chat-send" onclick="sendChatMsg()">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>✉️</span> Написать новое сообщение</div>
+          <div class="f-grid">
+            <div class="f-field"><label class="f-label">Кому (email)</label><input class="f-input" id="chat-to" type="email" placeholder="user@email.com"></div>
+            <div class="f-field"><label class="f-label">Тема</label><input class="f-input" id="chat-subject" type="text" placeholder="Вопрос по объявлению..."></div>
+            <div class="f-field full"><label class="f-label">Сообщение</label><textarea class="f-textarea" id="chat-new-msg" placeholder="Ваше сообщение..."></textarea></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="startChat()">✉️ Отправить</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  'use strict';
+  var E = window.dmEngine;
+  if (!E) { return; }
+  var user = E.auth.currentUser();
+  if (!user) { window.location.href = E.P('index.html'); return; }
+
+  function esc(s) { var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+  function key(k) { return 'dm_'+k+'_'+user.id; }
+  function load(k) { try{return JSON.parse(localStorage.getItem(k))||[];}catch(e){return[];} }
+  function save(k,v){ localStorage.setItem(k,JSON.stringify(v)); }
+  function fmtDate(iso){ return new Date(iso).toLocaleDateString('ru',{day:'numeric',month:'short',year:'numeric'}); }
+
+  /* Sidebar */
+  document.getElementById('sb-ava').textContent  = (user.name||'?').charAt(0).toUpperCase();
+  document.getElementById('sb-name').textContent  = user.name;
+  document.getElementById('sb-email').textContent = user.email;
+  var roleMap={owner:'👑 Владелец',admin:'⚙️ Администратор',worker:'🛠 Работник',user:'👤 Пользователь'};
+  document.getElementById('sb-role').textContent  = roleMap[user.role]||'👤 Пользователь';
+
+  if(user.role==='admin'||user.role==='worker'||user.role==='owner'){
+    var ba=document.getElementById('btn-admin');
+    ba.style.display='flex';
+    ba.addEventListener('click',function(){window.location.href=E.P('admin.html');});
+  }
+  if(user.role==='owner'){
+    var bo=document.getElementById('btn-owner');
+    bo.style.display='flex';
+    bo.addEventListener('click',function(){window.location.href=E.P('owner.html');});
+  }
+
+  /* Stats */
+  function refreshStats(){
+    document.getElementById('stats-row').innerHTML=
+      '<div class="stat-box"><b>'+load('dm_announcements').filter(function(a){return a.authorId===user.id;}).length+'</b><span>Объявлений</span></div>'+
+      '<div class="stat-box"><b>'+load(key('anketa')).length+'</b><span>Анкет</span></div>'+
+      '<div class="stat-box"><b>'+load(key('reviews')).length+'</b><span>Отзывов</span></div>'+
+      '<div class="stat-box"><b>'+load(key('chats')).length+'</b><span>Диалогов</span></div>';
+    document.getElementById('badge-wish').textContent     = load(key('wishlist')).length;
+    document.getElementById('badge-cart').textContent     = load(key('cart')).length;
+    document.getElementById('badge-comments').textContent = load(key('comments')).length;
+    document.getElementById('badge-reviews').textContent  = load(key('reviews')).length;
+    document.getElementById('badge-chat').textContent     = load(key('chats')).length;
+  }
+  refreshStats();
+
+  /* Tabs */
+  document.querySelectorAll('.sb-item[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var tab=this.getAttribute('data-tab');
+      document.querySelectorAll('.sb-item').forEach(function(b){b.classList.remove('active');});
+      document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
+      this.classList.add('active');
+      var pane=document.getElementById('tab-'+tab);
+      if(pane){pane.classList.add('active');renderTab(tab);}
+    });
+  });
+
+  function renderTab(tab){
+    if(tab==='account')       renderAccount();
+    else if(tab==='wishlist') renderWishlist();
+    else if(tab==='cart')     renderCart();
+    else if(tab==='orders')   renderOrders();
+    else if(tab==='address')  renderAddress();
+    else if(tab==='anketa')   renderAnketa();
+    else if(tab==='announcements') renderAnnouncements();
+    else if(tab==='comments') renderComments();
+    else if(tab==='reviews')  renderReviews();
+    else if(tab==='chat')     renderChats();
+    refreshStats();
+  }
+
+  /* Account */
+  function renderAccount(){
+    document.getElementById('f-name').value  = user.name||'';
+    document.getElementById('f-phone').value = user.phone||'';
+    document.getElementById('f-email').value = user.email||'';
+  }
+  renderAccount();
+  window.saveProfile=function(){
+    var name=document.getElementById('f-name').value.trim();
+    var phone=document.getElementById('f-phone').value.trim();
+    var pass=document.getElementById('f-pass').value.trim();
+    if(!name){E.toast('Введите имя','error');return;}
+    var upd={name:name,phone:phone};
+    if(pass){if(pass.length<6){E.toast('Минимум 6 символов','error');return;}upd.password=E.auth._hash(pass);}
+    E.auth.updateProfile(upd);
+    user=E.auth.currentUser();
+    document.getElementById('sb-name').textContent=user.name;
+    E.toast('✅ Профиль сохранён','success');
+  };
+
+  /* Address */
+  function renderAddress(){var a=load(key('address'))[0]||{};document.getElementById('addr-city').value=a.city||'';document.getElementById('addr-district').value=a.district||'';document.getElementById('addr-street').value=a.street||'';document.getElementById('addr-note').value=a.note||'';document.getElementById('addr-phone').value=a.phone||'';}
+  window.saveAddress=function(){save(key('address'),[{city:document.getElementById('addr-city').value.trim(),district:document.getElementById('addr-district').value.trim(),street:document.getElementById('addr-street').value.trim(),note:document.getElementById('addr-note').value.trim(),phone:document.getElementById('addr-phone').value.trim()}]);E.toast('✅ Адрес сохранён','success');};
+
+  /* Wishlist */
+  function renderWishlist(){var list=load(key('wishlist'));var g=document.getElementById('wish-grid');if(!list.length){g.innerHTML='<div class="empty">В избранном пока ничего нет</div>';return;}g.innerHTML=list.map(function(p,i){return '<div class="wish-card"><img class="wish-img" src="'+esc(p.img||'')+'" loading="lazy" onerror="this.style.display=\'none\'"><div class="wish-body"><div class="wish-name">'+esc(p.name)+'</div><div class="wish-price">'+esc(p.price||'')+'</div><button class="wish-rm" onclick="removeWish('+i+')">✕ Удалить</button></div></div>';}).join('');}
+  window.removeWish=function(i){var l=load(key('wishlist'));l.splice(i,1);save(key('wishlist'),l);renderWishlist();refreshStats();};
+
+  /* Cart */
+  function renderCart(){var list=load(key('cart'));var el=document.getElementById('cart-list');if(!list.length){el.innerHTML='<div class="empty">Корзина пуста</div>';document.getElementById('cart-total').style.display='none';document.getElementById('cart-btns').style.display='none';return;}el.innerHTML=list.map(function(p,i){return '<div class="p-item"><div class="p-item-ico">🛒</div><div><div class="p-item-name">'+esc(p.name)+'</div><div class="p-item-meta">'+esc(p.price||'—')+' × '+(p.qty||1)+'</div></div><div class="p-item-right"><button class="btn btn-red" onclick="removeCart('+i+')">✕</button></div></div>';}).join('');var total=list.reduce(function(s,p){return s+(parseFloat(p.price)||0)*(p.qty||1);},0);document.getElementById('cart-total').textContent='Итого: '+total.toFixed(0)+' TJS';document.getElementById('cart-total').style.display='block';document.getElementById('cart-btns').style.display='flex';}
+  window.removeCart=function(i){var l=load(key('cart'));l.splice(i,1);save(key('cart'),l);renderCart();refreshStats();};
+  window.clearCart=function(){save(key('cart'),[]);renderCart();refreshStats();};
+
+  /* Orders */
+  function renderOrders(){var list=load(key('orders'));var el=document.getElementById('orders-list');if(!list.length){el.innerHTML='<div class="empty">Заказов пока нет</div>';return;}el.innerHTML=list.map(function(o){return '<div class="p-item"><div class="p-item-ico">📦</div><div><div class="p-item-name">#'+esc(o.id)+' — '+esc(o.title||'Заказ')+'</div><div class="p-item-meta">'+fmtDate(o.date)+'</div></div><div class="p-item-right"><span class="pill '+(o.status==='done'?'pill-done':'pill-pending')+'">'+esc(o.status==='done'?'Выполнен':'В обработке')+'</span></div></div>';}).join('');}
+
+  /* Anketa */
+  function renderAnketa(){var list=load(key('anketa'));var el=document.getElementById('anketa-list');if(!list.length){el.innerHTML='<div class="empty">Анкет пока нет</div>';return;}el.innerHTML=list.map(function(a,i){return '<div class="p-item"><div class="p-item-ico">📋</div><div><div class="p-item-name">'+esc(a.position||'Анкета')+'</div><div class="p-item-meta">'+esc(a.experience||'')+(a.city?' · '+esc(a.city):'')+'</div></div><div class="p-item-right"><button class="btn btn-red" onclick="deleteAnketa('+i+')">Удалить</button></div></div>';}).join('');}
+  window.saveAnketa=function(){if(E.requireProfileCompletion&&!E.requireProfileCompletion('Публикация анкеты'))return;var pos=document.getElementById('a-pos').value.trim();if(!pos){E.toast('Укажите должность','error');return;}var list=load(key('anketa'));list.unshift({id:Date.now(),position:pos,experience:document.getElementById('a-exp').value.trim(),about:document.getElementById('a-about').value.trim(),city:document.getElementById('a-city').value.trim(),contact:document.getElementById('a-contact').value.trim(),date:new Date().toISOString(),authorId:user.id,authorName:user.name});save(key('anketa'),list);E.toast('✅ Анкета сохранена','success');renderAnketa();refreshStats();};
+  window.deleteAnketa=function(i){var l=load(key('anketa'));l.splice(i,1);save(key('anketa'),l);renderAnketa();refreshStats();};
+
+  /* Announcements */
+  function renderAnnouncements(){var mine=load('dm_announcements').filter(function(a){return a.authorId===user.id;});var el=document.getElementById('ann-list');if(!mine.length){el.innerHTML='<div class="empty">Объявлений пока нет</div>';return;}el.innerHTML=mine.map(function(a){return '<div class="p-item"><div class="p-item-ico">📢</div><div><div class="p-item-name">'+esc(a.title)+'</div><div class="p-item-meta">'+esc(a.category||'')+(a.price?' · '+a.price+' TJS':'')+'</div></div><div class="p-item-right"><span class="pill '+(a.status==='published'?'pill-done':'pill-pending')+'">'+esc(a.status==='published'?'Опубликовано':'На проверке')+'</span><button class="btn btn-red" onclick="deleteAnn(\''+a.id+'\')">✕</button></div></div>';}).join('');}
+  window.addAnnouncement=function(){if(E.requireProfileCompletion&&!E.requireProfileCompletion('Публикация объявления'))return;var title=document.getElementById('an-title').value.trim();if(!title){E.toast('Введите заголовок','error');return;}var all=load('dm_announcements');all.unshift({id:'a'+Date.now(),title:title,text:document.getElementById('an-text').value.trim(),category:document.getElementById('an-cat').value,price:document.getElementById('an-price').value,status:'pending',authorId:user.id,authorName:user.name,date:new Date().toISOString()});save('dm_announcements',all);E.toast('📢 Отправлено на проверку','success');document.getElementById('an-title').value='';document.getElementById('an-text').value='';document.getElementById('an-price').value='';renderAnnouncements();refreshStats();};
+  window.deleteAnn=function(id){save('dm_announcements',load('dm_announcements').filter(function(a){return a.id!==id;}));renderAnnouncements();refreshStats();};
+
+  /* Comments */
+  function renderComments(){var list=load(key('comments'));var el=document.getElementById('comments-list');if(!list.length){el.innerHTML='<div class="empty">Комментариев пока нет</div>';return;}el.innerHTML=list.map(function(c,i){return '<div class="p-item"><div class="p-item-ico">💬</div><div><div class="p-item-name">'+esc(c.text)+'</div><div class="p-item-meta">'+esc(c.target||'')+'</div></div><div class="p-item-right"><button class="btn btn-red" onclick="deleteComment('+i+')">✕</button></div></div>';}).join('');}
+  window.deleteComment=function(i){var l=load(key('comments'));l.splice(i,1);save(key('comments'),l);renderComments();refreshStats();};
+
+  /* Reviews */
+  var selStars=0;
+  document.getElementById('star-row').addEventListener('click',function(e){if(e.target.classList.contains('star')){selStars=parseInt(e.target.getAttribute('data-v'));document.querySelectorAll('#star-row .star').forEach(function(s){s.classList.toggle('active',parseInt(s.getAttribute('data-v'))<=selStars);});}});
+  function renderReviews(){var list=load(key('reviews'));var el=document.getElementById('reviews-list');if(!list.length){el.innerHTML='<div class="empty">Отзывов пока нет</div>';return;}el.innerHTML=list.map(function(r,i){return '<div class="p-item"><div class="p-item-ico">⭐</div><div><div class="p-item-name">'+esc(r.target)+' — '+'★'.repeat(r.stars)+'</div><div class="p-item-meta">'+esc(r.text)+'</div></div><div class="p-item-right"><button class="btn btn-red" onclick="deleteReview('+i+')">✕</button></div></div>';}).join('');}
+  window.submitReview=function(){if(E.requireProfileCompletion&&!E.requireProfileCompletion('Отправка отзыва'))return;var target=document.getElementById('rev-target').value.trim();var text=document.getElementById('rev-text').value.trim();if(!target){E.toast('Укажите объект','error');return;}if(!selStars){E.toast('Поставьте оценку','error');return;}if(!text){E.toast('Напишите текст','error');return;}var list=load(key('reviews'));list.unshift({id:Date.now(),type:document.getElementById('rev-type').value,target:target,stars:selStars,text:text,date:new Date().toISOString(),authorId:user.id});save(key('reviews'),list);selStars=0;document.querySelectorAll('#star-row .star').forEach(function(s){s.classList.remove('active');});document.getElementById('rev-target').value='';document.getElementById('rev-text').value='';E.toast('⭐ Отзыв сохранён','success');renderReviews();refreshStats();};
+  window.deleteReview=function(i){var l=load(key('reviews'));l.splice(i,1);save(key('reviews'),l);renderReviews();refreshStats();};
+
+  /* Chat */
+  var activeDialog=null;
+  function renderChats(){var chats=load(key('chats'));var cl=document.getElementById('chat-list');if(!chats.length){cl.innerHTML='<div style="padding:20px;font-size:12px;color:rgba(255,255,255,.35);text-align:center;margin-top:30px;">Диалогов пока нет</div>';return;}cl.innerHTML=chats.map(function(c,i){var last=c.messages&&c.messages[c.messages.length-1];return '<div class="chat-dialog '+(activeDialog===i?'active':'')+'" onclick="openDialog('+i+')"><div class="chat-ava">'+(c.to||'?').charAt(0).toUpperCase()+'</div><div><div class="chat-dname">'+esc(c.subject||c.to)+'</div><div class="chat-dlast">'+esc(last?last.text:'')+'</div></div></div>';}).join('');}
+  window.openDialog=function(i){activeDialog=i;var chats=load(key('chats'));var c=chats[i];document.getElementById('chat-title').textContent=c.subject||'Диалог';document.getElementById('chat-messages').innerHTML=(c.messages||[]).map(function(m){return '<div class="chat-msg '+(m.from===user.id?'out':'in')+'">'+esc(m.text)+'<div class="chat-msg-time">'+fmtDate(m.date)+'</div></div>';}).join('');renderChats();};
+  window.sendChatMsg=function(){if(activeDialog===null)return;var txt=document.getElementById('chat-msg-input').value.trim();if(!txt)return;var chats=load(key('chats'));chats[activeDialog].messages.push({from:user.id,text:txt,date:new Date().toISOString()});save(key('chats'),chats);document.getElementById('chat-msg-input').value='';openDialog(activeDialog);};
+  window.startChat=function(){if(E.requireProfileCompletion&&!E.requireProfileCompletion('Отправка сообщения'))return;var to=document.getElementById('chat-to').value.trim();var msg=document.getElementById('chat-new-msg').value.trim();if(!to||!msg){E.toast('Заполните поля','error');return;}var chats=load(key('chats'));chats.push({to:to,subject:document.getElementById('chat-subject').value.trim()||to,messages:[{from:user.id,text:msg,date:new Date().toISOString()}]});save(key('chats'),chats);document.getElementById('chat-to').value='';document.getElementById('chat-subject').value='';document.getElementById('chat-new-msg').value='';E.toast('✅ Сообщение отправлено','success');renderChats();refreshStats();};
+
+  document.getElementById('btn-logout').addEventListener('click',function(){E.auth.logout();});
+  refreshStats();
+}());
+</script>
+</body>
+</html>

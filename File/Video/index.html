@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Видео</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 10%,rgba(255,107,43,.06) 0%,transparent 45%),
+    radial-gradient(ellipse at 85% 90%,rgba(239,68,68,.05) 0%,transparent 45%),var(--bg);}
+.video-page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:80px 20px 100px;}
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.3);margin-bottom:40px;}
+[data-theme="light"] .breadcrumb{color:rgba(0,0,0,.35);}
+.breadcrumb a{color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;}
+[data-theme="light"] .breadcrumb a{color:rgba(0,0,0,.35);}
+.breadcrumb a:hover{color:#ff6b2b;}
+.breadcrumb span{color:rgba(255,255,255,.55);}
+[data-theme="light"] .breadcrumb span{color:rgba(0,0,0,.55);}
+/* HERO */
+.video-hero{text-align:center;padding:20px 0 56px;}
+.video-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;
+  background:rgba(255,107,43,.07);border:1px solid rgba(255,107,43,.22);
+  font-size:12px;font-weight:700;color:#ff8a5c;margin-bottom:18px;}
+.video-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;
+  line-height:1.1;color:#fff;margin-bottom:14px;}
+[data-theme="light"] .video-hero h1{color:#111;}
+.video-hero h1 span{background:linear-gradient(135deg,#ff6b2b,#f5c842);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.video-hero p{font-size:15px;color:rgba(255,255,255,.42);max-width:520px;margin:0 auto;}
+[data-theme="light"] .video-hero p{color:rgba(0,0,0,.42);}
+/* SECTION CATS */
+.video-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:52px;}
+.vcat-card{background:var(--card);border:1px solid var(--brd);border-radius:20px;
+  overflow:hidden;transition:all .25s;cursor:pointer;text-decoration:none;display:block;}
+.vcat-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.vcat-top{height:110px;display:flex;align-items:center;justify-content:center;font-size:52px;}
+.vcat-top.bg-red{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));}
+.vcat-top.bg-orange{background:linear-gradient(135deg,rgba(255,107,43,.1),rgba(255,107,43,.03));}
+.vcat-top.bg-cyan{background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(34,211,238,.03));}
+.vcat-body{padding:16px 18px 20px;}
+.vcat-name{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:800;color:#fff;margin-bottom:6px;}
+[data-theme="light"] .vcat-name{color:#111;}
+.vcat-desc{font-size:12px;color:rgba(255,255,255,.35);line-height:1.6;}
+[data-theme="light"] .vcat-desc{color:rgba(0,0,0,.35);}
+/* SECTION LABEL */
+.video-sec-label{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  color:rgba(255,255,255,.28);letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+[data-theme="light"] .video-sec-label{color:rgba(0,0,0,.28);}
+.video-sec-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--brd),transparent);}
+/* VIDEO GRID */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:48px;}
+.vid-card{background:var(--card);border:1px solid var(--brd);border-radius:20px;overflow:hidden;
+  transition:all .25s;display:flex;flex-direction:column;}
+.vid-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.vid-thumb{height:150px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;
+  background:linear-gradient(135deg,rgba(255,107,43,.08),rgba(239,68,68,.06));}
+.vid-thumb-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.vid-play-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.35);opacity:0;transition:opacity .25s;}
+.vid-card:hover .vid-play-icon{opacity:1;}
+.vid-play-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,107,43,.9);
+  display:flex;align-items:center;justify-content:center;font-size:18px;border:none;cursor:pointer;}
+.vid-badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:20px;font-size:9px;font-weight:800;}
+.vid-badge.film{background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#f87171;}
+.vid-badge.vfx{background:rgba(34,211,238,.2);border:1px solid rgba(34,211,238,.3);color:#22d3ee;}
+.vid-info{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.vid-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;color:#fff;}
+[data-theme="light"] .vid-name{color:#111;}
+.vid-meta-row{display:flex;align-items:center;gap:10px;}
+.vid-meta{font-size:10px;color:rgba(255,255,255,.28);}
+[data-theme="light"] .vid-meta{color:rgba(0,0,0,.28);}
+.vid-desc{font-size:11px;color:rgba(255,255,255,.35);line-height:1.65;flex:1;}
+[data-theme="light"] .vid-desc{color:rgba(0,0,0,.35);}
+.vid-btn{padding:9px 14px;border:none;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:9px;
+  font-weight:800;cursor:pointer;transition:all .22s;margin-top:6px;width:100%;
+  background:linear-gradient(135deg,#ff6b2b,#f59e0b);color:#fff;}
+.vid-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
+/* COMING SOON */
+.coming-soon{background:var(--card);border:2px dashed var(--brd);border-radius:24px;
+  padding:56px 24px;text-align:center;margin-top:8px;}
+.cs-ico{font-size:60px;margin-bottom:16px;opacity:.35;}
+.cs-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:800;
+  color:rgba(255,255,255,.35);margin-bottom:8px;}
+[data-theme="light"] .cs-title{color:rgba(0,0,0,.35);}
+.cs-desc{font-size:13px;color:rgba(255,255,255,.22);max-width:380px;margin:0 auto 24px;line-height:1.7;}
+[data-theme="light"] .cs-desc{color:rgba(0,0,0,.22);}
+.btn-outline{padding:12px 28px;border-radius:12px;border:1px solid rgba(255,107,43,.3);
+  background:rgba(255,107,43,.07);color:#ff8a5c;font-family:'Unbounded',sans-serif;
+  font-size:10px;font-weight:800;cursor:pointer;transition:all .22s;}
+.btn-outline:hover{background:rgba(255,107,43,.14);transform:translateY(-2px);}
+@media(max-width:700px){.video-cats{grid-template-columns:1fr};.video-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="video-page">
+
+  <div class="breadcrumb">
+    <a href="/file/">📁 Файлы</a>
+    <span>/</span>
+    <span>Видео</span>
+  </div>
+
+  <div class="video-hero">
+    <div class="video-badge">🎬 Видеотека</div>
+    <h1>Видео <span>контент</span></h1>
+    <p>Фильмы, VFX материалы и видеопроекты от кинематографической студии DavronMarket.</p>
+  </div>
+
+  <p class="video-sec-label">Категории</p>
+  <div class="video-cats">
+
+    <a href="/films/" class="vcat-card">
+      <div class="vcat-top bg-red">🎥</div>
+      <div class="vcat-body">
+        <div class="vcat-name">Фильмы</div>
+        <div class="vcat-desc">Художественные и документальные фильмы от студии DavronMarket.</div>
+      </div>
+    </a>
+
+    <a href="#vfx" class="vcat-card">
+      <div class="vcat-top bg-cyan">✨</div>
+      <div class="vcat-body">
+        <div class="vcat-name">VFX Контент</div>
+        <div class="vcat-desc">Визуальные эффекты, 3D ресурсы и рендер-паки для профессионалов.</div>
+      </div>
+    </a>
+
+    <a href="#music-video" class="vcat-card">
+      <div class="vcat-top bg-orange">🎵</div>
+      <div class="vcat-body">
+        <div class="vcat-name">Клипы</div>
+        <div class="vcat-desc">Музыкальные видеоклипы и творческие проекты платформы.</div>
+      </div>
+    </a>
+
+  </div>
+
+  <p class="video-sec-label" id="vfx">VFX и 3D ресурсы</p>
+  <div class="video-grid">
+
+    <div class="vid-card">
+      <div class="vid-thumb">
+        🌌
+        <span class="vid-badge vfx">VFX</span>
+        <div class="vid-play-icon"><button class="vid-play-btn">▶</button></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">Space VFX Pack</div>
+        <div class="vid-meta-row">
+          <span class="vid-meta">📐 4K</span>
+          <span class="vid-meta">⏱ 30 сцен</span>
+          <span class="vid-meta">💾 8.5 ГБ</span>
+        </div>
+        <div class="vid-desc">Набор космических VFX сцен: туманности, взрывы, порталы. Формат MP4 + ProRes.</div>
+        <button class="vid-btn">Купить пак</button>
+      </div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-thumb">
+        🔥
+        <span class="vid-badge vfx">VFX</span>
+        <div class="vid-play-icon"><button class="vid-play-btn">▶</button></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">Fire & Smoke Pack</div>
+        <div class="vid-meta-row">
+          <span class="vid-meta">📐 4K</span>
+          <span class="vid-meta">⏱ 48 сцен</span>
+          <span class="vid-meta">💾 12 ГБ</span>
+        </div>
+        <div class="vid-desc">Реалистичные эффекты огня и дыма для монтажа. Прозрачный фон (alpha channel).</div>
+        <button class="vid-btn">Купить пак</button>
+      </div>
+    </div>
+
+    <div class="vid-card">
+      <div class="vid-thumb">
+        🎞️
+        <span class="vid-badge vfx">3D</span>
+        <div class="vid-play-icon"><button class="vid-play-btn">▶</button></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-name">CineLUT Collection</div>
+        <div class="vid-meta-row">
+          <span class="vid-meta">🎨 120 LUT</span>
+          <span class="vid-meta">💾 450 МБ</span>
+        </div>
+        <div class="vid-desc">Профессиональные цветовые пресеты для видеомонтажа. Кинематографический стиль.</div>
+        <button class="vid-btn">Купить</button>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="video-sec-label" id="music-video">Скоро</p>
+  <div class="coming-soon">
+    <div class="cs-ico">🎬</div>
+    <div class="cs-title">Новые видеопроекты в работе</div>
+    <div class="cs-desc">Кинематографическая студия DavronMarket готовит новые релизы. Следите за анонсами.</div>
+    <button class="btn-outline" onclick="location.href='/cinematic-studio/'">Cinematic Studio</button>
+  </div>
+
+</div>
+<script src="../../assets/js/engine.js"></script>
+</body>
+</html>

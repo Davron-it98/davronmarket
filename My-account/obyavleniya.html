@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Объявления пользователя</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="../assets/js/engine.js"></script>
+<style>
+body{margin:0;background:#0b0d12;color:#fff;font-family:'Mulish',sans-serif;}
+.wrap{max-width:1160px;margin:0 auto;padding:28px 20px 80px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}.card{background:linear-gradient(180deg,#141821,#10131a);border:1px solid rgba(255,255,255,.07);border-radius:28px;padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.24);}h1{margin:0 0 8px;font-family:'Unbounded',sans-serif;font-size:clamp(22px,4vw,34px);} .sub{color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:18px;} .field{margin-bottom:12px;} .field label{display:block;margin-bottom:6px;font-size:11px;font-weight:800;color:rgba(255,255,255,.4);} .field input,.field textarea,.field select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#fff;font:600 13px 'Mulish',sans-serif;outline:none;} .field textarea{min-height:120px;resize:vertical;} .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:14px;text-decoration:none;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;border:none;cursor:pointer;} .btn-gold{background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#111;} .btn-dark{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#fff;} .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;} .list{display:grid;gap:12px;} .item{padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);} .item b{display:block;font-size:14px;margin-bottom:4px;color:#fff;} .item span{display:block;font-size:12px;color:rgba(255,255,255,.56);line-height:1.7;} .pill{display:inline-flex;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;margin-top:8px;} .pending{background:rgba(245,200,66,.11);color:#ffe066;border:1px solid rgba(245,200,66,.22);} .published{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2);} @media(max-width:940px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="grid">
+    <section class="card">
+      <h1>📢 Добавить объявление</h1>
+      <div class="sub">Новое объявление сохраняется в системе. Администратор или владелец публикует его после проверки.</div>
+      <div class="field"><label>Заголовок</label><input id="title" type="text" placeholder="Короткий заголовок"></div>
+      <div class="field"><label>Категория</label><select id="category"><option>Услуги</option><option>Работа</option><option>Продажа</option><option>Поиск</option></select></div>
+      <div class="field"><label>Контакт</label><input id="contact" type="text" placeholder="Телефон или Telegram"></div>
+      <div class="field"><label>Описание</label><textarea id="text" placeholder="Подробно опишите объявление."></textarea></div>
+      <div class="actions">
+        <button class="btn btn-gold" onclick="saveAnnouncement()">Сохранить объявление</button>
+        <a class="btn btn-dark" href="panel.html">Назад в панель</a>
+      </div>
+    </section>
+    <aside class="card">
+      <h1 style="font-size:22px;">Мои объявления</h1>
+      <div class="sub">Видны ваши объявления и их статус публикации.</div>
+      <div class="list" id="my-list"></div>
+    </aside>
+  </div>
+  <div class="card" style="margin-top:18px;">
+    <h1 style="font-size:22px;">Опубликованные объявления</h1>
+    <div class="sub">Публичные объявления из системы.</div>
+    <div class="list" id="public-list"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var user = window.dmEngine.auth.currentUser();
+  if(!user){ window.location.href = window.dmEngine.P('index.html'); return; }
+  function getList(){ try { return JSON.parse(localStorage.getItem('dm_announcements')) || []; } catch(e){ return []; } }
+  function saveList(list){ localStorage.setItem('dm_announcements', JSON.stringify(list)); }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+  window.saveAnnouncement = function(){
+    var title = document.getElementById('title').value.trim();
+    var text = document.getElementById('text').value.trim();
+    if(!title){ window.dmEngine.toast('⚠️ Укажите заголовок', 'error'); return; }
+    if(!text){ window.dmEngine.toast('⚠️ Добавьте описание', 'error'); return; }
+    var list = getList();
+    list.unshift({
+      id: Date.now().toString(36),
+      title: title,
+      text: text,
+      category: document.getElementById('category').value,
+      contact: document.getElementById('contact').value.trim(),
+      authorId: user.id,
+      authorName: user.name,
+      status: 'pending',
+      date: new Date().toISOString()
+    });
+    saveList(list);
+    document.getElementById('title').value = '';
+    document.getElementById('text').value = '';
+    document.getElementById('contact').value = '';
+    window.dmEngine.toast('✅ Объявление отправлено', 'success');
+    render();
+  };
+
+  function render(){
+    var list = getList();
+    var mine = list.filter(function(item){ return item.authorId === user.id; });
+    var publicList = list.filter(function(item){ return item.status === 'published' || !item.status; });
+    document.getElementById('my-list').innerHTML = mine.length ? mine.map(function(item){
+      return '<div class="item"><b>' + esc(item.title) + '</b><span>' + esc(item.text) + '</span><span style="margin-top:8px;">' + esc(item.category || '') + ' · ' + esc(item.contact || '') + '</span><div class="pill ' + (item.status === 'published' ? 'published' : 'pending') + '">' + (item.status === 'published' ? 'Опубликовано' : 'На проверке') + '</div></div>';
+    }).join('') : '<div class="sub">У вас пока нет объявлений.</div>';
+    document.getElementById('public-list').innerHTML = publicList.length ? publicList.map(function(item){
+      return '<div class="item"><b>' + esc(item.title) + '</b><span>' + esc(item.text) + '</span><span style="margin-top:8px;">' + esc(item.authorName || 'DavronMarket') + ' · ' + new Date(item.date).toLocaleDateString('ru') + '</span></div>';
+    }).join('') : '<div class="sub">Пока нет опубликованных объявлений.</div>';
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

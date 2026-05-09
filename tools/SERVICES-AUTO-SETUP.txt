@@ -1,0 +1,21 @@
+DavronMarket - Services Auto Index Setup
+
+What this does
+- Reads all HTML files in /Services
+- Builds /Services/services.index.json
+- The services page Cтраницы/servises.html loads this JSON and renders cards automatically
+
+One-time build command (Windows PowerShell)
+- powershell -ExecutionPolicy Bypass -File .\tools\generate-services-index.ps1
+
+Live auto-update while you work
+- powershell -ExecutionPolicy Bypass -File .\tools\watch-services-index.ps1
+
+How to add a new service
+1) Add a new HTML file into /Services (example: seo-audit.html)
+2) Run generator command (or keep watcher running)
+3) Open /Cтраницы/servises.html - the new card appears in "Авто из папки Services"
+
+Deployment note for server
+- Run generate-services-index.ps1 during deploy before publishing files
+- Publish both /Services/services.index.json and updated /Cтраницы/servises.html

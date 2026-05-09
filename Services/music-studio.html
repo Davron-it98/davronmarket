@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket Music Studio — Профессиональная музыкальная студия</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════
+   ROOT VARIABLES — Dark luxury music aesthetic
+══════════════════════════════════════════════ */
+:root{
+  --ink:   #08080a;
+  --ink2:  #0f0f12;
+  --ink3:  #161619;
+  --gold:  #c9a84c;
+  --gold2: #e8c96a;
+  --gold3: #f5e4b0;
+  --red:   #c0392b;
+  --red2:  #e74c3c;
+  --cream: #f2ede4;
+  --w:     #fff;
+  --w80:   rgba(255,255,255,.80);
+  --w55:   rgba(255,255,255,.55);
+  --w30:   rgba(255,255,255,.30);
+  --w10:   rgba(255,255,255,.10);
+  --w05:   rgba(255,255,255,.05);
+  --gold-glow: rgba(201,168,76,.2);
+  --r: 20px;
+  --tr: all .32s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--ink);
+  color:var(--w80);
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* ══ CUSTOM CURSOR ══ */
+*, *:hover { cursor: none !important; }
+#cursor{
+  width:10px;height:10px;
+  background:var(--gold);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,background .2s;
+}
+#cursor-ring{
+  width:38px;height:38px;
+  border:1px solid rgba(201,168,76,.5);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:all .14s ease;
+}
+body:hover #cursor{width:10px;}
+a:hover ~ #cursor, button:hover ~ #cursor{width:18px;height:18px;background:var(--gold2);}
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--ink2);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px;}
+
+/* ══ GRAIN OVERLAY ══ */
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9999;
+  opacity:.6;
+}
+
+/* ══════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:0 40px;
+  height:70px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(8,8,10,.8);
+  border-bottom:1px solid rgba(201,168,76,.08);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.nav-logo span{color:var(--w30);font-size:11px;font-family:'DM Sans',sans-serif;letter-spacing:.1em;display:block;margin-top:-4px;}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-links a{
+  padding:8px 16px;border-radius:8px;
+  font-size:13px;font-weight:500;color:var(--w55);
+  text-decoration:none;transition:var(--tr);letter-spacing:.02em;
+}
+.nav-links a:hover{color:var(--w);background:var(--w05);}
+.nav-cta{
+  padding:10px 22px;border-radius:40px;
+  font-size:13px;font-weight:600;letter-spacing:.04em;
+  background:linear-gradient(135deg,var(--gold),#a8883a);
+  color:var(--ink);text-decoration:none;
+  transition:var(--tr);
+  box-shadow:0 4px 20px rgba(201,168,76,.3);
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(201,168,76,.45);}
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;}
+.nav-burger span{display:block;width:22px;height:1.5px;background:var(--w80);transition:var(--tr);}
+.mobile-menu{
+  display:none;position:fixed;
+  top:70px;left:0;right:0;
+  background:rgba(8,8,10,.98);
+  border-bottom:1px solid rgba(201,168,76,.12);
+  padding:20px;
+  flex-direction:column;gap:4px;
+  z-index:999;backdrop-filter:blur(20px);
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{padding:12px 16px;color:var(--w80);text-decoration:none;border-radius:8px;font-size:15px;}
+.mobile-menu a:hover{background:var(--w05);color:var(--gold2);}
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding:120px 40px 80px;
+}
+
+/* Animated sound wave bg */
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 75% 50%, rgba(201,168,76,.06), transparent),
+    radial-gradient(ellipse 40% 60% at 20% 60%, rgba(192,57,43,.05), transparent),
+    var(--ink);
+}
+.hero-lines{
+  position:absolute;inset:0;pointer-events:none;
+  display:flex;align-items:center;justify-content:flex-end;
+  overflow:hidden;opacity:.4;
+}
+.wave-group{display:flex;align-items:center;gap:3px;padding-right:60px;}
+.wave-bar{
+  width:3px;border-radius:3px;
+  background:linear-gradient(180deg,var(--gold),rgba(201,168,76,.1));
+  animation:waveAnim var(--d,1.2s) ease-in-out infinite alternate;
+  transform-origin:bottom;
+}
+@keyframes waveAnim{
+  from{height:var(--h1,20px);opacity:.3;}
+  to{height:var(--h2,80px);opacity:.9;}
+}
+
+.hero-content{
+  position:relative;z-index:1;
+  max-width:680px;
+}
+.hero-overline{
+  display:flex;align-items:center;gap:12px;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:28px;
+}
+.hero-overline::before{content:"";width:40px;height:1px;background:var(--gold);}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,7vw,96px);
+  font-weight:700;
+  line-height:.96;
+  letter-spacing:-2px;
+  color:var(--w);
+  margin-bottom:28px;
+}
+.hero h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold3));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{
+  font-size:17px;line-height:1.75;
+  color:var(--w55);
+  max-width:500px;margin-bottom:44px;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{
+  padding:16px 36px;border-radius:40px;
+  font-size:14px;font-weight:600;letter-spacing:.05em;
+  background:linear-gradient(135deg,var(--gold),#a8883a);
+  color:var(--ink);text-decoration:none;
+  transition:var(--tr);
+  box-shadow:0 8px 30px rgba(201,168,76,.35);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,168,76,.5);}
+.btn-ghost{
+  padding:16px 36px;border-radius:40px;
+  font-size:14px;font-weight:600;letter-spacing:.05em;
+  background:transparent;border:1px solid rgba(201,168,76,.35);
+  color:var(--gold2);text-decoration:none;
+  transition:var(--tr);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-ghost:hover{background:rgba(201,168,76,.07);border-color:var(--gold2);}
+
+.hero-stats{
+  display:flex;gap:40px;margin-top:60px;
+  padding-top:40px;
+  border-top:1px solid var(--w10);
+  flex-wrap:wrap;
+}
+.hstat{display:flex;flex-direction:column;gap:4px;}
+.hstat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:38px;letter-spacing:1px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hstat-label{font-size:12px;color:var(--w30);letter-spacing:.06em;text-transform:uppercase;}
+
+/* ══════════════════════════════════════════════
+   SECTION COMMON
+══════════════════════════════════════════════ */
+section{padding:100px 40px;max-width:1200px;margin:0 auto;}
+.sec-label{
+  display:flex;align-items:center;gap:12px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;
+}
+.sec-label::before{content:"";width:28px;height:1px;background:var(--gold);}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,68px);
+  font-weight:700;line-height:1.02;letter-spacing:-1px;
+  color:var(--w);margin-bottom:18px;
+}
+.sec-title em{font-style:italic;color:var(--gold2);}
+.sec-sub{font-size:16px;color:var(--w55);line-height:1.75;max-width:560px;}
+
+/* Divider */
+.section-divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.15),transparent);
+  max-width:1200px;margin:0 auto;
+}
+
+/* ══════════════════════════════════════════════
+   SERVICES SECTION
+══════════════════════════════════════════════ */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  margin-top:64px;
+  border:1px solid var(--w10);
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.svc-card{
+  padding:40px 36px;
+  background:var(--ink2);
+  border-right:1px solid var(--w10);
+  border-bottom:1px solid var(--w10);
+  position:relative;overflow:hidden;
+  transition:var(--tr);
+}
+.svc-card:nth-child(3n){border-right:none;}
+.svc-card:nth-last-child(-n+3){border-bottom:none;}
+.svc-card::before{
+  content:"";
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent, linear-gradient(90deg,var(--gold),var(--gold2)));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;
+}
+.svc-card:hover::before{transform:scaleX(1);}
+.svc-card:hover{background:rgba(201,168,76,.03);}
+
+.svc-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:48px;letter-spacing:2px;
+  color:rgba(201,168,76,.08);
+  line-height:1;margin-bottom:20px;
+  transition:var(--tr);
+}
+.svc-card:hover .svc-num{color:rgba(201,168,76,.2);}
+.svc-icon{
+  font-size:32px;margin-bottom:16px;display:block;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.svc-card:hover .svc-icon{transform:scale(1.15) translateY(-3px);}
+.svc-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:700;
+  color:var(--w);margin-bottom:12px;line-height:1.2;
+}
+.svc-desc{font-size:13.5px;color:var(--w55);line-height:1.7;margin-bottom:20px;}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.svc-tag{
+  padding:4px 12px;border-radius:20px;
+  font-size:10px;font-weight:600;letter-spacing:.06em;
+  background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);
+  color:rgba(201,168,76,.7);transition:var(--tr);
+}
+.svc-card:hover .svc-tag{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);color:var(--gold2);}
+
+/* ══════════════════════════════════════════════
+   FEATURED SERVICE — ENSEMBLE
+══════════════════════════════════════════════ */
+.ensemble-section{
+  padding:100px 40px;
+  background:var(--ink2);
+  border-top:1px solid var(--w10);
+  border-bottom:1px solid var(--w10);
+  position:relative;overflow:hidden;
+}
+.ensemble-section::before{
+  content:"";position:absolute;
+  width:600px;height:600px;
+  top:50%;left:60%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(201,168,76,.06),transparent 65%);
+  pointer-events:none;
+}
+.ensemble-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.ensemble-left .sec-sub{margin-bottom:36px;}
+.ensemble-features{display:flex;flex-direction:column;gap:16px;}
+.ens-feat{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:18px 20px;border-radius:14px;
+  background:rgba(255,255,255,.03);border:1px solid var(--w10);
+  transition:var(--tr);
+}
+.ens-feat:hover{border-color:rgba(201,168,76,.25);background:rgba(201,168,76,.04);}
+.ens-feat-icon{font-size:22px;flex-shrink:0;margin-top:2px;}
+.ens-feat h4{font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px;}
+.ens-feat p{font-size:12.5px;color:var(--w55);line-height:1.6;}
+
+.ensemble-right{display:flex;flex-direction:column;gap:20px;}
+.ens-big-card{
+  background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));
+  border:1px solid rgba(201,168,76,.2);
+  border-radius:20px;padding:32px;
+  position:relative;overflow:hidden;
+}
+.ens-big-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent);}
+.ens-big-card h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;color:var(--gold2);margin-bottom:10px;
+}
+.ens-big-card p{font-size:13px;color:var(--w55);line-height:1.7;margin-bottom:18px;}
+.ens-price{
+  display:flex;align-items:baseline;gap:8px;
+}
+.ens-price-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;letter-spacing:1px;
+  color:var(--gold2);
+}
+.ens-price-note{font-size:12px;color:var(--w30);}
+
+.ens-items{display:flex;flex-direction:column;gap:10px;}
+.ens-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:10px;
+  background:var(--w05);
+  font-size:13px;color:var(--w80);
+  transition:var(--tr);
+}
+.ens-item:hover{background:rgba(201,168,76,.06);}
+.ens-item::before{content:"♪";color:var(--gold);font-size:14px;flex-shrink:0;}
+
+/* ══════════════════════════════════════════════
+   PRODUCTION SECTION
+══════════════════════════════════════════════ */
+.production-grid{
+  display:grid;grid-template-columns:1.2fr 1fr;
+  gap:60px;align-items:start;margin-top:64px;
+}
+.prod-steps{display:flex;flex-direction:column;gap:0;}
+.prod-step{
+  display:flex;gap:20px;
+  padding:24px 0;
+  border-bottom:1px solid var(--w10);
+  position:relative;
+  transition:var(--tr);
+}
+.prod-step:last-child{border-bottom:none;}
+.prod-step:hover{padding-left:8px;}
+.prod-step-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;letter-spacing:1px;
+  color:rgba(201,168,76,.25);
+  flex-shrink:0;width:40px;
+  transition:var(--tr);
+}
+.prod-step:hover .prod-step-num{color:var(--gold2);}
+.prod-step h4{font-size:16px;font-weight:600;color:var(--w);margin-bottom:6px;}
+.prod-step p{font-size:13px;color:var(--w55);line-height:1.65;}
+
+.prod-right{position:sticky;top:100px;}
+.prod-package{
+  background:var(--ink3);
+  border:1px solid rgba(201,168,76,.15);
+  border-radius:20px;overflow:hidden;
+}
+.prod-pkg-head{
+  padding:28px 28px 20px;
+  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));
+  border-bottom:1px solid rgba(201,168,76,.1);
+}
+.prod-pkg-head h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);margin-bottom:6px;}
+.prod-pkg-head p{font-size:12px;color:var(--w55);}
+.prod-pkg-body{padding:24px 28px;}
+.prod-pkg-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid var(--w10);
+  font-size:13px;color:var(--w80);
+}
+.prod-pkg-item:last-child{border-bottom:none;}
+.prod-pkg-item::before{content:"✓";color:var(--gold);font-weight:700;font-size:13px;flex-shrink:0;}
+.prod-pkg-price{
+  padding:20px 28px;
+  border-top:1px solid rgba(201,168,76,.1);
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+/* ══════════════════════════════════════════════
+   PORTFOLIO
+══════════════════════════════════════════════ */
+.portfolio-tabs{
+  display:flex;gap:6px;margin:40px 0 36px;
+  flex-wrap:wrap;
+}
+.ptab{
+  padding:9px 22px;border-radius:30px;
+  font-size:13px;font-weight:500;
+  background:transparent;border:1px solid var(--w10);
+  color:var(--w55);cursor:pointer;transition:var(--tr);
+}
+.ptab:hover{border-color:rgba(201,168,76,.3);color:var(--gold2);}
+.ptab.on{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.35);color:var(--gold2);}
+
+.portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.pcard{
+  background:var(--ink2);
+  border:1px solid var(--w10);
+  border-radius:16px;overflow:hidden;
+  transition:var(--tr);position:relative;
+}
+.pcard:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.pcard-banner{
+  height:160px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:52px;
+  background:var(--banner,linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02)));
+  position:relative;overflow:hidden;
+}
+.pcard-banner::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,var(--ink2) 0%,transparent 50%);
+}
+.pcard-play{
+  position:absolute;
+  width:48px;height:48px;border-radius:50%;
+  background:var(--gold);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink);font-size:18px;
+  opacity:0;transform:scale(.8);
+  transition:var(--tr);z-index:2;cursor:pointer;
+}
+.pcard:hover .pcard-play{opacity:1;transform:scale(1);}
+.pcard-body{padding:18px;}
+.pcard-genre{
+  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:7px;
+}
+.pcard-title{font-size:15px;font-weight:600;color:var(--w);margin-bottom:5px;}
+.pcard-artist{font-size:12px;color:var(--w30);}
+.pcard-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;
+  border-top:1px solid var(--w10);
+}
+.pcard-dur{font-size:11px;color:var(--w30);}
+.pcard-year{font-size:11px;color:var(--w30);}
+
+/* ══════════════════════════════════════════════
+   EQUIPMENT / STUDIO SECTION
+══════════════════════════════════════════════ */
+.studio-section{
+  padding:100px 40px;
+  background:var(--ink2);
+  border-top:1px solid var(--w10);
+  position:relative;overflow:hidden;
+}
+.studio-section::before{
+  content:"";position:absolute;
+  top:-100px;right:-100px;
+  width:500px;height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(192,57,43,.05),transparent 70%);
+}
+.studio-inner{max-width:1200px;margin:0 auto;}
+.studio-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:56px;
+}
+.studio-room{
+  background:var(--ink);
+  border:1px solid var(--w10);
+  border-radius:20px;padding:32px;
+  position:relative;overflow:hidden;
+  transition:var(--tr);
+}
+.studio-room:hover{border-color:rgba(201,168,76,.2);}
+.studio-room::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--accent,linear-gradient(90deg,var(--gold),transparent));
+  opacity:.6;
+}
+.room-icon{font-size:40px;margin-bottom:18px;display:block;}
+.room-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--w);margin-bottom:8px;}
+.room-desc{font-size:13px;color:var(--w55);line-height:1.7;margin-bottom:18px;}
+.room-specs{display:flex;flex-direction:column;gap:6px;}
+.room-spec{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--w55);
+}
+.room-spec::before{content:"◆";color:var(--gold);font-size:7px;flex-shrink:0;}
+
+/* ══════════════════════════════════════════════
+   PRICING
+══════════════════════════════════════════════ */
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  margin-top:56px;
+}
+.price-card{
+  background:var(--ink2);
+  border:1px solid var(--w10);
+  border-radius:20px;
+  overflow:hidden;transition:var(--tr);
+  position:relative;display:flex;flex-direction:column;
+}
+.price-card:hover{transform:translateY(-5px);box-shadow:0 24px 60px rgba(0,0,0,.5);}
+.price-card.featured{
+  background:linear-gradient(160deg,rgba(201,168,76,.1),rgba(201,168,76,.03));
+  border-color:rgba(201,168,76,.3);
+  box-shadow:0 0 60px rgba(201,168,76,.06);
+}
+.price-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent,transparent);
+}
+.price-card.featured::before{background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));}
+.price-head{padding:28px 26px 20px;}
+.price-badge{
+  display:inline-block;padding:4px 12px;border-radius:20px;
+  font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);
+  color:var(--gold2);margin-bottom:16px;
+}
+.price-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--w);margin-bottom:8px;}
+.price-desc{font-size:13px;color:var(--w55);line-height:1.6;}
+.price-amount{
+  padding:20px 26px;
+  display:flex;align-items:baseline;gap:6px;
+  border-top:1px solid var(--w10);border-bottom:1px solid var(--w10);
+}
+.price-val{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:1px;color:var(--gold2);}
+.price-cur{font-size:16px;font-weight:600;color:var(--w55);}
+.price-per{font-size:12px;color:var(--w30);}
+.price-features{padding:22px 26px;flex:1;display:flex;flex-direction:column;gap:10px;}
+.price-feat{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--w80);
+}
+.price-feat.off{color:var(--w30);}
+.price-feat::before{content:"✓";color:var(--gold);font-weight:700;font-size:12px;flex-shrink:0;}
+.price-feat.off::before{content:"—";color:var(--w30);}
+.price-cta{padding:0 26px 26px;}
+
+/* ══════════════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════════════ */
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  margin-top:56px;
+}
+.tcard{
+  background:var(--ink2);border:1px solid var(--w10);
+  border-radius:18px;padding:28px;transition:var(--tr);
+}
+.tcard:hover{border-color:rgba(201,168,76,.18);}
+.tcard-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-style:italic;color:var(--w80);
+  line-height:1.7;margin-bottom:20px;
+  position:relative;
+}
+.tcard-quote::before{
+  content:"\201C";
+  font-size:64px;line-height:1;
+  color:rgba(201,168,76,.15);
+  position:absolute;top:-12px;left:-8px;
+  font-family:'Cormorant Garamond',serif;
+}
+.tcard-author{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--w10);}
+.tcard-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.tcard-name{font-size:14px;font-weight:600;color:var(--w);}
+.tcard-role{font-size:11px;color:var(--w30);margin-top:2px;}
+.tcard-stars{color:var(--gold);font-size:11px;letter-spacing:2px;margin-top:2px;}
+
+/* ══════════════════════════════════════════════
+   BOOKING / CONTACT
+══════════════════════════════════════════════ */
+.booking-section{
+  padding:120px 40px;
+  background:var(--ink2);
+  border-top:1px solid var(--w10);
+  position:relative;overflow:hidden;
+}
+.booking-section::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% 100%,rgba(201,168,76,.05),transparent);
+}
+.booking-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start;
+}
+.booking-info{position:sticky;top:100px;}
+.booking-contacts{display:flex;flex-direction:column;gap:14px;margin-top:32px;}
+.bcontact{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;border-radius:12px;
+  background:var(--w05);border:1px solid var(--w10);
+  text-decoration:none;transition:var(--tr);
+}
+.bcontact:hover{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2);}
+.bcontact-icon{font-size:20px;flex-shrink:0;}
+.bcontact-label{font-size:11px;color:var(--w30);margin-bottom:2px;letter-spacing:.05em;}
+.bcontact-val{font-size:14px;font-weight:600;color:var(--w80);}
+
+/* Booking form */
+.booking-form{
+  background:var(--ink);
+  border:1px solid rgba(201,168,76,.15);
+  border-radius:24px;padding:40px;
+  position:relative;
+}
+.booking-form::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3),var(--gold));
+  background-size:200%;animation:gradMove 5s linear infinite;
+}
+@keyframes gradMove{to{background-position:200%;}}
+.bf-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--w);margin-bottom:6px;}
+.bf-sub{font-size:13px;color:var(--w55);margin-bottom:28px;line-height:1.6;}
+.bf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.bf-field{margin-bottom:14px;}
+.bf-label{display:block;font-size:11px;font-weight:600;color:var(--w55);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;}
+.bf-input, .bf-select, .bf-textarea{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;color:var(--w);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  outline:none;transition:var(--tr);-webkit-appearance:none;
+}
+.bf-input:focus,.bf-select:focus,.bf-textarea:focus{
+  border-color:rgba(201,168,76,.4);
+  background:rgba(201,168,76,.04);
+  box-shadow:0 0 0 3px rgba(201,168,76,.07);
+}
+.bf-input::placeholder,.bf-textarea::placeholder{color:rgba(255,255,255,.18);}
+.bf-select option{background:#111;}
+.bf-textarea{resize:vertical;min-height:100px;}
+.bf-services{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.bf-svc{
+  padding:7px 16px;border-radius:20px;font-size:12px;font-weight:500;
+  background:var(--w05);border:1px solid var(--w10);color:var(--w55);
+  cursor:pointer;transition:var(--tr);
+}
+.bf-svc:hover{border-color:rgba(201,168,76,.3);color:var(--gold2);}
+.bf-svc.sel{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.35);color:var(--gold2);}
+.bf-submit{
+  width:100%;padding:15px;border:none;border-radius:40px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;
+  background:linear-gradient(135deg,var(--gold),#a8883a);
+  color:var(--ink);cursor:pointer;transition:var(--tr);
+  box-shadow:0 8px 28px rgba(201,168,76,.3);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.bf-submit:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(201,168,76,.45);}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+footer{
+  padding:60px 40px 36px;
+  border-top:1px solid var(--w10);
+  max-width:1200px;margin:0 auto;
+}
+.footer-top{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:40px;flex-wrap:wrap;
+  margin-bottom:40px;
+}
+.footer-brand .footer-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;margin-bottom:10px;
+}
+.footer-brand p{font-size:13px;color:var(--w30);max-width:260px;line-height:1.7;}
+.footer-links h5{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.footer-links a{display:block;font-size:13px;color:var(--w55);text-decoration:none;margin-bottom:8px;transition:var(--tr);}
+.footer-links a:hover{color:var(--w);}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding-top:28px;border-top:1px solid var(--w10);
+}
+.footer-copy{font-size:12px;color:var(--w30);}
+.footer-socials{display:flex;gap:10px;}
+.fsoc{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--w05);border:1px solid var(--w10);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  text-decoration:none;transition:var(--tr);
+}
+.fsoc:hover{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.25);transform:translateY(-2px);}
+
+/* ══════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════ */
+.modal-ov{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-ov.on{opacity:1;pointer-events:all;}
+.modal-box{
+  background:var(--ink2);border:1px solid rgba(201,168,76,.2);
+  border-radius:24px;padding:36px;max-width:480px;width:100%;
+  transform:translateY(20px) scale(.97);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+}
+.modal-ov.on .modal-box{transform:none;}
+.modal-box::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px 2px 0 0;}
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;border-radius:9px;
+  background:var(--w05);border:1px solid var(--w10);
+  color:var(--w55);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:var(--tr);
+}
+.modal-close:hover{background:rgba(192,57,43,.15);color:var(--red2);}
+.modal-icon{font-size:44px;display:block;margin-bottom:14px;text-align:center;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold2);text-align:center;margin-bottom:8px;}
+.modal-sub{font-size:13px;color:var(--w55);text-align:center;line-height:1.65;margin-bottom:24px;}
+.modal-ok{display:none;text-align:center;padding:10px 0;}
+.modal-ok.on{display:block;animation:popIn .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.modal-ok-ico{font-size:56px;display:block;margin-bottom:14px;}
+.modal-ok h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold2);margin-bottom:8px;}
+.modal-ok p{font-size:13px;color:var(--w55);line-height:1.7;}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:rgba(8,8,10,.97);border:1px solid var(--gold);
+  border-radius:12px;padding:12px 22px;
+  font-size:13px;font-weight:600;color:var(--gold2);
+  z-index:9000;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:900px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .nav-cta{display:none;}
+  .nav-burger{display:flex;}
+  .hero{padding:100px 20px 60px;}
+  section{padding:72px 20px;}
+  .services-grid{grid-template-columns:1fr 1fr;}
+  .svc-card:nth-child(2n){border-right:none;}
+  .svc-card:nth-child(3n){border-right:1px solid var(--w10);}
+  .ensemble-inner{grid-template-columns:1fr;}
+  .production-grid{grid-template-columns:1fr;}
+  .studio-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .booking-inner{grid-template-columns:1fr;}
+  .portfolio-grid{grid-template-columns:1fr 1fr;}
+  .bf-row{grid-template-columns:1fr;}
+  .ensemble-section{padding:72px 20px;}
+  .studio-section{padding:72px 20px;}
+  .booking-section{padding:72px 20px;}
+  .hero-stats{gap:24px;}
+  footer{padding:48px 20px 28px;}
+}
+@media(max-width:540px){
+  .services-grid{grid-template-columns:1fr;}
+  .svc-card{border-right:none !important;}
+  .portfolio-grid{grid-template-columns:1fr;}
+  .hero h1{letter-spacing:-1px;}
+  .footer-top{flex-direction:column;}
+  #cursor,#cursor-ring{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-logo">
+    DM Studio
+    <span>Музыкальная Студия</span>
+  </div>
+  <div class="nav-links">
+    <a href="#services">Услуги</a>
+    <a href="#ensemble">Ансамбль</a>
+    <a href="#production">Продюсирование</a>
+    <a href="#portfolio">Портфолио</a>
+    <a href="#studio">Студия</a>
+    <a href="#pricing">Цены</a>
+    <a href="#booking">Контакты</a>
+  </div>
+  <a href="#booking" class="nav-cta">Записаться</a>
+  <button class="nav-burger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="#services" onclick="this.closest('.mobile-menu').classList.remove('open')">Услуги</a>
+  <a href="#ensemble" onclick="this.closest('.mobile-menu').classList.remove('open')">Ансамбль</a>
+  <a href="#production" onclick="this.closest('.mobile-menu').classList.remove('open')">Продюсирование</a>
+  <a href="#portfolio" onclick="this.closest('.mobile-menu').classList.remove('open')">Портфолио</a>
+  <a href="#pricing" onclick="this.closest('.mobile-menu').classList.remove('open')">Цены</a>
+  <a href="#booking" onclick="this.closest('.mobile-menu').classList.remove('open')">Записаться</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <div class="wave-group" id="waveGroup"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-overline">DavronMarket Music Studio</div>
+    <h1>Звучи<br><em>профессионально</em></h1>
+    <p>Профессиональная музыкальная студия в Худжанде. Запись треков, подготовка ансамблей, продюсирование и живые концерты — всё под одной крышей.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">🎵 Записаться на сессию</a>
+      <a href="#portfolio" class="btn-ghost">▶ Послушать работы</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-num">200+</span><span class="hstat-label">Треков записано</span></div>
+      <div class="hstat"><span class="hstat-num">50+</span><span class="hstat-label">Артистов</span></div>
+      <div class="hstat"><span class="hstat-num">5</span><span class="hstat-label">Лет опыта</span></div>
+      <div class="hstat"><span class="hstat-num">30+</span><span class="hstat-label">Концертов</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="sec-label">Что мы делаем</div>
+  <h2 class="sec-title">Полный спектр<br><em>музыкальных услуг</em></h2>
+  <p class="sec-sub">От первой ноты до готового трека на стриминге — мы сопровождаем ваш проект на каждом этапе.</p>
+
+  <div class="services-grid">
+
+    <div class="svc-card" style="--accent:linear-gradient(90deg,#c9a84c,#e8c96a)">
+      <div class="svc-num">01</div>
+      <span class="svc-icon">🎙️</span>
+      <div class="svc-name">Запись вокала и инструментов</div>
+      <div class="svc-desc">Профессиональная запись в студии с обработкой, эквализацией и реверберацией. Оборудование мирового класса.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Вокал</span><span class="svc-tag">Guitar</span><span class="svc-tag">Piano</span><span class="svc-tag">Drums</span>
+      </div>
+    </div>
+
+    <div class="svc-card" style="--accent:linear-gradient(90deg,#e8c96a,#c9a84c)">
+      <div class="svc-num">02</div>
+      <span class="svc-icon">🎼</span>
+      <div class="svc-name">Аранжировка и сведение</div>
+      <div class="svc-desc">Создание оркестровых и электронных аранжировок. Профессиональное сведение и мастеринг для стриминга.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Аранжировка</span><span class="svc-tag">Mixing</span><span class="svc-tag">Mastering</span>
+      </div>
+    </div>
+
+    <div class="svc-card" style="--accent:linear-gradient(90deg,#c0392b,#e74c3c)">
+      <div class="svc-num">03</div>
+      <span class="svc-icon">👥</span>
+      <div class="svc-name">Подготовка ансамбля для певцов</div>
+      <div class="svc-desc">Формируем профессиональный музыкальный коллектив для поддержки певца или певицы. Репетиции, слаживание, выступления.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Ансамбль</span><span class="svc-tag">Бэк-вокал</span><span class="svc-tag">Живой звук</span>
+      </div>
+    </div>
+
+    <div class="svc-card" style="--accent:linear-gradient(90deg,#c9a84c,#c0392b)">
+      <div class="svc-num">04</div>
+      <span class="svc-icon">🎤</span>
+      <div class="svc-name">Подготовка музыкантов</div>
+      <div class="svc-desc">Индивидуальные занятия и групповые репетиции. Постановка голоса, работа с микрофоном и сценическое мастерство.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Вокал</span><span class="svc-tag">Сцена</span><span class="svc-tag">Тренинг</span>
+      </div>
+    </div>
+
+    <div class="svc-card" style="--accent:linear-gradient(90deg,#2b9cff,#c9a84c)">
+      <div class="svc-num">05</div>
+      <span class="svc-icon">🏆</span>
+      <div class="svc-name">Продюсирование</div>
+      <div class="svc-desc">Полный продюсерский цикл: создание образа, написание материала, запись, промоушен и выход на рынок Таджикистана и СНГ.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Продюсинг</span><span class="svc-tag">Промо</span><span class="svc-tag">Менеджмент</span>
+      </div>
+    </div>
+
+    <div class="svc-card" style="--accent:linear-gradient(90deg,#4ade80,#c9a84c)">
+      <div class="svc-num">06</div>
+      <span class="svc-icon">🎹</span>
+      <div class="svc-name">Beat Production & Sounddesign</div>
+      <div class="svc-desc">Создание эксклюзивных битов, саундтреков для видео, рекламы и контента. Любой стиль: oriental, pop, trap, folk.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Биты</span><span class="svc-tag">Саундтрек</span><span class="svc-tag">Реклама</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ ENSEMBLE ══ -->
+<div class="ensemble-section" id="ensemble">
+<div class="ensemble-inner">
+  <div class="ensemble-left">
+    <div class="sec-label">Специализация</div>
+    <h2 class="sec-title" style="font-size:clamp(32px,4vw,56px)">Ансамбль<br><em>под ваш проект</em></h2>
+    <p class="sec-sub">Мы формируем живой ансамбль специально под каждого певца или певицу. От камерного состава до полноценного концертного оркестра.</p>
+    <div class="ensemble-features">
+      <div class="ens-feat">
+        <span class="ens-feat-icon">🎸</span>
+        <div><h4>Живые инструменты</h4><p>Гитара, бас, клавиши, барабаны, скрипки, национальные инструменты по запросу.</p></div>
+      </div>
+      <div class="ens-feat">
+        <span class="ens-feat-icon">🎤</span>
+        <div><h4>Бэк-вокалисты</h4><p>Профессиональные бэки, которые подчеркнут голос солиста и создадут нужную атмосферу.</p></div>
+      </div>
+      <div class="ens-feat">
+        <span class="ens-feat-icon">🔊</span>
+        <div><h4>Звукорежиссура</h4><p>Профессиональный live-инжиниринг звука на концерте или репетиции. Выезд на площадку.</p></div>
+      </div>
+      <div class="ens-feat">
+        <span class="ens-feat-icon">📋</span>
+        <div><h4>Репетиционный цикл</h4><p>Полная подготовка к выступлению — от разбора нот до генеральной репетиции.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="ensemble-right">
+    <div class="ens-big-card">
+      <h3>🎻 Концертный ансамбль</h3>
+      <p>Полный состав для больших концертов и мероприятий. Включает музыкантов, бэк-вокалистов и звукорежиссёра.</p>
+      <div class="ens-price">
+        <span class="ens-price-val">от 2 000 с</span>
+        <span class="ens-price-note">/ репетиция</span>
+      </div>
+    </div>
+    <div class="ens-items">
+      <div class="ens-item">Ритм-секция (барабаны + бас)</div>
+      <div class="ens-item">Клавишник / Аккордеонист</div>
+      <div class="ens-item">Соло-гитара</div>
+      <div class="ens-item">2–4 бэк-вокалиста</div>
+      <div class="ens-item">Национальные инструменты (по запросу)</div>
+      <div class="ens-item">Скрипачи / Струнная группа</div>
+      <div class="ens-item">Звуковой инженер на концерте</div>
+      <div class="ens-item">Выезд в любую точку Таджикистана</div>
+    </div>
+    <a href="#booking" class="btn-primary" style="justify-content:center">Обсудить состав →</a>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══ PRODUCTION ══ -->
+<section id="production">
+  <div class="sec-label">Как работаем</div>
+  <h2 class="sec-title">Продюсирование<br><em>полного цикла</em></h2>
+  <p class="sec-sub">Берём артиста от идеи до релиза на всех платформах. Даём звук, имидж и медиаприсутствие.</p>
+
+  <div class="production-grid">
+    <div class="prod-steps">
+      <div class="prod-step">
+        <div class="prod-step-num">01</div>
+        <div>
+          <h4>Кастинг и анализ</h4>
+          <p>Прослушивание, оценка диапазона голоса, сильных сторон и целевой аудитории. Формирование творческой концепции.</p>
+        </div>
+      </div>
+      <div class="prod-step">
+        <div class="prod-step-num">02</div>
+        <div>
+          <h4>Работа с материалом</h4>
+          <p>Подбор или написание песен, создание аранжировок. Вокальные тренировки и постановка дыхания.</p>
+        </div>
+      </div>
+      <div class="prod-step">
+        <div class="prod-step-num">03</div>
+        <div>
+          <h4>Запись в студии</h4>
+          <p>Профессиональная запись вокала и инструментов, сведение и мастеринг на оборудовании мирового уровня.</p>
+        </div>
+      </div>
+      <div class="prod-step">
+        <div class="prod-step-num">04</div>
+        <div>
+          <h4>Видеопроизводство</h4>
+          <p>Съёмка клипа, лирик-видео или концертных материалов. Сотрудничество с видеостудией DavronMarket.</p>
+        </div>
+      </div>
+      <div class="prod-step">
+        <div class="prod-step-num">05</div>
+        <div>
+          <h4>Промоушен и дистрибуция</h4>
+          <p>Выход на Spotify, Apple Music, YouTube Music. SMM-стратегия, пресс-кит и PR в таджикских медиа.</p>
+        </div>
+      </div>
+      <div class="prod-step">
+        <div class="prod-step-num">06</div>
+        <div>
+          <h4>Концертная деятельность</h4>
+          <p>Организация выступлений, формирование ансамбля, подготовка тура по городам Таджикистана и СНГ.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-right">
+      <div class="prod-package">
+        <div class="prod-pkg-head">
+          <h3>📀 Продюсерский контракт</h3>
+          <p>Полный цикл — от кастинга до релиза</p>
+        </div>
+        <div class="prod-pkg-body">
+          <div class="prod-pkg-item">Индивидуальный продюсер</div>
+          <div class="prod-pkg-item">Написание 3–5 авторских песен</div>
+          <div class="prod-pkg-item">Запись + сведение + мастеринг</div>
+          <div class="prod-pkg-item">Создание сценического образа</div>
+          <div class="prod-pkg-item">Съёмка 1 клипа</div>
+          <div class="prod-pkg-item">Дистрибуция на 150+ платформ</div>
+          <div class="prod-pkg-item">SMM на 3 месяца</div>
+          <div class="prod-pkg-item">Организация 1 концерта</div>
+        </div>
+        <div class="prod-pkg-price">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--w55)">Стоимость обсуждается индивидуально</span>
+          <button class="btn-primary" onclick="openModal('prod')" style="padding:10px 20px;font-size:12px">Узнать →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ PORTFOLIO ══ -->
+<section id="portfolio">
+  <div class="sec-label">Наши работы</div>
+  <h2 class="sec-title">Портфолио<br><em>& релизы</em></h2>
+  <p class="sec-sub">Записи, аранжировки и концертные выступления — живые работы нашей команды.</p>
+
+  <div class="portfolio-tabs">
+    <button class="ptab on" onclick="filterPortfolio(this,'all')">Все работы</button>
+    <button class="ptab" onclick="filterPortfolio(this,'pop')">Поп</button>
+    <button class="ptab" onclick="filterPortfolio(this,'folk')">Фольк / Oriental</button>
+    <button class="ptab" onclick="filterPortfolio(this,'concert')">Концерты</button>
+    <button class="ptab" onclick="filterPortfolio(this,'beat')">Биты / Саундтрек</button>
+  </div>
+
+  <div class="portfolio-grid" id="pGrid">
+
+    <div class="pcard" data-cat="pop">
+      <div class="pcard-banner" style="--banner:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.03))">
+        <span>🎤</span>
+        <button class="pcard-play" onclick="openModal('play')">▶</button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-genre">Pop · Вокал</div>
+        <div class="pcard-title">«Лайло» — Сольный трек</div>
+        <div class="pcard-artist">DM Studio Production</div>
+      </div>
+      <div class="pcard-foot"><span class="pcard-dur">3:42</span><span class="pcard-year">2024</span></div>
+    </div>
+
+    <div class="pcard" data-cat="folk">
+      <div class="pcard-banner" style="--banner:linear-gradient(135deg,rgba(192,57,43,.1),rgba(201,168,76,.05))">
+        <span>🪘</span>
+        <button class="pcard-play" onclick="openModal('play')">▶</button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-genre">Oriental Folk</div>
+        <div class="pcard-title">Живой ансамбль — Тадж. народная</div>
+        <div class="pcard-artist">Ensemble DM × Наврузи</div>
+      </div>
+      <div class="pcard-foot"><span class="pcard-dur">5:18</span><span class="pcard-year">2024</span></div>
+    </div>
+
+    <div class="pcard" data-cat="concert">
+      <div class="pcard-banner" style="--banner:linear-gradient(135deg,rgba(43,156,255,.08),rgba(201,168,76,.06))">
+        <span>🎸</span>
+        <button class="pcard-play" onclick="openModal('play')">▶</button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-genre">Концерт · Live</div>
+        <div class="pcard-title">Новруз Concert 2024 — Highlights</div>
+        <div class="pcard-artist">DM Ensemble Live</div>
+      </div>
+      <div class="pcard-foot"><span class="pcard-dur">12:05</span><span class="pcard-year">2024</span></div>
+    </div>
+
+    <div class="pcard" data-cat="beat">
+      <div class="pcard-banner" style="--banner:linear-gradient(135deg,rgba(74,222,128,.06),rgba(201,168,76,.06))">
+        <span>🎹</span>
+        <button class="pcard-play" onclick="openModal('play')">▶</button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-genre">Beat · Реклама</div>
+        <div class="pcard-title">DavronMarket — Рекламный джингл</div>
+        <div class="pcard-artist">DM Sounddesign</div>
+      </div>
+      <div class="pcard-foot"><span class="pcard-dur">0:30</span><span class="pcard-year">2025</span></div>
+    </div>
+
+    <div class="pcard" data-cat="pop">
+      <div class="pcard-banner" style="--banner:linear-gradient(135deg,rgba(244,114,182,.08),rgba(201,168,76,.06))">
+        <span>🎵</span>
+        <button class="pcard-play" onclick="openModal('play')">▶</button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-genre">Pop · Дуэт</div>
+        <div class="pcard-title">«Дилбар» — Дуэт</div>
+        <div class="pcard-artist">Студийная запись + аранжировка</div>
+      </div>
+      <div class="pcard-foot"><span class="pcard-dur">4:11</span><span class="pcard-year">2025</span></div>
+    </div>
+
+    <div class="pcard" data-cat="folk">
+      <div class="pcard-banner" style="--banner:linear-gradient(135deg,rgba(201,168,76,.1),rgba(192,57,43,.08))">
+        <span>🪕</span>
+        <button class="pcard-play" onclick="openModal('play')">▶</button>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-genre">Folk · Инструментал</div>
+        <div class="pcard-title">Дутор & Guitar — Fusion</div>
+        <div class="pcard-artist">DM Oriental Session</div>
+      </div>
+      <div class="pcard-foot"><span class="pcard-dur">6:24</span><span class="pcard-year">2025</span></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ STUDIO ══ -->
+<div class="studio-section" id="studio">
+<div class="studio-inner">
+  <div class="sec-label">Наша база</div>
+  <h2 class="sec-title" style="font-size:clamp(32px,4vw,56px)">Студия<br><em>& оборудование</em></h2>
+  <p class="sec-sub">Профессиональное оснащение для идеального звука на записи и на сцене.</p>
+
+  <div class="studio-grid">
+    <div class="studio-room" style="--accent:linear-gradient(90deg,var(--gold),transparent)">
+      <span class="room-icon">🎙️</span>
+      <div class="room-name">Запись. Бокс A</div>
+      <div class="room-desc">Основная вокальная кабина с акустической обработкой. Идеально для сольных треков и ансамблевых записей.</div>
+      <div class="room-specs">
+        <div class="room-spec">Neumann U87 + Rode NT1</div>
+        <div class="room-spec">SSL консоль 48 каналов</div>
+        <div class="room-spec">Pro Tools + Logic Pro X</div>
+        <div class="room-spec">Izotope, Waves, UAD плагины</div>
+        <div class="room-spec">Акустика 20 м²</div>
+      </div>
+    </div>
+
+    <div class="studio-room" style="--accent:linear-gradient(90deg,var(--red),transparent)">
+      <span class="room-icon">🥁</span>
+      <div class="room-name">Репетиционный зал</div>
+      <div class="room-desc">Просторный зал для репетиций ансамблей и одновременной живой записи нескольких инструментов.</div>
+      <div class="room-specs">
+        <div class="room-spec">Pearl Master Series барабаны</div>
+        <div class="room-spec">Fender, Gibson гитары</div>
+        <div class="room-spec">Yamaha Clavinova / Roland</div>
+        <div class="room-spec">JBL / QSC мониторы</div>
+        <div class="room-spec">Площадь 45 м²</div>
+      </div>
+    </div>
+
+    <div class="studio-room" style="--accent:linear-gradient(90deg,#2b9cff,transparent)">
+      <span class="room-icon">🎚️</span>
+      <div class="room-name">Аппаратная / Mix Room</div>
+      <div class="room-desc">Комната сведения с референсным акустическим оформлением. Работаем со всеми форматами.</div>
+      <div class="room-specs">
+        <div class="room-spec">Adam Audio S3H мониторы</div>
+        <div class="room-spec">Avid HDX система</div>
+        <div class="room-spec">Outboard: Neve, API, SSL</div>
+        <div class="room-spec">Mastering chain — Manley, Prism</div>
+        <div class="room-spec">5.1 Dolby мониторинг</div>
+      </div>
+    </div>
+
+    <div class="studio-room" style="--accent:linear-gradient(90deg,var(--gold2),transparent)">
+      <span class="room-icon">🎬</span>
+      <div class="room-name">Съёмочная зона</div>
+      <div class="room-desc">Мини-студия для клипов, лирик-видео и видеозвонков. Интеграция с DavronMarket кинематографической студией.</div>
+      <div class="room-specs">
+        <div class="room-spec">Sony FX3 + Blackmagic 6K</div>
+        <div class="room-spec">Светодиодный фон (цикл)</div>
+        <div class="room-spec">Профессиональный свет Aputure</div>
+        <div class="room-spec">Телесуфлёр, хромакей</div>
+        <div class="room-spec">Монтаж — DaVinci Resolve</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ══ PRICING ══ -->
+<section id="pricing">
+  <div class="sec-label">Тарифы</div>
+  <h2 class="sec-title">Прозрачные<br><em>цены</em></h2>
+  <p class="sec-sub">Выберите подходящий формат. Для больших проектов — индивидуальное предложение.</p>
+
+  <div class="pricing-grid">
+
+    <div class="price-card" style="--accent:transparent">
+      <div class="price-head">
+        <div class="price-badge">Старт</div>
+        <div class="price-name">Запись трека</div>
+        <div class="price-desc">Для начинающих артистов и демо-записей</div>
+      </div>
+      <div class="price-amount">
+        <span class="price-val">500</span>
+        <span class="price-cur">с</span>
+        <span class="price-per">/ трек</span>
+      </div>
+      <div class="price-features">
+        <div class="price-feat">2 часа студийного времени</div>
+        <div class="price-feat">Запись вокала</div>
+        <div class="price-feat">Базовая обработка</div>
+        <div class="price-feat">Готовый файл MP3</div>
+        <div class="price-feat off">Сведение и мастеринг</div>
+        <div class="price-feat off">Аранжировка</div>
+        <div class="price-feat off">Видео</div>
+      </div>
+      <div class="price-cta">
+        <button class="btn-ghost" onclick="openModal('book','Запись трека')" style="width:100%;justify-content:center">Заказать</button>
+      </div>
+    </div>
+
+    <div class="price-card featured" style="--accent:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3))">
+      <div class="price-head">
+        <div class="price-badge">⭐ Популярный</div>
+        <div class="price-name">Полный трек</div>
+        <div class="price-desc">Профессиональная запись с аранжировкой и мастерингом</div>
+      </div>
+      <div class="price-amount">
+        <span class="price-val">1 800</span>
+        <span class="price-cur">с</span>
+        <span class="price-per">/ трек</span>
+      </div>
+      <div class="price-features">
+        <div class="price-feat">До 8 часов студии</div>
+        <div class="price-feat">Запись вокала + инструментов</div>
+        <div class="price-feat">Авторская аранжировка</div>
+        <div class="price-feat">Профессиональное сведение</div>
+        <div class="price-feat">Мастеринг для стриминга</div>
+        <div class="price-feat">WAV + MP3 файлы</div>
+        <div class="price-feat off">Видеосъёмка</div>
+      </div>
+      <div class="price-cta">
+        <button class="btn-primary" onclick="openModal('book','Полный трек')" style="width:100%;justify-content:center">Записаться</button>
+      </div>
+    </div>
+
+    <div class="price-card">
+      <div class="price-head">
+        <div class="price-badge">Концерт</div>
+        <div class="price-name">Ансамбль + Концерт</div>
+        <div class="price-desc">Полная подготовка к живому выступлению</div>
+      </div>
+      <div class="price-amount">
+        <span class="price-val">от 5 000</span>
+        <span class="price-cur">с</span>
+        <span class="price-per">/ концерт</span>
+      </div>
+      <div class="price-features">
+        <div class="price-feat">Формирование ансамбля</div>
+        <div class="price-feat">3–5 репетиций</div>
+        <div class="price-feat">Выезд на площадку</div>
+        <div class="price-feat">Звуковой инженер</div>
+        <div class="price-feat">Видеосъёмка концерта</div>
+        <div class="price-feat">Фотосессия</div>
+        <div class="price-feat">После-концертный микс</div>
+      </div>
+      <div class="price-cta">
+        <button class="btn-ghost" onclick="openModal('book','Ансамбль + Концерт')" style="width:100%;justify-content:center">Обсудить</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section>
+  <div class="sec-label">Отзывы</div>
+  <h2 class="sec-title">Говорят<br><em>наши артисты</em></h2>
+
+  <div class="testimonials-grid">
+    <div class="tcard">
+      <div class="tcard-quote">Записывала первый альбом здесь. Звук вышел на уровне международных треков. Даврон лично следил за каждой деталью аранжировки.</div>
+      <div class="tcard-author">
+        <div class="tcard-avatar">🎤</div>
+        <div>
+          <div class="tcard-name">Нилуфар А.</div>
+          <div class="tcard-role">Поп-исполнительница, Худжанд</div>
+          <div class="tcard-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-quote">Заказывал ансамбль на свадьбу. Выступление было просто на высшем уровне — все гости были в восторге. Теперь только к ним!</div>
+      <div class="tcard-author">
+        <div class="tcard-avatar">🎸</div>
+        <div>
+          <div class="tcard-name">Бахтиёр Р.</div>
+          <div class="tcard-role">Частный заказчик</div>
+          <div class="tcard-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-quote">Работаем по продюсерскому договору — вышли на Spotify и YouTube Music. За три месяца набрали 20 000+ прослушиваний. Результат говорит сам!</div>
+      <div class="tcard-author">
+        <div class="tcard-avatar">🏆</div>
+        <div>
+          <div class="tcard-name">Jasur M.</div>
+          <div class="tcard-role">R&B артист, DM Artist</div>
+          <div class="tcard-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ BOOKING ══ -->
+<div class="booking-section" id="booking">
+<div class="booking-inner">
+  <div class="booking-info">
+    <div class="sec-label">Связаться</div>
+    <h2 class="sec-title" style="font-size:clamp(32px,4vw,54px)">Запишитесь<br><em>на сессию</em></h2>
+    <p class="sec-sub" style="margin-bottom:0">Расскажите о своём проекте — ответим в течение 1 часа и подберём удобное время.</p>
+    <div class="booking-contacts">
+      <a class="bcontact" href="https://wa.me/992929612111">
+        <span class="bcontact-icon">💬</span>
+        <div><div class="bcontact-label">WhatsApp</div><div class="bcontact-val">+992 92 961-21-11</div></div>
+      </a>
+      <a class="bcontact" href="https://t.me/Davronjonsamadov">
+        <span class="bcontact-icon">✈</span>
+        <div><div class="bcontact-label">Telegram</div><div class="bcontact-val">@Davronjonsamadov</div></div>
+      </a>
+      <a class="bcontact" href="tel:+992929612111">
+        <span class="bcontact-icon">📞</span>
+        <div><div class="bcontact-label">Телефон</div><div class="bcontact-val">+992 92 961-21-11</div></div>
+      </a>
+      <div class="bcontact">
+        <span class="bcontact-icon">📍</span>
+        <div><div class="bcontact-label">Адрес</div><div class="bcontact-val">32 мкр, Бозори Сомониён, Худжанд</div></div>
+      </div>
+      <div class="bcontact">
+        <span class="bcontact-icon">🕐</span>
+        <div><div class="bcontact-label">Студия открыта</div><div class="bcontact-val">Пн–Вс: 10:00 — 22:00</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-form" id="bform-wrap">
+    <h2 class="bf-title">Заявка на студию</h2>
+    <p class="bf-sub">Выберите услугу и оставьте контакт — мы перезвоним и обсудим детали.</p>
+
+    <div id="bform">
+      <p style="font-size:12px;color:var(--w30);margin-bottom:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase">Выберите услугу</p>
+      <div class="bf-services">
+        <div class="bf-svc sel" onclick="toggleSvc(this)">🎙️ Запись трека</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">🎼 Аранжировка</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">👥 Ансамбль</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">🏆 Продюсирование</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">🎤 Репетиция</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">🎬 Клип / Видео</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">🎹 Beat / Бит</div>
+        <div class="bf-svc" onclick="toggleSvc(this)">🎸 Концерт</div>
+      </div>
+
+      <div class="bf-row">
+        <div class="bf-field">
+          <label class="bf-label">Имя *</label>
+          <input class="bf-input" id="bf-name" type="text" placeholder="Ваше имя">
+        </div>
+        <div class="bf-field">
+          <label class="bf-label">Телефон *</label>
+          <input class="bf-input" id="bf-phone" type="tel" placeholder="+992 92 ...">
+        </div>
+      </div>
+
+      <div class="bf-field">
+        <label class="bf-label">Жанр / Стиль</label>
+        <select class="bf-select" id="bf-genre">
+          <option value="">Выберите жанр</option>
+          <option>Поп / Эстрада</option>
+          <option>Folk / Национальная</option>
+          <option>R&B / Soul</option>
+          <option>Trap / Hip-hop</option>
+          <option>Classical / Orchestral</option>
+          <option>Electronic / EDM</option>
+          <option>Другой</option>
+        </select>
+      </div>
+
+      <div class="bf-field">
+        <label class="bf-label">О проекте</label>
+        <textarea class="bf-textarea" id="bf-msg" placeholder="Расскажите о вашем проекте, идеях, сроках и любых пожеланиях..."></textarea>
+      </div>
+
+      <button class="bf-submit" onclick="submitBooking()">
+        🎵 Отправить заявку в WhatsApp
+      </button>
+    </div>
+
+    <div id="bform-ok" style="display:none;text-align:center;padding:20px 0">
+      <span style="font-size:52px;display:block;margin-bottom:14px">✅</span>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2);margin-bottom:8px">Заявка принята!</h3>
+      <p style="font-size:13px;color:var(--w55);line-height:1.7">WhatsApp откроется автоматически. Ответим в течение часа!</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">DM STUDIO</span>
+      <p>Профессиональная музыкальная студия DavronMarket. Запись, продюсирование и живые выступления в Худжанде.</p>
+    </div>
+    <div class="footer-links">
+      <h5>Услуги</h5>
+      <a href="#services">Запись треков</a>
+      <a href="#ensemble">Ансамбль</a>
+      <a href="#production">Продюсирование</a>
+      <a href="#studio">Студия</a>
+    </div>
+    <div class="footer-links">
+      <h5>Контакты</h5>
+      <a href="tel:+992929612111">+992 92 961-21-11</a>
+      <a href="https://wa.me/992929612111">WhatsApp</a>
+      <a href="https://t.me/Davronjonsamadov">Telegram</a>
+      <a href="mailto:info@davronmarket.tj">info@davronmarket.tj</a>
+    </div>
+    <div class="footer-links">
+      <h5>DavronMarket</h5>
+      <a href="https://davronmarket.com">Главный сайт</a>
+      <a href="https://davronmarket.com/services/">Все услуги</a>
+      <a href="courses.html">Курсы</a>
+      <a href="services.html">Наши услуги</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 DavronMarket Music Studio · Худжанд, Таджикистан</span>
+    <div class="footer-socials">
+      <a class="fsoc" href="#" title="Instagram">📸</a>
+      <a class="fsoc" href="https://t.me/davronmarket" title="Telegram">✈</a>
+      <a class="fsoc" href="https://wa.me/992929612111" title="WhatsApp">💬</a>
+      <a class="fsoc" href="#" title="YouTube">▶</a>
+      <a class="fsoc" href="#" title="TikTok">🎵</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ MODALS ══ -->
+<div class="modal-ov" id="modalOv" onclick="closeModalOv(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content">
+      <span class="modal-icon" id="m-ico">🎵</span>
+      <div class="modal-title" id="m-title">Записаться</div>
+      <p class="modal-sub" id="m-sub">Напишите нам — ответим быстро!</p>
+      <a id="m-action" href="#" class="btn-primary" style="width:100%;justify-content:center;text-decoration:none">Написать в WhatsApp →</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── CURSOR ── */
+var cur  = document.getElementById('cursor');
+var ring = document.getElementById('cursor-ring');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function animRing(){
+  rx += (mx-rx)*.12;ry += (my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.ptab,.bf-svc,.svc-card,.pcard').forEach(function(el){
+  el.addEventListener('mouseenter',function(){
+    cur.style.width='18px';cur.style.height='18px';cur.style.background='var(--gold2)';
+    ring.style.transform='translate(-50%,-50%) scale(1.5)';ring.style.opacity='.4';
+  });
+  el.addEventListener('mouseleave',function(){
+    cur.style.width='10px';cur.style.height='10px';cur.style.background='var(--gold)';
+    ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.opacity='1';
+  });
+});
+
+/* ── WAVE BARS ── */
+var wg = document.getElementById('waveGroup');
+var heights = [16,28,48,72,90,100,88,72,55,40,60,80,100,88,65,45,30,50,70,85,95,80,60,40,25,18];
+heights.forEach(function(h,i){
+  var bar = document.createElement('div');
+  bar.className = 'wave-bar';
+  var h1 = Math.max(10, h * 0.3);
+  var h2 = h * 1.2;
+  var d  = (0.8 + Math.random()*1.4).toFixed(2);
+  bar.style.cssText = '--h1:'+h1+'px;--h2:'+h2+'px;--d:'+d+'s;animation-delay:'+(i*0.06)+'s';
+  wg.appendChild(bar);
+});
+
+/* ── PORTFOLIO FILTER ── */
+function filterPortfolio(el, cat){
+  document.querySelectorAll('.ptab').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  document.querySelectorAll('.pcard').forEach(function(c){
+    var show = cat==='all' || c.dataset.cat===cat;
+    c.style.display = show ? '' : 'none';
+    if(show) c.style.animation='fadeCardIn .35s ease';
+  });
+}
+var s2 = document.createElement('style');
+s2.textContent='@keyframes fadeCardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}';
+document.head.appendChild(s2);
+
+/* ── MODAL ── */
+function openModal(type, label){
+  var ov    = document.getElementById('modalOv');
+  var ico   = document.getElementById('m-ico');
+  var title = document.getElementById('m-title');
+  var sub   = document.getElementById('m-sub');
+  var action= document.getElementById('m-action');
+
+  if(type==='play'){
+    ico.textContent   = '▶';
+    title.textContent = 'Портфолио';
+    sub.textContent   = 'Полное портфолио доступно по запросу. Напишите нам и мы отправим ссылки на все работы!';
+    action.textContent= '💬 Получить портфолио';
+    action.href = 'https://wa.me/992929612111?text=Привет!+Хочу+послушать+портфолио+DM+Studio';
+  } else if(type==='prod'){
+    ico.textContent   = '🏆';
+    title.textContent = 'Продюсерский контракт';
+    sub.textContent   = 'Расскажем подробности, обсудим ваш проект и условия сотрудничества.';
+    action.textContent= '💬 Обсудить условия';
+    action.href = 'https://wa.me/992929612111?text=Здравствуйте!+Интересует+продюсерский+контракт+DM+Studio';
+  } else {
+    var svc = label || 'Услуга';
+    ico.textContent   = '🎵';
+    title.textContent = svc;
+    sub.textContent   = 'Хотите заказать эту услугу? Напишите нам!';
+    action.textContent= '💬 Заказать через WhatsApp';
+    var txt = encodeURIComponent('Привет! Хочу заказать: ' + svc + ' в DM Studio.');
+    action.href = 'https://wa.me/992929612111?text=' + txt;
+  }
+  ov.classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modalOv').classList.remove('on');
+  document.body.style.overflow='';
+}
+function closeModalOv(e){if(e.target===document.getElementById('modalOv'))closeModal();}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+/* ── SERVICE TOGGLE ── */
+function toggleSvc(el){el.classList.toggle('sel');}
+
+/* ── BOOKING FORM ── */
+function submitBooking(){
+  var name  = document.getElementById('bf-name').value.trim();
+  var phone = document.getElementById('bf-phone').value.trim();
+  var genre = document.getElementById('bf-genre').value;
+  var msg   = document.getElementById('bf-msg').value.trim();
+  var svcs  = Array.from(document.querySelectorAll('.bf-svc.sel')).map(function(s){return s.textContent.trim();}).join(', ');
+
+  if(!name){showToast('⚠️ Введите ваше имя');return;}
+  if(!phone){showToast('⚠️ Введите номер телефона');return;}
+  if(!svcs){showToast('⚠️ Выберите услугу');return;}
+
+  var text = encodeURIComponent(
+    '🎵 *DM Studio — Заявка*\n\n'+
+    '👤 Имя: '+name+'\n'+
+    '📞 Телефон: '+phone+'\n'+
+    '🎼 Услуга: '+svcs+'\n'+
+    (genre?'🎵 Жанр: '+genre+'\n':'')+
+    (msg?'\n💬 О проекте:\n'+msg:'')
+  );
+
+  document.getElementById('bform').style.display='none';
+  document.getElementById('bform-ok').style.display='block';
+  setTimeout(function(){window.open('https://wa.me/992929612111?text='+text,'_blank');},700);
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._x);
+  t._x=setTimeout(function(){t.classList.remove('show');},2800);
+}
+
+/* ── SCROLL ACTIVE NAV ── */
+var sections=['services','ensemble','production','portfolio','studio','pricing','booking'];
+window.addEventListener('scroll',function(){
+  var y=window.scrollY+100;
+  sections.forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    var links=document.querySelectorAll('.nav-links a');
+    links.forEach(function(l){
+      if(l.getAttribute('href')==='#'+id){
+        if(y>=el.offsetTop && y<el.offsetTop+el.offsetHeight){
+          l.style.color='var(--gold2)';
+        } else {
+          l.style.color='';
+        }
+      }
+    });
+  });
+});
+
+/* ── STAGGER CARDS ── */
+document.querySelectorAll('.svc-card,.ens-feat,.prod-step,.tcard').forEach(function(el,i){
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity .5s '+(i*.08)+'s, transform .5s '+(i*.08)+'s';
+});
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='none';
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.svc-card,.ens-feat,.prod-step,.tcard,.pcard,.studio-room,.price-card').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

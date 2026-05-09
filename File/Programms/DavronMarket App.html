@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Приложения</title>
+<meta name="theme-color" content="#070707">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DavronMarket App">
+<link rel="manifest" id="dmAppManifest" href="davronmarket-app.webmanifest">
+<link rel="apple-touch-icon" href="https://davronmarket.com/wp-content/uploads/2026/03/Davron-sajt.png">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/engine.css">
+<style>
+:root {
+  --bg:      #070707;
+  --gold:    #f5c842;
+  --gold-s:  #ffe066;
+  --orange:  #ff6b2b;
+  --os:      #ff8a5c;
+  --blue:    #2b9cff;
+  --bs:      #7dd3fc;
+  --green:   #4ade80;
+  --gs:      #86efac;
+  --purple:  #a78bfa;
+  --red:     #e63946;
+  --white:   #ffffff;
+  --w70:     rgba(255,255,255,.7);
+  --w50:     rgba(255,255,255,.5);
+  --w20:     rgba(255,255,255,.2);
+  --w08:     rgba(255,255,255,.08);
+  --card-bg: #0e0e0e;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(245,200,66,.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 88% 92%, rgba(255,107,43,.08) 0%, transparent 40%),
+    repeating-linear-gradient(62deg, rgba(255,255,255,.004) 0, rgba(255,255,255,.004) 1px, transparent 1px, transparent 16px),
+    var(--bg);
+}
+.app-page { position: relative; z-index: 1; min-height: 100vh; }
+
+/* ══ HERO ══ */
+.app-hero {
+  padding: 72px 24px 48px;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.app-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 20px; border-radius: 60px;
+  background: rgba(245,200,66,.07); border: 1px solid rgba(245,200,66,.25);
+  font-size: 11px; font-weight: 600; color: var(--gold-s);
+  margin-bottom: 20px; letter-spacing: .05em;
+  animation: chipGlow 3s ease-in-out infinite alternate;
+}
+@keyframes chipGlow { to { box-shadow: 0 0 22px rgba(245,200,66,.18); } }
+
+.app-hero h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(28px, 5vw, 54px);
+  font-weight: 700; line-height: 1.06; letter-spacing: -1.5px;
+  margin-bottom: 14px;
+}
+.app-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #f5c842, #ff8a5c 50%, #f5c842);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200%; animation: goldShift 5s ease infinite;
+}
+@keyframes goldShift { 0%,100% { background-position: 0%; } 50% { background-position: 100%; } }
+
+.app-hero h1::after {
+  content: ""; display: block; width: 64px; height: 3px;
+  margin: 14px auto 0; border-radius: 4px;
+  background: linear-gradient(90deg, #f5c842, #ff6b2b, #2b9cff);
+  box-shadow: 0 0 12px rgba(245,200,66,.4);
+}
+.app-hero p {
+  font-size: 14px; color: var(--w50); line-height: 1.8;
+  max-width: 520px; margin: 0 auto 32px;
+}
+
+/* ══ PWA INSTALL BOX ══ */
+.app-install-box {
+  max-width: 1100px;
+  margin: 0 auto 8px;
+  padding: 0 20px;
+}
+.app-install-card {
+  background: linear-gradient(135deg, rgba(245,200,66,.08), rgba(43,156,255,.06));
+  border: 1px solid rgba(245,200,66,.16);
+  border-radius: 22px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1.2fr .9fr;
+  gap: 22px;
+}
+.app-install-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.app-install-sub {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--w50);
+  margin-bottom: 14px;
+}
+.app-install-points {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.app-install-point {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.03);
+  font-size: 12px;
+  color: var(--w70);
+  line-height: 1.55;
+}
+.app-install-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.app-install-os {
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(0,0,0,.22);
+  border: 1px solid rgba(255,255,255,.06);
+}
+.app-install-os b {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--white);
+  font-size: 13px;
+}
+.app-install-os span {
+  font-size: 12px;
+  color: var(--w50);
+  line-height: 1.6;
+}
+
+/* ══ TOOLBAR ══ */
+.app-toolbar {
+  max-width: 1100px; margin: 0 auto;
+  padding: 20px 20px 0;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.app-tb-group { display: flex; align-items: center; gap: 6px; }
+.app-tb-spacer { flex: 1; }
+
+.app-view-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; transition: all .22s; color: var(--w50);
+}
+.app-view-btn:hover { border-color: rgba(245,200,66,.35); background: rgba(245,200,66,.06); }
+.app-view-btn.on {
+  background: rgba(245,200,66,.12); border-color: rgba(245,200,66,.35); color: var(--gold-s);
+}
+
+.app-count-badge {
+  padding: 6px 14px; border-radius: 10px;
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+  font-size: 11px; font-weight: 700; color: var(--w50);
+}
+.app-count-badge b { color: var(--gold-s); }
+
+/* ══ SECTION LABELS ══ */
+.app-sections { padding: 20px 20px 80px; max-width: 1100px; margin: 0 auto; }
+
+.app-sec-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: .09em;
+  text-transform: uppercase; color: rgba(255,255,255,.28);
+  padding: 0 0 14px; margin-top: 36px;
+  display: flex; align-items: center; gap: 10px;
+}
+.app-sec-label:first-child { margin-top: 0; }
+.app-sec-label::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.07), transparent);
+}
+.app-sec-label .sl-badge {
+  padding: 4px 12px; border-radius: 20px; font-size: 10px;
+  background: rgba(245,200,66,.09); border: 1px solid rgba(245,200,66,.2); color: var(--gold-s);
+}
+
+/* ══ CARDS GRID ══ */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 8px;
+  transition: all .28s;
+}
+.app-grid.view-list {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+/* ══ APP CARD ══ */
+.app-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+}
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px -12px rgba(0,0,0,.85);
+}
+
+.app-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 3px 0 0 3px;
+  opacity: 0; transition: opacity .25s;
+}
+.app-card:hover::before { opacity: 1; }
+
+/* Color themes */
+.app-card.c-blue::before   { background: linear-gradient(180deg,#2b9cff,#7dd3fc); }
+.app-card.c-gold::before   { background: linear-gradient(180deg,#f5c842,#ff8a5c); }
+.app-card.c-orange::before { background: linear-gradient(180deg,#ff6b2b,#ff8a5c); }
+.app-card.c-green::before  { background: linear-gradient(180deg,#4ade80,#86efac); }
+.app-card.c-purple::before { background: linear-gradient(180deg,#a78bfa,#c4b5fd); }
+
+.app-card.c-blue:hover   { border-color: rgba(43,156,255,.28); }
+.app-card.c-gold:hover   { border-color: rgba(245,200,66,.28); }
+.app-card.c-orange:hover { border-color: rgba(255,107,43,.28); }
+.app-card.c-green:hover  { border-color: rgba(74,222,128,.28); }
+.app-card.c-purple:hover { border-color: rgba(167,139,250,.28); }
+
+/* ── PHOTO / PLACEHOLDER ── */
+.app-card-photo-wrap {
+  overflow: hidden; position: relative; flex-shrink: 0;
+}
+.app-card-photo-wrap::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(14,14,14,.85) 0%, transparent 55%);
+}
+.app-card-photo-placeholder {
+  width: 100%; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px;
+  position: relative;
+}
+.app-card.c-blue   .app-card-photo-placeholder { background: rgba(43,156,255,.07); }
+.app-card.c-gold   .app-card-photo-placeholder { background: rgba(245,200,66,.07); }
+.app-card.c-orange .app-card-photo-placeholder { background: rgba(255,107,43,.07); }
+.app-card.c-green  .app-card-photo-placeholder { background: rgba(74,222,128,.07); }
+.app-card.c-purple .app-card-photo-placeholder { background: rgba(167,139,250,.07); }
+
+/* badge on thumb */
+.app-card-badge {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 6px;
+}
+.badge-free { background: #4ade80; color: #000; }
+.badge-hot  { background: linear-gradient(135deg,#e63946,#ff8a5c); color: #fff; }
+.badge-new  { background: #e63946; color: #fff; }
+.badge-top  { background: linear-gradient(135deg,#f5c842,#ff6b2b); color: #000; }
+.badge-soon { background: rgba(255,255,255,.12); color: rgba(255,255,255,.6); backdrop-filter: blur(6px); }
+
+.app-card-rating {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; color: var(--gold-s);
+}
+
+/* ── CARD BODY ── */
+.app-card-body {
+  padding: 16px 18px 18px;
+  display: flex; flex-direction: column; flex: 1;
+}
+.app-card-tag {
+  font-size: 10px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; display: inline-block;
+  margin-bottom: 8px; align-self: flex-start;
+}
+.app-card.c-blue   .app-card-tag { background: rgba(43,156,255,.1);  color: var(--bs); }
+.app-card.c-gold   .app-card-tag { background: rgba(245,200,66,.1);  color: var(--gold-s); }
+.app-card.c-orange .app-card-tag { background: rgba(255,107,43,.1);  color: var(--os); }
+.app-card.c-green  .app-card-tag { background: rgba(74,222,128,.1);  color: var(--gs); }
+.app-card.c-purple .app-card-tag { background: rgba(167,139,250,.1); color: #c4b5fd; }
+
+.app-card-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 12px; font-weight: 700; line-height: 1.3;
+  color: var(--white); margin-bottom: 7px;
+  transition: color .22s;
+}
+.app-card.c-blue:hover   .app-card-name { color: var(--bs); }
+.app-card.c-gold:hover   .app-card-name { color: var(--gold-s); }
+.app-card.c-orange:hover .app-card-name { color: var(--os); }
+.app-card.c-green:hover  .app-card-name { color: var(--gs); }
+.app-card.c-purple:hover .app-card-name { color: #c4b5fd; }
+
+.app-card-desc {
+  font-size: 12px; color: var(--w50); line-height: 1.65;
+  flex: 1; margin-bottom: 14px;
+}
+
+/* ── CARD FOOTER ── */
+.app-card-foot {
+  display: flex; align-items: center; gap: 8px;
+  padding-top: 12px; border-top: 1px solid rgba(255,255,255,.05);
+}
+.app-card-btn {
+  padding: 8px 16px; border-radius: 10px; border: none;
+  font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700;
+  cursor: pointer; transition: all .22s;
+  text-decoration: none; display: inline-block;
+}
+.app-card.c-blue   .app-card-btn.btn-primary { background: rgba(43,156,255,.15);  color: var(--bs); }
+.app-card.c-gold   .app-card-btn.btn-primary { background: rgba(245,200,66,.15);  color: var(--gold); }
+.app-card.c-orange .app-card-btn.btn-primary { background: rgba(255,107,43,.15);  color: var(--os); }
+.app-card.c-green  .app-card-btn.btn-primary { background: rgba(74,222,128,.15);  color: var(--gs); }
+.app-card.c-purple .app-card-btn.btn-primary { background: rgba(167,139,250,.15); color: #c4b5fd; }
+.app-card-btn.btn-primary:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+.app-card-btn.btn-detail {
+  background: rgba(255,255,255,.04); color: var(--w50);
+  border: 1px solid rgba(255,255,255,.07);
+}
+.app-card-btn.btn-detail:hover {
+  background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: var(--white);
+}
+.app-card-foot-spacer { flex: 1; }
+
+/* ══ DETAIL OVERLAY ══ */
+.app-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.88); backdrop-filter: blur(14px);
+  z-index: 5000; display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.app-overlay.open { display: flex; }
+
+.app-detail {
+  background: #111118;
+  border: 1px solid rgba(245,200,66,.15);
+  border-radius: 24px;
+  max-width: 660px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  position: relative;
+  animation: detailIn .3s ease;
+}
+@keyframes detailIn { from { opacity: 0; transform: scale(.93) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.app-detail::-webkit-scrollbar { width: 4px; }
+.app-detail::-webkit-scrollbar-thumb { background: rgba(245,200,66,.3); border-radius: 4px; }
+
+.app-detail-close {
+  position: absolute; top: 16px; right: 18px; z-index: 3;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.6); width: 34px; height: 34px; border-radius: 50%;
+  font-size: 18px; cursor: pointer; transition: all .25s;
+  display: flex; align-items: center; justify-content: center;
+}
+.app-detail-close:hover { background: rgba(255,255,255,.18); color: #fff; }
+
+.app-detail-banner {
+  height: 180px; display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; position: relative; overflow: hidden;
+  border-radius: 24px 24px 0 0;
+}
+.app-detail-banner::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+  background: linear-gradient(180deg, transparent, #111118); pointer-events: none;
+}
+
+.app-detail-body { padding: 0 28px 28px; }
+
+.app-detail-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.ad-chip {
+  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+  background: rgba(255,255,255,.06); color: rgba(255,255,255,.7);
+}
+.ad-chip.gold { background: rgba(245,200,66,.1); color: var(--gold-s); border: 1px solid rgba(245,200,66,.2); }
+.ad-chip.green { background: rgba(74,222,128,.1); color: var(--gs); border: 1px solid rgba(74,222,128,.2); }
+.ad-chip.blue { background: rgba(43,156,255,.1); color: var(--bs); border: 1px solid rgba(43,156,255,.2); }
+
+.app-detail-body h2 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 22px; font-weight: 900; color: #fff;
+  margin-bottom: 8px; line-height: 1.2;
+}
+.app-detail-body .ad-subtitle {
+  font-size: 13px; color: var(--w50); margin-bottom: 20px; line-height: 1.75;
+}
+
+.ad-features { list-style: none; padding: 0; margin: 0 0 20px; }
+.ad-features li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border-radius: 12px;
+  background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.04);
+  margin-bottom: 8px; font-size: 13px; color: rgba(255,255,255,.6); line-height: 1.55;
+}
+.ad-features li span { font-size: 18px; flex-shrink: 0; }
+
+.ad-downloads { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.ad-dl-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 22px; border-radius: 14px;
+  text-decoration: none; font-weight: 700; font-size: 13px;
+  transition: all .25s; border: 1px solid rgba(255,255,255,.1);
+}
+.ad-dl-btn:hover { transform: translateY(-2px); }
+.ad-dl-android { background: rgba(74,222,128,.1); color: #4ade80; }
+.ad-dl-android:hover { box-shadow: 0 6px 20px rgba(74,222,128,.15); }
+.ad-dl-ios { background: rgba(43,156,255,.1); color: #7dd3fc; }
+.ad-dl-ios:hover { box-shadow: 0 6px 20px rgba(43,156,255,.15); }
+.ad-dl-pwa { background: rgba(245,200,66,.1); color: #ffe066; }
+.ad-dl-pwa:hover { box-shadow: 0 6px 20px rgba(245,200,66,.15); }
+.ad-dl-open { background: linear-gradient(135deg,rgba(245,200,66,.15),rgba(255,107,43,.1)); color: var(--gold-s); border-color: rgba(245,200,66,.25); }
+.ad-dl-open:hover { box-shadow: 0 6px 20px rgba(245,200,66,.2); }
+
+.ad-dl-ico { font-size: 20px; }
+
+.ad-steps { margin-bottom: 20px; }
+.ad-steps h4 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px; font-weight: 700; color: var(--gold-s);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+}
+.ad-step {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px; border-radius: 12px;
+  background: rgba(0,0,0,.3); margin-bottom: 8px;
+}
+.ad-step-num {
+  width: 24px; height: 24px; border-radius: 8px;
+  background: rgba(245,200,66,.12); color: #f5c842;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 900;
+  flex-shrink: 0;
+}
+.ad-step-text { font-size: 12px; color: rgba(255,255,255,.55); line-height: 1.6; }
+.ad-step-text b { color: #fff; }
+
+/* ══ LIST VIEW OVERRIDES ══ */
+.app-grid.view-list .app-card {
+  flex-direction: row; align-items: stretch;
+}
+.app-grid.view-list .app-card-photo-wrap {
+  width: 100px; flex-shrink: 0; height: auto;
+}
+.app-grid.view-list .app-card-photo-placeholder {
+  height: 100%; min-height: 72px; width: 100px;
+}
+.app-grid.view-list .app-card-body {
+  padding: 12px 16px; flex-direction: row; align-items: center; gap: 12px;
+}
+.app-grid.view-list .app-card-tag { display: none; }
+.app-grid.view-list .app-card-desc { display: none; }
+.app-grid.view-list .app-card-name {
+  margin-bottom: 0; font-size: 12px; flex: 1;
+}
+.app-grid.view-list .app-card-foot {
+  border-top: none; padding-top: 0; flex-shrink: 0;
+}
+
+/* ══ NO RESULTS ══ */
+.app-no-results {
+  text-align: center; padding: 60px 20px;
+  font-family: 'Unbounded', sans-serif; font-size: 13px;
+  color: var(--w20); display: none;
+}
+.app-no-results span { font-size: 40px; display: block; margin-bottom: 12px; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 768px) {
+  .app-install-card {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+  .app-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .app-grid.view-list { grid-template-columns: 1fr; }
+  .app-card-photo-placeholder { height: 120px; }
+  .app-card-body { padding: 12px 14px 14px; }
+  .app-card-name { font-size: 11px; }
+  .app-hero h1 { letter-spacing: -1px; }
+  .app-detail-body { padding: 0 18px 20px; }
+  .ad-downloads { flex-direction: column; }
+}
+@media (max-width: 380px) {
+  .app-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app-page">
+
+<!-- ══ HERO ══ -->
+<section class="app-hero">
+  <div class="app-chip">📲 Приложения</div>
+  <h1>Наши <em>приложения</em></h1>
+  <p>Все инструменты DavronMarket. Нажмите «Подробнее» чтобы увидеть полную информацию о каждом приложении.</p>
+</section>
+
+<section class="app-install-box">
+  <div class="app-install-card">
+    <div>
+      <div class="app-install-title">DavronMarket App как мобильное приложение</div>
+      <div class="app-install-sub">Это PWA-приложение: оно устанавливается на телефон прямо из браузера и работает как обычное мобильное приложение без APK и App Store.</div>
+      <div class="app-install-points">
+        <div class="app-install-point"><b>1.</b> Откройте страницу DavronMarket App в браузере телефона.</div>
+        <div class="app-install-point"><b>2.</b> Нажмите кнопку установки или меню браузера.</div>
+        <div class="app-install-point"><b>3.</b> Добавьте приложение на главный экран.</div>
+        <div class="app-install-point"><b>4.</b> Открывайте DavronMarket как отдельное мобильное приложение.</div>
+      </div>
+    </div>
+    <div class="app-install-side">
+      <div class="app-install-os">
+        <b>Android</b>
+        <span>Chrome -> меню `⋮` -> `Установить приложение` или `Добавить на главный экран`.</span>
+      </div>
+      <div class="app-install-os">
+        <b>iPhone / iPad</b>
+        <span>Safari -> кнопка `Поделиться` -> `На экран Домой`.</span>
+      </div>
+      <div class="app-install-os">
+        <b>PWA система</b>
+        <span>После установки приложение открывается полноэкранно и выглядит как отдельное mobile app.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TOOLBAR ══ -->
+<div class="app-toolbar">
+  <div class="app-tb-group">
+    <div class="app-view-btn on" id="app-vGrid" onclick="appSetView('grid')" title="Сетка">⊞</div>
+    <div class="app-view-btn"    id="app-vList" onclick="appSetView('list')" title="Список">☰</div>
+  </div>
+  <div class="app-tb-spacer"></div>
+  <div class="app-count-badge">Приложений: <b id="appCount">0</b></div>
+</div>
+
+<!-- ══ CARDS SECTION ══ -->
+<div class="app-sections">
+
+  <div class="app-sec-label"><span class="sl-badge">⭐ Наши приложения</span></div>
+  <div class="app-grid" id="appGrid">
+
+    <!-- CARD 1: DavronMarket App -->
+    <div class="app-card c-gold" data-app="dm-app">
+      <div class="app-card-photo-wrap">
+        <div class="app-card-photo-placeholder" style="aspect-ratio:16/10;">
+          <span style="font-size:52px;">📲</span>
+          <span class="app-card-badge badge-top">ТОП</span>
+          <span class="app-card-rating">⭐ 4.8</span>
+        </div>
+      </div>
+      <div class="app-card-body">
+        <span class="app-card-tag">Мобильное приложение</span>
+        <div class="app-card-name">DavronMarket — Мобильное приложение</div>
+        <div class="app-card-desc">Все сервисы маркетплейса в кармане. Услуги, курсы, объявления, кино, уведомления — работает на Android, iOS и как PWA.</div>
+        <div class="app-card-foot">
+          <a class="app-card-btn btn-primary" href="#" onclick="installPWA();return false;">📲 Установить</a>
+          <div class="app-card-foot-spacer"></div>
+          <button class="app-card-btn btn-detail" onclick="openDetail('dm-app')">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2: CutList Optimizer -->
+    <div class="app-card c-blue" data-app="cutlist">
+      <div class="app-card-photo-wrap">
+        <div class="app-card-photo-placeholder" style="aspect-ratio:16/10;">
+          <span style="font-size:52px;">✂️</span>
+          <span class="app-card-badge badge-free">БЕСПЛАТНО</span>
+          <span class="app-card-rating">⭐ 4.9</span>
+        </div>
+      </div>
+      <div class="app-card-body">
+        <span class="app-card-tag">Онлайн-инструмент</span>
+        <div class="app-card-name">CutList Optimizer — Раскрой листов</div>
+        <div class="app-card-desc">Бесплатный оптимизатор раскроя ЛДСП, фанеры, МДФ, стекла. Визуальная карта распила, минимальные отходы, экспорт в PDF.</div>
+        <div class="app-card-foot">
+          <a class="app-card-btn btn-primary" href="cutlist.html">✂️ Открыть</a>
+          <div class="app-card-foot-spacer"></div>
+          <button class="app-card-btn btn-detail" onclick="openDetail('cutlist')">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /app-grid -->
+
+  <div class="app-no-results" id="app-no-res">
+    <span>🔍</span>Приложение не найдено
+  </div>
+
+</div><!-- /sections -->
+</div><!-- /page -->
+
+<!-- ══ DETAIL OVERLAY ══ -->
+<div class="app-overlay" id="appOverlay">
+  <div class="app-detail" id="appDetail">
+    <button class="app-detail-close" onclick="closeDetail()">✕</button>
+    <div class="app-detail-banner" id="adBanner"></div>
+    <div class="app-detail-body" id="adBody"></div>
+  </div>
+</div>
+
+<!-- ══ FOOTER — injected by engine.js ══ -->
+
+<script src="../../assets/js/engine.js"></script>
+<script>
+/* ════════════════════════════════
+   APP DETAILS DATA
+════════════════════════════════ */
+var APP_DATA = {
+  'dm-app': {
+    emoji: '📲',
+    bg: 'linear-gradient(135deg, rgba(245,200,66,.15), rgba(255,107,43,.08))',
+    title: 'DavronMarket — Мобильное приложение',
+    chips: [
+      {text:'ТОП', cls:'gold'},
+      {text:'Android', cls:'green'},
+      {text:'iOS', cls:'blue'},
+      {text:'PWA', cls:'gold'},
+      {text:'⭐ 4.8 (892 отзыва)', cls:''}
+    ],
+    subtitle: 'Все сервисы маркетплейса в вашем кармане. Услуги, курсы, объявления, кино, уведомления и личный кабинет — всё в одном приложении. Работает на Android, iOS и как PWA прямо из браузера.',
+    features: [
+      {icon:'🏪', text:'Маркетплейс — все услуги и магазины Таджикистана'},
+      {icon:'✂️', text:'CutList — оптимизатор раскроя листовых материалов'},
+      {icon:'🎬', text:'CINEMATIX — кино и VFX контент в 4K'},
+      {icon:'🎓', text:'Курсы — обучение IT, дизайну, маркетингу'},
+      {icon:'📢', text:'Объявления — доска бесплатных объявлений'},
+      {icon:'🔔', text:'Push-уведомления — акции и обновления'},
+      {icon:'👤', text:'Личный кабинет — профиль, заказы, избранное'},
+      {icon:'💬', text:'Поддержка 24/7 — Telegram, WhatsApp'}
+    ],
+    downloads: [
+      {ico:'🤖', label:'Android', sub:'Скачать APK', cls:'ad-dl-android', href:'#', onclick:'installPWA()'},
+      {ico:'🍎', label:'iOS', sub:'App Store', cls:'ad-dl-ios', href:'#'},
+      {ico:'🌐', label:'PWA', sub:'Установить', cls:'ad-dl-pwa', href:'#', onclick:'installPWA()'}
+    ],
+    showPwaSteps: true
+  },
+  'cutlist': {
+    emoji: '✂️',
+    bg: 'linear-gradient(135deg, rgba(43,156,255,.15), rgba(43,156,255,.05))',
+    title: 'CutList Optimizer — Раскрой листов',
+    chips: [
+      {text:'БЕСПЛАТНО', cls:'green'},
+      {text:'Онлайн-инструмент', cls:'blue'},
+      {text:'⭐ 4.9 (124 отзыва)', cls:''}
+    ],
+    subtitle: 'Профессиональный бесплатный инструмент для оптимизации раскроя ЛДСП, фанеры, МДФ, стекла и других листовых материалов. Минимизируйте отходы и экономьте деньги. Работает прямо в браузере без установки.',
+    features: [
+      {icon:'📐', text:'Ввод размеров листа и деталей вручную'},
+      {icon:'🧩', text:'Автоматический оптимальный раскрой с минимальными отходами'},
+      {icon:'📊', text:'Визуальная карта раскроя с цветовой маркировкой'},
+      {icon:'💾', text:'Экспорт плана в PDF или PNG'},
+      {icon:'⚡', text:'Работает мгновенно без установки — прямо в браузере'},
+      {icon:'🔄', text:'Поддержка нескольких листов и вращение деталей'},
+      {icon:'🎨', text:'Цветовая маркировка деталей для удобства'},
+      {icon:'📱', text:'Адаптивный дизайн — работает на телефоне и ПК'}
+    ],
+    downloads: [
+      {ico:'✂️', label:'Открыть CutList', sub:'Начать раскрой', cls:'ad-dl-open', href:'cutlist.html'}
+    ],
+    showPwaSteps: false
+  },
+  'kino': {
+    emoji: '🎬',
+    bg: 'linear-gradient(135deg, rgba(255,107,43,.12), rgba(230,57,70,.08))',
+    title: 'CINEMATIX — Кино и VFX Контент',
+    chips: [
+      {text:'ХИТ', cls:'gold'},
+      {text:'Онлайн-кинотеатр', cls:''},
+      {text:'4K', cls:'blue'},
+      {text:'⭐ 4.7 (347 отзывов)', cls:''}
+    ],
+    subtitle: 'Тысячи фильмов, VFX-контент студийного уровня и эксклюзивное таджикское кино. Смотрите трейлеры бесплатно, покупайте фильмы от 10 сомони. Оплата через таджикские банки.',
+    features: [
+      {icon:'🎥', text:'2 500+ фильмов и VFX-проектов в каталоге'},
+      {icon:'🏆', text:'4K HDR качество — студийный уровень'},
+      {icon:'💳', text:'Оплата: Душанбе Сити, Амонат, Алиф, ИМОН, Visa'},
+      {icon:'🎁', text:'Пригласи 3 друзей — получи 1 фильм бесплатно'},
+      {icon:'⭐', text:'Рейтинги, отзывы, оценки от пользователей'},
+      {icon:'🎭', text:'Актёры, режиссёры, трейлеры каждого фильма'},
+      {icon:'🆕', text:'Новые проекты: документалки, экшн, фэнтези'},
+      {icon:'📱', text:'Смотрите на любом устройстве'}
+    ],
+    downloads: [
+      {ico:'🎬', label:'Открыть CINEMATIX', sub:'Смотреть кино', cls:'ad-dl-open', href:'kino.html'}
+    ],
+    showPwaSteps: false
+  },
+  'services': {
+    emoji: '🏪',
+    bg: 'linear-gradient(135deg, rgba(167,139,250,.12), rgba(167,139,250,.04))',
+    title: 'Маркетплейс услуг',
+    chips: [
+      {text:'ТОП', cls:'gold'},
+      {text:'Маркетплейс', cls:''},
+      {text:'⭐ 4.6 (892 отзыва)', cls:''}
+    ],
+    subtitle: 'Находите лучших специалистов, магазины и сервисы Таджикистана. Дизайн, видео, звук, IT, мебель, лазерная резка, реклама — всё в одном месте с рейтингами и отзывами.',
+    features: [
+      {icon:'🔍', text:'Поиск и фильтрация по категориям услуг'},
+      {icon:'📋', text:'Карточки услуг с фото, описанием и ценами'},
+      {icon:'💬', text:'Связь с исполнителем через Telegram/WhatsApp'},
+      {icon:'⭐', text:'Рейтинги и отзывы от клиентов'},
+      {icon:'📢', text:'Публикация своих услуг и объявлений'},
+      {icon:'⊞', text:'Режим сетки и списка для удобства'}
+    ],
+    downloads: [
+      {ico:'🏪', label:'Открыть маркетплейс', sub:'Все услуги', cls:'ad-dl-open', href:'services.html'}
+    ],
+    showPwaSteps: false
+  },
+  'courses': {
+    emoji: '🎓',
+    bg: 'linear-gradient(135deg, rgba(74,222,128,.12), rgba(74,222,128,.04))',
+    title: 'Обучение и курсы',
+    chips: [
+      {text:'НОВОЕ', cls:'green'},
+      {text:'Обучение', cls:''},
+      {text:'⭐ 4.5 (215 отзывов)', cls:''}
+    ],
+    subtitle: 'Обучайтесь программированию, веб-дизайну, графическому дизайну и цифровому маркетингу. Видеоуроки и практические задания от экспертов Таджикистана.',
+    features: [
+      {icon:'💻', text:'Программирование: HTML, CSS, JavaScript, Python'},
+      {icon:'🎨', text:'Дизайн: UI/UX, Photoshop, Figma, After Effects'},
+      {icon:'📈', text:'Маркетинг: SMM, SEO, реклама, аналитика'},
+      {icon:'📹', text:'Видеоуроки и практические задания'},
+      {icon:'📜', text:'Сертификат по завершении курса'},
+      {icon:'👨‍🏫', text:'Менторство от практикующих специалистов'}
+    ],
+    downloads: [
+      {ico:'🎓', label:'Открыть курсы', sub:'Начать обучение', cls:'ad-dl-open', href:'courses.html'}
+    ],
+    showPwaSteps: false
+  }
+};
+
+/* ════════════════════════════════
+   VIEW TOGGLE
+════════════════════════════════ */
+function appSetView(mode) {
+  var grid = document.getElementById('appGrid');
+  var btnG = document.getElementById('app-vGrid');
+  var btnL = document.getElementById('app-vList');
+  if (mode === 'list') {
+    grid.classList.add('view-list');
+    btnL.classList.add('on'); btnG.classList.remove('on');
+  } else {
+    grid.classList.remove('view-list');
+    btnG.classList.add('on'); btnL.classList.remove('on');
+  }
+}
+
+/* ════════════════════════════════
+   DETAIL OVERLAY
+════════════════════════════════ */
+function openDetail(id) {
+  var d = APP_DATA[id];
+  if (!d) return;
+
+  var banner = document.getElementById('adBanner');
+  banner.style.background = d.bg;
+  banner.textContent = d.emoji;
+
+  var html = '';
+
+  // chips
+  html += '<div class="app-detail-chips">';
+  d.chips.forEach(function(c) {
+    html += '<span class="ad-chip' + (c.cls ? ' ' + c.cls : '') + '">' + c.text + '</span>';
+  });
+  html += '</div>';
+
+  // title & subtitle
+  html += '<h2>' + d.title + '</h2>';
+  html += '<p class="ad-subtitle">' + d.subtitle + '</p>';
+
+  // features
+  html += '<ul class="ad-features">';
+  d.features.forEach(function(f) {
+    html += '<li><span>' + f.icon + '</span>' + f.text + '</li>';
+  });
+  html += '</ul>';
+
+  // downloads
+  html += '<div class="ad-downloads">';
+  d.downloads.forEach(function(dl) {
+    var oc = dl.onclick ? ' onclick="' + dl.onclick + ';return false;"' : '';
+    html += '<a class="ad-dl-btn ' + dl.cls + '" href="' + dl.href + '"' + oc + '>';
+    html += '<span class="ad-dl-ico">' + dl.ico + '</span>';
+    html += '<div><div style="font-size:10px;opacity:.55;font-weight:400;">' + dl.sub + '</div><div>' + dl.label + '</div></div>';
+    html += '</a>';
+  });
+  html += '</div>';
+
+  // PWA steps
+  if (d.showPwaSteps) {
+    html += '<div class="ad-steps">';
+    html += '<h4>🌐 Как установить PWA</h4>';
+    html += '<div class="ad-step"><div class="ad-step-num">1</div><div class="ad-step-text">Откройте сайт <b>DavronMarket</b> в <b>Chrome</b> или <b>Safari</b></div></div>';
+    html += '<div class="ad-step"><div class="ad-step-num">2</div><div class="ad-step-text"><b>Chrome:</b> ⋮ → «Установить приложение»<br><b>Safari:</b> ⬆️ → «На экран Домой»</div></div>';
+    html += '<div class="ad-step"><div class="ad-step-num">3</div><div class="ad-step-text">Приложение появится на <b>рабочем столе</b> как обычное приложение</div></div>';
+    html += '</div>';
+  }
+
+  document.getElementById('adBody').innerHTML = html;
+  document.getElementById('appOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('appOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('appOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeDetail();
+});
+
+/* ════════════════════════════════
+   COUNT
+════════════════════════════════ */
+document.getElementById('appCount').textContent =
+  document.querySelectorAll('.app-card').length;
+
+/* ════════════════════════════════
+   PWA INSTALL
+════════════════════════════════ */
+var deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(result) {
+      if (result.outcome === 'accepted' && window.dmEngine) {
+        window.dmEngine.toast('✅ Приложение установлено!', 'success');
+      }
+      deferredPrompt = null;
+    });
+  } else {
+    openDetail('dm-app');
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  var dmManifest = document.getElementById('dmAppManifest');
+  if (dmManifest && window.DM_SITE_PLUGIN_URL) {
+    dmManifest.href = window.DM_SITE_PLUGIN_URL + 'site/File/Programms/davronmarket-app.webmanifest';
+  }
+
+  window.addEventListener('load', function() {
+    var swUrl = window.DM_SITE_PLUGIN_URL
+      ? window.DM_SITE_PLUGIN_URL + 'site/File/Programms/pwa-sw.js'
+      : 'pwa-sw.js';
+    navigator.serviceWorker.register(swUrl).catch(function(){});
+  });
+}
+</script>
+</body>
+</html>

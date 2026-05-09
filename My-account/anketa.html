@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Анкета пользователя</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="../assets/js/engine.js"></script>
+<style>
+body{margin:0;background:#0b0d12;color:#fff;font-family:'Mulish',sans-serif;}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px 80px;}
+.grid{display:grid;grid-template-columns:1fr .9fr;gap:18px;}
+.card{background:linear-gradient(180deg,#141821,#10131a);border:1px solid rgba(255,255,255,.07);border-radius:28px;padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.24);}
+h1{margin:0 0 8px;font-family:'Unbounded',sans-serif;font-size:clamp(24px,5vw,36px);}
+.sub{color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:18px;}
+.field{margin-bottom:12px;}.field label{display:block;margin-bottom:6px;font-size:11px;font-weight:800;color:rgba(255,255,255,.4);}
+.field input,.field textarea,.field select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#fff;font:600 13px 'Mulish',sans-serif;outline:none;}
+.field textarea{min-height:120px;resize:vertical;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:14px;text-decoration:none;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;border:none;cursor:pointer;}
+.btn-gold{background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#111;}.btn-dark{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#fff;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
+.list{display:grid;gap:12px;}.item{padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+.item b{display:block;font-size:14px;margin-bottom:4px;color:#fff;}.item span{display:block;font-size:12px;color:rgba(255,255,255,.56);line-height:1.7;}
+.pill{display:inline-flex;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;margin-top:8px;}.pending{background:rgba(245,200,66,.11);color:#ffe066;border:1px solid rgba(245,200,66,.22);}.accepted{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2);}.rejected{background:rgba(248,113,113,.1);color:#f87171;border:1px solid rgba(248,113,113,.2);}
+@media(max-width:900px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="grid">
+    <section class="card">
+      <h1>📋 Добавить анкету</h1>
+      <div class="sub">Анкета сохраняется в системе и попадает владельцу на рассмотрение. Только владелец видит централизованный контроль по всем анкетам.</div>
+      <div class="field"><label>Имя и фамилия</label><input id="name" type="text" readonly style="background:#222;opacity:.7;"></div>
+      <div class="field"><label>Телефон</label><input id="phone" type="tel" readonly style="background:#222;opacity:.7;"></div>
+      <div class="field"><label>Email</label><input id="email" type="email" readonly style="background:#222;opacity:.7;"></div>
+      <div class="field"><label>Город проживания / Район</label><input id="city" type="text" placeholder="Например: Душанбе, Сино"></div>
+      <div class="field"><label>Предпочтительный способ связи</label><select id="contact"><option>Звонок</option><option>WhatsApp</option><option>Telegram</option></select></div>
+      <div class="field"><label>Позиция / специализация</label><input id="position" type="text" placeholder="Например: SMM-специалист"></div>
+      <div class="field"><label>Опыт</label><select id="experience"><option>Без опыта</option><option>До 1 года</option><option>1-3 года</option><option>3+ года</option></select></div>
+      <div class="field"><label>О себе</label><textarea id="about" placeholder="Кратко расскажите о себе, навыках и задачах."></textarea></div>
+      <div class="actions">
+        <button class="btn btn-gold" onclick="saveResume()">Сохранить анкету</button>
+        <a class="btn btn-dark" href="panel.html">Назад в панель</a>
+      </div>
+    </section>
+    <aside class="card">
+      <h1 style="font-size:22px;">Мои анкеты</h1>
+      <div class="sub">Последние отправленные анкеты и их статус.</div>
+      <div class="list" id="resume-list"></div>
+    </aside>
+  </div>
+</div>
+<script>
+(function(){
+  var user = window.dmEngine.auth.currentUser();
+  if(!user){ window.location.href = window.dmEngine.P('index.html'); return; }
+
+  // Проверка профиля
+  if(!user.name || !user.phone || !user.email){
+    window.dmEngine.toast('⚠️ Заполните профиль (ФИО, телефон, email) в настройках!', 'error');
+    setTimeout(function(){ window.location.href = window.dmEngine.P('profile.html') + '?setup=1'; }, 1200);
+    return;
+  }
+  document.getElementById('name').value = user.name || '';
+  document.getElementById('phone').value = user.phone || '';
+  document.getElementById('email').value = user.email || '';
+
+  function getResumes(){ try { return JSON.parse(localStorage.getItem('dm_resumes_' + user.id)) || []; } catch(e){ return []; } }
+  function saveResumes(list){ localStorage.setItem('dm_resumes_' + user.id, JSON.stringify(list)); }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+
+  window.saveResume = function(){
+    var position = document.getElementById('position').value.trim();
+    var about = document.getElementById('about').value.trim();
+    var city = document.getElementById('city').value.trim();
+    var contact = document.getElementById('contact').value;
+    if(!position){ window.dmEngine.toast('⚠️ Укажите позицию', 'error'); return; }
+    if(!about){ window.dmEngine.toast('⚠️ Напишите описание', 'error'); return; }
+    if(!city){ window.dmEngine.toast('⚠️ Укажите город/район', 'error'); return; }
+    var safeUser = window.dmEngine.auth.currentUser();
+    var resume = {
+      name: safeUser.name,
+      phone: safeUser.phone,
+      email: safeUser.email,
+      city: city,
+      contact: contact,
+      position: position,
+      experience: document.getElementById('experience').value,
+      about: about
+    };
+    fetch('/save_resume.php', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(resume)
+    }).then(r=>r.json()).then(function(resp){
+      if(resp.ok){
+        window.dmEngine.toast('✅ Анкета отправлена на сервер', 'success');
+        document.getElementById('position').value = '';
+        document.getElementById('about').value = '';
+        document.getElementById('city').value = '';
+        document.getElementById('contact').value = 'Звонок';
+      }else{
+        window.dmEngine.toast('❌ ' + (resp.msg||'Ошибка сервера'), 'error');
+      }
+    }).catch(function(){
+      window.dmEngine.toast('❌ Ошибка соединения с сервером', 'error');
+    });
+  };
+
+  function render(){
+    var list = getResumes();
+    document.getElementById('resume-list').innerHTML = list.length ? list.map(function(item){
+      var cls = item.status === 'accepted' ? 'accepted' : item.status === 'rejected' ? 'rejected' : 'pending';
+      var label = item.status === 'accepted' ? 'Принята' : item.status === 'rejected' ? 'Отклонена' : 'На проверке';
+      return '<div class="item"><b>' + esc(item.position) + '</b><span>' + esc(item.about) + '</span><span style="margin-top:8px;">' + esc(item.experience) + ' · ' + new Date(item.date).toLocaleDateString('ru') + '</span><div class="pill ' + cls + '">' + label + '</div></div>';
+    }).join('') : '<div class="sub">Пока нет анкет.</div>';
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

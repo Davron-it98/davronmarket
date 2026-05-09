@@ -1,0 +1,206 @@
+﻿{
+    "generatedAt":  "2026-04-26T11:00:34",
+    "count":  20,
+    "items":  [
+                  {
+                      "file":  "anketa.html",
+                      "slug":  "anketa",
+                      "title":  "DavronMarket — Анкета пользователя",
+                      "description":  "Page updated: DavronMarket — Анкета пользователя",
+                      "category":  "community",
+                      "url":  "/My-account/anketa.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-20T21:40:56"
+                  },
+                  {
+                      "file":  "shop.html",
+                      "slug":  "shop",
+                      "title":  "DavronMarket — Интернет-магазин",
+                      "description":  "Page updated: DavronMarket — Интернет-магазин",
+                      "category":  "shop",
+                      "url":  "/shop.html",
+                      "createdAt":  "2026-04-07T01:56:31",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "servises.html",
+                      "slug":  "servises",
+                      "title":  "DavronMarket — Услуги",
+                      "description":  "Page updated: DavronMarket — Услуги",
+                      "category":  "services",
+                      "url":  "/servises.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "profile.html",
+                      "slug":  "profile",
+                      "title":  "DavronMarket — Профиль",
+                      "description":  "Page updated: DavronMarket — Профиль",
+                      "category":  "platform",
+                      "url":  "/profile.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "obyavleniya.html",
+                      "slug":  "obyavleniya",
+                      "title":  "DavronMarket — Объявления пользователя",
+                      "description":  "Page updated: DavronMarket — Объявления пользователя",
+                      "category":  "platform",
+                      "url":  "/My-account/obyavleniya.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "taxi.html",
+                      "slug":  "taxi",
+                      "title":  "DavronMarket — Такси и Попутчики",
+                      "description":  "Page updated: DavronMarket — Такси и Попутчики",
+                      "category":  "transport",
+                      "url":  "/taxi.html",
+                      "createdAt":  "2026-04-07T01:59:18",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "sport.html",
+                      "slug":  "sport",
+                      "title":  "DavronMarket — Спорт и отдых",
+                      "description":  "Page updated: DavronMarket — Спорт и отдых",
+                      "category":  "platform",
+                      "url":  "/sport.html",
+                      "createdAt":  "2026-04-07T02:02:09",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "dating.html",
+                      "slug":  "dating",
+                      "title":  "DavronMarket — Знакомства",
+                      "description":  "Page updated: DavronMarket — Знакомства",
+                      "category":  "community",
+                      "url":  "/dating.html",
+                      "createdAt":  "2026-04-07T02:02:57",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "Course.html",
+                      "slug":  "course",
+                      "title":  "DavronMarket — Обучающие курсы",
+                      "description":  "Page updated: DavronMarket — Обучающие курсы",
+                      "category":  "courses",
+                      "url":  "/Course.html",
+                      "createdAt":  "2026-04-16T06:54:23",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "avia.html",
+                      "slug":  "avia",
+                      "title":  "DavronMarket — Авиабилеты",
+                      "description":  "Page updated: DavronMarket — Авиабилеты",
+                      "category":  "platform",
+                      "url":  "/avia.html",
+                      "createdAt":  "2026-04-07T01:58:21",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "Films.html",
+                      "slug":  "films",
+                      "title":  "CINEMATIX — Кино и VFX Контент Таджикистана",
+                      "description":  "Page updated: CINEMATIX — Кино и VFX Контент Таджикистана",
+                      "category":  "media",
+                      "url":  "/Films.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "productions.html",
+                      "slug":  "productions",
+                      "title":  "DavronMarket — Производства",
+                      "description":  "Page updated: DavronMarket — Производства",
+                      "category":  "platform",
+                      "url":  "/productions.html",
+                      "createdAt":  "2026-04-07T01:57:18",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "music.html",
+                      "slug":  "music",
+                      "title":  "DavronMusic - Music",
+                      "description":  "Page updated: DavronMusic - Music",
+                      "category":  "media",
+                      "url":  "/music.html",
+                      "createdAt":  "2026-04-12T23:04:08",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "games-online.html",
+                      "slug":  "games-online",
+                      "title":  "DavronMarket — Онлайн-игры",
+                      "description":  "Page updated: DavronMarket — Онлайн-игры",
+                      "category":  "platform",
+                      "url":  "/games-online.html",
+                      "createdAt":  "2026-04-07T02:03:52",
+                      "updatedAt":  "2026-04-20T21:35:19"
+                  },
+                  {
+                      "file":  "targeting.html",
+                      "slug":  "targeting",
+                      "title":  "Таргетированная реклама — DavronMarket | Профессиональный таргетолог",
+                      "description":  "Page updated: Таргетированная реклама — DavronMarket | Профессиональный таргетолог",
+                      "category":  "services",
+                      "url":  "/Services/targeting.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-18T13:55:16"
+                  },
+                  {
+                      "file":  "digital-marketing.html",
+                      "slug":  "digital-marketing",
+                      "title":  "Digital Marketing — Профессиональное продвижение | DavronMarket",
+                      "description":  "Page updated: Digital Marketing — Профессиональное продвижение | DavronMarket",
+                      "category":  "services",
+                      "url":  "/Services/digital-marketing.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-13T23:32:58"
+                  },
+                  {
+                      "file":  "2d-design.html",
+                      "slug":  "2d-design",
+                      "title":  "DavronMarket — 2D Дизайн",
+                      "description":  "Page updated: DavronMarket — 2D Дизайн",
+                      "category":  "services",
+                      "url":  "/Services/2d-design.html",
+                      "createdAt":  "2026-04-13T12:03:26",
+                      "updatedAt":  "2026-04-13T12:03:26"
+                  },
+                  {
+                      "file":  "music-studio.html",
+                      "slug":  "music-studio",
+                      "title":  "DavronMarket Music Studio — Профессиональная музыкальная студия",
+                      "description":  "Page updated: DavronMarket Music Studio — Профессиональная музыкальная студия",
+                      "category":  "services",
+                      "url":  "/Services/music-studio.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-01T19:58:44"
+                  },
+                  {
+                      "file":  "cinematic-studio.html",
+                      "slug":  "cinematic-studio",
+                      "title":  "DM Cinematic Studio — VFX \u0026 Кино | DavronMarket",
+                      "description":  "Page updated: DM Cinematic Studio — VFX \u0026 Кино | DavronMarket",
+                      "category":  "services",
+                      "url":  "/Services/cinematic-studio.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-01T19:58:12"
+                  },
+                  {
+                      "file":  "art-studio-3d.html",
+                      "slug":  "art-studio-3d",
+                      "title":  "ART Studio 3D | 3D дизайн, печать, штамповка — DavronMarket",
+                      "description":  "Page updated: ART Studio 3D | 3D дизайн, печать, штамповка — DavronMarket",
+                      "category":  "services",
+                      "url":  "/Services/art-studio-3d.html",
+                      "createdAt":  "2026-04-06T09:46:42",
+                      "updatedAt":  "2026-04-01T19:57:55"
+                  }
+              ]
+}

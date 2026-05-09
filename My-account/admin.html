@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Административная панель</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="../assets/js/engine.js"></script>
+<style>
+:root{--bg:#0b0d12;--bg2:#141821;--bg3:#1c2132;--card:rgba(20,24,33,.95);--brd:rgba(255,255,255,.07);--orange:#ff6b2b;--blue:#2b9cff;--gold:#f5c842;--green:#4ade80;--purple:#a78bfa;--red:#f87171;--w:rgba(255,255,255,.9);--w6:rgba(255,255,255,.6);--w3:rgba(255,255,255,.3);--w1:rgba(255,255,255,.06);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--w);min-height:100vh;}
+.wrap{max-width:1260px;margin:0 auto;padding:84px 20px 80px;}
+.panel-grid{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start;}
+.sidebar{background:var(--card);border:1px solid var(--brd);border-radius:20px;overflow:hidden;position:sticky;top:80px;}
+.sb-profile{padding:18px;border-bottom:1px solid var(--brd);text-align:center;}
+.sb-ava{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;color:#000;margin:0 auto 10px;}
+.sb-name{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px;}
+.sb-role{display:inline-block;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:800;background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.25);color:var(--orange);}
+.sb-nav{padding:8px;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:12px;font-weight:600;color:var(--w6);cursor:pointer;transition:.22s;border:none;background:none;width:100%;text-align:left;}
+.sb-item:hover{background:var(--w1);color:var(--w);}
+.sb-item.active{background:rgba(255,107,43,.1);border:1px solid rgba(255,107,43,.18);color:var(--orange);}
+.sb-item-ico{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.sb-badge{margin-left:auto;padding:2px 6px;border-radius:12px;font-size:10px;font-weight:800;background:rgba(248,113,113,.2);color:var(--red);}
+.sb-divider{height:1px;background:var(--brd);margin:5px 12px;}
+.sb-logout{width:calc(100%-20px);margin:10px;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;font-size:12px;font-weight:600;color:var(--red);background:none;border:1px solid rgba(248,113,113,.15);cursor:pointer;transition:.22s;width:calc(100% - 20px);}
+.sb-logout:hover{background:rgba(248,113,113,.1);}
+.main{display:flex;flex-direction:column;gap:18px;}
+.tab-pane{display:none;}
+.tab-pane.active{display:flex;flex-direction:column;gap:16px;}
+.p-card{background:var(--card);border:1px solid var(--brd);border-radius:18px;padding:22px;}
+.p-card-title{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.stat-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;}
+.stat-box b{display:block;font-family:'Unbounded',sans-serif;font-size:20px;color:var(--gold);margin-bottom:4px;}
+.stat-box span{font-size:10px;color:var(--w3);text-transform:uppercase;letter-spacing:.05em;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:800;border:none;cursor:pointer;transition:.22s;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#111;}
+.btn-gold:hover{filter:brightness(1.12);}
+.btn-outline{background:var(--w1);border:1px solid var(--brd);color:var(--w);}
+.btn-outline:hover{background:rgba(255,255,255,.1);}
+.btn-blue{background:rgba(43,156,255,.12);border:1px solid rgba(43,156,255,.3);color:var(--blue);}
+.btn-green{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green);}
+.btn-red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--red);}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.f-field{display:flex;flex-direction:column;gap:5px;}
+.f-field.full{grid-column:1/-1;}
+.f-label{font-size:11px;font-weight:600;color:var(--w6);}
+.f-input,.f-textarea,.f-select{background:var(--bg3);border:1px solid var(--brd);border-radius:9px;padding:9px 12px;color:var(--w);font-family:'Mulish',sans-serif;font-size:13px;outline:none;width:100%;}
+.f-input:focus,.f-textarea:focus,.f-select:focus{border-color:rgba(255,107,43,.5);}
+.f-select option{background:var(--bg);}
+.f-textarea{min-height:70px;resize:vertical;}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--w3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--brd);}
+.tbl td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--brd);}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--w1);}
+.tbl-actions{display:flex;gap:6px;}
+.pill{display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:800;}
+.pill-ok{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);}
+.pill-warn{background:rgba(245,200,66,.1);color:var(--gold);border:1px solid rgba(245,200,66,.2);}
+.pill-red{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2);}
+.pill-blue{background:rgba(43,156,255,.1);color:var(--blue);border:1px solid rgba(43,156,255,.2);}
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.media-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;}
+.media-thumb{width:100%;height:130px;object-fit:cover;display:block;background:var(--bg);}
+.media-body{padding:12px;}
+.media-title{font-size:13px;font-weight:700;color:var(--w);margin-bottom:4px;}
+.media-meta{font-size:11px;color:var(--w6);margin-bottom:10px;}
+.empty{text-align:center;padding:32px;color:var(--w3);font-size:13px;}
+.chat-wrap{display:flex;height:440px;border-radius:14px;overflow:hidden;border:1px solid var(--brd);}
+.chat-list{width:200px;flex-shrink:0;border-right:1px solid var(--brd);background:var(--bg3);overflow-y:auto;}
+.chat-dialog{padding:10px 12px;border-bottom:1px solid var(--brd);cursor:pointer;font-size:12px;transition:.2s;}
+.chat-dialog:hover,.chat-dialog.active{background:rgba(255,107,43,.06);}
+.chat-main{flex:1;display:flex;flex-direction:column;}
+.chat-hdr{padding:10px 14px;border-bottom:1px solid var(--brd);font-weight:700;font-size:12px;background:var(--bg3);}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;}
+.chat-msg{max-width:70%;padding:9px 12px;border-radius:12px;font-size:12px;line-height:1.5;}
+.chat-msg.out{align-self:flex-end;background:rgba(255,107,43,.16);border:1px solid rgba(255,107,43,.25);}
+.chat-msg.in{align-self:flex-start;background:var(--bg3);border:1px solid var(--brd);}
+.chat-msg-time{font-size:10px;color:var(--w3);margin-top:3px;}
+.chat-inp-row{display:flex;gap:7px;padding:10px;border-top:1px solid var(--brd);}
+.chat-inp{flex:1;background:var(--bg3);border:1px solid var(--brd);border-radius:9px;padding:9px 12px;color:var(--w);font-size:12px;outline:none;}
+.chat-send{padding:9px 16px;border-radius:9px;background:var(--orange);color:#000;font-weight:800;border:none;cursor:pointer;}
+@media(max-width:960px){.panel-grid{grid-template-columns:1fr;}.sidebar{position:static;}.stats-row{grid-template-columns:repeat(3,1fr);}.media-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:540px){.wrap{padding:76px 12px 60px;}.stats-row{grid-template-columns:repeat(2,1fr);}.chat-list{display:none;}}
+
+body{font-family:'Syne',sans-serif;background:radial-gradient(circle at top,rgba(245,200,66,.06),transparent 28%),#050507;color:var(--w);cursor:none;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 15%,transparent 100%);}
+.wrap{position:relative;z-index:1;padding-top:92px;}
+.sidebar,.p-card,.stat-box,.media-card,.chat-wrap{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.08);box-shadow:0 20px 55px rgba(0,0,0,.32);backdrop-filter:blur(18px);}
+.sidebar{border-color:rgba(255,107,43,.18);}
+.sb-profile{background:linear-gradient(135deg,rgba(255,107,43,.08),rgba(245,200,66,.05));}
+.sb-item,.sb-logout,.btn,.chat-send{cursor:none;}
+.sb-item:hover,.sb-item.active{transform:translateX(3px);}
+.sb-item.active{box-shadow:inset 0 0 0 1px rgba(255,107,43,.05);}
+.btn-gold{box-shadow:0 10px 28px rgba(245,200,66,.25);}
+.btn-outline,.btn-blue,.btn-red,.btn-green,.chat-dialog.active,.chat-msg.out{background:rgba(255,255,255,.04);}
+.f-input,.f-textarea,.f-select,.chat-inp{font-family:'Syne',sans-serif;background:rgba(255,255,255,.04);}
+.f-input:focus,.f-textarea:focus,.f-select:focus,.chat-inp:focus{box-shadow:0 0 0 3px rgba(255,107,43,.08);}
+.tbl tr:hover td{background:rgba(255,255,255,.04);}
+#cur,#cur2{position:fixed;top:0;left:0;pointer-events:none;transform:translate(-50%,-50%);z-index:9999}
+#cur{width:12px;height:12px;border-radius:50%;background:var(--gold);mix-blend-mode:difference;transition:width .2s,height .2s}
+#cur2{width:36px;height:36px;border-radius:50%;border:1px solid rgba(245,200,66,.35);z-index:9998}
+.bg-glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 50% 20%,rgba(255,107,43,.08),transparent 70%)}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div id="cur"></div>
+<div id="cur2"></div>
+<div class="wrap">
+  <div class="panel-grid">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar">
+      <div class="sb-profile">
+        <div class="sb-ava" id="sb-ava">A</div>
+        <div class="sb-name" id="sb-name">Администратор</div>
+        <div class="sb-role" id="sb-role">⚙️ Admin</div>
+      </div>
+      <nav class="sb-nav">
+        <button class="sb-item active" data-tab="overview"><span class="sb-item-ico">📊</span> Обзор</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="users"><span class="sb-item-ico">👥</span> Пользователи</button>
+        <button class="sb-item" data-tab="ankety"><span class="sb-item-ico">📋</span> Анкеты</button>
+        <button class="sb-item" data-tab="announcements"><span class="sb-item-ico">📢</span> Объявления <span class="sb-badge" id="badge-ann">0</span></button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="products"><span class="sb-item-ico">🛍️</span> Товары</button>
+        <button class="sb-item" data-tab="orders"><span class="sb-item-ico">📦</span> Заказы</button>
+        <button class="sb-item" data-tab="payments"><span class="sb-item-ico">💳</span> Платежи</button>
+        <button class="sb-item" data-tab="ads"><span class="sb-item-ico">📣</span> Реклама</button>
+        <button class="sb-item" data-tab="pages"><span class="sb-item-ico">📄</span> Страницы</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="comments"><span class="sb-item-ico">💬</span> Комментарии <span class="sb-badge" id="badge-coms">0</span></button>
+        <button class="sb-item" data-tab="reviews"><span class="sb-item-ico">⭐</span> Отзывы</button>
+        <button class="sb-item" data-tab="complaints"><span class="sb-item-ico">🚩</span> Жалобы <span class="sb-badge" id="badge-comp">0</span></button>
+        <button class="sb-item" data-tab="chat"><span class="sb-item-ico">✉️</span> Чат / Сообщения</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="video"><span class="sb-item-ico">🎬</span> Видео-блоки</button>
+        <button class="sb-item" data-tab="audio"><span class="sb-item-ico">🎵</span> Аудио-блоки</button>
+        <button class="sb-item" data-tab="history"><span class="sb-item-ico">📜</span> История / Логи</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" id="btn-owner" style="display:none"><span class="sb-item-ico">👑</span> Панель владельца</button>
+        <button class="sb-item" onclick="window.location.href='panel.html'"><span class="sb-item-ico">👤</span> Мой кабинет</button>
+      </nav>
+      <button class="sb-logout" id="btn-logout">🚪 Выйти</button>
+    </aside>
+
+    <!-- ═══ КОНТЕНТ ═══ -->
+    <div class="main">
+
+      <!-- Обзор -->
+      <div class="tab-pane active" id="tab-overview">
+        <div class="stats-row" id="overview-stats"></div>
+        <div class="p-card">
+          <div class="p-card-title"><span>📊</span> Панель администратора</div>
+          <p style="font-size:14px;color:var(--w6);line-height:1.7;">Управление пользователями, контентом, медиа-блоками, объявлениями и заказами. Используйте меню слева для навигации по разделам.</p>
+        </div>
+      </div>
+
+      <!-- Пользователи -->
+      <div class="tab-pane" id="tab-users">
+        <div class="p-card">
+          <div class="p-card-title"><span>👥</span> Все пользователи</div>
+          <table class="tbl" id="users-tbl">
+            <thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Роль</th><th>Дата</th><th>Действия</th></tr></thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Анкеты -->
+      <div class="tab-pane" id="tab-ankety">
+        <div class="p-card">
+          <div class="p-card-title"><span>📋</span> Все анкеты</div>
+          <div id="ankety-list"><div class="empty">Анкет нет</div></div>
+        </div>
+      </div>
+
+      <!-- Объявления -->
+      <div class="tab-pane" id="tab-announcements">
+        <div class="p-card">
+          <div class="p-card-title"><span>📢</span> Все объявления</div>
+          <table class="tbl">
+            <thead><tr><th>Заголовок</th><th>Автор</th><th>Категория</th><th>Статус</th><th>Действия</th></tr></thead>
+            <tbody id="ann-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Товары WooCommerce -->
+      <div class="tab-pane" id="tab-products">
+        <div class="p-card">
+          <div class="p-card-title"><span>🛍️</span> Товары WooCommerce</div>
+          <div id="products-list"><div class="empty">Загрузка товаров...</div></div>
+          <div class="btn-row">
+            <a class="btn btn-outline" href="https://davronmarket.com/wp-admin/post-new.php?post_type=product" target="_blank" rel="noopener">➕ Добавить в WP</a>
+            <button class="btn btn-blue" onclick="loadProducts()">🔄 Обновить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Заказы -->
+      <div class="tab-pane" id="tab-orders">
+        <div class="p-card">
+          <div class="p-card-title"><span>📦</span> Заказы</div>
+          <table class="tbl">
+            <thead><tr><th>ID</th><th>Пользователь</th><th>Сумма</th><th>Статус</th><th>Дата</th><th>Действия</th></tr></thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+          <div class="empty" id="orders-empty">Заказов пока нет</div>
+        </div>
+      </div>
+
+      <!-- Платежи -->
+      <div class="tab-pane" id="tab-payments">
+        <div class="p-card">
+          <div class="p-card-title"><span>💳</span> Платежи</div>
+          <table class="tbl">
+            <thead><tr><th>ID</th><th>Пользователь</th><th>Сумма</th><th>Метод</th><th>Статус</th><th>Дата</th></tr></thead>
+            <tbody id="pay-tbody"></tbody>
+          </table>
+          <div class="empty" id="pay-empty">Платежей пока нет</div>
+        </div>
+      </div>
+
+      <!-- Реклама -->
+      <div class="tab-pane" id="tab-ads">
+        <div class="p-card">
+          <div class="p-card-title"><span>📣</span> Рекламные блоки</div>
+          <div class="f-row">
+            <div class="f-field full"><label class="f-label">Заголовок рекламы</label><input class="f-input" id="ad-title" type="text" placeholder="Текст рекламы..."></div>
+            <div class="f-field"><label class="f-label">Ссылка</label><input class="f-input" id="ad-link" type="url" placeholder="https://..."></div>
+            <div class="f-field"><label class="f-label">Место размещения</label>
+              <select class="f-select" id="ad-place"><option value="top">Верх страницы</option><option value="after-hero">После баннера</option><option value="sidebar">Сайдбар</option><option value="footer">Подвал</option></select>
+            </div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="addAd()">📣 Добавить</button></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>📣</span> Активная реклама</div>
+          <div id="ads-list"><div class="empty">Рекламных блоков нет</div></div>
+        </div>
+      </div>
+
+      <!-- Страницы -->
+      <div class="tab-pane" id="tab-pages">
+        <div class="p-card">
+          <div class="p-card-title"><span>📄</span> Страницы WordPress</div>
+          <div id="pages-list"><div class="empty">Загрузка страниц...</div></div>
+          <div class="btn-row">
+            <button class="btn btn-blue" onclick="loadPages()">🔄 Загрузить</button>
+            <a class="btn btn-outline" href="https://davronmarket.com/wp-admin/page-new.php" target="_blank" rel="noopener">➕ Новая страница</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Комментарии -->
+      <div class="tab-pane" id="tab-comments">
+        <div class="p-card">
+          <div class="p-card-title"><span>💬</span> Все комментарии</div>
+          <div id="comments-list"><div class="empty">Комментариев нет</div></div>
+        </div>
+      </div>
+
+      <!-- Отзывы -->
+      <div class="tab-pane" id="tab-reviews">
+        <div class="p-card">
+          <div class="p-card-title"><span>⭐</span> Все отзывы</div>
+          <div id="reviews-list"><div class="empty">Отзывов нет</div></div>
+        </div>
+      </div>
+
+      <!-- Жалобы -->
+      <div class="tab-pane" id="tab-complaints">
+        <div class="p-card">
+          <div class="p-card-title"><span>🚩</span> Жалобы</div>
+          <div id="complaints-list"><div class="empty">Жалоб нет</div></div>
+        </div>
+      </div>
+
+      <!-- Чат -->
+      <div class="tab-pane" id="tab-chat">
+        <div class="p-card" style="padding:0;overflow:hidden;">
+          <div class="chat-wrap">
+            <div class="chat-list" id="chat-list"><div style="padding:14px;font-size:11px;color:var(--w3);text-align:center;margin-top:20px;">Диалогов нет</div></div>
+            <div class="chat-main">
+              <div class="chat-hdr" id="chat-title">Выберите диалог</div>
+              <div class="chat-msgs" id="chat-msgs"><div class="empty">Сообщения появятся здесь</div></div>
+              <div class="chat-inp-row"><input class="chat-inp" id="chat-inp" type="text" placeholder="Сообщение..."><button class="chat-send" onclick="adminSend()">→</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Видео-блоки -->
+      <div class="tab-pane" id="tab-video">
+        <div class="p-card">
+          <div class="p-card-title"><span>🎬</span> Добавить видео-блок</div>
+          <div class="f-row">
+            <div class="f-field full"><label class="f-label">Заголовок</label><input class="f-input" id="v-title" type="text" placeholder="Название видео"></div>
+            <div class="f-field full"><label class="f-label">Ссылка YouTube / Vimeo</label><input class="f-input" id="v-url" type="url" placeholder="https://youtube.com/..."></div>
+            <div class="f-field"><label class="f-label">Раздел</label>
+              <select class="f-select" id="v-section"><option>Главная</option><option>Курсы</option><option>Фильмы</option><option>Сервисы</option><option>Другое</option></select>
+            </div>
+            <div class="f-field"><label class="f-label">Описание</label><input class="f-input" id="v-desc" type="text" placeholder="Краткое описание"></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="addVideo()">🎬 Добавить</button></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>🎬</span> Видео-блоки</div>
+          <div class="media-grid" id="video-grid"><div class="empty">Видео-блоков нет</div></div>
+        </div>
+      </div>
+
+      <!-- Аудио-блоки -->
+      <div class="tab-pane" id="tab-audio">
+        <div class="p-card">
+          <div class="p-card-title"><span>🎵</span> Добавить аудио-блок</div>
+          <div class="f-row">
+            <div class="f-field full"><label class="f-label">Название трека</label><input class="f-input" id="au-title" type="text" placeholder="Название..."></div>
+            <div class="f-field full"><label class="f-label">Прямая ссылка на MP3</label><input class="f-input" id="au-url" type="url" placeholder="https://.../track.mp3"></div>
+            <div class="f-field"><label class="f-label">Исполнитель</label><input class="f-input" id="au-artist" type="text" placeholder="Исполнитель"></div>
+            <div class="f-field"><label class="f-label">Раздел</label>
+              <select class="f-select" id="au-section"><option>Главная</option><option>Музыка</option><option>Курсы</option><option>Другое</option></select>
+            </div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="addAudio()">🎵 Добавить</button></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>🎵</span> Аудио-блоки</div>
+          <div id="audio-list"><div class="empty">Аудио-блоков нет</div></div>
+        </div>
+      </div>
+
+      <!-- История / Логи -->
+      <div class="tab-pane" id="tab-history">
+        <div class="p-card">
+          <div class="p-card-title"><span>📜</span> История действий</div>
+          <div id="history-list"><div class="empty">История пуста</div></div>
+          <div class="btn-row"><button class="btn btn-red" onclick="clearHistory()">🗑 Очистить историю</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var E=window.dmEngine;
+  if(!E)return;
+  var user=E.auth.currentUser();
+  if(!user||(['admin','worker','owner'].indexOf(user.role)===-1)){window.location.href=E.P('index.html');return;}
+
+  document.getElementById('sb-ava').textContent=(user.name||'A').charAt(0).toUpperCase();
+  document.getElementById('sb-name').textContent=user.name;
+  document.getElementById('sb-role').textContent=user.role==='owner'?'👑 Владелец':user.role==='worker'?'🛠 Работник':'⚙️ Администратор';
+
+  if(user.role==='owner'){var bo=document.getElementById('btn-owner');bo.style.display='flex';bo.addEventListener('click',function(){window.location.href=E.P('owner.html');});}
+
+  function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+  function load(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch(e){return[];}}
+  function save(k,v){localStorage.setItem(k,JSON.stringify(v));}
+  function fmtDate(iso){return new Date(iso).toLocaleDateString('ru',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+  function logAction(action){var logs=load('dm_admin_logs');logs.unshift({action:action,admin:user.name,date:new Date().toISOString()});if(logs.length>200)logs=logs.slice(0,200);save('dm_admin_logs',logs);}
+
+  /* Badges */
+  function refreshBadges(){
+    var allAnns=load('dm_announcements');
+    document.getElementById('badge-ann').textContent=allAnns.filter(function(a){return a.status==='pending';}).length;
+    var allComp=load('dm_complaints');
+    document.getElementById('badge-comp').textContent=allComp.filter(function(c){return !c.resolved;}).length;
+    /* count comments across all users */
+    var comCount=0;
+    Object.keys(localStorage).forEach(function(k){if(k.startsWith('dm_comments_')){try{comCount+=JSON.parse(localStorage.getItem(k)).length;}catch(e){}}});
+    document.getElementById('badge-coms').textContent=comCount;
+  }
+  refreshBadges();
+
+  /* Tabs */
+  document.querySelectorAll('.sb-item[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var tab=this.getAttribute('data-tab');
+      document.querySelectorAll('.sb-item').forEach(function(b){b.classList.remove('active');});
+      document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
+      this.classList.add('active');
+      var pane=document.getElementById('tab-'+tab);
+      if(pane){pane.classList.add('active');renderTab(tab);}
+    });
+  });
+
+  function renderTab(tab){
+    if(tab==='overview')renderOverview();
+    else if(tab==='users')renderUsers();
+    else if(tab==='ankety')renderAnkety();
+    else if(tab==='announcements')renderAnnouncements();
+    else if(tab==='products')loadProducts();
+    else if(tab==='orders')renderOrders();
+    else if(tab==='payments')renderPayments();
+    else if(tab==='ads')renderAds();
+    else if(tab==='pages')loadPages();
+    else if(tab==='comments')renderComments();
+    else if(tab==='reviews')renderReviews();
+    else if(tab==='complaints')renderComplaints();
+    else if(tab==='chat')renderChats();
+    else if(tab==='video')renderVideo();
+    else if(tab==='audio')renderAudio();
+    else if(tab==='history')renderHistory();
+    refreshBadges();
+  }
+
+  /* Overview */
+  function renderOverview(){
+    var users=load('dm_users');
+    var anns=load('dm_announcements');
+    var videos=load('dm_video_blocks');
+    var audio=load('dm_mp3_blocks');
+    var compl=load('dm_complaints');
+    document.getElementById('overview-stats').innerHTML=
+      '<div class="stat-box"><b>'+users.length+'</b><span>Пользователей</span></div>'+
+      '<div class="stat-box"><b>'+anns.length+'</b><span>Объявлений</span></div>'+
+      '<div class="stat-box"><b>'+videos.length+'</b><span>Видео-блоков</span></div>'+
+      '<div class="stat-box"><b>'+audio.length+'</b><span>Аудио-блоков</span></div>'+
+      '<div class="stat-box"><b>'+compl.filter(function(c){return !c.resolved;}).length+'</b><span>Жалоб</span></div>';
+  }
+  renderOverview();
+
+  /* Users */
+  function renderUsers(){var users=load('dm_users');var tb=document.getElementById('users-tbody');if(!users.length){tb.innerHTML='<tr><td colspan="6" class="empty">Нет пользователей</td></tr>';return;}tb.innerHTML=users.map(function(u){return '<tr><td>'+esc(u.id)+'</td><td>'+esc(u.name)+'</td><td>'+esc(u.email)+'</td><td><span class="pill '+(u.role==='admin'||u.role==='owner'?'pill-red':'pill-blue')+'">'+esc(u.role)+'</span></td><td>'+esc(u.date?fmtDate(u.date):'—')+'</td><td class="tbl-actions"><button class="btn btn-red" onclick="blockUser(\''+u.id+'\')">Блок</button><button class="btn btn-outline" onclick="changeRole(\''+u.id+'\')">Роль</button></td></tr>';}).join('');}
+  window.blockUser=function(uid){var users=load('dm_users');var u=users.find(function(x){return x.id===uid;});if(!u)return;if(confirm('Заблокировать '+u.name+'?')){u.blocked=true;save('dm_users',users);logAction('BLOCK USER: '+u.email);renderUsers();E.toast('Пользователь заблокирован','warn');}};
+  window.changeRole=function(uid){var users=load('dm_users');var u=users.find(function(x){return x.id===uid;});if(!u)return;var r=prompt('Новая роль (user/worker/admin):',u.role);if(r&&['user','worker','admin'].indexOf(r)>-1){u.role=r;save('dm_users',users);logAction('ROLE CHANGE: '+u.email+' → '+r);renderUsers();E.toast('Роль изменена','success');}};
+
+  /* Ankety */
+  function renderAnkety(){var el=document.getElementById('ankety-list');var rows=[];Object.keys(localStorage).forEach(function(k){if(/^dm_anketa_/.test(k)){try{var arr=JSON.parse(localStorage.getItem(k));arr.forEach(function(a){rows.push(a);});}catch(e){}}});if(!rows.length){el.innerHTML='<div class="empty">Анкет нет</div>';return;}el.innerHTML=rows.map(function(a){return '<div style="padding:10px 0;border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:700;font-size:13px">'+esc(a.position||'—')+'</div><div style="font-size:11px;color:var(--w6)">'+esc(a.authorName||'')+(a.city?' · '+esc(a.city):'')+'</div></div><button class="btn btn-red" onclick="deleteAnketa(\''+a.id+'\')">Удалить</button></div>';}).join('');}
+  window.deleteAnketa=function(id){Object.keys(localStorage).forEach(function(k){if(/^dm_anketa_/.test(k)){try{var arr=JSON.parse(localStorage.getItem(k));var f=arr.filter(function(a){return String(a.id)!==String(id);});localStorage.setItem(k,JSON.stringify(f));}catch(e){}}});logAction('DELETE ANKETA: '+id);renderAnkety();E.toast('Анкета удалена','warn');};
+
+  /* Announcements */
+  function renderAnnouncements(){var all=load('dm_announcements');var tb=document.getElementById('ann-tbody');if(!all.length){tb.innerHTML='<tr><td colspan="5" class="empty">Объявлений нет</td></tr>';return;}tb.innerHTML=all.map(function(a){return '<tr><td>'+esc(a.title)+'</td><td>'+esc(a.authorName||'—')+'</td><td>'+esc(a.category||'—')+'</td><td><span class="pill '+(a.status==='published'?'pill-ok':'pill-warn')+'">'+esc(a.status==='published'?'Опубликовано':'На проверке')+'</span></td><td class="tbl-actions"><button class="btn btn-green" onclick="approveAnn(\''+a.id+'\')">✓</button><button class="btn btn-red" onclick="deleteAnn(\''+a.id+'\')">✕</button></td></tr>';}).join('');}
+  window.approveAnn=function(id){var all=load('dm_announcements');var a=all.find(function(x){return x.id===id;});if(a){a.status='published';save('dm_announcements',all);logAction('APPROVE ANN: '+id);renderAnnouncements();refreshBadges();E.toast('✅ Одобрено','success');}};
+  window.deleteAnn=function(id){save('dm_announcements',load('dm_announcements').filter(function(a){return a.id!==id;}));logAction('DELETE ANN: '+id);renderAnnouncements();refreshBadges();E.toast('Удалено','warn');};
+
+  /* Products */
+  window.loadProducts=function(){var el=document.getElementById('products-list');el.innerHTML='<div class="empty">Загрузка...</div>';fetch('https://davronmarket.com/wp-json/wc/store/v1/products?per_page=12').then(function(r){return r.json();}).then(function(data){if(!data.length){el.innerHTML='<div class="empty">Нет товаров</div>';return;}el.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">'+data.map(function(p){var price=p.prices?(+p.prices.price/100).toFixed(0)+' '+p.prices.currency_code:'—';return '<div class="media-card"><div class="media-body"><div class="media-title">'+esc(p.name)+'</div><div class="media-meta">'+esc(price)+'</div></div></div>';}).join('')+'</div>';}).catch(function(){el.innerHTML='<div class="empty">Ошибка загрузки. Проверьте подключение.</div>';});};
+
+  /* Orders */
+  function renderOrders(){var all=load('dm_orders');var tb=document.getElementById('orders-tbody');var empty=document.getElementById('orders-empty');if(!all.length){tb.innerHTML='';empty.style.display='block';return;}empty.style.display='none';tb.innerHTML=all.map(function(o){return '<tr><td>'+esc(o.id)+'</td><td>'+esc(o.user||'—')+'</td><td>'+esc(o.total||'—')+'</td><td><span class="pill '+(o.status==='done'?'pill-ok':'pill-warn')+'">'+esc(o.status||'—')+'</span></td><td>'+esc(o.date?fmtDate(o.date):'—')+'</td><td class="tbl-actions"><button class="btn btn-blue" onclick="setOrderDone(\''+o.id+'\')">✓ Готово</button></td></tr>';}).join('');}
+  window.setOrderDone=function(id){var all=load('dm_orders');var o=all.find(function(x){return x.id===id;});if(o){o.status='done';save('dm_orders',all);logAction('ORDER DONE: '+id);renderOrders();E.toast('Заказ выполнен','success');}};
+
+  /* Payments */
+  function renderPayments(){var all=load('dm_payments');var tb=document.getElementById('pay-tbody');var empty=document.getElementById('pay-empty');if(!all.length){tb.innerHTML='';empty.style.display='block';return;}empty.style.display='none';tb.innerHTML=all.map(function(p){return '<tr><td>'+esc(p.id)+'</td><td>'+esc(p.user||'—')+'</td><td>'+esc(p.amount||'—')+'</td><td>'+esc(p.method||'—')+'</td><td><span class="pill '+(p.status==='ok'?'pill-ok':'pill-warn')+'">'+esc(p.status||'—')+'</span></td><td>'+esc(p.date?fmtDate(p.date):'—')+'</td></tr>';}).join('');}
+
+  /* Ads */
+  function renderAds(){var ads=load('dm_ads');var el=document.getElementById('ads-list');if(!ads.length){el.innerHTML='<div class="empty">Рекламных блоков нет</div>';return;}el.innerHTML=ads.map(function(a,i){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(a.title)+'</div><div style="font-size:11px;color:var(--w6)">'+esc(a.place)+'</div></div><button class="btn btn-red" onclick="deleteAd('+i+')">Удалить</button></div>';}).join('');}
+  window.addAd=function(){var title=document.getElementById('ad-title').value.trim();if(!title){E.toast('Введите заголовок','error');return;}var ads=load('dm_ads');ads.push({id:Date.now(),title:title,link:document.getElementById('ad-link').value.trim(),place:document.getElementById('ad-place').value,date:new Date().toISOString()});save('dm_ads',ads);logAction('ADD AD: '+title);document.getElementById('ad-title').value='';document.getElementById('ad-link').value='';renderAds();E.toast('📣 Реклама добавлена','success');};
+  window.deleteAd=function(i){var ads=load('dm_ads');ads.splice(i,1);save('dm_ads',ads);renderAds();};
+
+  /* Pages */
+  window.loadPages=function(){var el=document.getElementById('pages-list');el.innerHTML='<div class="empty">Загрузка...</div>';fetch('https://davronmarket.com/wp-json/dm-html-pages/v1/pages').then(function(r){return r.json();}).then(function(data){if(!data.length){el.innerHTML='<div class="empty">Нет страниц</div>';return;}el.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'+data.map(function(p){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg3);border-radius:10px;border:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(p.title)+'</div><div style="font-size:11px;color:var(--w6)">'+esc(p.slug)+'</div></div><a class="btn btn-outline" href="'+esc(p.link)+'" target="_blank" rel="noopener">Открыть</a></div>';}).join('')+'</div>';}).catch(function(){el.innerHTML='<div class="empty">Ошибка загрузки страниц WP</div>';});};
+
+  /* Comments */
+  function renderComments(){var el=document.getElementById('comments-list');var rows=[];Object.keys(localStorage).forEach(function(k){if(/^dm_comments_/.test(k)){try{var arr=JSON.parse(localStorage.getItem(k));arr.forEach(function(c){rows.push({k:k,c:c});});}catch(e){}}});if(!rows.length){el.innerHTML='<div class="empty">Комментариев нет</div>';return;}el.innerHTML=rows.map(function(r,i){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(r.c.text||'—')+'</div><div style="font-size:11px;color:var(--w6)">'+esc(r.c.target||'')+' · '+esc(r.c.authorName||'?')+'</div></div><button class="btn btn-red" onclick="deleteComment(\''+r.k+'\',\''+r.c.id+'\')">✕ Удалить</button></div>';}).join('');}
+  window.deleteComment=function(k,id){try{var arr=JSON.parse(localStorage.getItem(k));arr=arr.filter(function(c){return String(c.id)!==String(id);});localStorage.setItem(k,JSON.stringify(arr));logAction('DELETE COMMENT: '+id);renderComments();refreshBadges();E.toast('Комментарий удалён','warn');}catch(e){}};
+
+  /* Reviews */
+  function renderReviews(){var el=document.getElementById('reviews-list');var rows=[];Object.keys(localStorage).forEach(function(k){if(/^dm_reviews_/.test(k)){try{var arr=JSON.parse(localStorage.getItem(k));arr.forEach(function(r){rows.push({k:k,r:r});});}catch(e){}}});if(!rows.length){el.innerHTML='<div class="empty">Отзывов нет</div>';return;}el.innerHTML=rows.map(function(item){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+'★'.repeat(item.r.stars||0)+' '+esc(item.r.target||'—')+'</div><div style="font-size:11px;color:var(--w6)">'+esc(item.r.text||'')+'</div></div><button class="btn btn-red" onclick="deleteReview(\''+item.k+'\',\''+item.r.id+'\')">✕</button></div>';}).join('');}
+  window.deleteReview=function(k,id){try{var arr=JSON.parse(localStorage.getItem(k));arr=arr.filter(function(r){return String(r.id)!==String(id);});localStorage.setItem(k,JSON.stringify(arr));logAction('DELETE REVIEW: '+id);renderReviews();E.toast('Отзыв удалён','warn');}catch(e){}};
+
+  /* Complaints */
+  function renderComplaints(){var all=load('dm_complaints');var el=document.getElementById('complaints-list');if(!all.length){el.innerHTML='<div class="empty">Жалоб нет</div>';return;}el.innerHTML=all.map(function(c,i){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(c.text||'—')+'</div><div style="font-size:11px;color:var(--w6)">'+esc(c.target||'')+' · '+esc(c.authorName||'?')+'</div></div><div style="display:flex;gap:6px"><button class="btn btn-green" onclick="resolveComplaint('+i+')">✓ Решить</button><button class="btn btn-red" onclick="deleteComplaint('+i+')">✕</button></div></div>';}).join('');}
+  window.resolveComplaint=function(i){var all=load('dm_complaints');all[i].resolved=true;save('dm_complaints',all);logAction('RESOLVE COMPLAINT: '+i);renderComplaints();refreshBadges();E.toast('Жалоба решена','success');};
+  window.deleteComplaint=function(i){var all=load('dm_complaints');all.splice(i,1);save('dm_complaints',all);renderComplaints();refreshBadges();};
+
+  /* Chat */
+  var activeChat=null;
+  function renderChats(){var cl=document.getElementById('chat-list');var threads=[];Object.keys(localStorage).forEach(function(k){if(/^dm_chats_/.test(k)){try{var arr=JSON.parse(localStorage.getItem(k));arr.forEach(function(c){threads.push({k:k,c:c});});}catch(e){}}});if(!threads.length){cl.innerHTML='<div style="padding:14px;font-size:11px;color:var(--w3);text-align:center;margin-top:20px;">Диалогов нет</div>';return;}cl.innerHTML=threads.map(function(t,i){var last=t.c.messages&&t.c.messages[t.c.messages.length-1];return '<div class="chat-dialog '+(activeChat===i?'active':'')+'" onclick="openChat('+i+')"><b style="font-size:12px">'+esc(t.c.subject||t.c.to)+'</b><div style="font-size:10px;color:var(--w6)">'+esc(last?last.text:'')+'</div></div>';}).join('');window.chatThreads=threads;}
+  window.openChat=function(i){activeChat=i;var t=window.chatThreads[i];document.getElementById('chat-title').textContent=t.c.subject||'Диалог';document.getElementById('chat-msgs').innerHTML=(t.c.messages||[]).map(function(m){return '<div class="chat-msg '+(m.from===user.id?'out':'in')+'">'+esc(m.text)+'<div class="chat-msg-time">'+fmtDate(m.date)+'</div></div>';}).join('');renderChats();};
+  window.adminSend=function(){if(activeChat===null)return;var txt=document.getElementById('chat-inp').value.trim();if(!txt)return;var t=window.chatThreads[activeChat];var arr=JSON.parse(localStorage.getItem(t.k)||'[]');var idx=arr.findIndex(function(c){return c===t.c;});if(idx===-1)idx=0;arr[idx].messages.push({from:user.id,text:txt,date:new Date().toISOString()});localStorage.setItem(t.k,JSON.stringify(arr));document.getElementById('chat-inp').value='';openChat(activeChat);};
+
+  /* Video */
+  function renderVideo(){var v=load('dm_video_blocks');var g=document.getElementById('video-grid');if(!v.length){g.innerHTML='<div class="empty">Видео-блоков нет</div>';return;}g.innerHTML=v.map(function(b,i){var vid=b.url.match(/(?:youtu\.be\/|v=)([^&]+)/);var thumb=vid?'https://img.youtube.com/vi/'+vid[1]+'/mqdefault.jpg':'';return '<div class="media-card">'+(thumb?'<img class="media-thumb" src="'+esc(thumb)+'" loading="lazy">':'')+'<div class="media-body"><div class="media-title">'+esc(b.title)+'</div><div class="media-meta">'+esc(b.section||'—')+'</div><button class="btn btn-red" onclick="deleteVideo('+i+')">Удалить</button></div></div>';}).join('');}
+  window.addVideo=function(){var title=document.getElementById('v-title').value.trim();var url=document.getElementById('v-url').value.trim();if(!title||!url){E.toast('Заполните поля','error');return;}var v=load('dm_video_blocks');v.unshift({id:Date.now(),title:title,url:url,section:document.getElementById('v-section').value,desc:document.getElementById('v-desc').value.trim(),date:new Date().toISOString(),addedBy:user.id});save('dm_video_blocks',v);logAction('ADD VIDEO: '+title);document.getElementById('v-title').value='';document.getElementById('v-url').value='';renderVideo();E.toast('🎬 Видео добавлено','success');};
+  window.deleteVideo=function(i){var v=load('dm_video_blocks');v.splice(i,1);save('dm_video_blocks',v);logAction('DELETE VIDEO: '+i);renderVideo();};
+
+  /* Audio */
+  function renderAudio(){var a=load('dm_mp3_blocks');var el=document.getElementById('audio-list');if(!a.length){el.innerHTML='<div class="empty">Аудио-блоков нет</div>';return;}el.innerHTML=a.map(function(b,i){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(b.title)+'</div><div style="font-size:11px;color:var(--w6)">'+esc(b.artist||'—')+' · '+esc(b.section||'—')+'</div><audio controls src="'+esc(b.url)+'" style="margin-top:6px;height:28px;clear:both;display:block"></audio></div><button class="btn btn-red" onclick="deleteAudio('+i+')">Удалить</button></div>';}).join('');}
+  window.addAudio=function(){var title=document.getElementById('au-title').value.trim();var url=document.getElementById('au-url').value.trim();if(!title||!url){E.toast('Заполните поля','error');return;}var a=load('dm_mp3_blocks');a.unshift({id:Date.now(),title:title,url:url,artist:document.getElementById('au-artist').value.trim(),section:document.getElementById('au-section').value,date:new Date().toISOString(),addedBy:user.id});save('dm_mp3_blocks',a);logAction('ADD AUDIO: '+title);document.getElementById('au-title').value='';document.getElementById('au-url').value='';renderAudio();E.toast('🎵 Аудио добавлено','success');};
+  window.deleteAudio=function(i){var a=load('dm_mp3_blocks');a.splice(i,1);save('dm_mp3_blocks',a);logAction('DELETE AUDIO: '+i);renderAudio();};
+
+  /* History */
+  function renderHistory(){var logs=load('dm_admin_logs');var el=document.getElementById('history-list');if(!logs.length){el.innerHTML='<div class="empty">История пуста</div>';return;}el.innerHTML=logs.map(function(l){return '<div style="padding:9px 0;border-bottom:1px solid var(--brd);font-size:12px"><span style="color:var(--gold)">'+esc(l.admin)+'</span> &nbsp;'+esc(l.action)+'<span style="color:var(--w3);margin-left:8px;font-size:10px">'+fmtDate(l.date)+'</span></div>';}).join('');}
+  window.clearHistory=function(){if(confirm('Очистить всю историю?')){localStorage.removeItem('dm_admin_logs');renderHistory();}};
+
+  document.getElementById('btn-logout').addEventListener('click',function(){E.auth.logout();});
+}());
+</script>
+<script>
+(function(){
+  var c=document.getElementById('cur'),c2=document.getElementById('cur2');
+  if(!c||!c2)return;
+  var mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  (function loop(){cx+=(mx-cx)*.15;cy+=(my-cy)*.15;c2.style.left=cx+'px';c2.style.top=cy+'px';requestAnimationFrame(loop);}());
+  document.querySelectorAll('button,a,input,select,textarea,.sidebar,.p-card,.stat-box,.media-card').forEach(function(el){el.addEventListener('mouseenter',function(){c.style.width='20px';c.style.height='20px';c2.style.width='52px';c2.style.height='52px';});el.addEventListener('mouseleave',function(){c.style.width='12px';c.style.height='12px';c2.style.width='36px';c2.style.height='36px';});});
+}());
+</script>
+</body>
+</html>

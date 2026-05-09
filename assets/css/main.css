@@ -1,0 +1,16 @@
+@import url('./engine.css');
+@import url('./style.css');
+
+/* One entry CSS for pages that should load shared + page styles. */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Prevent header from covering hash targets. */
+section[id] {
+  scroll-margin-top: 88px;
+}

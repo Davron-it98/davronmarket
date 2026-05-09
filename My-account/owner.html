@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Панель владельца</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="../assets/js/engine.js"></script>
+<style>
+:root{--bg:#0b0d12;--bg2:#141821;--bg3:#1c2132;--card:rgba(20,24,33,.98);--brd:rgba(255,255,255,.07);--orange:#ff6b2b;--blue:#2b9cff;--gold:#f5c842;--green:#4ade80;--purple:#a78bfa;--red:#f87171;--w:rgba(255,255,255,.9);--w6:rgba(255,255,255,.6);--w3:rgba(255,255,255,.3);--w1:rgba(255,255,255,.06);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--w);min-height:100vh;}
+.wrap{max-width:1300px;margin:0 auto;padding:84px 20px 80px;}
+.panel-grid{display:grid;grid-template-columns:270px 1fr;gap:20px;align-items:start;}
+.sidebar{background:var(--card);border:1px solid rgba(245,200,66,.2);border-radius:20px;overflow:hidden;position:sticky;top:80px;}
+.sb-profile{padding:20px;border-bottom:1px solid var(--brd);text-align:center;background:linear-gradient(135deg,rgba(245,200,66,.07),rgba(255,107,43,.07));}
+.sb-ava{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:22px;font-weight:900;color:#000;margin:0 auto 10px;box-shadow:0 0 20px rgba(245,200,66,.3);}
+.sb-name{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;}
+.sb-role{display:inline-block;margin-top:6px;padding:3px 14px;border-radius:20px;font-size:10px;font-weight:800;background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.35);color:var(--gold);}
+.sb-nav{padding:8px;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:12px;font-weight:600;color:var(--w6);cursor:pointer;transition:.22s;border:none;background:none;width:100%;text-align:left;}
+.sb-item:hover{background:var(--w1);color:var(--w);}
+.sb-item.active{background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);color:var(--gold);}
+.sb-item-ico{font-size:14px;width:20px;text-align:center;flex-shrink:0;}
+.sb-divider{height:1px;background:var(--brd);margin:5px 12px;}
+.sb-logout{margin:10px;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;font-size:12px;font-weight:600;color:var(--red);background:none;border:1px solid rgba(248,113,113,.15);cursor:pointer;transition:.22s;width:calc(100%-20px);}
+.sb-logout:hover{background:rgba(248,113,113,.1);}
+.main{display:flex;flex-direction:column;gap:18px;}
+.tab-pane{display:none;}
+.tab-pane.active{display:flex;flex-direction:column;gap:16px;}
+.p-card{background:var(--card);border:1px solid var(--brd);border-radius:18px;padding:22px;}
+.p-card.gold-border{border-color:rgba(245,200,66,.2);}
+.p-card-title{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.stat-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;}
+.stat-box.gold{border-color:rgba(245,200,66,.2);}
+.stat-box b{display:block;font-family:'Unbounded',sans-serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
+.stat-box span{font-size:10px;color:var(--w3);text-transform:uppercase;letter-spacing:.05em;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:800;border:none;cursor:pointer;transition:.22s;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#111;}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-outline{background:var(--w1);border:1px solid var(--brd);color:var(--w);}
+.btn-blue{background:rgba(43,156,255,.12);border:1px solid rgba(43,156,255,.3);color:var(--blue);}
+.btn-red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--red);}
+.btn-green{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green);}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.f-field{display:flex;flex-direction:column;gap:5px;}
+.f-field.full{grid-column:1/-1;}
+.f-label{font-size:11px;font-weight:600;color:var(--w6);}
+.f-input,.f-textarea,.f-select{background:var(--bg3);border:1px solid var(--brd);border-radius:9px;padding:9px 12px;color:var(--w);font-family:'Mulish',sans-serif;font-size:13px;outline:none;width:100%;}
+.f-input:focus,.f-textarea:focus,.f-select:focus{border-color:rgba(245,200,66,.5);}
+.f-select option{background:var(--bg);}
+.f-textarea{min-height:70px;resize:vertical;}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--w3);text-transform:uppercase;border-bottom:1px solid var(--brd);}
+.tbl td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--brd);}
+.tbl tr:hover td{background:var(--w1);}
+.tbl-actions{display:flex;gap:6px;}
+.pill{display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:800;}
+.pill-ok{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);}
+.pill-warn{background:rgba(245,200,66,.1);color:var(--gold);border:1px solid rgba(245,200,66,.2);}
+.pill-red{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2);}
+.pill-blue{background:rgba(43,156,255,.1);color:var(--blue);border:1px solid rgba(43,156,255,.2);}
+.pill-gold{background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.25);}
+.empty{text-align:center;padding:30px;color:var(--w3);font-size:13px;}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--brd);}
+.setting-info b{display:block;font-size:13px;font-weight:700;color:var(--w);}
+.setting-info span{font-size:11px;color:var(--w6);}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.1);border:1px solid var(--brd);border-radius:24px;transition:.3s;}
+.toggle input:checked+.toggle-track{background:rgba(245,200,66,.4);border-color:var(--gold);}
+.toggle-thumb{position:absolute;height:18px;width:18px;left:3px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle input:checked~.toggle-thumb{transform:translateX(20px);}
+@media(max-width:960px){.panel-grid{grid-template-columns:1fr;}.sidebar{position:static;}.stats-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:540px){.wrap{padding:76px 12px 60px;}.stats-row{grid-template-columns:1fr 1fr;}}
+
+body{font-family:'Syne',sans-serif;background:radial-gradient(circle at top,rgba(245,200,66,.07),transparent 28%),#050507;color:var(--w);cursor:none;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 15%,transparent 100%);}
+.wrap{position:relative;z-index:1;padding-top:92px;}
+.sidebar,.p-card,.stat-box,.media-card,.chat-wrap{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.08);box-shadow:0 20px 55px rgba(0,0,0,.32);backdrop-filter:blur(18px);}
+.sidebar{border-color:rgba(245,200,66,.16);}
+.sb-profile{background:linear-gradient(135deg,rgba(245,200,66,.08),rgba(255,107,43,.05));}
+.sb-item,.sb-logout,.btn{cursor:none;}
+.sb-item:hover,.sb-item.active{transform:translateX(3px);}
+.sb-item.active{background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.22);box-shadow:inset 0 0 0 1px rgba(245,200,66,.05);}
+.p-card-title,.sb-name{letter-spacing:.01em;}
+.btn-gold{box-shadow:0 10px 28px rgba(245,200,66,.25);}
+.btn-outline,.btn-blue,.btn-red,.btn-green{background:rgba(255,255,255,.04);}
+.f-input,.f-textarea,.f-select{font-family:'Syne',sans-serif;background:rgba(255,255,255,.04);}
+.f-input:focus,.f-textarea:focus,.f-select:focus{box-shadow:0 0 0 3px rgba(245,200,66,.08);}
+.tbl tr:hover td{background:rgba(255,255,255,.04);}
+#cur,#cur2{position:fixed;top:0;left:0;pointer-events:none;transform:translate(-50%,-50%);z-index:9999}
+#cur{width:12px;height:12px;border-radius:50%;background:var(--gold);mix-blend-mode:difference;transition:width .2s,height .2s}
+#cur2{width:36px;height:36px;border-radius:50%;border:1px solid rgba(245,200,66,.35);z-index:9998}
+.bg-glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 50% 20%,rgba(245,200,66,.08),transparent 70%)}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div id="cur"></div>
+<div id="cur2"></div>
+<div class="wrap">
+  <div class="panel-grid">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar">
+      <div class="sb-profile">
+        <div class="sb-ava" id="sb-ava">👑</div>
+        <div class="sb-name" id="sb-name">Владелец</div>
+        <div class="sb-role">👑 Владелец системы</div>
+      </div>
+      <nav class="sb-nav">
+        <button class="sb-item active" data-tab="overview"><span class="sb-item-ico">📊</span> Обзор системы</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="users"><span class="sb-item-ico">👥</span> Все пользователи</button>
+        <button class="sb-item" data-tab="roles"><span class="sb-item-ico">🔑</span> Роли и права</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="content"><span class="sb-item-ico">📝</span> Весь контент</button>
+        <button class="sb-item" data-tab="announcements"><span class="sb-item-ico">📢</span> Объявления</button>
+        <button class="sb-item" data-tab="products"><span class="sb-item-ico">🛍️</span> Товары</button>
+        <button class="sb-item" data-tab="orders"><span class="sb-item-ico">📦</span> Заказы</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="media"><span class="sb-item-ico">🎬</span> Медиа-блоки</button>
+        <button class="sb-item" data-tab="chats-all"><span class="sb-item-ico">✉️</span> Все чаты</button>
+        <button class="sb-item" data-tab="complaints"><span class="sb-item-ico">🚩</span> Жалобы</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" data-tab="settings"><span class="sb-item-ico">⚙️</span> Настройки системы</button>
+        <button class="sb-item" data-tab="backup"><span class="sb-item-ico">💾</span> Бэкап / Экспорт</button>
+        <button class="sb-item" data-tab="logs"><span class="sb-item-ico">📜</span> Полные логи</button>
+        <div class="sb-divider"></div>
+        <button class="sb-item" onclick="window.location.href='admin.html'"><span class="sb-item-ico">⚙️</span> Админ-панель</button>
+        <button class="sb-item" onclick="window.location.href='panel.html'"><span class="sb-item-ico">👤</span> Мой кабинет</button>
+      </nav>
+      <button class="sb-logout" id="btn-logout">🚪 Выйти</button>
+    </aside>
+
+    <!-- ═══ КОНТЕНТ ═══ -->
+    <div class="main">
+
+      <!-- Обзор -->
+      <div class="tab-pane active" id="tab-overview">
+        <div class="stats-row" id="overview-stats"></div>
+        <div class="p-card gold-border">
+          <div class="p-card-title"><span>👑</span> Фулл-доступ: Панель владельца</div>
+          <p style="font-size:14px;color:var(--w6);line-height:1.8">Полный контроль системы DavronMarket. Управление ролями, пользователями, контентом, медиа-блоками, настройками и бэкапом без каких-либо ограничений.</p>
+          <div class="btn-row">
+            <a class="btn btn-gold" href="https://davronmarket.com/wp-admin/" target="_blank" rel="noopener">WordPress Admin →</a>
+            <a class="btn btn-outline" href="https://davronmarket.com/wp-admin/admin.php?page=wc-admin" target="_blank" rel="noopener">WooCommerce</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Пользователи -->
+      <div class="tab-pane" id="tab-users">
+        <div class="p-card">
+          <div class="p-card-title"><span>👥</span> Все пользователи системы</div>
+          <div class="btn-row" style="margin-top:0;margin-bottom:14px">
+            <input type="text" id="user-search" class="f-input" style="width:240px" placeholder="Поиск по имени, email...">
+            <button class="btn btn-outline" onclick="renderUsers()">🔍 Найти</button>
+            <button class="btn btn-red" onclick="if(confirm('Сбросить ВЕСЬ LocalStorage?'))clearAllData()">🗑 Очистить всё</button>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Роли -->
+      <div class="tab-pane" id="tab-roles">
+        <div class="p-card">
+          <div class="p-card-title"><span>🔑</span> Управление ролями</div>
+          <p style="font-size:13px;color:var(--w6);margin-bottom:16px;">Назначьте или измените роль любого пользователя. Роли: <b>user</b> (базовый), <b>worker</b> (работник), <b>admin</b> (администратор), <b>owner</b> (владелец).</p>
+          <div class="f-row">
+            <div class="f-field"><label class="f-label">Email пользователя</label><input class="f-input" id="role-email" type="email" placeholder="email@davronmarket.com"></div>
+            <div class="f-field"><label class="f-label">Новая роль</label>
+              <select class="f-select" id="role-select"><option value="user">user</option><option value="worker">worker</option><option value="admin">admin</option><option value="owner">owner</option></select>
+            </div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="assignRole()">🔑 Назначить роль</button></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>🔑</span> Текущие привилегированные пользователи</div>
+          <div id="priv-users-list"><div class="empty">Загрузка...</div></div>
+        </div>
+      </div>
+
+      <!-- Весь контент -->
+      <div class="tab-pane" id="tab-content">
+        <div class="p-card">
+          <div class="p-card-title"><span>📝</span> Обзор контента</div>
+          <div id="content-stats" class="stats-row" style="grid-template-columns:repeat(4,1fr)"></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>🗑</span> Очистка контента</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:10px"><span>Все объявления</span><button class="btn btn-red" onclick="clearKey('dm_announcements')">Очистить</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:10px"><span>Видeo-блоки</span><button class="btn btn-red" onclick="clearKey('dm_video_blocks')">Очистить</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:10px"><span>Аудио-блоки</span><button class="btn btn-red" onclick="clearKey('dm_mp3_blocks')">Очистить</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:10px"><span>Реклама</span><button class="btn btn-red" onclick="clearKey('dm_ads')">Очистить</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:10px"><span>Логи администратора</span><button class="btn btn-red" onclick="clearKey('dm_admin_logs')">Очистить</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Объявления -->
+      <div class="tab-pane" id="tab-announcements">
+        <div class="p-card">
+          <div class="p-card-title"><span>📢</span> Все объявления</div>
+          <table class="tbl">
+            <thead><tr><th>Заголовок</th><th>Автор</th><th>Категория</th><th>Цена</th><th>Статус</th><th>Действия</th></tr></thead>
+            <tbody id="ann-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Товары -->
+      <div class="tab-pane" id="tab-products">
+        <div class="p-card">
+          <div class="p-card-title"><span>🛍️</span> Товары WooCommerce</div>
+          <div id="products-list"><div class="empty">Загрузка...</div></div>
+          <div class="btn-row">
+            <a class="btn btn-gold" href="https://davronmarket.com/wp-admin/post-new.php?post_type=product" target="_blank" rel="noopener">➕ Добавить товар</a>
+            <button class="btn btn-blue" onclick="loadProducts()">🔄 Обновить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Заказы -->
+      <div class="tab-pane" id="tab-orders">
+        <div class="p-card">
+          <div class="p-card-title"><span>📦</span> Все заказы</div>
+          <table class="tbl">
+            <thead><tr><th>ID</th><th>Пользователь</th><th>Сумма</th><th>Статус</th><th>Дата</th><th>Действия</th></tr></thead>
+            <tbody id="ord-tbody"></tbody>
+          </table>
+          <div class="empty" id="ord-empty">Заказов нет</div>
+        </div>
+      </div>
+
+      <!-- Медиа -->
+      <div class="tab-pane" id="tab-media">
+        <div class="p-card">
+          <div class="p-card-title"><span>🎬</span> Видео-блоки</div>
+          <div id="video-list"><div class="empty">Нет видео</div></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>🎵</span> Аудио-блоки</div>
+          <div id="audio-list"><div class="empty">Нет аудио</div></div>
+        </div>
+      </div>
+
+      <!-- Все чаты -->
+      <div class="tab-pane" id="tab-chats-all">
+        <div class="p-card">
+          <div class="p-card-title"><span>✉️</span> Все диалоги пользователей</div>
+          <div id="chats-all-list"><div class="empty">Диалогов нет</div></div>
+        </div>
+      </div>
+
+      <!-- Жалобы -->
+      <div class="tab-pane" id="tab-complaints">
+        <div class="p-card">
+          <div class="p-card-title"><span>🚩</span> Жалобы</div>
+          <div id="complaints-list"><div class="empty">Жалоб нет</div></div>
+        </div>
+      </div>
+
+      <!-- Настройки системы -->
+      <div class="tab-pane" id="tab-settings">
+        <div class="p-card gold-border">
+          <div class="p-card-title"><span>⚙️</span> Настройки системы</div>
+          <div id="sys-settings">
+            <div class="setting-row">
+              <div class="setting-info"><b>Режим обслуживания</b><span>Показывать страницу «Сайт на обслуживании» для обычных пользователей</span></div>
+              <label class="toggle"><input type="checkbox" id="set-maintenance" onchange="saveSetting('maintenance',this.checked)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info"><b>Регистрация открыта</b><span>Разрешить новым пользователям регистрироваться</span></div>
+              <label class="toggle"><input type="checkbox" id="set-registration" onchange="saveSetting('registration',this.checked)" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info"><b>Модерация объявлений</b><span>Объявления проходят проверку перед публикацией</span></div>
+              <label class="toggle"><input type="checkbox" id="set-moderation" onchange="saveSetting('moderation',this.checked)" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info"><b>Чат включён</b><span>Разрешить пользователям переписываться через чат</span></div>
+              <label class="toggle"><input type="checkbox" id="set-chat" onchange="saveSetting('chat',this.checked)" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+            </div>
+          </div>
+          <div style="margin-top:20px">
+            <div class="f-field" style="margin-bottom:12px"><label class="f-label">Название сайта</label><input class="f-input" id="set-sitename" type="text" value="DavronMarket"></div>
+            <div class="f-field"><label class="f-label">Контактный WhatsApp</label><input class="f-input" id="set-whatsapp" type="text" placeholder="+992..."></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-gold" onclick="saveAllSettings()">💾 Сохранить настройки</button></div>
+        </div>
+      </div>
+
+      <!-- Бэкап -->
+      <div class="tab-pane" id="tab-backup">
+        <div class="p-card gold-border">
+          <div class="p-card-title"><span>💾</span> Экспорт / Бэкап данных</div>
+          <p style="font-size:13px;color:var(--w6);margin-bottom:16px;">Скачайте весь LocalStorage в формате JSON. Используйте для резервного копирования или переноса данных.</p>
+          <div class="btn-row">
+            <button class="btn btn-gold" onclick="exportData()">📥 Скачать резервную копию</button>
+            <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">📤 Импортировать</button>
+            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+          </div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-title"><span>⚠️</span> Сброс данных</div>
+          <p style="font-size:13px;color:var(--w6);margin-bottom:16px;">Полностью очищает LocalStorage. Необратимая операция!</p>
+          <div class="btn-row">
+            <button class="btn btn-red" onclick="clearAllData()">🗑 Полный сброс</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Логи -->
+      <div class="tab-pane" id="tab-logs">
+        <div class="p-card">
+          <div class="p-card-title"><span>📜</span> Полные логи (admin + system)</div>
+          <div id="logs-list"><div class="empty">Логов нет</div></div>
+          <div class="btn-row">
+            <button class="btn btn-red" onclick="if(confirm('Очистить все логи?')){localStorage.removeItem('dm_admin_logs');renderLogs();}">🗑 Очистить</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  'use strict';
+  var E=window.dmEngine;
+  if(!E)return;
+  var user=E.auth.currentUser();
+  if(!user||user.role!=='owner'){window.location.href=E.P('index.html');return;}
+
+  document.getElementById('sb-ava').textContent=(user.name||'?').charAt(0).toUpperCase();
+  document.getElementById('sb-name').textContent=user.name;
+
+  function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+  function load(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch(e){return[];}}
+  function save(k,v){localStorage.setItem(k,JSON.stringify(v));}
+  function fmtDate(iso){return new Date(iso).toLocaleDateString('ru',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+  function logOp(action){var logs=load('dm_admin_logs');logs.unshift({action:'[OWNER] '+action,admin:user.name,date:new Date().toISOString()});if(logs.length>300)logs=logs.slice(0,300);save('dm_admin_logs',logs);}
+
+  /* Tabs */
+  document.querySelectorAll('.sb-item[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var tab=this.getAttribute('data-tab');
+      document.querySelectorAll('.sb-item').forEach(function(b){b.classList.remove('active');});
+      document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
+      this.classList.add('active');
+      var pane=document.getElementById('tab-'+tab);
+      if(pane){pane.classList.add('active');renderTab(tab);}
+    });
+  });
+
+  function renderTab(tab){
+    if(tab==='overview')renderOverview();
+    else if(tab==='users')renderUsers();
+    else if(tab==='roles')renderRoles();
+    else if(tab==='content')renderContent();
+    else if(tab==='announcements')renderAnnouncements();
+    else if(tab==='products')loadProducts();
+    else if(tab==='orders')renderOrders();
+    else if(tab==='media')renderMedia();
+    else if(tab==='chats-all')renderChatsAll();
+    else if(tab==='complaints')renderComplaints();
+    else if(tab==='settings')loadSettings();
+    else if(tab==='backup'){}
+    else if(tab==='logs')renderLogs();
+  }
+
+  /* Overview */
+  function renderOverview(){
+    var users=load('dm_users');
+    var anns=load('dm_announcements');
+    var vids=load('dm_video_blocks');
+    var aud=load('dm_mp3_blocks');
+    var comp=load('dm_complaints').filter(function(c){return !c.resolved;});
+    document.getElementById('overview-stats').innerHTML=
+      '<div class="stat-box gold"><b>'+users.length+'</b><span>Пользователей</span></div>'+
+      '<div class="stat-box gold"><b>'+anns.length+'</b><span>Объявлений</span></div>'+
+      '<div class="stat-box gold"><b>'+vids.length+'</b><span>Видео</span></div>'+
+      '<div class="stat-box gold"><b>'+aud.length+'</b><span>Аудио</span></div>'+
+      '<div class="stat-box gold"><b>'+comp.length+'</b><span>Жалоб</span></div>';
+  }
+  renderOverview();
+
+  /* Users */
+  function renderUsers(){
+    var users=load('dm_users');
+    var q=(document.getElementById('user-search').value||'').toLowerCase();
+    if(q)users=users.filter(function(u){return (u.name||'').toLowerCase().includes(q)||(u.email||'').toLowerCase().includes(q);});
+    var tb=document.getElementById('users-tbody');
+    if(!users.length){tb.innerHTML='<tr><td colspan="6" class="empty">Нет пользователей</td></tr>';return;}
+    tb.innerHTML=users.map(function(u){
+      return '<tr><td style="font-size:10px;color:var(--w3)">'+esc(u.id)+'</td><td>'+esc(u.name)+'</td><td>'+esc(u.email)+'</td>'+
+        '<td><span class="pill '+(u.role==='owner'?'pill-gold':u.role==='admin'?'pill-red':'pill-blue')+'">'+esc(u.role)+'</span></td>'+
+        '<td><span class="pill '+(u.blocked?'pill-red':'pill-ok')+'">'+esc(u.blocked?'Блок':'Активен')+'</span></td>'+
+        '<td class="tbl-actions">'+
+        '<select class="f-select" style="width:90px;font-size:10px;padding:4px" id="role-sel-'+esc(u.id)+'"><option value="user"'+(u.role==='user'?' selected':'')+'>user</option><option value="worker"'+(u.role==='worker'?' selected':'')+'>worker</option><option value="admin"'+(u.role==='admin'?' selected':'')+'>admin</option><option value="owner"'+(u.role==='owner'?' selected':'')+'>owner</option></select>'+
+        '<button class="btn btn-outline" style="padding:5px 10px;font-size:9px" onclick="setUserRole(\''+esc(u.id)+'\')">✓</button>'+
+        '<button class="btn btn-red" style="padding:5px 10px;font-size:9px" onclick="toggleBlock(\''+esc(u.id)+'\')">'+esc(u.blocked?'Разблок':'Блок')+'</button>'+
+        '</td></tr>';
+    }).join('');
+  }
+  window.setUserRole=function(uid){var users=load('dm_users');var u=users.find(function(x){return x.id===uid;});if(!u)return;var sel=document.getElementById('role-sel-'+uid);if(!sel)return;u.role=sel.value;save('dm_users',users);logOp('ROLE: '+u.email+' → '+u.role);renderUsers();E.toast('Роль обновлена','success');};
+  window.toggleBlock=function(uid){var users=load('dm_users');var u=users.find(function(x){return x.id===uid;});if(!u)return;u.blocked=!u.blocked;save('dm_users',users);logOp((u.blocked?'BLOCK':'UNBLOCK')+': '+u.email);renderUsers();E.toast(u.blocked?'Заблокирован':'Разблокирован','warn');};
+  window.clearAllData=function(){if(confirm('ВНИМАНИЕ! Полный сброс всех LocalStorage данных. Это удалит ВСЕХ пользователей. Продолжить?')){localStorage.clear();logOp('FULL DATA RESET');E.toast('✅ Данные сброшены','warn');renderOverview();}};
+  window.clearKey=function(k){if(confirm('Очистить '+k+'?')){localStorage.removeItem(k);logOp('CLEAR KEY: '+k);renderContent();E.toast('Очищено','warn');}};
+
+  /* Roles */
+  function renderRoles(){
+    var users=load('dm_users').filter(function(u){return u.role!=='user';});
+    var el=document.getElementById('priv-users-list');
+    if(!users.length){el.innerHTML='<div class="empty">Нет привилегированных пользователей</div>';return;}
+    el.innerHTML=users.map(function(u){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(u.name)+'</div><div style="font-size:11px;color:var(--w6)">'+esc(u.email)+'</div></div><span class="pill '+(u.role==='owner'?'pill-gold':u.role==='admin'?'pill-red':'pill-blue')+'">'+esc(u.role)+'</span></div>';}).join('');
+  }
+  window.assignRole=function(){var email=document.getElementById('role-email').value.trim();var role=document.getElementById('role-select').value;if(!email){E.toast('Введите email','error');return;}var users=load('dm_users');var u=users.find(function(x){return x.email===email;});if(!u){E.toast('Пользователь не найден','error');return;}u.role=role;save('dm_users',users);logOp('ASSIGN ROLE: '+email+' → '+role);renderRoles();E.toast('✅ Роль назначена','success');};
+
+  /* Content */
+  function renderContent(){
+    var anns=load('dm_announcements');
+    var vids=load('dm_video_blocks');
+    var aud=load('dm_mp3_blocks');
+    var ads=load('dm_ads');
+    document.getElementById('content-stats').innerHTML=
+      '<div class="stat-box"><b>'+anns.length+'</b><span>Объявления</span></div>'+
+      '<div class="stat-box"><b>'+vids.length+'</b><span>Видео-блоки</span></div>'+
+      '<div class="stat-box"><b>'+aud.length+'</b><span>Аудио-блоки</span></div>'+
+      '<div class="stat-box"><b>'+ads.length+'</b><span>Реклама</span></div>';
+  }
+
+  /* Announcements */
+  function renderAnnouncements(){var all=load('dm_announcements');var tb=document.getElementById('ann-tbody');if(!all.length){tb.innerHTML='<tr><td colspan="6" class="empty">Нет</td></tr>';return;}tb.innerHTML=all.map(function(a){return '<tr><td>'+esc(a.title)+'</td><td>'+esc(a.authorName||'?')+'</td><td>'+esc(a.category||'—')+'</td><td>'+esc(a.price||'—')+'</td><td><span class="pill '+(a.status==='published'?'pill-ok':'pill-warn')+'">'+esc(a.status==='published'?'Опубл.':'Ожидает')+'</span></td><td class="tbl-actions"><button class="btn btn-green" style="padding:5px 10px;font-size:9px" onclick="approveAnn(\''+a.id+'\')">✓</button><button class="btn btn-red" style="padding:5px 10px;font-size:9px" onclick="deleteAnn(\''+a.id+'\')">✕</button></td></tr>';}).join('');}
+  window.approveAnn=function(id){var all=load('dm_announcements');var a=all.find(function(x){return x.id===id;});if(a){a.status='published';save('dm_announcements',all);logOp('APPROVE ANN: '+id);renderAnnouncements();E.toast('Одобрено','success');}};
+  window.deleteAnn=function(id){save('dm_announcements',load('dm_announcements').filter(function(a){return a.id!==id;}));logOp('DELETE ANN: '+id);renderAnnouncements();E.toast('Удалено','warn');};
+
+  /* Products */
+  window.loadProducts=function(){var el=document.getElementById('products-list');el.innerHTML='<div class="empty">Загрузка...</div>';fetch('https://davronmarket.com/wp-json/wc/store/v1/products?per_page=20').then(function(r){return r.json();}).then(function(data){if(!data.length){el.innerHTML='<div class="empty">Нет товаров</div>';return;}el.innerHTML='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">'+data.map(function(p){var price=p.prices?(+p.prices.price/100).toFixed(0)+' '+p.prices.currency_code:'—';return '<div style="background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:12px"><div style="font-weight:700;font-size:12px;margin-bottom:4px">'+esc(p.name)+'</div><div style="font-size:11px;color:var(--green)">'+esc(price)+'</div></div>';}).join('')+'</div>';}).catch(function(){el.innerHTML='<div class="empty">Ошибка загрузки</div>';});};
+
+  /* Orders */
+  function renderOrders(){var all=load('dm_orders');var tb=document.getElementById('ord-tbody');var empty=document.getElementById('ord-empty');if(!all.length){tb.innerHTML='';empty.style.display='block';return;}empty.style.display='none';tb.innerHTML=all.map(function(o){return '<tr><td>'+esc(o.id)+'</td><td>'+esc(o.user||'—')+'</td><td>'+esc(o.total||'—')+'</td><td><span class="pill '+(o.status==='done'?'pill-ok':'pill-warn')+'">'+esc(o.status||'—')+'</span></td><td>'+esc(o.date?fmtDate(o.date):'—')+'</td><td class="tbl-actions"><button class="btn btn-green" style="font-size:9px;padding:5px 9px" onclick="doneOrder(\''+o.id+'\')">✓</button><button class="btn btn-red" style="font-size:9px;padding:5px 9px" onclick="deleteOrder(\''+o.id+'\')">✕</button></td></tr>';}).join('');}
+  window.doneOrder=function(id){var all=load('dm_orders');var o=all.find(function(x){return x.id===id;});if(o){o.status='done';save('dm_orders',all);renderOrders();E.toast('Выполнен','success');}};
+  window.deleteOrder=function(id){save('dm_orders',load('dm_orders').filter(function(o){return o.id!==id;}));renderOrders();};
+
+  /* Media */
+  function renderMedia(){var vids=load('dm_video_blocks');var aud=load('dm_mp3_blocks');var vel=document.getElementById('video-list');var ael=document.getElementById('audio-list');if(!vids.length)vel.innerHTML='<div class="empty">Нет видео</div>';else vel.innerHTML=vids.map(function(b,i){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(b.title)+'</div><div style="font-size:11px;color:var(--blue)"><a href="'+esc(b.url)+'" target="_blank" rel="noopener">'+esc(b.url)+'</a></div></div><button class="btn btn-red" style="font-size:10px" onclick="delVideo('+i+')">✕</button></div>';}).join('');if(!aud.length)ael.innerHTML='<div class="empty">Нет аудио</div>';else ael.innerHTML=aud.map(function(b,i){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(b.title)+'</div><audio controls src="'+esc(b.url)+'" style="height:26px;margin-top:4px"></audio></div><button class="btn btn-red" style="font-size:10px" onclick="delAudio('+i+')">✕</button></div>';}).join('');}
+  window.delVideo=function(i){var v=load('dm_video_blocks');v.splice(i,1);save('dm_video_blocks',v);logOp('DELETE VIDEO: '+i);renderMedia();};
+  window.delAudio=function(i){var a=load('dm_mp3_blocks');a.splice(i,1);save('dm_mp3_blocks',a);logOp('DELETE AUDIO: '+i);renderMedia();};
+
+  /* All chats */
+  function renderChatsAll(){var el=document.getElementById('chats-all-list');var all=[];Object.keys(localStorage).forEach(function(k){if(/^dm_chats_/.test(k)){try{var arr=JSON.parse(localStorage.getItem(k));arr.forEach(function(c){all.push({userId:k.replace('dm_chats_',''),c:c});});}catch(e){}}});if(!all.length){el.innerHTML='<div class="empty">Диалогов нет</div>';return;}el.innerHTML=all.map(function(t){var last=t.c.messages&&t.c.messages[t.c.messages.length-1];return '<div style="padding:10px 0;border-bottom:1px solid var(--brd)"><div style="font-weight:700;font-size:12px">'+esc(t.c.subject||t.c.to)+' <span style="color:var(--w3);font-size:10px">(user: '+esc(t.userId)+')</span></div><div style="font-size:11px;color:var(--w6)">'+(last?esc(last.text):'—')+'</div></div>';}).join('');}
+
+  /* Complaints */
+  function renderComplaints(){var all=load('dm_complaints');var el=document.getElementById('complaints-list');if(!all.length){el.innerHTML='<div class="empty">Нет жалоб</div>';return;}el.innerHTML=all.map(function(c,i){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd)"><div><div style="font-weight:700;font-size:13px">'+esc(c.text||'—')+'</div><div style="font-size:11px;color:var(--w6)">'+esc(c.target||'')+' · '+esc(c.authorName||'?')+'</div></div><div style="display:flex;gap:6px"><button class="btn btn-green" style="padding:5px 10px;font-size:9px" onclick="resolveComp('+i+')">✓</button><button class="btn btn-red" style="padding:5px 10px;font-size:9px" onclick="delComp('+i+')">✕</button></div></div>';}).join('');}
+  window.resolveComp=function(i){var all=load('dm_complaints');all[i].resolved=true;save('dm_complaints',all);logOp('RESOLVE COMPLAINT');renderComplaints();E.toast('Решено','success');};
+  window.delComp=function(i){var all=load('dm_complaints');all.splice(i,1);save('dm_complaints',all);renderComplaints();};
+
+  /* Settings */
+  function loadSettings(){var s=JSON.parse(localStorage.getItem('dm_sys_settings')||'{}');var keys=['maintenance','registration','moderation','chat'];keys.forEach(function(k){var el=document.getElementById('set-'+k);if(el&&s[k]!==undefined)el.checked=!!s[k];});var sn=document.getElementById('set-sitename');if(sn&&s.sitename)sn.value=s.sitename;var sw=document.getElementById('set-whatsapp');if(sw&&s.whatsapp)sw.value=s.whatsapp;}
+  window.saveSetting=function(k,v){var s=JSON.parse(localStorage.getItem('dm_sys_settings')||'{}');s[k]=v;localStorage.setItem('dm_sys_settings',JSON.stringify(s));logOp('SET '+k+'='+v);};
+  window.saveAllSettings=function(){var s=JSON.parse(localStorage.getItem('dm_sys_settings')||'{}');['maintenance','registration','moderation','chat'].forEach(function(k){var el=document.getElementById('set-'+k);if(el)s[k]=el.checked;});s.sitename=document.getElementById('set-sitename').value;s.whatsapp=document.getElementById('set-whatsapp').value;localStorage.setItem('dm_sys_settings',JSON.stringify(s));logOp('SAVE ALL SETTINGS');E.toast('✅ Настройки сохранены','success');};
+
+  /* Backup */
+  window.exportData=function(){var data={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);data[k]=localStorage.getItem(k);}var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='davronmarket-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);logOp('EXPORT BACKUP');};
+  window.importData=function(input){var file=input.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);Object.keys(data).forEach(function(k){localStorage.setItem(k,data[k]);});logOp('IMPORT BACKUP: '+file.name);E.toast('✅ Данные импортированы','success');renderOverview();}catch(err){E.toast('Ошибка файла','error');}};reader.readAsText(file);};
+
+  /* Logs */
+  function renderLogs(){var logs=load('dm_admin_logs');var el=document.getElementById('logs-list');if(!logs.length){el.innerHTML='<div class="empty">Логов нет</div>';return;}el.innerHTML=logs.map(function(l){return '<div style="padding:8px 0;border-bottom:1px solid var(--brd);font-size:11px"><span style="color:var(--gold)">'+esc(l.admin)+'</span> &nbsp;'+esc(l.action)+'<span style="color:var(--w3);margin-left:8px;font-size:10px">'+fmtDate(l.date)+'</span></div>';}).join('');}
+
+  document.getElementById('btn-logout').addEventListener('click',function(){E.auth.logout();});
+}());
+</script>
+<script>
+(function(){
+  var c=document.getElementById('cur'),c2=document.getElementById('cur2');
+  if(!c||!c2)return;
+  var mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  (function loop(){cx+=(mx-cx)*.15;cy+=(my-cy)*.15;c2.style.left=cx+'px';c2.style.top=cy+'px';requestAnimationFrame(loop);}());
+  document.querySelectorAll('button,a,input,select,textarea,.sidebar,.p-card,.stat-box').forEach(function(el){el.addEventListener('mouseenter',function(){c.style.width='20px';c.style.height='20px';c2.style.width='52px';c2.style.height='52px';});el.addEventListener('mouseleave',function(){c.style.width='12px';c.style.height='12px';c2.style.width='36px';c2.style.height='36px';});});
+}());
+</script>
+</body>
+</html>
