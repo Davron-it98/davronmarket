@@ -1,0 +1,837 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Услуги</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+
+<style>
+/* ═══════════════════════════════════════
+   DavronMarket — Services Page CSS
+   Отдельный файл стилей для страницы услуг
+═══════════════════════════════════════ */
+
+:root {
+  --bg:      #070707;
+  --gold:    #f5c842;
+  --gold-s:  #ffe066;
+  --orange:  #ff6b2b;
+  --os:      #ff8a5c;
+  --blue:    #2b9cff;
+  --bs:      #7dd3fc;
+  --green:   #4ade80;
+  --gs:      #86efac;
+  --purple:  #a78bfa;
+  --white:   #ffffff;
+  --w70:     rgba(255,255,255,.7);
+  --w50:     rgba(255,255,255,.5);
+  --w20:     rgba(255,255,255,.2);
+  --w08:     rgba(255,255,255,.08);
+  --card-bg: #0e0e0e;
+  --bdo:     rgba(245,200,66,.16);
+}
+[data-theme="light"] {
+  --white:   #111111;
+  --w70:     rgba(0,0,0,.7);
+  --w50:     rgba(0,0,0,.5);
+  --w20:     rgba(0,0,0,.18);
+  --w08:     rgba(0,0,0,.07);
+  --card-bg: #ffffff;
+  --bdo:     rgba(245,200,66,.14);
+}
+[data-theme="light"] body { background:#f5f7fb!important; color:#111!important; }
+[data-theme="light"] body::before { opacity:.07!important; }
+[data-theme="light"] .srv-card {
+  background:#fff!important;
+  border-color:rgba(0,0,0,.09)!important;
+}
+[data-theme="light"] .srv-card-title { color:#111!important; }
+[data-theme="light"] .srv-card-desc  { color:rgba(0,0,0,.5)!important; }
+[data-theme="light"] .srv-hero h1    { color:#111!important; }
+[data-theme="light"] .srv-hero p     { color:rgba(0,0,0,.5)!important; }
+[data-theme="light"] .srv-view-btn,
+[data-theme="light"] .srv-sort-btn   { background:rgba(0,0,0,.05)!important; border-color:rgba(0,0,0,.1)!important; color:rgba(0,0,0,.6)!important; }
+[data-theme="light"] .srv-view-btn.active,
+[data-theme="light"] .srv-sort-btn.active { background:rgba(245,200,66,.15)!important; color:#111!important; }
+[data-theme="light"] .srv-search { background:rgba(0,0,0,.04)!important; border-color:rgba(0,0,0,.1)!important; color:#111!important; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── PAGE BG ── */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 12% 8%,  rgba(245,200,66,.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 88% 92%, rgba(255,107,43,.08)  0%, transparent 40%),
+    repeating-linear-gradient(62deg, rgba(255,255,255,.004) 0, rgba(255,255,255,.004) 1px, transparent 1px, transparent 16px),
+    var(--bg);
+}
+.srv-page { position: relative; z-index: 1; min-height: 100vh; }
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+.srv-hero {
+  padding: 72px 24px 48px;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.srv-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 20px; border-radius: 60px;
+  background: rgba(245,200,66,.07); border: 1px solid rgba(245,200,66,.25);
+  font-size: 11px; font-weight: 600; color: var(--gold-s);
+  margin-bottom: 20px; letter-spacing: .05em;
+  animation: chipGlow 3s ease-in-out infinite alternate;
+}
+@keyframes chipGlow { to { box-shadow: 0 0 22px rgba(245,200,66,.18); } }
+
+.srv-hero h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(28px, 5vw, 54px);
+  font-weight: 700; line-height: 1.06; letter-spacing: -1.5px;
+  margin-bottom: 14px;
+}
+.srv-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #f5c842, #ff8a5c 50%, #f5c842);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200%; animation: goldShift 5s ease infinite;
+}
+@keyframes goldShift { 0%,100% { background-position: 0%; } 50% { background-position: 100%; } }
+
+.srv-hero h1::after {
+  content: ""; display: block; width: 64px; height: 3px;
+  margin: 14px auto 0; border-radius: 4px;
+  background: linear-gradient(90deg, #f5c842, #ff6b2b, #2b9cff);
+  box-shadow: 0 0 12px rgba(245,200,66,.4);
+}
+.srv-hero p {
+  font-size: 14px; color: var(--w50); line-height: 1.8;
+  max-width: 460px; margin: 0 auto 32px;
+}
+
+
+
+/* ══════════════════════════
+   TOOLBAR
+══════════════════════════ */
+.srv-toolbar {
+  max-width: 1100px; margin: 0 auto;
+  padding: 20px 20px 0;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.srv-tb-group { display: flex; align-items: center; gap: 6px; }
+.srv-tb-divider { width: 1px; height: 28px; background: rgba(255,255,255,.08); margin: 0 4px; }
+.srv-tb-spacer { flex: 1; }
+
+/* View buttons */
+.srv-view-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; transition: all .22s; color: var(--w50);
+}
+.srv-view-btn:hover { border-color: rgba(245,200,66,.35); background: rgba(245,200,66,.06); }
+.srv-view-btn.on {
+  background: rgba(245,200,66,.12); border-color: rgba(245,200,66,.35); color: var(--gold-s);
+}
+
+/* Share button */
+.srv-share-btn {
+  padding: 8px 16px; border-radius: 10px;
+  background: rgba(43,156,255,.08); border: 1px solid rgba(43,156,255,.22);
+  font-family: 'Mulish', sans-serif; font-size: 12px; font-weight: 700; color: var(--bs);
+  cursor: pointer; transition: all .22s;
+  display: flex; align-items: center; gap: 6px;
+}
+.srv-share-btn:hover { background: rgba(43,156,255,.16); transform: translateY(-1px); }
+
+/* ══════════════════════════
+   SECTION LABELS
+══════════════════════════ */
+.srv-sections { padding: 20px 20px 80px; max-width: 1100px; margin: 0 auto; }
+
+.srv-sec-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: .09em;
+  text-transform: uppercase; color: rgba(255,255,255,.28);
+  padding: 0 0 14px; margin-top: 36px;
+  display: flex; align-items: center; gap: 10px;
+}
+.srv-sec-label:first-child { margin-top: 0; }
+.srv-sec-label::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.07), transparent);
+}
+.srv-sec-label .sl-badge {
+  padding: 4px 12px; border-radius: 20px; font-size: 10px;
+}
+.srv-sec-label.our .sl-badge {
+  background: rgba(245,200,66,.09); border: 1px solid rgba(245,200,66,.2); color: var(--gold-s);
+}
+.srv-sec-label.all .sl-badge {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.35);
+}
+
+/* ══════════════════════════
+   CARDS GRID
+══════════════════════════ */
+.srv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 8px;
+  transition: all .28s;
+}
+
+/* ── LIST VIEW ── */
+.srv-grid.view-list {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+/* ══════════════════════════
+   SERVICE CARD (с фото)
+══════════════════════════ */
+.srv-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+}
+.srv-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px -12px rgba(0,0,0,.85);
+}
+
+/* Left accent bar */
+.srv-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 3px 0 0 3px;
+  opacity: 0; transition: opacity .25s;
+}
+.srv-card:hover::before { opacity: 1; }
+
+/* Color themes */
+.srv-card.c-blue::before   { background: linear-gradient(180deg,#2b9cff,#7dd3fc); }
+.srv-card.c-gold::before   { background: linear-gradient(180deg,#f5c842,#ff8a5c); }
+.srv-card.c-orange::before { background: linear-gradient(180deg,#ff6b2b,#ff8a5c); }
+.srv-card.c-green::before  { background: linear-gradient(180deg,#4ade80,#86efac); }
+.srv-card.c-purple::before { background: linear-gradient(180deg,#a78bfa,#c4b5fd); }
+
+.srv-card.c-blue:hover   { border-color: rgba(43,156,255,.28); }
+.srv-card.c-gold:hover   { border-color: rgba(245,200,66,.28); }
+.srv-card.c-orange:hover { border-color: rgba(255,107,43,.28); }
+.srv-card.c-green:hover  { border-color: rgba(74,222,128,.28); }
+.srv-card.c-purple:hover { border-color: rgba(167,139,250,.28); }
+
+/* ── PHOTO ── */
+.srv-card-photo {
+  width: 100%; height: 160px;
+  object-fit: cover; display: block;
+  transition: transform .4s ease, filter .4s;
+  filter: brightness(.75) saturate(.8);
+}
+.srv-card:hover .srv-card-photo {
+  transform: scale(1.04);
+  filter: brightness(.88) saturate(1);
+}
+.srv-card-photo-wrap {
+  overflow: hidden; position: relative; flex-shrink: 0;
+}
+
+/* Photo gradient overlay */
+.srv-card-photo-wrap::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(14,14,14,.85) 0%, transparent 55%);
+}
+
+/* Photo placeholder (если нет фото) */
+.srv-card-photo-placeholder {
+  width: 100%; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px;
+  position: relative;
+}
+.srv-card.c-blue   .srv-card-photo-placeholder { background: rgba(43,156,255,.07); }
+.srv-card.c-gold   .srv-card-photo-placeholder { background: rgba(245,200,66,.07); }
+.srv-card.c-orange .srv-card-photo-placeholder { background: rgba(255,107,43,.07); }
+.srv-card.c-green  .srv-card-photo-placeholder { background: rgba(74,222,128,.07); }
+.srv-card.c-purple .srv-card-photo-placeholder { background: rgba(167,139,250,.07); }
+
+/* ── CARD BODY ── */
+.srv-card-body {
+  padding: 16px 18px 18px;
+  display: flex; flex-direction: column; flex: 1;
+}
+.srv-card-tag {
+  font-size: 10px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; display: inline-block;
+  margin-bottom: 8px; align-self: flex-start;
+}
+.srv-card.c-blue   .srv-card-tag { background: rgba(43,156,255,.1);  color: var(--bs); }
+.srv-card.c-gold   .srv-card-tag { background: rgba(245,200,66,.1);  color: var(--gold-s); }
+.srv-card.c-orange .srv-card-tag { background: rgba(255,107,43,.1);  color: var(--os); }
+.srv-card.c-green  .srv-card-tag { background: rgba(74,222,128,.1);  color: var(--gs); }
+.srv-card.c-purple .srv-card-tag { background: rgba(167,139,250,.1); color: #c4b5fd; }
+
+.srv-card-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 12px; font-weight: 700; line-height: 1.3;
+  color: var(--white); margin-bottom: 7px;
+  transition: color .22s;
+}
+.srv-card.c-blue:hover   .srv-card-name { color: var(--bs); }
+.srv-card.c-gold:hover   .srv-card-name { color: var(--gold-s); }
+.srv-card.c-orange:hover .srv-card-name { color: var(--os); }
+.srv-card.c-green:hover  .srv-card-name { color: var(--gs); }
+.srv-card.c-purple:hover .srv-card-name { color: #c4b5fd; }
+
+.srv-card-desc {
+  font-size: 12px; color: var(--w50); line-height: 1.65;
+  flex: 1; margin-bottom: 14px;
+}
+
+/* ── CARD FOOTER ── */
+.srv-card-foot {
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-top: 12px; border-top: 1px solid rgba(255,255,255,.05);
+}
+.srv-card-btn {
+  padding: 8px 16px; border-radius: 10px; border: none;
+  font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700;
+  cursor: pointer; transition: all .22s;
+  text-decoration: none;
+}
+.srv-card.c-blue   .srv-card-btn { background: rgba(43,156,255,.15);  color: var(--bs); }
+.srv-card.c-gold   .srv-card-btn { background: rgba(245,200,66,.15);  color: var(--gold); }
+.srv-card.c-orange .srv-card-btn { background: rgba(255,107,43,.15);  color: var(--os); }
+.srv-card.c-green  .srv-card-btn { background: rgba(74,222,128,.15);  color: var(--gs); }
+.srv-card.c-purple .srv-card-btn { background: rgba(167,139,250,.15); color: #c4b5fd; }
+.srv-card-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+/* ══════════════════════════
+   LIST VIEW — card overrides
+══════════════════════════ */
+.srv-grid.view-list .srv-card {
+  flex-direction: row;
+  align-items: stretch;
+}
+.srv-grid.view-list .srv-card-photo-wrap {
+  width: 100px; flex-shrink: 0; height: auto;
+}
+.srv-grid.view-list .srv-card-photo {
+  height: 100%; object-fit: cover;
+}
+.srv-grid.view-list .srv-card-photo-placeholder {
+  height: 100%; min-height: 72px; width: 100px;
+}
+.srv-grid.view-list .srv-card-body {
+  padding: 12px 16px; flex-direction: row; align-items: center; gap: 12px;
+}
+.srv-grid.view-list .srv-card-tag { display: none; }
+.srv-grid.view-list .srv-card-desc { display: none; }
+.srv-grid.view-list .srv-card-name {
+  margin-bottom: 0; font-size: 12px; flex: 1;
+}
+.srv-grid.view-list .srv-card-foot {
+  border-top: none; padding-top: 0; flex-shrink: 0;
+}
+
+/* ══════════════════════════
+   NO RESULTS
+══════════════════════════ */
+.srv-no-results {
+  text-align: center; padding: 60px 20px;
+  font-family: 'Unbounded', sans-serif; font-size: 13px;
+  color: var(--w20); display: none;
+}
+.srv-no-results span { font-size: 40px; display: block; margin-bottom: 12px; }
+
+.srv-auto-note {
+  font-size: 12px;
+  color: var(--w50);
+  margin: 6px 0 14px;
+}
+
+/* ══════════════════════════
+   TOAST
+══════════════════════════ */
+.srv-toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(5,5,5,.97); border: 1px solid var(--gold);
+  border-radius: 14px; padding: 12px 24px;
+  font-size: 13px; font-weight: 700; color: var(--gold);
+  z-index: 9999; pointer-events: none; opacity: 0;
+  transition: all .32s cubic-bezier(.4,0,.2,1); white-space: nowrap;
+}
+.srv-toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════
+   BACK BUTTON
+══════════════════════════ */
+.srv-back {
+  position: fixed; top: 20px; left: 20px; z-index: 100;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 12px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700;
+  color: var(--w70); text-decoration: none;
+  transition: all .22s;
+}
+.srv-back:hover {
+  background: rgba(245,200,66,.08); border-color: rgba(245,200,66,.3);
+  color: var(--gold-s);
+}
+
+/* ══════════════════════════
+   RESPONSIVE
+══════════════════════════ */
+@media (max-width: 768px) {
+  .srv-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .srv-grid.view-list {
+    grid-template-columns: 1fr;
+  }
+  .srv-card-photo, .srv-card-photo-placeholder {
+    height: 120px;
+  }
+  .srv-card-body { padding: 12px 14px 14px; }
+  .srv-card-name { font-size: 11px; }
+  .srv-card-desc { font-size: 11px; }
+  .srv-hero h1 { letter-spacing: -1px; }
+}
+
+@media (max-width: 380px) {
+  .srv-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="srv-page">
+
+<!-- ══ HERO ══ -->
+<section class="srv-hero">
+  <div class="srv-chip">💼 Все услуги</div>
+  <h1>Заказ <em>услуг</em></h1>
+  <p>Специалисты и студии DavronMarket — от IT и дизайна до промышленного производства.</p>
+</section>
+
+<!-- ══ TOOLBAR ══ -->
+<div class="srv-toolbar">
+  <div class="srv-tb-group">
+    <div class="srv-view-btn on" id="srv-vGrid" onclick="srvSetView('grid')" title="Сетка">⊞</div>
+    <div class="srv-view-btn"   id="srv-vList" onclick="srvSetView('list')" title="Список">☰</div>
+  </div>
+  <div class="srv-tb-spacer"></div>
+  <button class="srv-share-btn" onclick="srvShare()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>
+    </svg>
+    Поделиться
+  </button>
+</div>
+
+<!-- ══ SECTIONS ══ -->
+<div class="srv-sections" id="srv-sections">
+
+  <!-- ★ НАШИ УСЛУГИ -->
+  <div class="srv-sec-label our"><span class="sl-badge">⭐ Наши услуги</span></div>
+  <div class="srv-grid" id="grid-our">
+
+    <div class="srv-card c-gold" data-s="Дизайнерская студия" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://img.freepik.com/premium-photo/3d-view-realistic-modern-house-3d-house-model-house-design-modern-house-design_1037362-5367.jpg?w=2000" alt="Дизайнерская студия" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Дизайн</span>
+        <div class="srv-card-name">2D Дизайнерская студия</div>
+        <div class="srv-card-desc">Логотипы, фирменный стиль, UI/UX, баннеры и иллюстрации — полный цикл графического дизайна.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="/Services/2d-design.html">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-gold" data-s="Дизайнерская студия" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://img.freepik.com/premium-photo/3d-view-realistic-modern-house-3d-house-model-house-design-modern-house-design_1037362-5367.jpg?w=2000" alt="Дизайнерская студия" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Дизайн</span>
+        <div class="srv-card-name">3D Дизайнерская студия</div>
+        <div class="srv-card-desc">Профессиональное моделирование и визуализация: интерьеры, экстерьеры и ландшафтный дизайн. Разработка точных 3D-моделей для производства и эффектной рекламной графики.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="/Services/art-studio-3d.html">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-gold" data-s="Кинематографическая студия" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://thebeast.com.au/wp-content/uploads/2013/07/IMG_6692-1024x682.jpg" alt="Кинематографическая студия" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Видео</span>
+        <div class="srv-card-name">Кинематографическая студия</div>
+        <div class="srv-card-desc">Съёмка и монтаж рекламных роликов, клипов, корпоративных и творческих видеопроектов.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="/Services/cinematic-studio.html">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-gold" data-s="Музыкальная студия" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://as2.ftcdn.net/jpg/08/75/75/81/1000_F_875758185_3Xzm6NKo4TIVS4pR7ilgpUKQlZUFUdAA.jpg" alt="Музыкальная студия" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Звук</span>
+        <div class="srv-card-name">Музыкальная студия</div>
+        <div class="srv-card-desc">Запись треков, сведение и мастеринг, создание музыки под заказ на профессиональном оборудовании.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="/Services/music-studio.html">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-purple" data-s="Digital Marketing Agency" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://i.pinimg.com/originals/03/58/1a/03581aaee9ff699116c6a62bc3ee84c8.png" alt="Digital Marketing Agency" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Digital</span>
+        <div class="srv-card-name">Digital Marketing Agency</div>
+        <div class="srv-card-desc">Комплексный интернет-маркетинг: SEO, email-рассылки, таргетированная реклама и аналитика.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="/Services/digital-marketing.html">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-purple" data-s="SMM — Ведение соцсетей" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80" alt="SMM — Ведение соцсетей" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Соцсети</span>
+        <div class="srv-card-name">SMM — Ведение соцсетей</div>
+        <div class="srv-card-desc">Ведение Instagram, Facebook, TikTok и Telegram: контент-планы, оформление и рост аудитории.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-purple" data-s="Рекламное агентство" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://lh4.googleusercontent.com/-UEnl8O_X9ywKRPBRPtu0Fv8xn-57dqcIKXh4goHJStEpTFi1Rtro4MjajraOVnS2e0u914oyl8l5C21cnmxJM806PbgD7FxbEATP6fiLbjuQxcWGZG_XDADJmulWsi6IexJzyB4" alt="Рекламное агентство" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Реклама</span>
+        <div class="srv-card-name">Рекламное агентство</div>
+        <div class="srv-card-desc">Таргетированная реклама в соцсетях. Профессиональное сопровождение бизнеса: от разработки креативной стратегии и медиапланирования до запуска рекламных кампаний и масштабирования результата.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="/Services/targeting.html">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-our -->
+
+  <!-- ✦ ВСЕ УСЛУГИ -->
+  <div class="srv-sec-label all"><span class="sl-badge">✦ Все услуги</span></div>
+  <div class="srv-grid" id="grid-all">
+
+    <div class="srv-card c-blue" data-s="3D Печать">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://3dgu.ru/wp-content/uploads/2025/07/image-118.jpg" alt="3D Печать" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">3D принтер</span>
+        <div class="srv-card-name">3D Печать</div>
+        <div class="srv-card-desc">Прототипирование и печать деталей на профессиональном 3D-принтере. Любые материалы и размеры.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-blue" data-s="Баннеры и наружная реклама">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://cs5.livemaster.ru/storage/33/96/5f135e1058774ee5964e74a109y2--dizajn-i-reklama-dizajn-naruzhnoj-reklamy.jpg" alt="Баннеры и наружная реклама" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Широкий формат</span>
+        <div class="srv-card-name">Баннеры и наружная реклама</div>
+        <div class="srv-card-desc">Широкоформатная печать баннеров, плакатов и рекламных щитов для улицы и интерьера.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Видеонаблюдение и безопасность">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://png.pngtree.com/thumb_back/fw800/background/20250309/pngtree-modern-cctv-security-camera-monitoring-high-tech-industrial-factory-ensuring-safety-image_17051681.jpg" alt="Видеонаблюдение и безопасность" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Безопасность</span>
+        <div class="srv-card-name">Видеонаблюдение и безопасность</div>
+        <div class="srv-card-desc">Установка и настройка видеонаблюдения, домофонов и пожарной сигнализации под ключ.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Гибка металла">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://img.primadoma.cz/w_4/7c/cf/column/7ccfd64c5c2dd179299a1d81768dce52_depositphotos_478311732_l.jpg" alt="Гибка металла" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Металл</span>
+        <div class="srv-card-name">Гибка металла</div>
+        <div class="srv-card-desc">Листовая и профильная гибка металла на профессиональном прессе по вашим параметрам.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Изготовление болтов и арматуры">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://metallkonstrukt.ru/assets/cache_image/resources/864/img_9118_0x0_4a3.jpg" alt="Изготовление болтов и арматуры" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Производство</span>
+        <div class="srv-card-name">Изготовление анкерных болтов из арматуры</div>
+        <div class="srv-card-desc">Производство фундаментных анкеров любой сложности по ГОСТ и чертежам. Нарезка резьбы, гибка арматуры и антикоррозийная обработка для надежного крепежа конструкций.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-blue" data-s="Компьютерный Сервис Терабайт">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?w=600&q=80" alt="Компьютерный Сервис Терабайт" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Ремонт ПК</span>
+        <div class="srv-card-name">Компьютерный Сервис Терабайт</div>
+        <div class="srv-card-desc">Ремонт, диагностика и обслуживание компьютеров, ноутбуков и оргтехники. Быстро, с гарантией.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-green" data-s="Ремонт велосипедов и электросамокатов">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&q=80" alt="Ремонт велосипедов и электросамокатов" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Сервис</span>
+        <div class="srv-card-name">Ремонт велосипедов и электросамокатов</div>
+        <div class="srv-card-desc">Диагностика и ремонт велосипедов, электросамокатов и другого лёгкого транспорта.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Сварочные услуги">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://ryvok.ru/img/files/article/vidy-svarochnyh-apparatov-img-1-6899f442127e4.jpg" alt="Сварочные услуги" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Сварка</span>
+        <div class="srv-card-name">Сварочные услуги</div>
+        <div class="srv-card-desc">Сварка металлоконструкций, ворот, заборов и нестандартных изделий любой сложности.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Сверлильные услуги">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://metall.world/FILES/shared/pics/sverlenie-metallicheskih-listov-4.jpg" alt="Сверлильные услуги" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Сверление</span>
+        <div class="srv-card-name">Сверлильные услуги</div>
+        <div class="srv-card-desc">Точное сверление отверстий в металле, дереве и бетоне под любые технические требования.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Трубогиб — гибка труб">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://i.ytimg.com/vi/zOfTgQlRi0g/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFUgWyhlMA8=&amp;rs=AOn4CLCkcfmpxcMH68OtTEEX5jwAqDgV0Q" alt="Трубогиб — гибка труб" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Трубы</span>
+        <div class="srv-card-name">Трубогиб — гибка труб</div>
+        <div class="srv-card-desc">Профессиональная гибка труб любого диаметра для строительства, мебели и технических нужд.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-blue" data-s="Визитки и листовки">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://sim25foto.1c-umi.ru/images/cms/data/d1d97784d40d5a7bf7bb41ed280ed26f.jpg" alt="Визитки и листовки" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Печать</span>
+        <div class="srv-card-name">Визитки и листовки</div>
+        <div class="srv-card-desc">Печать визиток, флаеров, листовок и буклетов любым тиражом, быстро и с доставкой.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Фрезерование дерева и ЧПУ">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://avatars.mds.yandex.net/get-altay/4432502/2a0000017ba6e30f422059b19ccd38c9f2fc/XXL_height" alt="Фрезерование дерева и ЧПУ" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">ЧПУ Дерево</span>
+        <div class="srv-card-name">Фрезерование дерева и ЧПУ</div>
+        <div class="srv-card-desc">Художественная и конструктивная обработка дерева на ЧПУ-станке — мебельные детали, декор.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="Лазерная резка металла">
+      <div class="srv-card-photo-wrap">
+        <img class="srv-card-photo" src="https://ktmdetal.ru/files_dynamic/client/userfls/images/053c888994/1/9b663c/355_33360.jpg" alt="Фрезеровка металла и лазерная резка" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Металл</span>
+        <div class="srv-card-name">Лазерная резка металла</div>
+        <div class="srv-card-desc">Высокоточная лазерная резка металла любой толщины по вашим чертежам и эскизам. Чистый срез, минимальные допуски, быстрые сроки.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="#">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-blue" data-s="CutList Optimizer Раскрой листов" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <div class="srv-card-photo-placeholder" style="display:flex;align-items:center;justify-content:center;font-size:48px;background:rgba(43,156,255,.07);aspect-ratio:16/10;">✂️</div>
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Онлайн-инструмент</span>
+        <div class="srv-card-name">CutList Optimizer — Раскрой листов</div>
+        <div class="srv-card-desc">Бесплатный онлайн-оптимизатор раскроя листового материала. Рассчитайте оптимальную карту распила ЛДСП, фанеры, металла с минимальными отходами.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="cutlist.html">Открыть инструмент →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-card c-orange" data-s="CINEMATIX Кино Фильмы VFX" data-our="1">
+      <div class="srv-card-photo-wrap">
+        <div class="srv-card-photo-placeholder" style="display:flex;align-items:center;justify-content:center;font-size:48px;background:rgba(245,200,66,.07);aspect-ratio:16/10;">🎬</div>
+      </div>
+      <div class="srv-card-body">
+        <span class="srv-card-tag">Онлайн-кинотеатр</span>
+        <div class="srv-card-name">CINEMATIX — Кино и VFX Контент</div>
+        <div class="srv-card-desc">Тысячи фильмов, VFX-контент студийного уровня и эксклюзивное таджикское кино. Смотрите в 4K качестве от 10 сомони.</div>
+        <div class="srv-card-foot">
+          <a class="srv-card-btn" href="kino.html">Смотреть кино →</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-all -->
+
+  <div class="srv-no-results" id="srv-no-res">
+    <span>🔍</span>Услуга не найдена
+  </div>
+
+</div><!-- /sections -->
+</div><!-- /page -->
+
+<div class="srv-toast" id="srv-toast"></div>
+
+<script>
+/* ════════════════════════
+   SERVICES PAGE JS
+════════════════════════ */
+var srvCur = '';
+
+/* ── View ── */
+function srvSetView(v) {
+  ['grid-our','grid-all'].forEach(function(id){
+    var g = document.getElementById(id);
+    if (!g) return;
+    if (v === 'list') g.classList.add('view-list');
+    else g.classList.remove('view-list');
+  });
+  document.getElementById('srv-vGrid').classList.toggle('on', v === 'grid');
+  document.getElementById('srv-vList').classList.toggle('on', v === 'list');
+}
+
+/* ── Share ── */
+function srvShare() {
+  var url = location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'DavronMarket — Услуги', url: url });
+  } else {
+    navigator.clipboard.writeText(url)
+      .then(function(){ srvToast('✅ Ссылка скопирована!'); })
+      .catch(function(){
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(url), '_blank');
+      });
+  }
+}
+
+/* ── Toast ── */
+function srvToast(msg) {
+  var t = document.getElementById('srv-toast');
+  t.textContent = msg;
+  t.style.borderColor = msg.includes('✅') ? '#4ade80' : 'var(--gold)';
+  t.style.color       = msg.includes('✅') ? '#4ade80' : 'var(--gold)';
+  t.classList.add('on');
+  clearTimeout(t._x);
+  t._x = setTimeout(function(){ t.classList.remove('on'); }, 2800);
+}
+</script>
+<script src="assets/js/engine.js"></script>
+</body>
+</html>
+

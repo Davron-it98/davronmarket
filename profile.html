@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Профиль</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<!-- Prevent flash of wrong theme: apply stored theme before CSS renders -->
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+</head>
+<body class="dm-profile-body">
+
+<div class="dm-profile-page" id="profile-content">
+  <!-- Filled by JS -->
+</div>
+
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/engine.js"></script>
+<div class="dm-profile-page" id="profile-content"><!-- Filled by JS --></div>
+<script>
+  // Унификация: используем глобальный header/footer и профиль из engine.js
+  window.addEventListener('DOMContentLoaded', function() {
+    if (window.dmEngine && window.dmEngine.renderHeader) window.dmEngine.renderHeader();
+    if (window.dmEngine && window.dmEngine.renderFooter) window.dmEngine.renderFooter();
+    if (window.dmEngine && window.dmEngine.renderProfile) window.dmEngine.renderProfile();
+  });
+</script>
+    }
+
+    renderProfile();

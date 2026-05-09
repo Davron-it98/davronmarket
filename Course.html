@@ -1,0 +1,971 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Обучающие курсы</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{
+  --bg:#0b0b0f;
+  --panel:#111319;
+  --panel-2:#161922;
+  --line:rgba(255,255,255,.08);
+  --gold:#f5c842;
+  --gold-soft:#ffe066;
+  --orange:#ff8a5c;
+  --blue:#61b7ff;
+  --green:#4ade80;
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.46);
+}
+[data-theme="light"]{
+  --bg:#f5f7fb;
+  --panel:#ffffff;
+  --panel-2:#edf0f7;
+  --line:rgba(0,0,0,.09);
+  --text:#111111;
+  --muted:rgba(0,0,0,.65);
+  --muted-2:rgba(0,0,0,.45);
+}
+[data-theme="light"] body{
+  background:#f5f7fb!important;
+  color:#111!important;
+}
+[data-theme="light"] .hs{
+  background:rgba(0,0,0,.03)!important;
+  border-color:rgba(0,0,0,.09)!important;
+}
+[data-theme="light"] .course-card{
+  background:#fff!important;
+  border-color:rgba(0,0,0,.09)!important;
+}
+[data-theme="light"] .course-card .cc-title,
+[data-theme="light"] .course-card .cc-by,
+[data-theme="light"] .course-card .cc-footer-price { color:#111!important; }
+[data-theme="light"] .cc-desc { color:rgba(0,0,0,.5)!important; }
+[data-theme="light"] .filter-btn{
+  background:rgba(0,0,0,.04)!important;
+  border-color:rgba(0,0,0,.1)!important;
+  color:rgba(0,0,0,.6)!important;
+}
+[data-theme="light"] .hero p{color:rgba(0,0,0,.55)!important;}
+[data-theme="light"] .hero h1{color:#111!important;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Mulish',sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(245,200,66,.08), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(97,183,255,.08), transparent 24%),
+    linear-gradient(180deg, #0b0b0f 0%, #090a0d 100%);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.page{position:relative;z-index:1;}
+
+.hero{
+  max-width:1100px;
+  margin:0 auto;
+  padding:96px 20px 40px;
+  text-align:center;
+}
+.hero-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 18px;
+  border-radius:999px;
+  border:1px solid rgba(245,200,66,.22);
+  background:rgba(245,200,66,.08);
+  color:var(--gold-soft);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+.hero h1{
+  margin:22px 0 14px;
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(34px,6vw,64px);
+  line-height:1.08;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--gold);
+}
+.hero p{
+  max-width:680px;
+  margin:0 auto;
+  color:var(--muted);
+  line-height:1.75;
+  font-size:15px;
+}
+.hero-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-top:34px;
+}
+.hs{
+  padding:18px 14px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+}
+.hs b{
+  display:block;
+  font-family:'Unbounded',sans-serif;
+  font-size:18px;
+  color:var(--gold);
+}
+.hs span{
+  display:block;
+  margin-top:6px;
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted-2);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+
+.filters{
+  max-width:1100px;
+  margin:0 auto;
+  padding:18px 20px 0;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+.filter-btn{
+  padding:10px 16px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.03);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+.filter-btn.on{
+  border-color:rgba(245,200,66,.34);
+  background:rgba(245,200,66,.12);
+  color:var(--gold-soft);
+}
+
+.courses{
+  max-width:1100px;
+  margin:0 auto;
+  padding:28px 20px 72px;
+}
+.courses-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
+}
+.ccard{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, var(--panel-2), var(--panel));
+  box-shadow:0 14px 40px rgba(0,0,0,.22);
+}
+.ccard[hidden]{display:none;}
+.ccard::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:4px;
+  background:var(--accent);
+}
+.ccard-banner{
+  position:relative;
+  min-height:150px;
+  padding:20px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-start;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 24%, transparent), transparent 42%),
+    linear-gradient(180deg, color-mix(in srgb, var(--banner-bg) 90%, #111319), #10131a);
+}
+.ccard-banner-icon{
+  font-size:58px;
+  line-height:1;
+}
+.ccard-cat,
+.ccard-level,
+.ccard-popular{
+  position:absolute;
+  top:14px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(10,10,14,.72);
+}
+.ccard-cat{left:14px;color:var(--accent);}
+.ccard-level{right:14px;color:var(--muted);}
+.ccard-popular{
+  top:auto;
+  bottom:14px;
+  left:14px;
+  color:#111;
+  border:none;
+  background:linear-gradient(135deg, var(--gold), var(--orange));
+}
+.ccard-body{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  padding:20px;
+}
+.ccard-title{
+  font-family:'Unbounded',sans-serif;
+  font-size:15px;
+  line-height:1.35;
+  margin-bottom:10px;
+}
+.ccard-desc{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:16px;
+}
+.ccard-skills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:18px;
+}
+.ccard-skill{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+}
+.ccard-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 12px;
+  padding-top:16px;
+  margin-top:auto;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.ccard-meta-item{
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted-2);
+}
+.ccard-foot{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:18px;
+}
+.ccard-price-val{
+  display:block;
+  font-family:'Unbounded',sans-serif;
+  font-size:19px;
+  color:var(--accent);
+}
+.ccard-price-note{
+  display:block;
+  margin-top:4px;
+  font-size:11px;
+  color:var(--muted-2);
+}
+.ccard-enroll,
+.cta-btn,
+.msubmit{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  text-decoration:none;
+  font-family:'Unbounded',sans-serif;
+  font-size:11px;
+  font-weight:900;
+}
+.ccard-enroll{
+  padding:12px 16px;
+  background:var(--accent);
+  color:#111;
+}
+
+.cta-banner{
+  max-width:1100px;
+  margin:0 auto 76px;
+  padding:0 20px;
+}
+.cta-inner{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:22px;
+  align-items:center;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid rgba(245,200,66,.18);
+  background:linear-gradient(180deg, rgba(245,200,66,.06), rgba(255,255,255,.02));
+}
+.cta-emoji{
+  font-size:44px;
+  line-height:1;
+}
+.cta-text h2{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(18px,3vw,26px);
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.cta-text p{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:13px;
+}
+.cta-btn{
+  padding:14px 18px;
+  background:linear-gradient(135deg, var(--gold), var(--orange));
+  color:#111;
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(7,8,10,.78);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease;
+}
+.overlay.on{opacity:1;pointer-events:auto;}
+.modal{
+  position:relative;
+  width:100%;
+  max-width:540px;
+  overflow:hidden;
+  border-radius:26px;
+  border:1px solid rgba(245,200,66,.2);
+  background:#101218;
+}
+.modal-strip{height:4px;background:linear-gradient(90deg,var(--gold),var(--orange));}
+.modal-body{padding:26px;}
+.modal-course-info{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.03);
+}
+.modal-course-icon{font-size:34px;flex-shrink:0;}
+.modal-course-name{
+  font-family:'Unbounded',sans-serif;
+  font-size:13px;
+  margin-bottom:4px;
+}
+.modal-course-price{font-size:12px;color:var(--gold);font-weight:700;}
+.modal h2{
+  font-family:'Unbounded',sans-serif;
+  font-size:18px;
+  margin-bottom:6px;
+}
+.modal-sub{
+  margin-bottom:18px;
+  color:var(--muted);
+  line-height:1.65;
+  font-size:13px;
+}
+.mrow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.mf{margin-bottom:12px;}
+.ml{
+  display:block;
+  margin-bottom:6px;
+  font-size:11px;
+  font-weight:800;
+  color:var(--muted-2);
+}
+.mi,.ms,.mta{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font:600 13px 'Mulish',sans-serif;
+  outline:none;
+}
+.mi:focus,.ms:focus,.mta:focus{border-color:rgba(245,200,66,.36);}
+.ms option{background:#111319;}
+.msubmit{
+  width:100%;
+  margin-top:4px;
+  padding:14px;
+  background:linear-gradient(135deg, #22c55e, #4ade80);
+  color:#08120b;
+}
+.mclose{
+  position:absolute;
+  top:16px;
+  right:16px;
+  width:34px;
+  height:34px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:var(--muted);
+  font-size:14px;
+  cursor:pointer;
+}
+.mok{display:none;text-align:center;padding:10px 0 4px;}
+.mok.on{display:block;}
+.mok-icon{display:block;font-size:46px;margin-bottom:10px;}
+.mok h3{
+  font-family:'Unbounded',sans-serif;
+  font-size:16px;
+  color:var(--green);
+  margin-bottom:8px;
+}
+.mok p{font-size:13px;color:var(--muted);line-height:1.65;}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%);
+  padding:12px 18px;
+  border-radius:14px;
+  border:1px solid var(--gold);
+  background:rgba(10,11,14,.96);
+  color:var(--gold);
+  font-size:13px;
+  font-weight:800;
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease;
+  z-index:9999;
+}
+.toast.on{opacity:1;}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{transition:none !important;animation:none !important;}
+}
+@media(max-width:860px){
+  .hero-stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .cta-inner{grid-template-columns:1fr;text-align:center;}
+  .cta-btn{width:100%;}
+}
+@media(max-width:640px){
+  .hero{padding-top:84px;}
+  .courses-grid{grid-template-columns:1fr;}
+  .mrow{grid-template-columns:1fr;}
+  .ccard-foot{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-chip">🎓 DavronMarket Academy</div>
+  <h1>Обучающие <em>курсы</em></h1>
+  <p>Прокачайте навыки с нуля до профи. Практические курсы от команды DavronMarket — реальные знания, которые работают.</p>
+  <div class="hero-stats">
+    <div class="hs"><b>8</b><span>Курсов</span></div>
+    <div class="hs"><b>20+</b><span>Студентов</span></div>
+    <div class="hs"><b>100%</b><span>Практика</span></div>
+    <div class="hs"><b>Онлайн и офлайн</b><span>Формат</span></div>
+  </div>
+</section>
+
+<!-- ══ FILTERS ══-->
+<div class="filters">
+  <button class="filter-btn on" onclick="filterCourses(this,'all')">✦ Все курсы</button>
+  <button class="filter-btn" onclick="filterCourses(this,'design')">🎨 Дизайн</button>
+  <button class="filter-btn" onclick="filterCourses(this,'marketing')">📣 Маркетинг</button>
+  <button class="filter-btn" onclick="filterCourses(this,'tech')">💻 Технологии</button>
+  <button class="filter-btn" onclick="filterCourses(this,'game')">🎮 Геймдев</button>
+</div>
+
+<!-- ══ COURSES ══ -->
+<div class="courses">
+<div class="courses-grid" id="grid">
+
+  <!-- SMM -->
+  <div class="ccard" data-cat="marketing"
+       style="--accent:#f472b6;--accent-raw:#f472b6;--banner-bg:rgba(244,114,182,.06);">
+    <div class="ccard-banner">
+      <div class="ccard-popular">🔥 Хит продаж</div>
+      <span class="ccard-cat">Маркетинг</span>
+      <span class="ccard-level">Начальный</span>
+      <span class="ccard-banner-icon">📱</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">SMM — Ведение социальных сетей</div>
+      <div class="ccard-desc">Научитесь создавать цепляющий контент, вести Instagram, TikTok и Telegram, набирать аудиторию и монетизировать аккаунты с нуля.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">Instagram</span>
+        <span class="ccard-skill">TikTok</span>
+        <span class="ccard-skill">Reels</span>
+        <span class="ccard-skill">Контент-план</span>
+        <span class="ccard-skill">Таргетинг</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 4 недели</span>
+        <span class="ccard-meta-item">🎥 24 урока</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">2000 с</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('SMM — Ведение социальных сетей','📱','1 500 с','#f472b6')">
+          Записаться →
+        </button>
+        <a class="ccard-enroll ccard-more" href="Course/davronmarket-smm-vip.html">Подробнее</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D -->
+  <div class="ccard" data-cat="design"
+       style="--accent:#a78bfa;--accent-raw:#a78bfa;--banner-bg:rgba(167,139,250,.06);">
+    <div class="ccard-banner">
+      <span class="ccard-cat">Дизайн</span>
+      <span class="ccard-level">Средний</span>
+      <span class="ccard-banner-icon">🧊</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">3D Дизайн — Blender</div>
+      <div class="ccard-desc">Создавайте реалистичные 3D-модели, анимации и визуализации. От примитивов до сложных сцен с освещением и рендером.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">Blender</span>
+        <span class="ccard-skill">Cinema 4D</span>
+        <span class="ccard-skill">Моделирование</span>
+        <span class="ccard-skill">Рендер</span>
+        <span class="ccard-skill">Анимация</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 6 недель</span>
+        <span class="ccard-meta-item">🎥 36 уроков</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">2500 с</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('3D Дизайн — Blender & Cinema 4D','🧊','2 200 с','#a78bfa')">
+          Записаться →
+        </button>
+        <a class="ccard-enroll ccard-more" href="Course/davronmarket-3d-course.html">Подробнее</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2D Design -->
+  <div class="ccard" data-cat="design"
+       style="--accent:#f5c842;--accent-raw:#f5c842;--banner-bg:rgba(245,200,66,.06);">
+    <div class="ccard-banner">
+      <span class="ccard-cat">Дизайн</span>
+      <span class="ccard-level">Начальный</span>
+      <span class="ccard-banner-icon">🎨</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">2D Дизайн</div>
+      <div class="ccard-desc">Логотипы, баннеры, UI-макеты, брендбуки. Освойте главные инструменты дизайнера и начните получать заказы уже во время обучения.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">Figma</span>
+        <span class="ccard-skill">Photoshop</span>
+        <span class="ccard-skill">Illustrator</span>
+        <span class="ccard-skill">Логотипы</span>
+        <span class="ccard-skill">UI/UX</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 5 недель</span>
+        <span class="ccard-meta-item">🎥 30 уроков</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">2000 с</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('2D Дизайн — Figma & Photoshop','🎨','1 800 с','#f5c842')">
+          Записаться →
+        </button>
+        <!-- Подробнее не требуется для 2D курса -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Marketing -->
+  <div class="ccard" data-cat="marketing"
+       style="--accent:#ff6b2b;--accent-raw:#ff6b2b;--banner-bg:rgba(255,107,43,.06);">
+    <div class="ccard-banner">
+      <span class="ccard-cat">Маркетинг</span>
+      <span class="ccard-level">Средний</span>
+      <span class="ccard-banner-icon">📣</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">Digital Marketing — Полный курс</div>
+      <div class="ccard-desc">SEO, контекстная реклама, email-маркетинг, аналитика и стратегия продвижения. Станьте востребованным специалистом в digital.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">SEO</span>
+        <span class="ccard-skill">Google Ads</span>
+        <span class="ccard-skill">Email</span>
+        <span class="ccard-skill">Аналитика</span>
+        <span class="ccard-skill">Стратегия</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 8 недель</span>
+        <span class="ccard-meta-item">🎥 48 уроков</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">5000 с</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('Digital Marketing — Полный курс','📣','2 800 с','#ff6b2b')">
+          Записаться →
+        </button>
+        <!-- Подробнее не требуется для Digital Marketing -->
+      </div>
+    </div>
+  </div>
+
+  <!-- AI -->
+  <div class="ccard" data-cat="tech"
+       style="--accent:#2b9cff;--accent-raw:#2b9cff;--banner-bg:rgba(43,156,255,.06);">
+    <div class="ccard-banner">
+      <div class="ccard-popular">✨ Новинка</div>
+      <span class="ccard-cat">Технологии</span>
+      <span class="ccard-level">Любой уровень</span>
+      <span class="ccard-banner-icon">🤖</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">Искусственный интеллект — практика</div>
+      <div class="ccard-desc">ChatGPT, Midjourney, автоматизация и нейросети в бизнесе. Научитесь применять ИИ для работы, творчества и заработка уже сегодня.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">ChatGPT</span>
+        <span class="ccard-skill">Midjourney</span>
+        <span class="ccard-skill">и много другие</span>
+        <span class="ccard-skill">Prompt Engineering</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 3 недели</span>
+        <span class="ccard-meta-item">🎥 18 уроков</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">1000 с</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('Искусственный интеллект — практика','🤖','1 200 с','#2b9cff')">
+          Записаться →
+        </button>
+        <!-- Подробнее не требуется для AI курса -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Programming -->
+  <div class="ccard" data-cat="tech"
+       style="--accent:#4ade80;--accent-raw:#4ade80;--banner-bg:rgba(74,222,128,.05);">
+    <div class="ccard-banner">
+      <span class="ccard-cat">Технологии</span>
+      <span class="ccard-level">С нуля</span>
+      <span class="ccard-banner-icon">💻</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">Программирование — Python & JavaScript</div>
+      <div class="ccard-desc">Начните кодить с абсолютного нуля. Основы Python и JS, алгоритмы, работа с API. Напишите первые реальные программы за 6 недель.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">Python</span>
+        <span class="ccard-skill">JavaScript</span>
+        <span class="ccard-skill">HTML/CSS</span>
+        <span class="ccard-skill">Алгоритмы</span>
+        <span class="ccard-skill">API</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 8 недель</span>
+        <span class="ccard-meta-item">🎥 52 урока</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">3 500 с</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('Программирование — Python & JavaScript','💻','3 500 с','#4ade80')">
+          Записаться →
+        </button>
+        <!-- Подробнее не требуется для Programming курса -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Dev -->
+  <div class="ccard" data-cat="game"
+       style="--accent:#ff6b2b;--accent-raw:#ff6b2b;--banner-bg:rgba(255,107,43,.06);">
+    <div class="ccard-banner">
+      <div class="ccard-popular">🔥 Популярный</div>
+      <span class="ccard-cat">Геймдев</span>
+      <span class="ccard-level">Начальный</span>
+      <span class="ccard-banner-icon">🎮</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">Создание игр для ПК — Unity & Unreal</div>
+      <div class="ccard-desc">Создайте свою первую 2D и 3D игру. Механики, физика, графика, монетизация и публикация в Steam. От идеи до готового продукта.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">Unity</span>
+        <span class="ccard-skill">Unreal Engine</span>
+        <span class="ccard-skill">C#</span>
+        <span class="ccard-skill">Геймплей</span>
+        <span class="ccard-skill">Steam</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 10 недель</span>
+        <span class="ccard-meta-item">🎥 60 уроков</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">4 000 с</span>
+          <span class="ccard-price-note">или 1 000 с/мес</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('Создание игр для ПК — Unity & Unreal','🎮','4 000 с','#ff6b2b')">
+          Записаться →
+        </button>
+        <!-- Подробнее не требуется для Game Dev курса -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Web & Apps -->
+  <div class="ccard" data-cat="tech"
+       style="--accent:#2dd4bf;--accent-raw:#2dd4bf;--banner-bg:rgba(45,212,191,.05);">
+    <div class="ccard-banner">
+      <div class="ccard-popular">✨ Новинка</div>
+      <span class="ccard-cat">Технологии</span>
+      <span class="ccard-level">С нуля</span>
+      <span class="ccard-banner-icon">🌐</span>
+    </div>
+    <div class="ccard-body">
+      <div class="ccard-title">Web и Мобильные приложения</div>
+      <div class="ccard-desc">Создавайте сайты и мобильные приложения для iOS и Android. React, React Native, дизайн интерфейсов и публикация в App Store и Google Play.</div>
+      <div class="ccard-skills">
+        <span class="ccard-skill">React</span>
+        <span class="ccard-skill">React Native</span>
+        <span class="ccard-skill">Node.js</span>
+        <span class="ccard-skill">App Store</span>
+        <span class="ccard-skill">Google Play</span>
+      </div>
+      <div class="ccard-meta">
+        <span class="ccard-meta-item">📅 12 недель</span>
+        <span class="ccard-meta-item">🎥 72 урока</span>
+        <span class="ccard-meta-item">🏆 Сертификат</span>
+      </div>
+      <div class="ccard-foot">
+        <div class="ccard-price">
+          <span class="ccard-price-val">4 500 с</span>
+          <span class="ccard-price-note">или 1 125 с/мес</span>
+        </div>
+        <button class="ccard-enroll"
+          onclick="openEnroll('Web и Мобильные приложения','🌐','4 500 с','#2dd4bf')">
+          Записаться →
+        </button>
+        <!-- Подробнее не требуется для Web & Apps курса -->
+        <a class="ccard-enroll ccard-more" href="Course/davronmarket-video-course.html">Подробнее</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ CTA BANNER ══ -->
+<div class="cta-banner">
+  <div class="cta-inner">
+    <span class="cta-emoji">🎓</span>
+    <div class="cta-text">
+      <h2>Не знаете с чего начать?</h2>
+      <p>Напишите нам — поможем выбрать подходящий курс, расскажем об условиях и ответим на любые вопросы. Первая консультация бесплатно!</p>
+    </div>
+    <a class="cta-btn" href="https://wa.me/992929612111?text=Привет!%20Хочу%20записаться%20на%20курс%20DavronMarket%20Academy." target="_blank">
+      💬 Написать в WhatsApp
+    </a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<!-- ══ ENROLL MODAL ══ -->
+<div class="overlay" id="ov" onclick="closeOv(event)">
+  <div class="modal" id="modal">
+    <div class="modal-strip" id="mstrip"></div>
+    <button class="mclose" onclick="closeModal()">✕</button>
+    <div class="modal-body">
+      <div class="modal-course-info">
+        <span class="modal-course-icon" id="m-icon">🎓</span>
+        <div>
+          <div class="modal-course-name" id="m-name">Курс</div>
+          <div class="modal-course-price" id="m-price">—</div>
+        </div>
+      </div>
+
+      <div id="mform">
+        <h2>Записаться на курс</h2>
+        <p class="modal-sub">Заполните форму — мы свяжемся с вами в WhatsApp и расскажем все детали.</p>
+
+        <div class="mrow">
+          <div class="mf">
+            <label class="ml">Имя *</label>
+            <input class="mi" id="mn" type="text" placeholder="Ваше имя">
+          </div>
+          <div class="mf">
+            <label class="ml">Телефон *</label>
+            <input class="mi" id="mp" type="tel" placeholder="+992 92 961-21-11">
+          </div>
+        </div>
+
+        <div class="mf">
+          <label class="ml">Уровень подготовки</label>
+          <select class="ms" id="mlvl">
+            <option value="С нуля">🟢 Полный ноль — начинаю с нуля</option>
+            <option value="Базовый">🟡 Базовый — есть немного знаний</option>
+            <option value="Средний">🟠 Средний — хочу углубиться</option>
+          </select>
+        </div>
+
+        <div class="mf">
+          <label class="ml">Как вам удобно учиться?</label>
+          <select class="ms" id="mformat">
+            <option value="Онлайн видео">🎥 Онлайн — смотреть видео уроки</option>
+            <option value="Живые занятия">👨‍💻 Живые занятия с преподавателем</option>
+            <option value="Гибридный">🔄 Гибридный формат</option>
+          </select>
+        </div>
+
+        <button class="msubmit" onclick="submitEnroll()">
+          💬 Записаться через WhatsApp
+        </button>
+      </div>
+
+      <div class="mok" id="mok">
+        <span class="mok-icon">✅</span>
+        <h3>Заявка отправлена!</h3>
+        <p>WhatsApp откроется автоматически. Мы свяжемся с вами в течение 30 минут и расскажем всё о курсе!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── ENROLL MODAL ── */
+var curCourse = '', curColor = '';
+
+function openEnroll(name, icon, price, color){
+  curCourse = name; curColor = color;
+  document.getElementById('m-icon').textContent  = icon;
+  document.getElementById('m-name').textContent  = name;
+  document.getElementById('m-price').textContent = price;
+  document.getElementById('mstrip').style.background = 'linear-gradient(90deg,'+color+',rgba(255,255,255,.15),'+color+')';
+  document.getElementById('mform').style.display = '';
+  document.getElementById('mok').classList.remove('on');
+  document.getElementById('mn').value = '';
+  document.getElementById('mp').value = '';
+  document.getElementById('ov').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('ov').classList.remove('on');
+  document.body.style.overflow = '';
+}
+function closeOv(e){
+  if(e.target === document.getElementById('ov')) closeModal();
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+function submitEnroll(){
+  var n   = document.getElementById('mn').value.trim();
+  var p   = document.getElementById('mp').value.trim();
+  var lvl = document.getElementById('mlvl').value;
+  var fmt = document.getElementById('mformat').value;
+  if(!n){ showToast('⚠️ Введите ваше имя'); return; }
+  if(!p){ showToast('⚠️ Введите номер телефона'); return; }
+  var txt = encodeURIComponent(
+    '*DavronMarket Academy — Заявка на курс*\n\n' +
+    '📚 Курс: ' + curCourse + '\n' +
+    '👤 Имя: ' + n + '\n' +
+    '📞 Телефон: ' + p + '\n' +
+    '📊 Уровень: ' + lvl + '\n' +
+    '🎓 Формат: ' + fmt
+  );
+  document.getElementById('mform').style.display = 'none';
+  document.getElementById('mok').classList.add('on');
+  setTimeout(function(){
+    window.open('https://wa.me/992929612111?text=' + txt, '_blank');
+  }, 700);
+}
+
+/* ── FILTER ── */
+function filterCourses(el, cat){
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('on'); });
+  el.classList.add('on');
+  document.querySelectorAll('.ccard').forEach(function(c){
+    c.hidden = !(cat === 'all' || c.dataset.cat === cat);
+  });
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = msg.includes('✅') ? '#4ade80' : 'var(--gold)';
+  t.style.color       = msg.includes('✅') ? '#4ade80' : 'var(--gold)';
+  t.classList.add('on');
+  clearTimeout(t._x);
+  t._x = setTimeout(function(){ t.classList.remove('on'); }, 2800);
+}
+
+</script>
+<script src="assets/js/engine.js"></script>
+</body>
+</html>
+

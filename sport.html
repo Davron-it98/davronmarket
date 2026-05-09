@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Спорт и отдых</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+.sport-page{padding:80px 20px 80px;max-width:1100px;margin:0 auto;}
+/* HERO */
+.sport-hero{text-align:center;padding:48px 0 56px;}
+.sport-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.22);font-size:12px;font-weight:700;color:#4ade80;margin-bottom:18px;}
+.sport-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;margin-bottom:14px;line-height:1.1;color:#fff;}
+[data-theme="light"] .sport-hero h1{color:#111;}
+.sport-hero h1 span{background:linear-gradient(135deg,#4ade80,#2b9cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sport-hero p{font-size:15px;color:rgba(255,255,255,.45);max-width:520px;margin:0 auto;}
+[data-theme="light"] .sport-hero p{color:rgba(0,0,0,.45);}
+/* GRID */
+.sport-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;}
+.sport-card{
+  background:var(--card);border:1px solid var(--brd);border-radius:22px;
+  padding:28px 24px;display:flex;flex-direction:column;gap:14px;
+  position:relative;overflow:hidden;transition:all .25s;
+}
+.sport-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.35);}
+.sport-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.c-green2::before{background:linear-gradient(90deg,#4ade80,#34d399);}
+.c-blue3::before{background:linear-gradient(90deg,#38bdf8,#2b9cff);}
+.c-purple2::before{background:linear-gradient(90deg,#c084fc,#a78bfa);}
+.c-orange2::before{background:linear-gradient(90deg,#fb923c,#f97316);}
+.c-teal::before{background:linear-gradient(90deg,#2dd4bf,#14b8a6);}
+.c-lime::before{background:linear-gradient(90deg,#a3e635,#84cc16);}
+.c-rose::before{background:linear-gradient(90deg,#fb7185,#f43f5e);}
+.sport-ico{font-size:46px;line-height:1;}
+.sport-name{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:800;color:#fff;line-height:1.3;}
+[data-theme="light"] .sport-name{color:#111;}
+.sport-desc{font-size:13px;color:rgba(255,255,255,.42);line-height:1.7;flex:1;}
+[data-theme="light"] .sport-desc{color:rgba(0,0,0,.42);}
+.sport-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.sport-tag{padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:11px;color:rgba(255,255,255,.4);}
+[data-theme="light"] .sport-tag{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.4);}
+.sport-btn{
+  padding:11px;border:none;border-radius:12px;
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:800;
+  cursor:pointer;transition:all .25s;
+  color:#000;
+}
+.c-green2 .sport-btn{background:linear-gradient(135deg,#4ade80,#34d399);}
+.c-blue3 .sport-btn{background:linear-gradient(135deg,#38bdf8,#2b9cff);color:#fff;}
+.c-purple2 .sport-btn{background:linear-gradient(135deg,#c084fc,#a78bfa);color:#fff;}
+.c-orange2 .sport-btn{background:linear-gradient(135deg,#fb923c,#f97316);}
+.c-teal .sport-btn{background:linear-gradient(135deg,#2dd4bf,#14b8a6);}
+.c-lime .sport-btn{background:linear-gradient(135deg,#a3e635,#84cc16);}
+.c-rose .sport-btn{background:linear-gradient(135deg,#fb7185,#f43f5e);color:#fff;}
+.sport-btn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+</style>
+</head>
+<body>
+
+<div class="sport-page">
+  <div class="sport-hero">
+    <div class="sport-badge">⚽ Спорт и активный отдых</div>
+    <h1>Спорт, Фитнес <span>и Развлечения</span></h1>
+    <p>Спортзалы, бассейны, путешествия и зоны отдыха — всё для активного образа жизни в Худжанде и вашем городе.</p>
+  </div>
+
+  <div class="sport-grid">
+
+    <!-- ПУТЕШЕСТВИЯ -->
+    <div class="sport-card c-blue3">
+      <div class="sport-ico">✈️</div>
+      <div class="sport-name">Путешествия и туры</div>
+      <div class="sport-desc">Организуем туры по Таджикистану и за рубежом: Дубай, Турция, Россия, Индия, Египет. Составим маршрут, забронируем гостиницы.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">🏔 Памир</span>
+        <span class="sport-tag">🌴 Пляжный тур</span>
+        <span class="sport-tag">🎒 Корпоратив</span>
+      </div>
+      <button class="sport-btn" onclick="contact('✈️ Тур и путешествие')">📩 Записаться на тур</button>
+    </div>
+
+    <!-- СПОРТЗАЛ -->
+    <div class="sport-card c-orange2">
+      <div class="sport-ico">🏋️</div>
+      <div class="sport-name">Спортивный зал</div>
+      <div class="sport-desc">Современный тренажёрный зал с профессиональным оборудованием. Персональные тренеры, индивидуальные программы тренировок.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">💪 Тренажёры</span>
+        <span class="sport-tag">🥊 Бокс</span>
+        <span class="sport-tag">🧘 Йога</span>
+      </div>
+      <button class="sport-btn" onclick="contact('🏋️ Спортзал — запись')">📩 Записаться в зал</button>
+    </div>
+
+    <!-- ПЛАВАНИЕ -->
+    <div class="sport-card c-blue3">
+      <div class="sport-ico">🏊</div>
+      <div class="sport-name">Плавание и бассейн</div>
+      <div class="sport-desc">Бассейн с профессиональными тренерами: детское обучение плаванию, спортивные дорожки, аквааэробика для взрослых.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">👶 Детский</span>
+        <span class="sport-tag">🏆 Спортивный</span>
+        <span class="sport-tag">💆 Аквааэробика</span>
+      </div>
+      <button class="sport-btn" onclick="contact('🏊 Бассейн — запись')">📩 Записаться</button>
+    </div>
+
+    <!-- ФИРУЗ ПЛАЗА -->
+    <div class="sport-card c-teal">
+      <div class="sport-ico">🏖️</div>
+      <div class="sport-name">Зона отдыха «Фируз Плаза»</div>
+      <div class="sport-desc">Комплекс отдыха Фируз Плаза: банкетные залы, беседки на природе, детские аттракционы и зоны для пикника.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">🎉 Банкет</span>
+        <span class="sport-tag">🏕 Беседки</span>
+        <span class="sport-tag">🎡 Аттракционы</span>
+      </div>
+      <button class="sport-btn" onclick="contact('🏖️ Фируз Плаза — бронирование')">📩 Забронировать</button>
+    </div>
+
+    <!-- ФИТНЕС КЛУБ -->
+    <div class="sport-card c-rose">
+      <div class="sport-ico">🤸</div>
+      <div class="sport-name">Фитнес клуб</div>
+      <div class="sport-desc">Женский и смешанный фитнес. Групповые занятия: Zumba, стретчинг, силовые, TRX. Питание и коучинг включены в программу.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">💃 Zumba</span>
+        <span class="sport-tag">🧗 TRX</span>
+        <span class="sport-tag">🥗 Питание</span>
+      </div>
+      <button class="sport-btn" onclick="contact('🤸 Фитнес клуб — запись')">📩 Записаться</button>
+    </div>
+
+    <!-- БИЛЬЯРД -->
+    <div class="sport-card c-lime">
+      <div class="sport-ico">🎱</div>
+      <div class="sport-name">Бильярдный клуб</div>
+      <div class="sport-desc">Уютный бильярдный клуб: профессиональные столы, бокс для гостей, уроки игры, ночные сессии и турниры по выходным.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">🏆 Турниры</span>
+        <span class="sport-tag">🎓 Уроки</span>
+        <span class="sport-tag">🌙 Ночные сессии</span>
+      </div>
+      <button class="sport-btn" onclick="contact('🎱 Бильярдный клуб')">📩 Записаться</button>
+    </div>
+
+    <!-- КОМПЬЮТЕРНЫЙ КЛУБ -->
+    <div class="sport-card c-purple2">
+      <div class="sport-ico">🖥️</div>
+      <div class="sport-name">Компьютерный клуб</div>
+      <div class="sport-desc">Игровой LAN-клуб с мощными ПК и VR-зоной. CS2, Dota 2, Valorant, FIFA. Турниры, кибер-спорт, командные игры с призами.</div>
+      <div class="sport-tags">
+        <span class="sport-tag">🎮 CS2</span>
+        <span class="sport-tag">🕹 Dota 2</span>
+        <span class="sport-tag">🥽 VR</span>
+      </div>
+      <button class="sport-btn" onclick="contact('🖥️ Компьютерный клуб')">📩 Забронировать место</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="assets/js/engine.js"></script>
+<script>
+function contact(subject) {
+  var msg = '⚽ Запрос: ' + subject + '\nИмя: \nТелефон: ';
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Онлайн-игры</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+.games-page{padding:80px 20px 80px;max-width:1100px;margin:0 auto;}
+/* HERO */
+.games-hero{text-align:center;padding:48px 0 56px;}
+.games-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.22);font-size:12px;font-weight:700;color:#a78bfa;margin-bottom:18px;}
+.games-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;margin-bottom:14px;line-height:1.1;color:#fff;}
+[data-theme="light"] .games-hero h1{color:#111;}
+.games-hero h1 span{background:linear-gradient(135deg,#a78bfa,#2b9cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.games-hero p{font-size:15px;color:rgba(255,255,255,.45);max-width:520px;margin:0 auto;}
+[data-theme="light"] .games-hero p{color:rgba(0,0,0,.45);}
+/* HOW TO BUY */
+.games-how{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:52px;}
+.games-step{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:20px 14px;text-align:center;}
+.gstep-ico{font-size:30px;margin-bottom:10px;}
+.gstep-title{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:800;color:#fff;margin-bottom:5px;}
+[data-theme="light"] .gstep-title{color:#111;}
+.gstep-desc{font-size:11px;color:rgba(255,255,255,.35);line-height:1.6;}
+[data-theme="light"] .gstep-desc{color:rgba(0,0,0,.35);}
+/* GAMES GRID */
+.games-grid-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:18px;letter-spacing:.04em;}
+[data-theme="light"] .games-grid-title{color:rgba(0,0,0,.3);}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:48px;}
+.game-card{
+  background:var(--card);border:1px solid var(--brd);border-radius:20px;
+  overflow:hidden;transition:all .25s;display:flex;flex-direction:column;
+}
+.game-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4);}
+.game-thumb{
+  height:130px;display:flex;align-items:center;justify-content:center;
+  font-size:64px;position:relative;
+}
+.game-badge-new{position:absolute;top:10px;right:10px;padding:3px 9px;border-radius:20px;background:#f59e0b;font-size:9px;font-weight:700;color:#000;}
+.game-badge-hot{position:absolute;top:10px;right:10px;padding:3px 9px;border-radius:20px;background:#ef4444;font-size:9px;font-weight:700;color:#fff;}
+.game-info{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.game-name{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;color:#fff;}
+[data-theme="light"] .game-name{color:#111;}
+.game-desc{font-size:11px;color:rgba(255,255,255,.38);line-height:1.6;flex:1;}
+[data-theme="light"] .game-desc{color:rgba(0,0,0,.38);}
+.game-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:4px;}
+.game-price{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:900;}
+.game-players{font-size:10px;color:rgba(255,255,255,.25);}
+[data-theme="light"] .game-players{color:rgba(0,0,0,.25);}
+.game-btn{padding:9px;border:none;border-radius:10px;font-family:'Unbounded',sans-serif;font-size:9px;font-weight:800;cursor:pointer;transition:all .25s;width:100%;}
+.game-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+/* COMING SOON BOX */
+.coming-soon{background:var(--card);border:2px dashed var(--brd);border-radius:24px;padding:56px 24px;text-align:center;margin-top:10px;}
+.cs-ico{font-size:64px;margin-bottom:16px;opacity:.4;}
+.cs-title{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:8px;}
+[data-theme="light"] .cs-title{color:rgba(0,0,0,.4);}
+.cs-desc{font-size:13px;color:rgba(255,255,255,.25);max-width:380px;margin:0 auto 24px;line-height:1.7;}
+[data-theme="light"] .cs-desc{color:rgba(0,0,0,.25);}
+.btn-purple{padding:13px 30px;border-radius:13px;border:none;background:linear-gradient(135deg,#a78bfa,#2b9cff);color:#fff;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:800;cursor:pointer;transition:all .25s;}
+.btn-purple:hover{transform:translateY(-2px);filter:brightness(1.1);}
+@media(max-width:700px){.games-how{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<div class="games-page">
+  <div class="games-hero">
+    <div class="games-badge">🎮 Онлайн-игры</div>
+    <h1>Игры <span>на платформе</span></h1>
+    <p>Платные онлайн-игры от DavronMarket. Купи доступ и играй прямо в браузере без установки.</p>
+  </div>
+
+  <div class="games-how">
+    <div class="games-step">
+      <div class="gstep-ico">🛒</div>
+      <div class="gstep-title">Выбери игру</div>
+      <div class="gstep-desc">Найди понравившуюся игру в каталоге</div>
+    </div>
+    <div class="games-step">
+      <div class="gstep-ico">💬</div>
+      <div class="gstep-title">Свяжись с нами</div>
+      <div class="gstep-desc">Напиши в WhatsApp — получи доступ</div>
+    </div>
+    <div class="games-step">
+      <div class="gstep-ico">🔑</div>
+      <div class="gstep-title">Получи ключ</div>
+      <div class="gstep-desc">Мы отправим данные для входа</div>
+    </div>
+    <div class="games-step">
+      <div class="gstep-ico">🎮</div>
+      <div class="gstep-title">Играй!</div>
+      <div class="gstep-desc">Заходи и наслаждайся без лагов</div>
+    </div>
+  </div>
+
+  <div class="games-grid-title">ДОБАВЛЯЕМЫЕ ИГРЫ</div>
+
+  <div class="games-grid">
+    <!-- Placeholder game cards — will be filled by admin -->
+    <div class="game-card">
+      <div class="game-thumb" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">
+        🎯
+        <span class="game-badge-hot">HOT</span>
+      </div>
+      <div class="game-info">
+        <div class="game-name">Турнирные шахматы</div>
+        <div class="game-desc">Онлайн-шахматы с рейтингом, турнирами и разбором партий. До 100 игроков одновременно.</div>
+        <div class="game-price-row"><span class="game-price" style="color:#a78bfa;">5 сом/ч</span><span class="game-players">👥 Мультиплеер</span></div>
+        <button class="game-btn" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;" onclick="buyAccess('Шахматы онлайн')">🎯 Купить доступ</button>
+      </div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb" style="background:linear-gradient(135deg,#0f2027,#203a43);">
+        🃏
+        <span class="game-badge-new">NEW</span>
+      </div>
+      <div class="game-info">
+        <div class="game-name">Карточные баталии</div>
+        <div class="game-desc">Стратегические карточные бои. Собирай колоду, сражайся с игроками по всему миру.</div>
+        <div class="game-price-row"><span class="game-price" style="color:#2b9cff;">10 сом/сессия</span><span class="game-players">👥 PvP</span></div>
+        <button class="game-btn" style="background:linear-gradient(135deg,#2b9cff,#1d4ed8);color:#fff;" onclick="buyAccess('Карточные баталии')">🃏 Купить доступ</button>
+      </div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb" style="background:linear-gradient(135deg,#1c0533,#2d1b69);">
+        🧩
+      </div>
+      <div class="game-info">
+        <div class="game-name">Головоломки Pro</div>
+        <div class="game-desc">Логические пазлы и головоломки всех уровней. Соревновательный режим с таблицей рекордов.</div>
+        <div class="game-price-row"><span class="game-price" style="color:#f59e0b;">20 сом/мес</span><span class="game-players">👤 Соло + 👥 PvP</span></div>
+        <button class="game-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;" onclick="buyAccess('Головоломки Pro')">🧩 Купить доступ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="coming-soon">
+    <div class="cs-ico">🚀</div>
+    <div class="cs-title">Больше игр скоро!</div>
+    <div class="cs-desc">Администраторы DavronMarket продолжают добавлять новые игры. Следите за обновлениями или предложите свою игру для добавления.</div>
+    <button class="btn-purple" onclick="suggestGame()">💬 Предложить игру</button>
+  </div>
+</div>
+
+<script src="assets/js/engine.js"></script>
+<script>
+function buyAccess(gameName) {
+  var msg = '🎮 Хочу купить доступ к игре: ' + gameName + '\nИмя: \nТелефон: ';
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent(msg), '_blank');
+}
+function suggestGame() {
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent('🎮 Хочу предложить игру для добавления на DavronMarket:\nНазвание: '), '_blank');
+}
+</script>
+</body>
+</html>
+

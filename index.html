@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DavronMarket — Главная</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+</head>
+<body>
+  <main>
+    <section class="hero" id="top">
+      <div class="hero__conic"></div>
+      <div class="hero__stars"></div>
+      <div class="hero__inner">
+        <div class="hero__left">
+          <div class="hero__glow"></div>
+          <span class="hero__ring"></span>
+          <a href="/profile.html" class="hero__photo-link" aria-label="Профиль DavronMarket">
+            <img class="hero__photo" src="https://davronmarket.com/wp-content/uploads/2026/03/Davron-sajt.png" alt="DavronMarket">
+          </a>
+        </div>
+        <div class="hero__right">
+          <div class="hero__badge">
+            <span class="hero__badge-dot"></span>
+            <span class="hero__badge-text">Платформа бизнеса и сервисов Таджикистана</span>
+          </div>
+          <h1 class="hero__title">
+            <span class="hero__title-top">DAVRON</span>
+            <span class="hero__title-bot">MARKET</span>
+          </h1>
+          <div class="hero__divider">
+            <span class="hero__divider-line hero__divider-line--long"></span>
+            <span class="hero__divider-line hero__divider-line--short"></span>
+          </div>
+          <p class="hero__sub">Один сайт для услуг, объявлений, магазинов, курсов, музыки, фильмов и цифровых продуктов.</p>
+          <div class="hero__btns">
+            <a href="/assets/Registered/login.html" class="btn btn--ghost">Вход</a>
+            <a href="/assets/Registered/register.html" class="btn btn--primary">Регистрация</a>
+          </div>
+          <div class="hero__stats">
+            <div class="stat"><b>5k+</b><span>Пользователей</span></div>
+            <div class="stat"><b>50+</b><span>Услуг</span></div>
+            <div class="stat"><b>100k+</b><span>Объявлений</span></div>
+            <div class="stat"><b>24/7</b><span>Поддержка</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dm-sec" id="services">
+      <div class="dm-wrap" style="max-width:1200px;">
+        <div class="dm-head">
+          <div class="dm-chip">Все разделы</div>
+          <h2 class="dm-title">Что есть на <span>DavronMarket</span></h2>
+        </div>
+        <!-- ...existing code... -->
+
+        <!-- ОБЪЯВЛЕНИЯ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">📣 Объявления <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <a href="/Пользователи/obyavleniya.html" class="svc blue"><span class="svc-ico">📣</span><span class="svc-name">Все объявления</span></a>
+          </div>
+        </div>
+
+        <!-- ИНТЕРНЕТ-МАГАЗИН -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">🛍 Интернет-магазин <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">
+            <a href="/shop.html#tekhnika" class="svc"><span class="svc-ico">💻</span><span class="svc-name">Магазин техники</span></a>
+            <a href="/shop.html#osvescenie" class="svc blue"><span class="svc-ico">💡</span><span class="svc-name">Освещение и люстры</span></a>
+            <a href="/shop.html#igrushki" class="svc"><span class="svc-ico">🧸</span><span class="svc-name">Игрушки</span></a>
+            <a href="/shop.html#odezhda" class="svc purple"><span class="svc-ico">👗</span><span class="svc-name">Одежда и обувь</span></a>
+            <a href="/shop.html#paneli" class="svc"><span class="svc-ico">🪟</span><span class="svc-name">Декоративные панели</span></a>
+            <a href="/shop.html#dveri" class="svc"><span class="svc-ico">🚪</span><span class="svc-name">Уличные двери</span></a>
+            <a href="/shop.html#svadba" class="svc purple"><span class="svc-ico">💍</span><span class="svc-name">Свадебные изделия</span></a>
+            <a href="/shop.html#shtory" class="svc"><span class="svc-ico">🏮</span><span class="svc-name">Шторы</span></a>
+            <a href="/shop.html#mebel" class="svc"><span class="svc-ico">🛋</span><span class="svc-name">Мебель</span></a>
+            <a href="/shop.html#potolok" class="svc blue"><span class="svc-ico">🏠</span><span class="svc-name">Потолочные изделия</span></a>
+            <a href="/shop.html#okna" class="svc"><span class="svc-ico">🪟</span><span class="svc-name">Окна и двери</span></a>
+            <a href="/shop.html#lepnina" class="svc"><span class="svc-ico">🏛</span><span class="svc-name">Лепнина</span></a>
+          </div>
+        </div>
+
+        <!-- АВИАБИЛЕТЫ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">✈ Авиабилеты <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <a href="/avia.html" class="svc blue"><span class="svc-ico">✈️</span><span class="svc-name">Купить авиабилет</span></a>
+          </div>
+        </div>
+
+        <!-- ПРОГРАММЫ И ИГРЫ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">🎮 Программы и игры для ПК <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <a href="/File/Programms/app.html" class="svc purple"><span class="svc-ico">📲</span><span class="svc-name">Программы</span></a>
+            <a href="/File/Games/" class="svc purple"><span class="svc-ico">🕹</span><span class="svc-name">Игры для ПК</span></a>
+          </div>
+        </div>
+
+        <!-- КУРСЫ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">🎓 Обучающие курсы <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">
+            <a href="/Course.html" class="svc green"><span class="svc-ico">🎨</span><span class="svc-name">3Д дизайн</span></a>
+            <a href="/Course.html" class="svc green"><span class="svc-ico">✏️</span><span class="svc-name">Векторный дизайн</span></a>
+            <a href="/Course.html" class="svc green"><span class="svc-ico">🎬</span><span class="svc-name">Видеомонтаж</span></a>
+            <a href="/Course.html" class="svc green"><span class="svc-ico">📈</span><span class="svc-name">Digital Marketing</span></a>
+            <a href="/Course.html" class="svc purple"><span class="svc-ico">🤖</span><span class="svc-name">Телеграм боты</span></a>
+            <a href="/Course.html" class="svc purple"><span class="svc-ico">🔄</span><span class="svc-name">CRM Автоматизация</span></a>
+            <a href="/Course.html" class="svc blue"><span class="svc-ico">💻</span><span class="svc-name">Изучение компьютера</span></a>
+            <a href="/Course.html" class="svc"><span class="svc-ico">🪑</span><span class="svc-name">Мебель</span></a>
+            <a href="/Course.html" class="svc blue"><span class="svc-ico">📱</span><span class="svc-name">SMM</span></a>
+            <a href="/Course.html" class="svc"><span class="svc-ico">🎯</span><span class="svc-name">Таргетолог</span></a>
+            <a href="/Course.html" class="svc purple"><span class="svc-ico">🧠</span><span class="svc-name">Бизнес психология</span></a>
+            <a href="/Course.html" class="svc green"><span class="svc-ico">🎵</span><span class="svc-name">Музыкальный</span></a>
+            <a href="/music.html" class="svc blue"><span class="svc-ico">🎧</span><span class="svc-name">Music треки</span></a>
+          </div>
+        </div>
+
+        <!-- ТАКСИ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">🚕 Транспорт <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <a href="/taxi.html#taxi" class="svc"><span class="svc-ico">🚕</span><span class="svc-name">Онлайн-такси</span></a>
+            <a href="/taxi.html#poputchiki" class="svc blue"><span class="svc-ico">🚗</span><span class="svc-name">Попутчики</span></a>
+            <a href="/taxi.html#ambulance" class="svc"><span class="svc-ico">🚑</span><span class="svc-name">Скорая помощь</span></a>
+            <a href="/taxi.html#police" class="svc"><span class="svc-ico">🚓</span><span class="svc-name">Полиция</span></a>
+          </div>
+        </div>
+
+        <!-- ЗАКАЗ УСЛУГ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">💼 Заказ услуг <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <a href="/servises.html" class="svc"><span class="svc-ico">🖥</span><span class="svc-name">Компьютерный Сервис</span></a>
+            <a href="/Services/art-studio-3d.html" class="svc blue"><span class="svc-ico">🎨</span><span class="svc-name">Дизайнерская студия</span></a>
+            <a href="/Services/cinematic-studio.html" class="svc purple"><span class="svc-ico">🎬</span><span class="svc-name">Кинематогр. студия</span></a>
+            <a href="/Services/music-studio.html" class="svc green"><span class="svc-ico">🎵</span><span class="svc-name">Музыкальная студия</span></a>
+            <a href="/Services/digital-marketing.html" class="svc"><span class="svc-ico">📈</span><span class="svc-name">Рекламное агентство</span></a>
+            <a href="/servises.html" class="svc blue"><span class="svc-ico">📷</span><span class="svc-name">Видеонаблюдение</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">⚙️</span><span class="svc-name">Фрезеровка металла</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">🌳</span><span class="svc-name">Фрезерование дерева</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">🔧</span><span class="svc-name">Болты и арматура</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">🛠</span><span class="svc-name">Гибка металла</span></a>
+            <a href="/servises.html" class="svc purple"><span class="svc-ico">🖨</span><span class="svc-name">3D печать</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">🔨</span><span class="svc-name">Трубогиб</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">🔥</span><span class="svc-name">Сварочные услуги</span></a>
+            <a href="/servises.html" class="svc"><span class="svc-ico">🪛</span><span class="svc-name">Сверлильные услуги</span></a>
+          </div>
+        </div>
+
+        <!-- СПОРТ И ОТДЫХ -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">⚽ Спорт и отдых <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">
+            <a href="/sport.html#travel" class="svc blue"><span class="svc-ico">✈️</span><span class="svc-name">Путешествия</span></a>
+            <a href="/sport.html#gym" class="svc green"><span class="svc-ico">🏋️</span><span class="svc-name">Спортзал</span></a>
+            <a href="/sport.html#pool" class="svc blue"><span class="svc-ico">🏊</span><span class="svc-name">Плавание</span></a>
+            <a href="/sport.html#firuz" class="svc purple"><span class="svc-ico">🎡</span><span class="svc-name">Зона отдыха Фируз Плаза</span></a>
+            <a href="/sport.html#fitness" class="svc green"><span class="svc-ico">💪</span><span class="svc-name">Фитнес клуб</span></a>
+            <a href="/sport.html#billiard" class="svc"><span class="svc-ico">🎱</span><span class="svc-name">Бильярдный клуб</span></a>
+            <a href="/sport.html#gamingclub" class="svc purple"><span class="svc-ico">🕹</span><span class="svc-name">Компьютерный клуб</span></a>
+          </div>
+        </div>
+
+        <!-- РАЗНОЕ -->
+        <div style="margin-bottom:16px;">
+          <div style="font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;">👥 Люди и сообщество <span style="flex:1;height:1px;background:rgba(255,255,255,.06);"></span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <a href="/My-account/anketa.html" class="svc blue"><span class="svc-ico">👤</span><span class="svc-name">Анкеты / Портфолио</span></a>
+            <a href="/dating.html" class="svc purple"><span class="svc-ico">❤️</span><span class="svc-name">Знакомства</span></a>
+            <a href="/games-online.html" class="svc green"><span class="svc-ico">🧩</span><span class="svc-name">Онлайн-игры (платные)</span></a>
+            <a href="/news.html" class="svc"><span class="svc-ico">📰</span><span class="svc-name">Новости</span></a>
+            <a href="/Films.html" class="svc purple"><span class="svc-ico">🎬</span><span class="svc-name">Кино / Фильмы</span></a>
+          </div>
+          <div id="public-resumes-list" style="margin-top:18px;"></div>
+        </main>
+        <script>
+        // Автоматический вывод новых анкет на главную
+        function renderPublicResumes(){
+          var list = [];
+          try{list=JSON.parse(localStorage.getItem('dm_public_resumes'))||[];}catch(e){}
+          var el = document.getElementById('public-resumes-list');
+          if(!el) return;
+          if(!list.length){el.innerHTML='<div style="color:rgba(255,255,255,.4);font-size:13px;">Нет новых анкет</div>';return;}
+          el.innerHTML = list.slice(0,6).map(function(r){
+            return `<div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px 18px;margin-bottom:8px;box-shadow:0 2px 12px rgba(0,0,0,.08);">
+              <div style="font-weight:700;font-size:15px;">${r.position}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:4px;">${r.city} · ${r.contact}</div>
+              <div style="font-size:13px;margin-bottom:6px;">${r.about}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.5);">${r.name} · ${r.phone} · ${r.email}</div>
+            </div>`;
+          }).join('');
+        }
+        document.addEventListener('DOMContentLoaded',renderPublicResumes);
+        </script>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="wc-sec" id="shop">
+      <div class="wc-wrap">
+        <div class="wc-head">
+          <div class="wc-chip">WooCommerce</div>
+          <h2 class="wc-title">Рекомендации <span>товаров</span></h2>
+        </div>
+        <div id="wc-products" class="wc-grid"></div>
+        <div class="wc-more-wrap">
+          <a href="https://davronmarket.com/shop/" target="_blank" rel="noopener" class="wc-more-btn">Перейти в магазин</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="av" id="about">
+      <div class="av-wrap">
+        <div class="av-head">
+          <div class="av-chip">Почему мы</div>
+          <h2 class="av-title">Преимущества <span>платформы</span></h2>
+          <p>Рабочая экосистема для бизнеса, клиентов и специалистов в одном месте.</p>
+        </div>
+        <div class="av-grid">
+          <article class="av-card c1"><div class="av-icon">⚡</div><h3 class="av-card-title">Быстрый старт</h3><p class="av-card-desc">Запуск и публикация услуг за минуты.</p><div class="av-line"></div></article>
+          <article class="av-card c2"><div class="av-icon">🛡️</div><h3 class="av-card-title">Надежность</h3><p class="av-card-desc">Стабильная работа и контроль доступа.</p><div class="av-line"></div></article>
+          <article class="av-card c3"><div class="av-icon">🤝</div><h3 class="av-card-title">Комьюнити</h3><p class="av-card-desc">Связь клиентов, продавцов и исполнителей.</p><div class="av-line"></div></article>
+          <article class="av-card c4"><div class="av-icon">📊</div><h3 class="av-card-title">Рост</h3><p class="av-card-desc">Инструменты для продаж и продвижения.</p><div class="av-line"></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="nw-section" id="news">
+      <div class="nw-wrap">
+        <header class="nw-header">
+          <div class="nw-chip">Новости</div>
+          <h2 class="nw-title">Последние обновления</h2>
+          <p class="nw-sub">Новые разделы, сервисы и функции платформы.</p>
+        </header>
+        <div class="nw-grid" id="home-news-grid"></div>
+      </div>
+    </section>
+
+    <section class="map-sec" id="map">
+      <div class="map-wrap">
+        <div class="map-head">
+          <div class="map-chip">Локации</div>
+          <h2 class="map-title">Наши <span>точки</span></h2>
+          <p class="map-sub">Выберите нужную точку на карте.</p>
+        </div>
+        <div class="map-body">
+          <div>
+            <div class="map-clabel">Список локаций</div>
+            <div id="card-list" class="map-cards"></div>
+            <div class="map-nav">
+              <button class="map-navbtn" id="btn-prev" onclick="mapNav(-1)">Назад</button>
+              <span id="cnt" class="map-navcnt">1 / 1</span>
+              <button class="map-navbtn" id="btn-next" onclick="mapNav(1)">Вперед</button>
+            </div>
+          </div>
+          <div class="map-mapbox">
+            <div class="map-mapbar">
+              <span class="dot dot-o"></span>
+              <span class="dot dot-b"></span>
+              <span class="map-bartitle" id="bar-name">Локация</span>
+              <span class="map-baraddr" id="bar-addr">Адрес</span>
+            </div>
+            <div id="dm-map"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ct-section" id="contacts">
+      <div class="ct-wrap">
+        <div class="ct-head">
+          <div class="ct-chip">Связь</div>
+          <h2 class="ct-title">Контакты</h2>
+          <p class="ct-sub">Оставьте заявку, и мы ответим в WhatsApp.</p>
+        </div>
+        <div class="ct-form-wrap" id="ct-form-inner">
+          <div class="ct-topics">
+            <button class="ct-topic active" type="button" onclick="selectTopic(this)">Вопрос</button>
+            <button class="ct-topic" type="button" onclick="selectTopic(this)">Сотрудничество</button>
+            <button class="ct-topic" type="button" onclick="selectTopic(this)">Техподдержка</button>
+          </div>
+          <input id="ct-name" class="ct-input" type="text" placeholder="Ваше имя">
+          <input id="ct-phone" class="ct-input" type="tel" placeholder="Телефон">
+          <textarea id="ct-message" class="ct-textarea" placeholder="Ваше сообщение"></textarea>
+          <button class="ct-submit" type="button" onclick="sendToWA()">Отправить</button>
+        </div>
+        <div id="ct-success" style="display:none;color:#4ade80;font-weight:700;">Спасибо! Мы получили заявку.</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="assets/js/engine.js"></script>
+  <script src="assets/js/news-auto.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function () {
+      var container = document.getElementById('wc-products');
+      if (!container) return;
+
+      function esc(s) {
+        var d = document.createElement('div');
+        d.textContent = s == null ? '' : String(s);
+        return d.innerHTML;
+      }
+
+      function render(items) {
+        if (!items.length) {
+          container.innerHTML = '<div class="wc-loading">Товары пока не найдены.</div>';
+          return;
+        }
+
+        container.innerHTML = items.map(function (p) {
+          var title = esc(p.name || 'Товар');
+          var img = esc((p.images && p.images[0] && p.images[0].src) || '');
+          var url = esc(p.permalink || 'https://davronmarket.com/shop/');
+          var price = p.prices && p.prices.price ? (Number(p.prices.price) / 100).toFixed(0) + ' ' + (p.prices.currency_code || '') : 'Цена по запросу';
+          return '<article class="wc-card">'
+            + '<a class="wc-card-link" href="' + url + '" target="_blank" rel="noopener">'
+            + (img ? '<img class="wc-card-img" src="' + img + '" alt="' + title + '">' : '')
+            + '<div class="wc-card-body">'
+            + '<h3 class="wc-card-title">' + title + '</h3>'
+            + '<div class="wc-card-price">' + esc(price) + '</div>'
+            + '</div></a></article>';
+        }).join('');
+      }
+
+      container.innerHTML = '<div class="wc-loading"><span class="wc-spinner"></span> Загрузка товаров...</div>';
+
+      fetch('https://davronmarket.com/wp-json/wc/store/v1/products?per_page=8')
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (data) { render(Array.isArray(data) ? data : []); })
+        .catch(function () { render([]); });
+
+      var success = document.getElementById('ct-success');
+      if (success) {
+        var obs = new MutationObserver(function () {
+          if (success.classList.contains('show')) {
+            success.style.display = 'block';
+          }
+        });
+        obs.observe(success, { attributes: true, attributeFilter: ['class'] });
+      }
+    }());
+  </script>
+</body>
+</html>
+
+

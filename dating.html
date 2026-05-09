@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Знакомства</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+.dating-page{padding:80px 20px 80px;max-width:1000px;margin:0 auto;}
+/* HERO */
+.dating-hero{text-align:center;padding:48px 0 56px;}
+.dating-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;background:rgba(251,113,133,.07);border:1px solid rgba(251,113,133,.22);font-size:12px;font-weight:700;color:#fb7185;margin-bottom:18px;}
+.dating-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,50px);font-weight:800;margin-bottom:14px;line-height:1.1;color:#fff;}
+[data-theme="light"] .dating-hero h1{color:#111;}
+.dating-hero h1 span{background:linear-gradient(135deg,#fb7185,#f43f5e);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.dating-hero p{font-size:15px;color:rgba(255,255,255,.45);max-width:500px;margin:0 auto 28px;}
+[data-theme="light"] .dating-hero p{color:rgba(0,0,0,.45);}
+/* HOW IT WORKS */
+.dating-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:56px;}
+.dating-step{background:var(--card);border:1px solid var(--brd);border-radius:18px;padding:24px 18px;text-align:center;}
+.step-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fb7185,#f43f5e);display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:800;color:#fff;margin:0 auto 12px;}
+.step-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;color:#fff;margin-bottom:6px;}
+[data-theme="light"] .step-title{color:#111;}
+.step-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;}
+[data-theme="light"] .step-desc{color:rgba(0,0,0,.4);}
+/* PROFILE CARDS */
+.dating-profiles-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:20px;letter-spacing:.04em;}
+[data-theme="light"] .dating-profiles-title{color:rgba(0,0,0,.35);}
+.dating-empty{background:var(--card);border:2px dashed var(--brd);border-radius:24px;padding:60px 24px;text-align:center;}
+.dating-empty-ico{font-size:64px;margin-bottom:16px;opacity:.35;}
+.dating-empty-title{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:8px;}
+[data-theme="light"] .dating-empty-title{color:rgba(0,0,0,.4);}
+.dating-empty-desc{font-size:13px;color:rgba(255,255,255,.25);max-width:360px;margin:0 auto 24px;line-height:1.7;}
+[data-theme="light"] .dating-empty-desc{color:rgba(0,0,0,.25);}
+/* ADMIN NOTE */
+.admin-note{background:rgba(251,113,133,.06);border:1px solid rgba(251,113,133,.18);border-radius:16px;padding:18px 22px;margin:40px 0;display:flex;align-items:flex-start;gap:12px;}
+.admin-note-ico{font-size:20px;flex-shrink:0;margin-top:2px;}
+.admin-note p{font-size:12px;color:rgba(255,255,255,.55);line-height:1.7;}
+[data-theme="light"] .admin-note p{color:rgba(0,0,0,.5);}
+/* CTA */
+.dating-cta{background:var(--card);border:1px solid var(--brd);border-radius:24px;padding:42px;text-align:center;}
+.dating-cta h2{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:10px;}
+[data-theme="light"] .dating-cta h2{color:#111;}
+.dating-cta p{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px;}
+[data-theme="light"] .dating-cta p{color:rgba(0,0,0,.45);}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-pink{padding:14px 32px;border-radius:14px;border:none;background:linear-gradient(135deg,#fb7185,#f43f5e);color:#fff;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:800;cursor:pointer;transition:all .25s;}
+.btn-ghost{padding:14px 32px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.7);font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .25s;}
+[data-theme="light"] .btn-ghost{border-color:rgba(0,0,0,.12);color:rgba(0,0,0,.6);}
+.btn-pink:hover,.btn-ghost:hover{transform:translateY(-2px);}
+@media(max-width:600px){.dating-steps{grid-template-columns:1fr;}.cta-btns{flex-direction:column;align-items:center;}}
+</style>
+</head>
+<body>
+
+<div class="dating-page">
+  <div class="dating-hero">
+    <div class="dating-badge">❤️ Знакомства</div>
+    <h1>Найди <span>своего человека</span></h1>
+    <p>Серьёзные знакомства с настоящими людьми. Анкеты проверяются администратором перед публикацией.</p>
+  </div>
+
+  <div class="dating-steps">
+    <div class="dating-step">
+      <div class="step-num">1</div>
+      <div class="step-title">Зарегистрируйся</div>
+      <div class="step-desc">Создайте аккаунт на DavronMarket и заполните свой профиль</div>
+    </div>
+    <div class="dating-step">
+      <div class="step-num">2</div>
+      <div class="step-title">Создай анкету</div>
+      <div class="step-desc">Заполните анкету знакомства: фото, интересы, цели. Модерация до 24 часов</div>
+    </div>
+    <div class="dating-step">
+      <div class="step-num">3</div>
+      <div class="step-title">Знакомься</div>
+      <div class="step-desc">Просматривайте анкеты и начинайте общение в Telegram или WhatsApp</div>
+    </div>
+  </div>
+
+  <div class="dating-profiles-title">АНКЕТЫ ПОЛЬЗОВАТЕЛЕЙ</div>
+
+  <div class="dating-empty">
+    <div class="dating-empty-ico">💌</div>
+    <div class="dating-empty-title">Анкеты появятся скоро</div>
+    <div class="dating-empty-desc">Раздел знакомств запускается. Станьте первым, кто создаст анкету и начнёт общение с интересными людьми.</div>
+    <div class="cta-btns">
+      <button class="btn-pink" onclick="goRegister()">❤️ Создать анкету</button>
+    </div>
+  </div>
+
+  <div class="admin-note">
+    <div class="admin-note-ico">🛡️</div>
+    <p><strong style="color:#fb7185;">Безопасность:</strong> Все анкеты проходят ручную проверку администраторами DavronMarket. Фейковые профили и спам удаляются немедленно. Общение осуществляется через Telegram или WhatsApp — персональные данные остаются под вашим контролем.</p>
+  </div>
+
+  <div class="dating-cta">
+    <h2>Готовы познакомиться?</h2>
+    <p>Зарегистрируйтесь и создайте анкету — это бесплатно.</p>
+    <div class="cta-btns">
+      <button class="btn-pink" onclick="goRegister()">💌 Зарегистрироваться</button>
+      <button class="btn-ghost" onclick="contactAdmin()">💬 Написать администратору</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/engine.js"></script>
+<script>
+function goRegister() {
+  window.location.href = '../Registered/register.html';
+}
+function contactAdmin() {
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent('❤️ Хочу создать анкету знакомства на DavronMarket'), '_blank');
+}
+</script>
+</body>
+</html>
+

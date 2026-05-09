@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DavronMusic - Music</title>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('dm_theme') || 'dark');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/engine.css">
+  <style>
+    body { background: #090909; }
+    .dm3-page { max-width: 820px; margin: 0 auto; padding: 120px 20px 70px; }
+    .dm3-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:24px; }
+    .dm3-brand { font-family:'Unbounded',sans-serif; font-size:26px; font-weight:900; }
+    .dm3-tg-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; background:#229ED9; color:#fff; text-decoration:none; font-weight:700; }
+    .dm3-sub { color: rgba(255,255,255,.6); margin-bottom:18px; }
+    .dm3-list { display:flex; flex-direction:column; gap:14px; }
+    .dm3-item { border:1px solid rgba(255,255,255,.12); border-radius:14px; background:rgba(0,0,0,.3); overflow:hidden; }
+    .dm3-item-head { display:flex; align-items:center; gap:10px; padding:12px 14px; cursor:pointer; }
+    .dm3-item-info { flex:1; min-width:0; }
+    .dm3-item-name { font-family:'Unbounded',sans-serif; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .dm3-item-meta { font-size:12px; color:rgba(255,255,255,.45); margin-top:2px; }
+    .dm3-item-status { margin-top:4px; font-size:11px; }
+    .dm3-ok { color:#4ade80; }
+    .dm3-warn { color:#fbbf24; }
+    .dm3-bad { color:#f87171; }
+    .dm3-embed { display:none; padding:0 12px 12px; }
+    .dm3-embed.open { display:block; }
+    .dm3-embed iframe { width:100%; min-height:160px; border:none; border-radius:10px; }
+    .dm3-loading { text-align:center; color:rgba(255,255,255,.35); padding:30px; }
+  </style>
+</head>
+<body>
+<main class="dm3-page">
+  <div class="dm3-head">
+    <h1 class="dm3-brand">DavronMusic</h1>
+    <a class="dm3-tg-btn" href="https://t.me/davronmusic_ds" target="_blank" rel="noopener">Telegram channel</a>
+  </div>
+  <p class="dm3-sub">New songs are published here. Playback uses Telegram servers.</p>
+  <div class="dm3-list" id="dm3-list"><div class="dm3-loading" id="dm3-loading">Loading...</div></div>
+</main>
+<script>
+(function(){
+  var CHANNEL = 'davronmusic_ds';
+  var DEFAULT_EXTERNAL_AUDIO = 'https://disk.yandex.ru/d/CRuggfk2cmc-Gg';
+  var DATA_PATHS = [
+    '/wp-json/davronmusic/v1/tracks',
+    'music-data.json',
+    '/music-data.json',
+    '/wp-content/plugins/davronmarket-site/site/music-data.json'
+  ];
+  function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fetchJsonWithFallback(paths, idx){
+    if (idx >= paths.length) return Promise.reject(new Error('no-data'));
+    return fetch(paths[idx], { cache: 'no-store' })
+      .then(function(r){ if (!r.ok) throw new Error('bad-status'); return r.json(); })
+      .catch(function(){ return fetchJsonWithFallback(paths, idx + 1); });
+  }
+  function isValidPostId(v){
+    return /^\d+$/.test(String(v || '').trim()) && Number(v) > 0;
+  }
+  function normalizeAudioUrl(v){
+    return String(v || '').trim();
+  }
+  function isDirectAudioUrl(url){
+    return /\.(mp3|wav|ogg|m4a|aac)(\?|$)/i.test(String(url || '').trim());
+  }
+  function isYandexDiskUrl(url){
+    return /(^https?:\/\/)?(disk|yadi)\.yandex\./i.test(String(url || '').trim());
+  }
+  function findFirstAudioItem(items){
+    var list = items || [];
+    for (var i = 0; i < list.length; i++) {
+      var it = list[i] || {};
+      var mime = String(it.mime_type || '').toLowerCase();
+      var name = String(it.name || '').toLowerCase();
+      if (mime.indexOf('audio/') === 0 || /\.(mp3|wav|ogg|m4a|aac)$/.test(name)) {
+        return it;
+      }
+    }
+    return null;
+  }
+  function resolveYandexDownload(publicKey, path){
+    var url = 'https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=' + encodeURIComponent(publicKey);
+    if (path) {
+      url += '&path=' + encodeURIComponent(path);
+    }
+    return fetch(url, { cache: 'no-store' })
+      .then(function(r){ if (!r.ok) throw new Error('yandex-download-failed'); return r.json(); })
+      .then(function(j){
+        if (!j || !j.href) throw new Error('yandex-href-missing');
+        return j.href;
+      });
+  }
+  function resolveAudioSource(url){
+    var cleanUrl = normalizeAudioUrl(url);
+    if (!cleanUrl) return Promise.reject(new Error('audio-url-empty'));
+    if (isDirectAudioUrl(cleanUrl)) return Promise.resolve(cleanUrl);
+    if (!isYandexDiskUrl(cleanUrl)) return Promise.resolve(cleanUrl);
+
+    return resolveYandexDownload(cleanUrl).catch(function(){
+      var metaUrl = 'https://cloud-api.yandex.net/v1/disk/public/resources?public_key=' + encodeURIComponent(cleanUrl) + '&limit=200';
+      return fetch(metaUrl, { cache: 'no-store' })
+        .then(function(r){ if (!r.ok) throw new Error('yandex-meta-failed'); return r.json(); })
+        .then(function(meta){
+          var embedded = (meta && meta._embedded && meta._embedded.items) ? meta._embedded.items : [];
+          var audioItem = findFirstAudioItem(embedded);
+          if (!audioItem || !audioItem.path) throw new Error('yandex-audio-not-found');
+          return resolveYandexDownload(cleanUrl, audioItem.path);
+        });
+    });
+  }
+  function prepareTracks(rawTracks){
+    var seenPost = {};
+    var seenAudio = {};
+    var out = [];
+    (rawTracks || []).forEach(function(t){
+      var audioUrl = normalizeAudioUrl((t && (t.audio_url || t.url || t.src)) || '');
+      if (audioUrl) {
+        var audioKey = audioUrl.toLowerCase();
+        if (seenAudio[audioKey]) return;
+        seenAudio[audioKey] = true;
+        out.push({
+          title: (t && t.title) || 'Unknown track',
+          artist: (t && t.artist) || 'DavronMusic',
+          year: (t && t.year) || '',
+          audio_url: audioUrl
+        });
+        return;
+      }
+      var postId = String((t && t.post_id) || '').trim();
+      if (!isValidPostId(postId)) {
+        out.push({
+          title: (t && t.title) || 'Unknown track',
+          artist: (t && t.artist) || 'DavronMusic',
+          year: (t && t.year) || '',
+          post_id: postId,
+          invalid_reason: 'Некорректный post_id'
+        });
+        return;
+      }
+      if (seenPost[postId]) return;
+      seenPost[postId] = true;
+      out.push({
+        title: (t && t.title) || 'Unknown track',
+        artist: (t && t.artist) || 'DavronMusic',
+        year: (t && t.year) || '',
+        post_id: postId
+      });
+    });
+    return out;
+  }
+  function setTrackStatus(idx, text, cls){
+    var el = document.getElementById('dm3-status-' + idx);
+    if (!el) return;
+    el.className = 'dm3-item-status ' + (cls || 'dm3-warn');
+    el.textContent = text;
+  }
+  function bindIframeValidation(idx){
+    var iframe = document.getElementById('dm3-frame-' + idx);
+    if (!iframe) return;
+    var done = false;
+    var timeoutId = setTimeout(function(){
+      if (done) return;
+      done = true;
+      setTrackStatus(idx, 'Проверка не завершена, откройте трек в Telegram', 'dm3-warn');
+    }, 9000);
+    iframe.addEventListener('load', function(){
+      if (done) return;
+      done = true;
+      clearTimeout(timeoutId);
+      setTrackStatus(idx, 'Трек загружен', 'dm3-ok');
+    });
+    iframe.addEventListener('error', function(){
+      if (done) return;
+      done = true;
+      clearTimeout(timeoutId);
+      setTrackStatus(idx, 'Ошибка загрузки iframe', 'dm3-bad');
+    });
+  }
+  function bindAudioValidation(idx, track){
+    var audio = document.getElementById('dm3-audio-' + idx);
+    var link = document.getElementById('dm3-audio-link-' + idx);
+    if (!audio) return;
+
+    setTrackStatus(idx, 'Подготовка аудио-ссылки...', 'dm3-warn');
+    resolveAudioSource(track.audio_url).then(function(src){
+      audio.src = src;
+      if (link) link.href = src;
+      setTrackStatus(idx, 'Аудио готово к воспроизведению', 'dm3-ok');
+    }).catch(function(){
+      setTrackStatus(idx, 'Не удалось получить ссылку на аудио', 'dm3-bad');
+    });
+
+    audio.addEventListener('canplay', function(){
+      setTrackStatus(idx, 'Трек загружен', 'dm3-ok');
+    });
+    audio.addEventListener('error', function(){
+      setTrackStatus(idx, 'Ошибка загрузки аудио', 'dm3-bad');
+    });
+  }
+  function renderTrack(track, idx){
+    var id = 'dm3-emb-' + idx;
+    var postUrl = 'https://t.me/' + CHANNEL + '/' + track.post_id;
+    var item = document.createElement('div');
+    item.className = 'dm3-item';
+    if (track.audio_url) {
+      item.innerHTML = '<div class="dm3-item-head" onclick="dm3Toggle(' + idx + ')"><span>🎧</span><div class="dm3-item-info"><div class="dm3-item-name">' + escHtml(track.title) + '</div><div class="dm3-item-meta">' + escHtml(track.artist || 'DavronMusic') + (track.year ? ' | ' + track.year : '') + '</div><div class="dm3-item-status dm3-warn" id="dm3-status-' + idx + '">Проверка загрузки...</div></div><span>▶</span></div><div class="dm3-embed" id="' + id + '"><audio id="dm3-audio-' + idx + '" controls preload="none" style="width:100%"></audio><div style="padding-top:8px"><a id="dm3-audio-link-' + idx + '" href="' + escHtml(track.audio_url) + '" target="_blank" rel="noopener" style="font-size:12px;color:#7dd3fc;text-decoration:none">Открыть исходную ссылку</a></div></div>';
+      return item;
+    }
+    if (track.invalid_reason) {
+      item.innerHTML = '<div class="dm3-item-head"><span>⚠</span><div class="dm3-item-info"><div class="dm3-item-name">' + escHtml(track.title) + '</div><div class="dm3-item-meta">' + escHtml(track.artist || 'DavronMusic') + (track.year ? ' | ' + track.year : '') + '</div><div class="dm3-item-status dm3-bad">' + escHtml(track.invalid_reason) + '</div></div></div><div class="dm3-embed open" id="' + id + '"><div class="dm3-loading">Невалидный post_id. Проверьте music-data.json</div></div>';
+      return item;
+    }
+    item.innerHTML = '<div class="dm3-item-head" onclick="dm3Toggle(' + idx + ')"><span>🎵</span><div class="dm3-item-info"><div class="dm3-item-name">' + escHtml(track.title) + '</div><div class="dm3-item-meta">' + escHtml(track.artist || 'DavronMusic') + (track.year ? ' | ' + track.year : '') + '</div><div class="dm3-item-status dm3-warn" id="dm3-status-' + idx + '">Проверка загрузки...</div></div><span>▶</span></div><div class="dm3-embed" id="' + id + '"><iframe id="dm3-frame-' + idx + '" src="https://t.me/' + CHANNEL + '/' + track.post_id + '?embed=1&mode=tme" loading="lazy" allowfullscreen="" allowtransparency="true" frameborder="0" scrolling="no"></iframe><div style="padding-top:8px"><a href="' + postUrl + '" target="_blank" rel="noopener" style="font-size:12px;color:#7dd3fc;text-decoration:none">Открыть трек в Telegram</a></div></div>';
+    return item;
+  }
+  window.dm3Toggle = function(idx){ var emb = document.getElementById('dm3-emb-' + idx); if (emb) emb.classList.toggle('open'); };
+  fetchJsonWithFallback(DATA_PATHS, 0).then(function(data){
+    var list = document.getElementById('dm3-list');
+    var loading = document.getElementById('dm3-loading');
+    if (loading) loading.remove();
+    if (data && data.channel) CHANNEL = String(data.channel);
+    var tracks = prepareTracks(data.tracks || []);
+    if (!tracks.some(function(t){ return normalizeAudioUrl(t.audio_url) === DEFAULT_EXTERNAL_AUDIO; })) {
+      tracks.unshift({
+        title: 'Yandex Disk Track',
+        artist: 'DavronMusic',
+        year: '2026',
+        audio_url: DEFAULT_EXTERNAL_AUDIO
+      });
+    }
+    if (!tracks.length) { list.innerHTML = '<div class="dm3-loading">No tracks yet.</div>'; return; }
+    tracks.forEach(function(t,i){
+      list.appendChild(renderTrack(t,i));
+      if (t.audio_url) {
+        bindAudioValidation(i, t);
+      } else {
+        bindIframeValidation(i);
+      }
+    });
+  }).catch(function(){ var l = document.getElementById('dm3-loading'); if (l) l.innerHTML = 'Tracks will appear soon. <a href="https://t.me/davronmusic_ds" target="_blank" rel="noopener" style="color:#7dd3fc;text-decoration:none">Open Telegram channel</a>'; });
+})();
+</script>
+<script src="assets/js/engine.js"></script>
+</body>
+</html>

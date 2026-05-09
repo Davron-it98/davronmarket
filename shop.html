@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Интернет-магазин</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:inherit;min-height:100vh;overflow-x:hidden;}
+
+.shop-page{padding:80px 20px 80px;max-width:1200px;margin:0 auto;}
+
+/* HERO */
+.shop-hero{text-align:center;padding:48px 0 56px;}
+.shop-hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.22);font-size:12px;font-weight:700;color:#ffe066;margin-bottom:18px;}
+.shop-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;margin-bottom:14px;line-height:1.1;}
+.shop-hero h1 span{background:linear-gradient(135deg,#f5c842,#ff6b2b);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.shop-hero p{font-size:15px;color:rgba(255,255,255,.45);max-width:520px;margin:0 auto;}
+[data-theme="light"] .shop-hero p{color:rgba(0,0,0,.45);}
+
+/* SECTION LABEL */
+.sec-lbl{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin:40px 0 16px;display:flex;align-items:center;gap:10px;}
+[data-theme="light"] .sec-lbl{color:rgba(0,0,0,.28);}
+.sec-lbl::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.07);}
+[data-theme="light"] .sec-lbl::after{background:rgba(0,0,0,.08);}
+
+/* GRID */
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+
+/* CARD */
+.shop-card{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:20px;padding:28px 22px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:12px;
+  text-decoration:none;
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+  cursor:pointer;position:relative;overflow:hidden;
+}
+.shop-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;opacity:0;transition:opacity .25s;border-radius:3px 0 0 3px;}
+.shop-card:hover{transform:translateY(-5px);box-shadow:0 20px 48px -12px rgba(0,0,0,.7);}
+.shop-card:hover::before{opacity:1;}
+
+.shop-card.c-gold::before{background:linear-gradient(180deg,#f5c842,#ff8a5c);}
+.shop-card.c-blue::before{background:linear-gradient(180deg,#2b9cff,#7dd3fc);}
+.shop-card.c-purple::before{background:linear-gradient(180deg,#a78bfa,#c4b5fd);}
+.shop-card.c-green::before{background:linear-gradient(180deg,#4ade80,#86efac);}
+.shop-card.c-orange::before{background:linear-gradient(180deg,#ff6b2b,#ff8a5c);}
+
+.shop-card:hover.c-gold{border-color:rgba(245,200,66,.3);}
+.shop-card:hover.c-blue{border-color:rgba(43,156,255,.3);}
+.shop-card:hover.c-purple{border-color:rgba(167,139,250,.3);}
+.shop-card:hover.c-green{border-color:rgba(74,222,128,.3);}
+.shop-card:hover.c-orange{border-color:rgba(255,107,43,.3);}
+
+.shop-card-ico{font-size:40px;line-height:1;}
+.shop-card-name{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:#fff;line-height:1.3;}
+[data-theme="light"] .shop-card-name{color:#111;}
+.shop-card-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6;}
+[data-theme="light"] .shop-card-desc{color:rgba(0,0,0,.45);}
+.shop-card-tag{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;align-self:flex-start;margin-top:auto;}
+.c-gold .shop-card-tag{background:rgba(245,200,66,.1);color:#ffe066;}
+.c-blue .shop-card-tag{background:rgba(43,156,255,.1);color:#7dd3fc;}
+.c-purple .shop-card-tag{background:rgba(167,139,250,.1);color:#c4b5fd;}
+.c-green .shop-card-tag{background:rgba(74,222,128,.1);color:#86efac;}
+.c-orange .shop-card-tag{background:rgba(255,107,43,.1);color:#ff8a5c;}
+
+/* ADMINS BLOCK */
+.admin-note{margin-top:60px;padding:24px 28px;border-radius:18px;background:rgba(245,200,66,.05);border:1px solid rgba(245,200,66,.18);display:flex;align-items:flex-start;gap:16px;}
+.admin-note-ico{font-size:28px;flex-shrink:0;}
+.admin-note h3{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:#ffe066;margin-bottom:6px;}
+.admin-note p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;}
+[data-theme="light"] .admin-note p{color:rgba(0,0,0,.45);}
+
+@media(max-width:600px){
+  .shop-grid{grid-template-columns:repeat(2,1fr);}
+  .shop-card{padding:20px 16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="shop-page">
+  <div class="shop-hero">
+    <div class="shop-hero-badge">🛍 Интернет-магазин</div>
+    <h1>Онлайн-магазин <span>DavronMarket</span></h1>
+    <p>Все товары — под одной крышей. Техника, мебель, одежда, освещение и многое другое.</p>
+  </div>
+
+  <div class="sec-lbl">🛍 Категории товаров</div>
+  <div class="shop-grid">
+
+    <a class="shop-card c-blue" id="tekhnika" href="#tekhnika">
+      <div class="shop-card-ico">💻</div>
+      <div class="shop-card-name">Магазин техники</div>
+      <div class="shop-card-desc">Телефоны, ноутбуки, планшеты, компьютеры и электроника.</div>
+      <span class="shop-card-tag">Электроника</span>
+    </a>
+
+    <a class="shop-card c-gold" id="osvescenie" href="#osvescenie">
+      <div class="shop-card-ico">💡</div>
+      <div class="shop-card-name">Освещение и люстры</div>
+      <div class="shop-card-desc">Светильники, люстры, LED-лента, уличное освещение.</div>
+      <span class="shop-card-tag">Интерьер</span>
+    </a>
+
+    <a class="shop-card c-green" id="igrushki" href="#igrushki">
+      <div class="shop-card-ico">🧸</div>
+      <div class="shop-card-name">Игрушки</div>
+      <div class="shop-card-desc">Развивающие игрушки, конструкторы, мягкие игрушки для детей.</div>
+      <span class="shop-card-tag">Детям</span>
+    </a>
+
+    <a class="shop-card c-purple" id="odezhda" href="#odezhda">
+      <div class="shop-card-ico">👗</div>
+      <div class="shop-card-name">Одежда, обувь и головные уборы</div>
+      <div class="shop-card-desc">Мужская, женская и детская одежда, обувь, сумки и аксессуары.</div>
+      <span class="shop-card-tag">Мода</span>
+    </a>
+
+    <a class="shop-card c-orange" id="paneli" href="#paneli">
+      <div class="shop-card-ico">🪟</div>
+      <div class="shop-card-name">Декоративные панели</div>
+      <div class="shop-card-desc">Панели для стен, 3D-панели, лепнина, облицовочные материалы.</div>
+      <span class="shop-card-tag">Ремонт</span>
+    </a>
+
+    <a class="shop-card c-gold" id="dveri" href="#dveri">
+      <div class="shop-card-ico">🚪</div>
+      <div class="shop-card-name">Уличные двери</div>
+      <div class="shop-card-desc">Железные, деревянные и металлопластиковые входные двери.</div>
+      <span class="shop-card-tag">Строительство</span>
+    </a>
+
+    <a class="shop-card c-purple" id="svadba" href="#svadba">
+      <div class="shop-card-ico">💍</div>
+      <div class="shop-card-name">Свадебные изделия</div>
+      <div class="shop-card-desc">Украшения, платья, аксессуары и всё для свадебных торжеств.</div>
+      <span class="shop-card-tag">Торжество</span>
+    </a>
+
+    <a class="shop-card c-blue" id="shtory" href="#shtory">
+      <div class="shop-card-ico">🏮</div>
+      <div class="shop-card-name">Шторы</div>
+      <div class="shop-card-desc">Шторы, жалюзи, рулонные шторы и карнизы на любой вкус.</div>
+      <span class="shop-card-tag">Интерьер</span>
+    </a>
+
+    <a class="shop-card c-gold" id="mebel" href="#mebel">
+      <div class="shop-card-ico">🛋</div>
+      <div class="shop-card-name">Мебель</div>
+      <div class="shop-card-desc">Диваны, кровати, шкафы, столы, кресла и офисная мебель.</div>
+      <span class="shop-card-tag">Мебель</span>
+    </a>
+
+    <a class="shop-card c-orange" id="potolok" href="#potolok">
+      <div class="shop-card-ico">🏠</div>
+      <div class="shop-card-name">Потолочные изделия</div>
+      <div class="shop-card-desc">Натяжные потолки, плитка, карнизы и потолочные светильники.</div>
+      <span class="shop-card-tag">Ремонт</span>
+    </a>
+
+    <a class="shop-card c-blue" id="okna" href="#okna">
+      <div class="shop-card-ico">🪟</div>
+      <div class="shop-card-name">Окна и двери</div>
+      <div class="shop-card-desc">Металлопластиковые окна и двери, остекление балконов.</div>
+      <span class="shop-card-tag">Строительство</span>
+    </a>
+
+    <a class="shop-card c-green" id="lepnina" href="#lepnina">
+      <div class="shop-card-ico">🏛</div>
+      <div class="shop-card-name">Лепнина (изготовление)</div>
+      <div class="shop-card-desc">Декоративная лепнина на заказ — колонны, карнизы, розетки.</div>
+      <span class="shop-card-tag">Декор</span>
+    </a>
+
+  </div>
+
+  <div class="admin-note">
+    <div class="admin-note-ico">👑</div>
+    <div>
+      <h3>Раздел управляется администрацией</h3>
+      <p>Все товары добавляются и контролируются администраторами DavronMarket. Это не маркетплейс — это наш собственный магазин с гарантией качества от команды. Чтобы связаться насчёт заказа, используйте WhatsApp или раздел «Контакты».</p>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;text-align:center;">
+    <a href="/index.html#contacts" style="display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:14px;background:linear-gradient(135deg,#ff6b2b,#f5c842);font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;color:#000;text-decoration:none;transition:all .25s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">📞 Заказать через WhatsApp</a>
+  </div>
+</div>
+
+<script src="assets/js/engine.js"></script>
+</body>
+</html>
+

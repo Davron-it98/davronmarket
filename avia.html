@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Авиабилеты</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+.avia-page{padding:80px 20px 80px;max-width:900px;margin:0 auto;}
+/* HERO */
+.avia-hero{text-align:center;padding:48px 0 56px;position:relative;}
+.avia-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(43,156,255,.08) 0%,transparent 70%);pointer-events:none;}
+.avia-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;background:rgba(43,156,255,.07);border:1px solid rgba(43,156,255,.22);font-size:12px;font-weight:700;color:#7dd3fc;margin-bottom:18px;}
+.avia-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;margin-bottom:14px;line-height:1.1;color:#fff;}
+[data-theme="light"] .avia-hero h1{color:#111;}
+.avia-hero h1 span{background:linear-gradient(135deg,#2b9cff,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.avia-hero p{font-size:15px;color:rgba(255,255,255,.45);max-width:500px;margin:0 auto 32px;}
+[data-theme="light"] .avia-hero p{color:rgba(0,0,0,.45);}
+/* FORM CARD */
+.avia-form-card{background:var(--card);border:1px solid var(--brd);border-radius:24px;padding:36px 32px;position:relative;overflow:hidden;}
+.avia-form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2b9cff,#a78bfa,#2b9cff);}
+.avia-form-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+[data-theme="light"] .avia-form-title{color:#111;}
+.avia-form-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:28px;}
+[data-theme="light"] .avia-form-sub{color:rgba(0,0,0,.4);}
+.avia-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.avia-fld{display:flex;flex-direction:column;gap:6px;}
+.avia-fld label{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.04em;}
+[data-theme="light"] .avia-fld label{color:rgba(0,0,0,.45);}
+.avia-fld input,.avia-fld select{
+  padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  color:#fff;font-family:'Mulish',sans-serif;font-size:14px;font-weight:500;
+  outline:none;transition:all .22s;
+}
+[data-theme="light"] .avia-fld input,[data-theme="light"] .avia-fld select{
+  background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.1);color:#111;
+}
+.avia-fld input:focus,.avia-fld select:focus{border-color:rgba(43,156,255,.4);box-shadow:0 0 0 3px rgba(43,156,255,.1);}
+.avia-passengers{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
+.avia-pax-btn{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.avia-pax-btn:hover{border-color:rgba(43,156,255,.4);background:rgba(43,156,255,.1);}
+#pax-count{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;min-width:32px;text-align:center;color:#fff;}
+[data-theme="light"] #pax-count{color:#111;}
+.avia-pax-label{font-size:13px;color:rgba(255,255,255,.5);}
+[data-theme="light"] .avia-pax-label{color:rgba(0,0,0,.5);}
+.avia-submit{
+  width:100%;padding:15px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#2b9cff,#a78bfa);
+  font-family:'Unbounded',sans-serif;font-size:13px;font-weight:800;
+  color:#fff;cursor:pointer;transition:all .25s;
+  box-shadow:0 8px 24px -8px rgba(43,156,255,.4);
+}
+.avia-submit:hover{transform:translateY(-2px);box-shadow:0 14px 36px -8px rgba(43,156,255,.6);}
+/* ROUTES */
+.avia-routes{margin-top:40px;}
+.avia-routes-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:16px;}
+[data-theme="light"] .avia-routes-title{color:rgba(0,0,0,.5);}
+.avia-route-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.avia-route{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:18px;cursor:pointer;transition:all .22s;}
+.avia-route:hover{border-color:rgba(43,156,255,.3);transform:translateY(-2px);}
+.avia-route-path{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
+[data-theme="light"] .avia-route-path{color:#111;}
+.avia-route-price{font-size:12px;color:#7dd3fc;font-weight:700;}
+.avia-route-time{font-size:11px;color:rgba(255,255,255,.35);}
+[data-theme="light"] .avia-route-time{color:rgba(0,0,0,.35);}
+@media(max-width:600px){.avia-row{grid-template-columns:1fr;}.avia-form-card{padding:24px 18px;}}
+</style>
+</head>
+<body>
+
+<div class="avia-page">
+  <div class="avia-hero">
+    <div class="avia-hero-bg"></div>
+    <div class="avia-badge">✈ Авиабилеты</div>
+    <h1>Бронирование <span>авиабилетов</span></h1>
+    <p>Заполните форму — наш менеджер свяжется с вами и подберёт лучший рейс по минимальной цене.</p>
+  </div>
+
+  <div class="avia-form-card">
+    <div class="avia-form-title">✈️ Заявка на авиабилет</div>
+    <div class="avia-form-sub">Заполните данные — мы перезвоним в WhatsApp в течение 15 минут.</div>
+
+    <div class="avia-row">
+      <div class="avia-fld">
+        <label>Откуда (город / аэропорт)</label>
+        <input id="av-from" type="text" placeholder="Худжанд, TJU...">
+      </div>
+      <div class="avia-fld">
+        <label>Куда (город / аэропорт)</label>
+        <input id="av-to" type="text" placeholder="Москва, SVO...">
+      </div>
+    </div>
+
+    <div class="avia-row">
+      <div class="avia-fld">
+        <label>Дата вылета</label>
+        <input id="av-date-from" type="date">
+      </div>
+      <div class="avia-fld">
+        <label>Дата обратного рейса (если есть)</label>
+        <input id="av-date-back" type="date">
+      </div>
+    </div>
+
+    <div class="avia-fld" style="margin-bottom:14px;">
+      <label>Класс обслуживания</label>
+      <select id="av-class">
+        <option value="economy">🪑 Эконом</option>
+        <option value="business">💺 Бизнес</option>
+        <option value="first">🏅 Первый класс</option>
+      </select>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+      <span class="avia-pax-label">Пассажиров:</span>
+      <div class="avia-passengers" style="margin:0;">
+        <button class="avia-pax-btn" onclick="changePax(-1)">−</button>
+        <div id="pax-count">1</div>
+        <button class="avia-pax-btn" onclick="changePax(1)">+</button>
+      </div>
+      <span class="avia-pax-label" id="pax-label">взрослый</span>
+    </div>
+
+    <div class="avia-fld" style="margin-bottom:14px;">
+      <label>Ваше имя</label>
+      <input id="av-name" type="text" placeholder="Имя и фамилия">
+    </div>
+    <div class="avia-fld" style="margin-bottom:24px;">
+      <label>Телефон (WhatsApp)</label>
+      <input id="av-phone" type="tel" placeholder="+992 ...">
+    </div>
+
+    <button class="avia-submit" onclick="submitAvia()">✈️ Отправить заявку</button>
+  </div>
+
+  <div class="avia-routes">
+    <div class="avia-routes-title">🔥 Популярные маршруты</div>
+    <div class="avia-route-grid">
+      <div class="avia-route" onclick="fillRoute('Худжанд','Москва')">
+        <div class="avia-route-path">Худжанд → Москва</div>
+        <div class="avia-route-price">от $120</div>
+        <div class="avia-route-time">~4 ч 20 мин</div>
+      </div>
+      <div class="avia-route" onclick="fillRoute('Худжанд','Дубай')">
+        <div class="avia-route-path">Худжанд → Дубай</div>
+        <div class="avia-route-price">от $180</div>
+        <div class="avia-route-time">~3 ч 40 мин</div>
+      </div>
+      <div class="avia-route" onclick="fillRoute('Худжанд','Стамбул')">
+        <div class="avia-route-path">Худжанд → Стамбул</div>
+        <div class="avia-route-price">от $210</div>
+        <div class="avia-route-time">~5 ч 10 мин</div>
+      </div>
+      <div class="avia-route" onclick="fillRoute('Худжанд','Санкт-Петербург')">
+        <div class="avia-route-path">Худжанд → СПб</div>
+        <div class="avia-route-price">от $145</div>
+        <div class="avia-route-time">~5 ч 00 мин</div>
+      </div>
+      <div class="avia-route" onclick="fillRoute('Худжанд','Алматы')">
+        <div class="avia-route-path">Худжанд → Алматы</div>
+        <div class="avia-route-price">от $95</div>
+        <div class="avia-route-time">~2 ч 15 мин</div>
+      </div>
+      <div class="avia-route" onclick="fillRoute('Худжанд','Бишкек')">
+        <div class="avia-route-path">Худжанд → Бишкек</div>
+        <div class="avia-route-price">от $85</div>
+        <div class="avia-route-time">~1 ч 50 мин</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/engine.js"></script>
+<script>
+var pax = 1;
+function changePax(d) {
+  pax = Math.max(1, Math.min(9, pax + d));
+  document.getElementById('pax-count').textContent = pax;
+  var labels = ['взрослый','взрослых','взрослых','взрослых','взрослых','взрослых','взрослых','взрослых','взрослых'];
+  document.getElementById('pax-label').textContent = labels[pax - 1] || 'взрослых';
+}
+function fillRoute(from, to) {
+  document.getElementById('av-from').value = from;
+  document.getElementById('av-to').value = to;
+  document.getElementById('av-date-from').focus();
+}
+function submitAvia() {
+  var from = document.getElementById('av-from').value.trim();
+  var to = document.getElementById('av-to').value.trim();
+  var date = document.getElementById('av-date-from').value;
+  var name = document.getElementById('av-name').value.trim();
+  var phone = document.getElementById('av-phone').value.trim();
+  if (!from || !to || !name || !phone) {
+    window.dmEngine && window.dmEngine.toast('⚠️ Заполните все поля', 'error');
+    return;
+  }
+  var cls = document.getElementById('av-class');
+  var clsText = cls.options[cls.selectedIndex].text;
+  var msg = '✈ Заявка на авиабилет\n\nОткуда: ' + from + '\nКуда: ' + to +
+    '\nДата: ' + (date || 'гибко') +
+    '\nПассажиров: ' + pax +
+    '\nКласс: ' + clsText +
+    '\nИмя: ' + name +
+    '\nТелефон: ' + phone;
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
+

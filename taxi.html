@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavronMarket — Такси и Попутчики</title>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{--bg:#070707;--card:#0e0e0e;--brd:rgba(255,255,255,.07);}
+[data-theme="light"]{--bg:#f5f7fb;--card:#fff;--brd:rgba(0,0,0,.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+.taxi-page{padding:80px 20px 80px;max-width:1000px;margin:0 auto;}
+/* HERO */
+.taxi-hero{text-align:center;padding:48px 0 56px;}
+.taxi-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:40px;background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.22);font-size:12px;font-weight:700;color:#ffe066;margin-bottom:18px;}
+.taxi-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;margin-bottom:14px;line-height:1.1;color:#fff;}
+[data-theme="light"] .taxi-hero h1{color:#111;}
+.taxi-hero h1 span{background:linear-gradient(135deg,#f5c842,#ff6b2b);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.taxi-hero p{font-size:15px;color:rgba(255,255,255,.45);max-width:500px;margin:0 auto;}
+[data-theme="light"] .taxi-hero p{color:rgba(0,0,0,.45);}
+/* SECTIONS */
+.taxi-sections{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px;}
+.taxi-sec-card{
+  background:var(--card);border:1px solid var(--brd);border-radius:22px;
+  padding:32px 28px;display:flex;flex-direction:column;gap:16px;
+  position:relative;overflow:hidden;
+}
+.taxi-sec-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.c-yellow::before{background:linear-gradient(90deg,#f5c842,#ff6b2b);}
+.c-blue2::before{background:linear-gradient(90deg,#2b9cff,#a78bfa);}
+.c-red::before{background:linear-gradient(90deg,#f87171,#ff6b2b);}
+.c-dark::before{background:linear-gradient(90deg,#374151,#6b7280);}
+.taxi-sec-ico{font-size:48px;line-height:1;}
+.taxi-sec-name{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:800;color:#fff;}
+[data-theme="light"] .taxi-sec-name{color:#111;}
+.taxi-sec-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;flex:1;}
+[data-theme="light"] .taxi-sec-desc{color:rgba(0,0,0,.45);}
+/* FORM */
+.taxi-form{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
+.taxi-input{
+  padding:11px 14px;border-radius:12px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  color:#fff;font-family:'Mulish',sans-serif;font-size:13px;
+  outline:none;transition:all .22s;
+}
+[data-theme="light"] .taxi-input{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.1);color:#111;}
+.taxi-input:focus{border-color:rgba(245,200,66,.4);box-shadow:0 0 0 3px rgba(245,200,66,.08);}
+.taxi-btn{
+  padding:13px;border:none;border-radius:12px;
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:800;
+  cursor:pointer;transition:all .25s;
+}
+.c-yellow .taxi-btn{background:linear-gradient(135deg,#f5c842,#ff6b2b);color:#000;}
+.c-blue2 .taxi-btn{background:linear-gradient(135deg,#2b9cff,#a78bfa);color:#fff;}
+.c-red .taxi-btn{background:linear-gradient(135deg,#f87171,#ff6b2b);color:#fff;}
+.c-dark .taxi-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;}
+.taxi-btn:hover{transform:translateY(-2px);filter:brightness(1.1);}
+/* CONTACTS GRID */
+.taxi-contacts{margin-top:50px;}
+.taxi-contacts-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.45);margin-bottom:16px;}
+[data-theme="light"] .taxi-contacts-title{color:rgba(0,0,0,.45);}
+.taxi-contacts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.taxi-contact-card{
+  background:var(--card);border:1px solid var(--brd);border-radius:16px;
+  padding:18px;display:flex;align-items:center;gap:14px;
+  text-decoration:none;transition:all .22s;
+}
+.taxi-contact-card:hover{border-color:rgba(74,222,128,.3);transform:translateY(-2px);}
+.tcc-ico{font-size:28px;}
+.tcc-label{font-size:11px;color:rgba(255,255,255,.35);}
+[data-theme="light"] .tcc-label{color:rgba(0,0,0,.35);}
+.tcc-num{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:#fff;}
+[data-theme="light"] .tcc-num{color:#111;}
+@media(max-width:700px){.taxi-sections{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="taxi-page">
+  <div class="taxi-hero">
+    <div class="taxi-badge">🚕 Транспорт и безопасность</div>
+    <h1>Такси, Попутчики <span>и Экстренные службы</span></h1>
+    <p>Быстрый заказ такси, поиск попутчиков, экстренные вызовы — всё в одном месте.</p>
+  </div>
+
+  <div class="taxi-sections">
+
+    <!-- ТАКСИ -->
+    <div class="taxi-sec-card c-yellow" id="taxi">
+      <div class="taxi-sec-ico">🚕</div>
+      <div class="taxi-sec-name">Онлайн-такси</div>
+      <div class="taxi-sec-desc">Закажите такси в Худжанде и других городах. Заполните форму — водитель свяжется с вами в Telegram или WhatsApp.</div>
+      <div class="taxi-form">
+        <input class="taxi-input" id="tx-from" type="text" placeholder="Откуда (адрес)">
+        <input class="taxi-input" id="tx-to" type="text" placeholder="Куда (адрес)">
+        <input class="taxi-input" id="tx-phone" type="tel" placeholder="Ваш номер телефона">
+        <button class="taxi-btn" onclick="orderTaxi()">🚕 Вызвать такси</button>
+      </div>
+    </div>
+
+    <!-- ПОПУТЧИКИ -->
+    <div class="taxi-sec-card c-blue2" id="poputchiki">
+      <div class="taxi-sec-ico">🚗</div>
+      <div class="taxi-sec-name">Попутчики</div>
+      <div class="taxi-sec-desc">Едете по трассе и хотите взять пассажиров или ищете перевозку между городами? Разместите заявку — найдём попутчика быстро.</div>
+      <div class="taxi-form">
+        <input class="taxi-input" id="pp-from" type="text" placeholder="Откуда (город)">
+        <input class="taxi-input" id="pp-to" type="text" placeholder="Куда (город)">
+        <input class="taxi-input" id="pp-date" type="date">
+        <input class="taxi-input" id="pp-phone" type="tel" placeholder="Телефон WhatsApp">
+        <button class="taxi-btn" onclick="orderPoputchik()">🚗 Найти попутчика</button>
+      </div>
+    </div>
+
+    <!-- СКОРАЯ ПОМОЩЬ -->
+    <div class="taxi-sec-card c-red" id="ambulance">
+      <div class="taxi-sec-ico">🚑</div>
+      <div class="taxi-sec-name">Скорая помощь</div>
+      <div class="taxi-sec-desc">При экстренной ситуации немедленно звоните по официальному номеру скорой помощи.</div>
+      <div style="margin-top:8px;">
+        <a href="tel:103" style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:14px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);text-decoration:none;margin-bottom:10px;">
+          <span style="font-size:28px;">📞</span>
+          <div><div style="font-family:'Unbounded',sans-serif;font-size:22px;font-weight:900;color:#f87171;">103</div><div style="font-size:11px;color:rgba(255,255,255,.4);">Скорая медицинская помощь</div></div>
+        </a>
+        <button class="taxi-btn" onclick="window.open('https://wa.me/992929612111?text=🚑 Нужна помощь! Адрес: ','_blank')">📍 Сообщить адрес в WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- ПОЛИЦИЯ -->
+    <div class="taxi-sec-card c-dark" id="police">
+      <div class="taxi-sec-ico">🚓</div>
+      <div class="taxi-sec-name">Полиция / МВД</div>
+      <div class="taxi-sec-desc">Экстренная связь с полицией и органами охраны правопорядка Таджикистана.</div>
+      <div style="margin-top:8px;">
+        <a href="tel:102" style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:14px;background:rgba(107,114,128,.1);border:1px solid rgba(107,114,128,.3);text-decoration:none;margin-bottom:10px;">
+          <span style="font-size:28px;">📞</span>
+          <div><div style="font-family:'Unbounded',sans-serif;font-size:22px;font-weight:900;color:#9ca3af;">102</div><div style="font-size:11px;color:rgba(255,255,255,.4);">Дежурная часть МВД</div></div>
+        </a>
+        <a href="tel:101" style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:14px;background:rgba(255,107,43,.08);border:1px solid rgba(255,107,43,.25);text-decoration:none;">
+          <span style="font-size:22px;">🔥</span>
+          <div><div style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#ff8a5c;">101</div><div style="font-size:11px;color:rgba(255,255,255,.4);">Пожарная охрана</div></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="assets/js/engine.js"></script>
+<script>
+function orderTaxi() {
+  var from = document.getElementById('tx-from').value.trim();
+  var to = document.getElementById('tx-to').value.trim();
+  var phone = document.getElementById('tx-phone').value.trim();
+  if (!from || !to || !phone) { window.dmEngine && window.dmEngine.toast('⚠️ Заполните все поля', 'error'); return; }
+  var msg = '🚕 Заказ такси\nОткуда: ' + from + '\nКуда: ' + to + '\nТелефон: ' + phone;
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent(msg), '_blank');
+}
+function orderPoputchik() {
+  var from = document.getElementById('pp-from').value.trim();
+  var to = document.getElementById('pp-to').value.trim();
+  var date = document.getElementById('pp-date').value;
+  var phone = document.getElementById('pp-phone').value.trim();
+  if (!from || !to || !phone) { window.dmEngine && window.dmEngine.toast('⚠️ Заполните все поля', 'error'); return; }
+  var msg = '🚗 Ищу попутчика\nОткуда: ' + from + '\nКуда: ' + to + '\nДата: ' + (date || 'гибко') + '\nТелефон: ' + phone;
+  window.open('https://wa.me/992929612111?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
+

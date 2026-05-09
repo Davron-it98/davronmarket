@@ -1,0 +1,1371 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('dm_theme')||'dark');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINEMATIX — Кино и VFX Контент Таджикистана</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/engine.css">
+<style>
+:root{
+  --bg:#0a0a0a;
+  --gold:#f5c842;--gold-s:#ffe066;
+  --orange:#ff6b2b;--os:#ff8a5c;
+  --blue:#2b9cff;--bs:#7dd3fc;
+  --green:#4ade80;
+  --red:#e63946;
+  --white:#fff;
+  --w80:rgba(255,255,255,.80);
+  --w50:rgba(255,255,255,.50);
+  --w20:rgba(255,255,255,.20);
+  --w06:rgba(255,255,255,.06);
+  --card:#111118;
+  --card2:#16161f;
+  --bdo:rgba(245,200,66,.18);
+}
+[data-theme="light"]{
+  --white:#111;
+  --w80:rgba(0,0,0,.8);
+  --w50:rgba(0,0,0,.5);
+  --w20:rgba(0,0,0,.18);
+  --w06:rgba(0,0,0,.05);
+  --card:#ffffff;
+  --card2:#f0f3f8;
+}
+[data-theme="light"] body { background:#f5f7fb!important; color:#111!important; }
+[data-theme="light"] body::before { opacity:0!important; }
+[data-theme="light"] .hero { background:#f5f7fb!important; }
+[data-theme="light"] .hero-bg { opacity:0!important; }
+[data-theme="light"] .hero h1,
+[data-theme="light"] .hero-sub { color:#111!important; }
+[data-theme="light"] .film-card,
+[data-theme="light"] .vfx-card  { background:#fff!important; border-color:rgba(0,0,0,.09)!important; }
+[data-theme="light"] .film-title,
+[data-theme="light"] .vfx-title  { color:#111!important; }
+[data-theme="light"] .film-meta,
+[data-theme="light"] .vfx-desc   { color:rgba(0,0,0,.5)!important; }
+[data-theme="light"] .section-title { color:#111!important; }
+[data-theme="light"] .ticker { background:#111!important; color:#f5c842!important; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#0a0a0a;}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px;}
+
+/* ══════════════════════════════
+   NOISE OVERLAY
+══════════════════════════════ */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  opacity:.35;
+}
+
+/* ══════════════════════════════
+   TICKER
+══════════════════════════════ */
+.ticker{background:var(--gold);color:#000;padding:8px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:200;}
+.ticker-inner{display:inline-flex;animation:tick 35s linear infinite;}
+.ticker-inner span{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-right:60px;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:80px 40px 80px;position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 75% 50%,rgba(230,57,70,.14) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 70% at 15% 80%,rgba(245,200,66,.09) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 50%,rgba(43,156,255,.04) 0%,transparent 55%),
+    repeating-linear-gradient(58deg,rgba(255,255,255,.004) 0,rgba(255,255,255,.004) 1px,transparent 1px,transparent 18px),
+    linear-gradient(165deg,#0d0c09,#000);
+}
+.hero-bg::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(2px 2px at 8% 12%,rgba(245,200,66,.7),transparent),
+    radial-gradient(2px 2px at 28% 65%,rgba(255,107,43,.55),transparent),
+    radial-gradient(2px 2px at 58% 22%,rgba(245,200,66,.6),transparent),
+    radial-gradient(2px 2px at 82% 74%,rgba(255,107,43,.5),transparent),
+    radial-gradient(2px 2px at 95% 40%,rgba(245,200,66,.65),transparent);
+  background-size:500px 500px;opacity:.35;
+  animation:dust 24s ease-in-out infinite alternate;
+}
+@keyframes dust{0%{transform:translateY(0)}100%{transform:translateY(-18px)}}
+.hero-content{position:relative;z-index:2;max-width:680px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(230,57,70,.14);border:1px solid rgba(230,57,70,.4);
+  padding:6px 16px;border-radius:30px;font-size:.68rem;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--red);
+  margin-bottom:22px;animation:fadeUp .7s both;
+}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.6)}}
+.hero h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(2.8rem,7vw,6.5rem);
+  font-weight:900;line-height:.95;letter-spacing:-2px;
+  margin-bottom:20px;animation:fadeUp .8s .1s both;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(120deg,#f5c842,#ff8a5c 50%,#f5c842);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  background-size:200%;animation:gs 5s ease infinite;
+}
+@keyframes gs{0%,100%{background-position:0%}50%{background-position:100%}}
+.hero h1 .red{-webkit-text-fill-color:var(--red);}
+.hero-sub{font-size:1rem;color:var(--w50);line-height:1.8;margin-bottom:32px;animation:fadeUp .9s .2s both;max-width:520px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 1s .3s both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+.btn-gold{
+  display:inline-flex;align-items:center;gap:9px;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c,#ff6b2b);color:#000;
+  padding:15px 30px;border:none;border-radius:10px;
+  font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:900;
+  letter-spacing:1px;cursor:pointer;transition:all .3s;text-decoration:none;
+  box-shadow:0 8px 28px rgba(245,200,66,.4);
+}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(245,200,66,.55);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:9px;
+  background:transparent;color:var(--white);
+  padding:15px 30px;border:1px solid rgba(255,255,255,.2);border-radius:10px;
+  font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:700;
+  cursor:pointer;transition:all .3s;text-decoration:none;
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.06);}
+
+/* ══════════════════════════════
+   STATS BAR
+══════════════════════════════ */
+.stats-bar{
+  display:flex;border-top:1px solid rgba(245,200,66,.1);
+  border-bottom:1px solid rgba(245,200,66,.1);
+  background:rgba(12,12,12,.9);
+}
+.stat-item{
+  flex:1;padding:24px 16px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.05);transition:background .3s;
+}
+.stat-item:last-child{border-right:none;}
+.stat-item:hover{background:rgba(245,200,66,.04);}
+.stat-num{
+  font-family:'Unbounded',sans-serif;font-size:1.9rem;font-weight:900;
+  background:linear-gradient(135deg,#f5c842,#ff8a5c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;margin-bottom:4px;
+}
+.stat-lbl{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--w50);}
+
+/* ══════════════════════════════
+   SECTION COMMONS
+══════════════════════════════ */
+section{padding:80px 40px;}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;gap:16px;}
+.section-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:7px;}
+.section-title{font-family:'Unbounded',sans-serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:900;letter-spacing:-1px;line-height:1.05;}
+.see-all{color:var(--gold);text-decoration:none;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(245,200,66,.3);padding-bottom:2px;white-space:nowrap;transition:all .3s;}
+.see-all:hover{border-color:var(--gold);}
+
+/* ══════════════════════════════
+   FILM CARDS
+══════════════════════════════ */
+.films-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px;}
+
+.film-card{
+  background:var(--card);border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.05);cursor:pointer;
+  transition:all .38s cubic-bezier(.34,1.2,.64,1);
+  position:relative;
+}
+.film-card:hover{transform:translateY(-10px);border-color:rgba(245,200,66,.35);box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 1px rgba(245,200,66,.1);}
+
+.film-poster{
+  aspect-ratio:2/3;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;font-size:3.5rem;
+}
+.film-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,var(--card) 100%);}
+
+.film-play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.55);opacity:0;transition:opacity .3s;z-index:3;
+}
+.film-play svg{width:52px;height:52px;filter:drop-shadow(0 4px 12px rgba(245,200,66,.6));}
+.film-card:hover .film-play{opacity:1;}
+
+.film-tag{
+  position:absolute;top:10px;left:10px;z-index:4;
+  font-family:'Unbounded',sans-serif;font-size:.52rem;font-weight:900;
+  padding:3px 8px;border-radius:4px;letter-spacing:1.5px;text-transform:uppercase;
+}
+.tag-vfx{background:var(--gold);color:#000;}
+.tag-new{background:var(--red);color:#fff;}
+.tag-top{background:var(--orange);color:#000;}
+.tag-free{background:var(--green);color:#000;}
+.tag-hot{background:linear-gradient(135deg,#e63946,#ff8a5c);color:#fff;}
+
+.film-views{
+  position:absolute;top:10px;right:10px;z-index:4;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
+  padding:3px 9px;border-radius:20px;
+  font-size:.62rem;font-weight:700;color:rgba(255,255,255,.8);
+}
+.film-views svg{width:12px;height:12px;opacity:.7;}
+
+.film-info{padding:14px 16px 18px;}
+.film-stars{font-size:.65rem;color:var(--gold);margin-bottom:5px;}
+.film-title{
+  font-family:'Unbounded',sans-serif;font-size:.82rem;font-weight:700;
+  margin-bottom:8px;line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.film-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.film-genre{font-size:.65rem;color:var(--w50);letter-spacing:1.5px;text-transform:uppercase;}
+.film-price{font-family:'Unbounded',sans-serif;font-size:.82rem;font-weight:900;color:var(--gold);}
+
+/* film action row */
+.film-actions{
+  display:flex;gap:6px;padding:0 16px 16px;
+}
+.fa-btn{
+  flex:1;padding:8px 6px;border-radius:8px;border:none;cursor:pointer;
+  font-family:'Unbounded',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:1px;
+  transition:all .3s;
+}
+.fa-buy{background:linear-gradient(135deg,#f5c842,#ff8a5c);color:#000;}
+.fa-buy:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(245,200,66,.4);}
+.fa-review{background:rgba(255,255,255,.06);color:var(--w80);border:1px solid rgba(255,255,255,.08);}
+.fa-review:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);}
+.fa-share{background:rgba(43,156,255,.1);color:var(--blue);border:1px solid rgba(43,156,255,.2);}
+.fa-share:hover{background:rgba(43,156,255,.18);}
+
+/* ══════════════════════════════
+   UPCOMING FILMS (NEWS)
+══════════════════════════════ */
+.upcoming-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.upcoming-card{
+  background:var(--card);border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.06);
+  transition:all .35s;cursor:pointer;position:relative;
+}
+.upcoming-card:hover{transform:translateY(-6px);border-color:rgba(245,200,66,.3);box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.upcoming-thumb{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  font-size:3rem;position:relative;overflow:hidden;
+}
+.upcoming-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,var(--card) 100%);}
+.upcoming-ribbon{
+  position:absolute;top:14px;left:-28px;
+  background:var(--red);color:#fff;
+  font-family:'Unbounded',sans-serif;font-size:.55rem;font-weight:900;
+  padding:5px 36px;transform:rotate(-45deg);letter-spacing:2px;
+  text-transform:uppercase;z-index:4;
+}
+.upcoming-body{padding:16px 18px 20px;}
+.upcoming-num{
+  font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;
+  color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;
+}
+.upcoming-title{
+  font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:900;
+  margin-bottom:8px;line-height:1.2;
+}
+.upcoming-desc{font-size:.8rem;color:var(--w50);line-height:1.65;}
+.upcoming-meta{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.upcoming-tag{
+  font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;
+}
+.ut-vfx{background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.25);}
+.ut-action{background:rgba(230,57,70,.12);color:var(--red);border:1px solid rgba(230,57,70,.25);}
+.ut-adventure{background:rgba(43,156,255,.12);color:var(--blue);border:1px solid rgba(43,156,255,.25);}
+
+/* ══════════════════════════════
+   PAYMENT SECTION
+══════════════════════════════ */
+.payment-section{background:linear-gradient(135deg,rgba(12,12,12,.98),rgba(18,18,24,.98));border-top:1px solid rgba(245,200,66,.1);border-bottom:1px solid rgba(245,200,66,.1);}
+.payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+.payment-info h2{font-family:'Unbounded',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;line-height:1.1;margin-bottom:14px;}
+.payment-info p{font-size:.88rem;color:var(--w50);line-height:1.8;margin-bottom:20px;}
+.price-pill{
+  display:inline-flex;align-items:baseline;gap:8px;
+  background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);
+  padding:14px 22px;border-radius:12px;margin-bottom:24px;
+}
+.price-pill .big{font-family:'Unbounded',sans-serif;font-size:2.8rem;font-weight:900;color:var(--gold);}
+.price-pill .unit{font-size:.9rem;color:var(--w50);}
+
+/* method picker */
+.method-box{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:26px;}
+.method-box h3{font-family:'Unbounded',sans-serif;font-size:.8rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+.methods-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.method-btn{
+  display:flex;align-items:center;gap:11px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:13px 14px;cursor:pointer;transition:all .3s;
+}
+.method-btn:hover,.method-btn.active{border-color:var(--gold);background:rgba(245,200,66,.07);}
+.method-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;flex-shrink:0;}
+.method-name{font-size:.78rem;font-weight:700;}
+.method-sub{font-size:.6rem;color:var(--w50);}
+
+/* card display */
+.card-display{
+  background:linear-gradient(135deg,#0d0c09,#1a1a12);
+  border:1px solid rgba(245,200,66,.2);border-radius:14px;
+  padding:16px 18px;margin-bottom:16px;display:none;
+  animation:fadeUp .3s both;
+}
+.card-display.visible{display:block;}
+.card-label{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--w50);margin-bottom:8px;}
+.card-number{
+  font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--gold);letter-spacing:4px;word-break:break-all;
+  margin-bottom:6px;
+}
+.card-bank{font-size:.75rem;color:var(--w50);font-weight:600;}
+.copy-btn{
+  display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+  background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.2);
+  color:var(--gold);padding:6px 14px;border-radius:8px;
+  font-size:.68rem;font-weight:700;cursor:pointer;transition:all .3s;border-style:solid;
+}
+.copy-btn:hover{background:rgba(245,200,66,.2);}
+
+/* topup form */
+.topup-form{background:rgba(245,200,66,.04);border:1px solid rgba(245,200,66,.12);border-radius:12px;padding:18px;margin-top:14px;}
+.topup-form label{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--w50);display:block;margin-bottom:7px;}
+.topup-row{display:flex;gap:10px;margin-bottom:10px;}
+.t-input{
+  flex:1;background:rgba(10,10,10,.9);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;color:var(--white);padding:12px 14px;
+  font-family:'Mulish',sans-serif;font-size:.9rem;outline:none;transition:border .3s;
+}
+.t-input:focus{border-color:var(--gold);}
+.t-btn{
+  background:linear-gradient(135deg,#f5c842,#ff6b2b);color:#000;
+  border:none;padding:12px 18px;border-radius:8px;
+  font-family:'Unbounded',sans-serif;font-weight:900;font-size:.7rem;
+  cursor:pointer;transition:all .3s;white-space:nowrap;
+}
+.t-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(245,200,66,.35);}
+.quick-amts{display:flex;gap:8px;flex-wrap:wrap;}
+.qa{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  color:var(--white);padding:5px 12px;border-radius:20px;font-size:.72rem;
+  font-weight:700;cursor:pointer;transition:all .3s;
+}
+.qa:hover{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.05);}
+
+/* CHECK / receipt */
+.check-note{
+  display:flex;align-items:flex-start;gap:12px;
+  background:rgba(43,156,255,.08);border:1px solid rgba(43,156,255,.2);
+  border-radius:12px;padding:14px 16px;margin-top:14px;
+}
+.check-note svg{flex-shrink:0;width:20px;height:20px;color:var(--blue);}
+.check-note p{font-size:.78rem;color:var(--w80);line-height:1.6;}
+.check-note strong{color:var(--blue);}
+
+/* ══════════════════════════════
+   ACTORS SECTION
+══════════════════════════════ */
+.actors-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;}
+@media(max-width:1100px){.actors-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:800px){.actors-grid{grid-template-columns:repeat(3,1fr);gap:14px;}}
+@media(max-width:500px){.actors-grid{grid-template-columns:repeat(2,1fr);gap:12px;}}
+
+.actor-card{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .35s cubic-bezier(.34,1.2,.64,1);}
+.actor-card:hover{transform:translateY(-8px);}
+.actor-photo-wrap{position:relative;width:100%;aspect-ratio:1/1;margin-bottom:14px;}
+.actor-photo{width:100%;height:100%;border-radius:20px;background:var(--card);border:2px solid rgba(255,255,255,.08);overflow:hidden;position:relative;transition:border-color .35s;display:flex;align-items:center;justify-content:center;}
+.actor-card:hover .actor-photo{border-color:rgba(245,200,66,.45);}
+.actor-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;position:absolute;inset:0;border-radius:inherit;transition:transform .4s ease;}
+.actor-card:hover .actor-photo img{transform:scale(1.05);}
+.actor-photo-placeholder{font-size:2.5rem;opacity:.25;position:relative;z-index:1;transition:opacity .3s;}
+.actor-photo img + .actor-photo-placeholder{display:none;}
+.actor-photo::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.7) 100%);z-index:2;pointer-events:none;}
+.actor-glow{position:absolute;width:80%;height:80%;bottom:-15%;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,var(--ac,.8) 0%,transparent 70%);filter:blur(24px);opacity:0;transition:opacity .4s;z-index:-1;border-radius:50%;}
+.actor-card:hover .actor-glow{opacity:.35;}
+.actor-info{text-align:center;width:100%;}
+.actor-name{font-family:'Unbounded',sans-serif;font-size:.78rem;font-weight:700;margin-bottom:4px;transition:color .3s;}
+.actor-card:hover .actor-name{color:var(--gold);}
+.actor-role{font-size:.67rem;color:var(--w50);margin-bottom:4px;}
+.actor-films{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(245,200,66,.5);}
+.actor-ph-1{background:linear-gradient(135deg,#1a1228,#2d1b69);}
+.actor-ph-2{background:linear-gradient(135deg,#1c1010,#4a1010);}
+.actor-ph-3{background:linear-gradient(135deg,#0e1a28,#1a3a5c);}
+.actor-ph-4{background:linear-gradient(135deg,#0e1c10,#1a3a1c);}
+.actor-ph-5{background:linear-gradient(135deg,#1c1010,#5a1a1a);}
+.actor-ph-6{background:linear-gradient(135deg,#1a1228,#3d2b69);}
+.actor-ph-7{background:linear-gradient(135deg,#1c1800,#4a3a00);}
+.actor-ph-8{background:linear-gradient(135deg,#1c0e0a,#4a2010);}
+.actor-ph-9{background:linear-gradient(135deg,#0a1020,#102040);}
+.actor-ph-10{background:linear-gradient(135deg,#0e1a10,#1e3a20);}
+
+/* ══════════════════════════════
+   MODALS
+══════════════════════════════ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:var(--card2);border:1px solid rgba(245,200,66,.2);border-radius:24px;padding:36px;max-width:500px;width:100%;position:relative;animation:modalIn .3s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--w50);font-size:1.6rem;cursor:pointer;transition:color .3s;line-height:1;}
+.modal-close:hover{color:var(--white);}
+.modal h2{font-family:'Unbounded',sans-serif;font-size:1.4rem;font-weight:900;margin-bottom:6px;}
+.modal p{font-size:.82rem;color:var(--w50);line-height:1.75;margin-bottom:18px;}
+
+/* film detail modal */
+.film-modal-poster{width:100%;height:200px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:4rem;margin-bottom:18px;position:relative;overflow:hidden;}
+.film-modal-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,var(--card2) 100%);}
+.modal-meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.modal-meta-chip{font-size:.65rem;font-weight:700;letter-spacing:1.5px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.07);color:var(--w80);}
+.modal-stars-row{display:flex;gap:8px;align-items:center;margin-bottom:16px;}
+.star-btn{font-size:1.5rem;cursor:pointer;transition:transform .2s;background:none;border:none;color:rgba(255,255,255,.25);}
+.star-btn.active,.star-btn:hover{color:var(--gold);transform:scale(1.2);}
+.modal-review-area{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--white);padding:12px 14px;font-family:'Mulish',sans-serif;font-size:.82rem;min-height:80px;outline:none;resize:none;transition:border .3s;margin-bottom:14px;}
+.modal-review-area:focus{border-color:var(--gold);}
+.modal-actions{display:flex;gap:10px;}
+.complaint-link{font-size:.72rem;color:var(--w50);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;transition:color .3s;}
+.complaint-link:hover{color:var(--red);}
+
+/* auth modal */
+.auth-tabs{display:flex;gap:0;background:rgba(255,255,255,.05);border-radius:10px;padding:4px;margin-bottom:20px;}
+.auth-tab{flex:1;padding:9px;text-align:center;border-radius:8px;font-family:'Unbounded',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .3s;color:var(--w50);}
+.auth-tab.active{background:linear-gradient(135deg,#f5c842,#ff6b2b);color:#000;}
+.auth-field{margin-bottom:14px;}
+.auth-field label{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--w50);display:block;margin-bottom:6px;}
+.auth-input{width:100%;background:rgba(10,10,10,.9);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--white);padding:12px 14px;font-family:'Mulish',sans-serif;font-size:.9rem;outline:none;transition:border .3s;}
+.auth-input:focus{border-color:var(--gold);}
+.auth-submit{width:100%;margin-top:6px;}
+.sms-note{font-size:.72rem;color:var(--w50);text-align:center;margin-top:10px;}
+
+/* share modal */
+.share-friends{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.share-friend-row{display:flex;gap:10px;align-items:center;}
+.share-friend-num{flex:1;background:rgba(10,10,10,.9);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--white);padding:11px 14px;font-family:'Mulish',sans-serif;font-size:.88rem;outline:none;transition:border .3s;}
+.share-friend-num:focus{border-color:var(--gold);}
+.share-badge{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);color:var(--green);font-size:.62rem;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.share-promo{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);border-radius:12px;padding:14px;text-align:center;margin-bottom:16px;}
+.share-promo p{font-size:.8rem;color:var(--w80);margin-bottom:0;}
+.share-promo strong{color:var(--green);}
+
+/* receipt modal */
+.receipt-card{background:linear-gradient(135deg,#0d0c09,#151510);border:1px solid rgba(245,200,66,.25);border-radius:16px;padding:22px;margin-bottom:16px;}
+.receipt-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.receipt-row:last-child{border-bottom:none;}
+.r-key{font-size:.72rem;color:var(--w50);}
+.r-val{font-size:.82rem;font-weight:700;color:var(--white);}
+.r-val.gold{color:var(--gold);}
+.receipt-footer{font-size:.72rem;color:var(--w50);text-align:center;line-height:1.7;}
+.receipt-footer a{color:var(--blue);}
+
+/* complaint modal */
+.complaint-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.complaint-opt{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .3s;}
+.complaint-opt:hover{border-color:rgba(230,57,70,.35);background:rgba(230,57,70,.06);}
+.complaint-opt input{accent-color:var(--red);}
+.complaint-opt label{font-size:.82rem;cursor:pointer;}
+
+/* ══════════════════════════════
+   TOAST
+══════════════════════════════ */
+.toast{
+  position:fixed;bottom:28px;right:28px;z-index:9000;
+  background:var(--card2);border:1px solid rgba(245,200,66,.25);border-radius:14px;
+  padding:14px 22px;display:flex;align-items:center;gap:12px;min-width:280px;
+  transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.34,1.2,.64,1);
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.t-icon{font-size:1.4rem;}
+.t-title{font-size:.88rem;font-weight:800;display:block;}
+.t-sub{font-size:.72rem;color:var(--w50);}
+
+/* ══════════════════════════════
+   BACKGROUNDS for posters
+══════════════════════════════ */
+.bg1{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);}
+.bg2{background:linear-gradient(135deg,#1a1a2e,#e63946,#1a1a2e);}
+.bg3{background:linear-gradient(135deg,#000428,#004e92);}
+.bg4{background:linear-gradient(135deg,#1f1c2c,#928dab);}
+.bg5{background:linear-gradient(135deg,#2d1b69,#11998e);}
+.bg6{background:linear-gradient(135deg,#0d0d0d,#8b0000);}
+.bg7{background:linear-gradient(135deg,#0a3d62,#1e3799);}
+.bg8{background:linear-gradient(135deg,#1a3a1a,#2d6a2d);}
+.bg9{background:linear-gradient(135deg,#2c1654,#8b0000);}
+.bg10{background:linear-gradient(135deg,#1a0a2e,#ff6b2b);}
+.up1{background:linear-gradient(160deg,#0a0a1a,#1a1a4e,#2b2b6e);}
+.up2{background:linear-gradient(160deg,#0a1a0a,#1a3a1a,#0d2b0d);}
+.up3{background:linear-gradient(160deg,#1a0a0a,#3a1a00,#5a2a00);}
+.up4{background:linear-gradient(160deg,#1a1a0a,#3a2a00,#5a3a00);}
+
+/* ══════════════════════════════
+   TRAILER & FILM PLAYER
+══════════════════════════════ */
+#trailerModal{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.92);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px;}
+#trailerModal.open{display:flex;}
+#trailerBox{width:100%;max-width:860px;background:#000;border-radius:18px;overflow:hidden;border:1px solid rgba(245,200,66,.2);box-shadow:0 32px 80px rgba(0,0,0,.9);position:relative;animation:modalIn .3s ease;}
+#trailerHead{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(10,10,10,.95);border-bottom:1px solid rgba(255,255,255,.06);}
+#trailerHeadLeft{display:flex;align-items:center;gap:12px;}
+#trailerEmoji{font-size:1.6rem;}
+#trailerName{font-family:'Unbounded',sans-serif;font-size:.9rem;font-weight:900;}
+#trailerSub{font-size:.68rem;color:var(--w50);margin-top:2px;}
+.trailer-chip{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);color:var(--gold);}
+#trailerClose{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:var(--w80);width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;}
+#trailerClose:hover{background:rgba(255,255,255,.18);color:#fff;}
+#trailerFrame{position:relative;width:100%;aspect-ratio:16/9;background:#000;}
+#trailerIframe{width:100%;height:100%;border:none;display:block;}
+#trailerPlaceholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(135deg,#0a0a14,#14141e);}
+#trailerPlaceholder .ph-emoji{font-size:4rem;}
+#trailerPlaceholder p{font-size:.82rem;color:var(--w50);text-align:center;max-width:300px;line-height:1.6;}
+#trailerBottom{padding:16px 20px;background:rgba(10,10,10,.95);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.06);}
+#trailerPriceInfo{font-size:.78rem;color:var(--w50);}
+#trailerPriceInfo strong{color:var(--gold);}
+#trailerBtns{display:flex;gap:10px;}
+.tr-btn{padding:10px 20px;border-radius:10px;border:none;font-family:'Unbounded',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .3s;}
+.tr-btn-outline{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--white);}
+.tr-btn-outline:hover{background:rgba(255,255,255,.12);}
+.tr-btn-gold{background:linear-gradient(135deg,#f5c842,#ff6b2b);color:#000;box-shadow:0 4px 18px rgba(245,200,66,.4);}
+.tr-btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,200,66,.55);}
+
+/* Full film player modal */
+#fullFilmModal{position:fixed;inset:0;z-index:8100;background:rgba(0,0,0,.96);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;padding:20px;}
+#fullFilmModal.open{display:flex;}
+#fullFilmBox{width:100%;max-width:960px;background:#000;border-radius:18px;overflow:hidden;border:1px solid rgba(245,200,66,.25);box-shadow:0 32px 80px rgba(0,0,0,.95);position:relative;animation:modalIn .3s ease;}
+#ffHead{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(8,8,12,.98);border-bottom:1px solid rgba(255,255,255,.06);}
+#ffHeadLeft{display:flex;align-items:center;gap:12px;}
+#ffLogo{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:900;background:linear-gradient(135deg,#f5c842,#ff8a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#ffLogo span{-webkit-text-fill-color:var(--red);}
+#ffTitle{font-family:'Unbounded',sans-serif;font-size:.85rem;font-weight:700;}
+#ffMeta{font-size:.65rem;color:var(--w50);margin-top:2px;}
+#ffClose{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:var(--w80);width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;}
+#ffClose:hover{background:rgba(255,80,80,.2);color:#ff6b6b;}
+#ffFrame{position:relative;width:100%;aspect-ratio:16/9;background:#000;}
+#ffIframe{width:100%;height:100%;border:none;display:block;}
+#ffNoMoney{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:rgba(0,0,0,.92);backdrop-filter:blur(4px);z-index:2;padding:30px;text-align:center;}
+#ffNoMoney.show{display:flex;}
+#ffNoMoney .lock-icon{font-size:3.5rem;}
+#ffNoMoney h3{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:900;margin-bottom:6px;}
+#ffNoMoney p{font-size:.8rem;color:var(--w50);max-width:320px;line-height:1.65;}
+.ff-topup-btn{background:linear-gradient(135deg,#f5c842,#ff6b2b);color:#000;border:none;padding:13px 28px;border-radius:12px;font-family:'Unbounded',sans-serif;font-size:.78rem;font-weight:900;cursor:pointer;transition:all .3s;box-shadow:0 6px 20px rgba(245,200,66,.4);}
+.ff-topup-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(245,200,66,.55);}
+#ffBottom{padding:14px 20px;background:rgba(8,8,12,.98);display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;}
+#ffBalRow{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--w50);}
+#ffBalAmt{color:var(--gold);font-weight:800;font-family:'Unbounded',sans-serif;}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:900px){
+  .payment-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  section{padding:50px 18px;}
+  .hero{padding:110px 18px 60px;}
+  .films-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .stats-bar{flex-wrap:wrap;}
+  .stat-item{min-width:50%;}
+  .methods-grid{grid-template-columns:1fr;}
+  .modal{padding:24px 20px;}
+  #trailerBottom,#ffBottom{flex-direction:column;align-items:stretch;}
+  #trailerBtns{justify-content:stretch;}
+  .tr-btn,.ff-topup-btn{flex:1;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV — injected by engine.js -->
+
+<!-- TICKER -->
+<span id="siteViews" style="display:none">14827</span>
+<span id="navBal" style="display:none">0</span>
+
+<!-- ══════ TRAILER MODAL ══════ -->
+<div id="trailerModal">
+  <div id="trailerBox">
+    <div id="trailerHead">
+      <div id="trailerHeadLeft">
+        <div id="trailerEmoji">🎬</div>
+        <div>
+          <div id="trailerName">Трейлер</div>
+          <div id="trailerSub">Бесплатный просмотр</div>
+        </div>
+        <span class="trailer-chip">ТРЕЙЛЕР</span>
+      </div>
+      <button id="trailerClose" onclick="closeTrailer()">✕</button>
+    </div>
+    <div id="trailerFrame">
+      <div id="trailerPlaceholder">
+        <div class="ph-emoji">🎬</div>
+        <p>Трейлер скоро будет добавлен.<br>Следите за обновлениями!</p>
+      </div>
+      <iframe id="trailerIframe" style="display:none" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+    <div id="trailerBottom">
+      <div id="trailerPriceInfo">
+        Полный фильм — <strong id="trailerFullPrice">10 см.</strong> &nbsp;·&nbsp; Ваш баланс: <strong id="trailerBalShow" style="color:var(--gold)">0 см.</strong>
+      </div>
+      <div id="trailerBtns">
+        <button class="tr-btn tr-btn-outline" onclick="closeTrailer()">✕ Закрыть</button>
+        <button class="tr-btn tr-btn-gold" id="trailerWatchFullBtn" onclick="watchFullFilm()">▶ Смотреть полностью</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FULL FILM MODAL ══════ -->
+<div id="fullFilmModal">
+  <div id="fullFilmBox">
+    <div id="ffHead">
+      <div id="ffHeadLeft">
+        <div id="ffLogo">CINEMA<span>TIX</span></div>
+        <div>
+          <div id="ffTitle">Название фильма</div>
+          <div id="ffMeta">Жанр · Год · Качество</div>
+        </div>
+      </div>
+      <button id="ffClose" onclick="closeFullFilm()">✕</button>
+    </div>
+    <div id="ffFrame">
+      <div id="ffNoMoney">
+        <div class="lock-icon">🔒</div>
+        <h3>Недостаточно средств</h3>
+        <p id="ffNoMoneyText">Для просмотра этого фильма пополните баланс.</p>
+        <button class="ff-topup-btn" onclick="closeFullFilm();document.getElementById('payment').scrollIntoView({behavior:'smooth'})">💳 Пополнить баланс</button>
+        <button class="tr-btn tr-btn-outline" style="margin-top:6px;" onclick="closeFullFilm()">← Назад</button>
+      </div>
+      <iframe id="ffIframe" style="display:none" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+    <div id="ffBottom">
+      <div id="ffBalRow">💳 Ваш баланс: <span id="ffBalAmt">0</span> см.</div>
+      <div style="font-size:.68rem;color:var(--w50);">Колл-центр: <a href="tel:+992929612111" style="color:var(--blue);">+992 92 961 21 11</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🔴 LIVE — Обновлено сегодня</div>
+    <h1>СМОТРИ<br>ЛУЧШЕЕ<br>КИНО <em>ЗА</em><br><em>10 СОМ</em></h1>
+    <p class="hero-sub">Тысячи фильмов, VFX-контент студийного уровня и эксклюзивное таджикское кино. Пополняй баланс от 10 сомони и смотри без ограничений.</p>
+    <div class="hero-actions">
+      <a href="#films" class="btn-gold">▶ Начать смотреть</a>
+      <button class="btn-outline" onclick="openModal('authModal')">👤 Регистрация</button>
+      <button class="btn-outline" onclick="openModal('shareModal')">🎁 Бесплатное кино</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num" id="cnt1">2 500+</span><span class="stat-lbl">Фильмов</span></div>
+  <div class="stat-item"><span class="stat-num">120+</span><span class="stat-lbl">VFX Работ</span></div>
+  <div class="stat-item"><span class="stat-num">от 10</span><span class="stat-lbl">Сомони</span></div>
+  <div class="stat-item"><span class="stat-num">4K</span><span class="stat-lbl">Качество</span></div>
+  <div class="stat-item"><span class="stat-num" id="onlineCount">347</span><span class="stat-lbl">Онлайн сейчас</span></div>
+</div>
+
+<!-- ══════ FILMS ══════ -->
+<section id="films">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">🎬 Каталог</div>
+      <div class="section-title">Популярные фильмы</div>
+    </div>
+    <a href="#" class="see-all">Весь каталог →</a>
+  </div>
+  <div class="films-grid" id="filmsGrid"></div>
+</section>
+
+<!-- ══════ UPCOMING ══════ -->
+<section id="upcoming" style="background:rgba(12,12,12,.6);border-top:1px solid rgba(245,200,66,.08);border-bottom:1px solid rgba(245,200,66,.08);">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">🆕 Скоро в кино</div>
+      <div class="section-title">Наши проекты</div>
+    </div>
+  </div>
+  <div class="upcoming-grid">
+
+    <div class="upcoming-card" onclick="openFilmDetail('Проал: Жизнь в CS:GO','up1','🎮','Документальный фильм о профессиональных CS:GO игроках из Таджикистана. Путь от любителя до чемпиона — реальные истории, реальные эмоции.','Документалка',15,'NEW')">
+      <div class="upcoming-thumb up1">🎮
+        <div class="upcoming-ribbon">СКОРО</div>
+      </div>
+      <div class="upcoming-body">
+        <div class="upcoming-num">ПРОЕКТ №01</div>
+        <div class="upcoming-title">Проал: Жизнь в CS:GO</div>
+        <div class="upcoming-desc">Документальный фильм о профессиональных киберспортсменах из Таджикистана. Путь от новичка до чемпиона — реальные истории, драма и победа.</div>
+        <div class="upcoming-meta">
+          <span class="upcoming-tag ut-action">Документалка</span>
+          <span class="upcoming-tag ut-vfx">Киберспорт</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="upcoming-card" onclick="openFilmDetail('Пропавшие на острове','up2','🏝️','Захватывающий фильм о выживании. Группа людей оказывается на необитаемом острове и вынуждена бороться с природой и друг с другом.','Триллер',20,'HOT')">
+      <div class="upcoming-thumb up2">🏝️
+        <div class="upcoming-ribbon">СКОРО</div>
+      </div>
+      <div class="upcoming-body">
+        <div class="upcoming-num">ПРОЕКТ №02</div>
+        <div class="upcoming-title">Пропавшие на острове</div>
+        <div class="upcoming-desc">Захватывающий триллер о выживании. Группа людей оказывается на необитаемом острове и вынуждена бороться с природой и своими страхами.</div>
+        <div class="upcoming-meta">
+          <span class="upcoming-tag ut-action">Триллер</span>
+          <span class="upcoming-tag ut-vfx">VFX</span>
+          <span class="upcoming-tag ut-adventure">Выживание</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="upcoming-card" onclick="openFilmDetail('Атака Змея','up3','🐍','Мощный экшн-фильм с потрясающими VFX-эффектами. Гигантская змея атакует деревню в горах Таджикистана. Смогут ли герои остановить чудовище?','Экшн / VFX',20,'VFX')">
+      <div class="upcoming-thumb up3">🐍
+        <div class="upcoming-ribbon">СКОРО</div>
+      </div>
+      <div class="upcoming-body">
+        <div class="upcoming-num">ПРОЕКТ №03</div>
+        <div class="upcoming-title">Атака Змея</div>
+        <div class="upcoming-desc">Мощный экшн-фильм с потрясающими VFX-эффектами. Гигантская змея атакует горное село. Смогут ли герои остановить чудовище и спасти людей?</div>
+        <div class="upcoming-meta">
+          <span class="upcoming-tag ut-vfx">VFX Premium</span>
+          <span class="upcoming-tag ut-action">Экшн</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="upcoming-card" onclick="openFilmDetail('Атака на Слона','up4','🐘','Эпический приключенческий фильм. Браконьеры нападают на стадо слонов — и природа отвечает. Реальные съёмки, мощная VFX-обработка.','Приключения / VFX',25,'VFX')">
+      <div class="upcoming-thumb up4">🐘
+        <div class="upcoming-ribbon">СКОРО</div>
+      </div>
+      <div class="upcoming-body">
+        <div class="upcoming-num">ПРОЕКТ №04</div>
+        <div class="upcoming-title">Атака на Слона</div>
+        <div class="upcoming-desc">Эпический приключенческий фильм. Браконьеры нападают на стадо слонов — и природа отвечает с беспощадной силой. Реальные съёмки + VFX.</div>
+        <div class="upcoming-meta">
+          <span class="upcoming-tag ut-vfx">VFX</span>
+          <span class="upcoming-tag ut-adventure">Приключения</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════ PAYMENT ══════ -->
+<section class="payment-section" id="payment">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">💳 Пополнение</div>
+      <div class="section-title">Оплата и пополнение</div>
+    </div>
+  </div>
+  <div class="payment-grid">
+    <div class="payment-info">
+      <h2>СМОТРИ ВСЁ<br>ОТ <em style="font-style:normal;color:var(--gold)">10 СОМОНИ</em></h2>
+      <p>Пополняй баланс любым удобным способом — без скрытых комиссий. Деньги зачисляются мгновенно. После оплаты отправь чек в наш колл-центр.</p>
+      <div class="price-pill">
+        <span class="big">10</span>
+        <span class="unit">сомони — минимум</span>
+      </div>
+      <div class="check-note">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <p>После пополнения отправьте скриншот чека в наш колл-центр для подтверждения:<br>
+        <strong>📞 +992 92 961 21 11</strong> — Telegram / WhatsApp</p>
+      </div>
+    </div>
+
+    <div class="method-box">
+      <h3>⚡ Выберите способ оплаты</h3>
+      <div class="methods-grid">
+        <div class="method-btn" onclick="selectPayMethod('dushanbe','9762000225920270','Душанбе Сити')">
+          <div class="method-icon" style="background:#1a6fb5;color:#fff">🏦</div>
+          <div><div class="method-name">Душанбе Сити</div><div class="method-sub">Банковский перевод</div></div>
+        </div>
+        <div class="method-btn" onclick="selectPayMethod('amonat','9762510839334494','Амонат Банк')">
+          <div class="method-icon" style="background:#006b3c;color:#fff">🏧</div>
+          <div><div class="method-name">Амонат Банк</div><div class="method-sub">Онлайн оплата</div></div>
+        </div>
+        <div class="method-btn" onclick="selectPayMethod('alif1','5058270283906120','Алиф (карта)')">
+          <div class="method-icon" style="background:#ff6b35;color:#fff">📱</div>
+          <div><div class="method-name">Алиф</div><div class="method-sub">Мобильный кошелёк</div></div>
+        </div>
+        <div class="method-btn" onclick="selectPayMethod('imon','5058270145862198','ИМОН')">
+          <div class="method-icon" style="background:#8b0000;color:#fff">💎</div>
+          <div><div class="method-name">ИМОН</div><div class="method-sub">Онлайн платёж</div></div>
+        </div>
+        <div class="method-btn" onclick="selectPayMethod('visa_alif','4444888810023568','Visa — Алиф Банк')">
+          <div class="method-icon" style="background:#1a1f71;color:#fff">💳</div>
+          <div><div class="method-name">Visa (Алиф)</div><div class="method-sub">Банковская карта</div></div>
+        </div>
+        <div class="method-btn" onclick="selectPayMethod('visa_esh','4439190020601748','Visa — Банк Эсхата')">
+          <div class="method-icon" style="background:#003580;color:#fff">💳</div>
+          <div><div class="method-name">Visa (Эсхата)</div><div class="method-sub">Банковская карта</div></div>
+        </div>
+      </div>
+
+      <div class="card-display" id="cardDisplay">
+        <div class="card-label" id="cardBankLabel">Реквизиты для перевода</div>
+        <div class="card-number" id="cardNumber">—</div>
+        <div class="card-bank" id="cardBank">—</div>
+        <button class="copy-btn" onclick="copyCard()">📋 Скопировать номер</button>
+      </div>
+
+      <div class="topup-form">
+        <label>Сумма пополнения (сомони)</label>
+        <div class="topup-row">
+          <input class="t-input" type="number" id="topupAmt" placeholder="Введите сумму..." min="1">
+          <button class="t-btn" onclick="doTopup()">Пополнить</button>
+        </div>
+        <div class="quick-amts">
+          <button class="qa" onclick="setAmt(10)">10 см.</button>
+          <button class="qa" onclick="setAmt(20)">20 см.</button>
+          <button class="qa" onclick="setAmt(30)">30 см.</button>
+          <button class="qa" onclick="setAmt(50)">50 см.</button>
+          <button class="qa" onclick="setAmt(100)">100 см.</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ACTORS ══════ -->
+<section id="actors" style="background:linear-gradient(180deg,rgba(12,12,12,.95),rgba(10,10,10,1));border-top:1px solid rgba(245,200,66,.1);border-bottom:1px solid rgba(245,200,66,.1);">
+  <div class="section-head">
+    <div>
+      <div class="section-eyebrow">🎭 Команда</div>
+      <div class="section-title">Наши актёры</div>
+    </div>
+    <a href="#" class="see-all">Все актёры →</a>
+  </div>
+  <div class="actors-grid" id="actorsGrid">
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-1"><img src="actor1.jpg" alt="Актёр 1" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#f5c842;"></div></div><div class="actor-info"><div class="actor-name">Актёр 1</div><div class="actor-role">Главная роль</div><div class="actor-films">4 фильма</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-2"><img src="actor2.jpg" alt="Актёр 2" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#ff6b2b;"></div></div><div class="actor-info"><div class="actor-name">Актёр 2</div><div class="actor-role">Главная роль</div><div class="actor-films">6 фильмов</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-3"><img src="actor3.jpg" alt="Актёр 3" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#2b9cff;"></div></div><div class="actor-info"><div class="actor-name">Актёр 3</div><div class="actor-role">Второстепенная роль</div><div class="actor-films">3 фильма</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-4"><img src="actor4.jpg" alt="Актёр 4" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#4ade80;"></div></div><div class="actor-info"><div class="actor-name">Актёр 4</div><div class="actor-role">Главная роль</div><div class="actor-films">5 фильмов</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-5"><img src="actor5.jpg" alt="Актёр 5" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#e63946;"></div></div><div class="actor-info"><div class="actor-name">Актёр 5</div><div class="actor-role">Второстепенная роль</div><div class="actor-films">2 фильма</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-6"><img src="actor6.jpg" alt="Актёр 6" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#a78bfa;"></div></div><div class="actor-info"><div class="actor-name">Актёр 6</div><div class="actor-role">Главная роль</div><div class="actor-films">7 фильмов</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-7"><img src="actor7.jpg" alt="Актёр 7" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#f5c842;"></div></div><div class="actor-info"><div class="actor-name">Актёр 7</div><div class="actor-role">Главная роль</div><div class="actor-films">3 фильма</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-8"><img src="actor8.jpg" alt="Актёр 8" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#ff6b2b;"></div></div><div class="actor-info"><div class="actor-name">Актёр 8</div><div class="actor-role">Второстепенная роль</div><div class="actor-films">5 фильмов</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-9"><img src="actor9.jpg" alt="Актёр 9" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#2b9cff;"></div></div><div class="actor-info"><div class="actor-name">Актёр 9</div><div class="actor-role">Главная роль</div><div class="actor-films">4 фильма</div></div></div>
+    <div class="actor-card"><div class="actor-photo-wrap"><div class="actor-photo actor-ph-10"><img src="actor10.jpg" alt="Актёр 10" onerror="this.style.display='none'"><div class="actor-photo-placeholder">👤</div></div><div class="actor-glow" style="--ac:#4ade80;"></div></div><div class="actor-info"><div class="actor-name">Актёр 10</div><div class="actor-role">Второстепенная роль</div><div class="actor-films">6 фильмов</div></div></div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER — injected by engine.js ══════ -->
+
+<!-- ═════════════════════════════════
+   MODALS
+═════════════════════════════════ -->
+
+<!-- FILM DETAIL MODAL -->
+<div class="overlay" id="filmModal">
+  <div class="modal" style="max-width:540px;">
+    <button class="modal-close" onclick="closeModal('filmModal')">×</button>
+    <div class="film-modal-poster" id="fmPoster"></div>
+    <h2 id="fmTitle"></h2>
+    <div class="modal-meta-row" id="fmMeta"></div>
+    <p id="fmDesc"></p>
+    <div style="margin-bottom:6px;font-size:.65rem;font-weight:700;letter-spacing:2px;color:var(--w50);text-transform:uppercase;">Ваша оценка</div>
+    <div class="modal-stars-row" id="starsRow">
+      <button class="star-btn" data-s="1" onclick="rateStar(1)">★</button>
+      <button class="star-btn" data-s="2" onclick="rateStar(2)">★</button>
+      <button class="star-btn" data-s="3" onclick="rateStar(3)">★</button>
+      <button class="star-btn" data-s="4" onclick="rateStar(4)">★</button>
+      <button class="star-btn" data-s="5" onclick="rateStar(5)">★</button>
+      <span id="starLabel" style="font-size:.72rem;color:var(--w50);margin-left:8px;"></span>
+    </div>
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;color:var(--w50);text-transform:uppercase;margin-bottom:6px;">Отзыв</div>
+    <textarea class="modal-review-area" id="reviewText" placeholder="Напишите ваш отзыв..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-gold" id="fmBuyBtn" style="flex:1;justify-content:center;">🛒 Купить</button>
+      <button class="btn-outline" onclick="submitReview()" style="white-space:nowrap;">📝 Отзыв</button>
+    </div>
+    <a class="complaint-link" href="#" onclick="openModal('complaintModal');return false;">⚠️ Пожаловаться на этот фильм</a>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;">
+      <span style="font-size:.7rem;color:var(--w50);flex:1;">Поделись с 3 друзьями — получи 1 кино бесплатно!</span>
+      <button class="btn-outline" style="padding:9px 16px;font-size:.65rem;" onclick="openModal('shareModal')">🎁 Поделиться</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('authModal')">×</button>
+    <div class="auth-tabs">
+      <div class="auth-tab active" onclick="switchTab('login')">Войти</div>
+      <div class="auth-tab" onclick="switchTab('register')">Регистрация</div>
+    </div>
+    <div id="loginForm">
+      <h2>С возвращением!</h2>
+      <p>Войдите через номер телефона — мы отправим SMS-код.</p>
+      <div class="auth-field"><label>Номер телефона</label><input class="auth-input" type="tel" placeholder="+992 XX XXX XXXX" id="loginPhone"></div>
+      <div class="auth-field" id="loginSmsField" style="display:none;"><label>SMS-код</label><input class="auth-input" type="text" placeholder="Введите 4-значный код" id="loginCode" maxlength="4"></div>
+      <div class="auth-field" id="loginEmailField" style="display:none;"><label>Почта для восстановления (необязательно)</label><input class="auth-input" type="email" placeholder="your@email.com" id="loginEmail"></div>
+      <button class="btn-gold auth-submit" onclick="sendSmsCode('login')">📲 Отправить SMS-код</button>
+      <p class="sms-note">Код придёт на ваш номер в течение 1 минуты</p>
+    </div>
+    <div id="registerForm" style="display:none;">
+      <h2>Регистрация</h2>
+      <p>Создайте аккаунт — это займёт меньше минуты.</p>
+      <div class="auth-field"><label>Имя</label><input class="auth-input" type="text" placeholder="Ваше имя" id="regName"></div>
+      <div class="auth-field"><label>Номер телефона</label><input class="auth-input" type="tel" placeholder="+992 XX XXX XXXX" id="regPhone"></div>
+      <div class="auth-field" id="regSmsField" style="display:none;"><label>SMS-код подтверждения</label><input class="auth-input" type="text" placeholder="Введите 4-значный код" id="regCode" maxlength="4"></div>
+      <div class="auth-field"><label>Email (для восстановления пароля)</label><input class="auth-input" type="email" placeholder="your@email.com" id="regEmail"></div>
+      <button class="btn-gold auth-submit" onclick="sendSmsCode('register')">📲 Зарегистрироваться</button>
+      <p class="sms-note">Код подтверждения придёт на ваш номер телефона</p>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="overlay" id="shareModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('shareModal')">×</button>
+    <h2>🎁 Бесплатное кино!</h2>
+    <p>Пригласи 3 друзей на CINEMATIX — получи 1 фильм совершенно бесплатно. Введи их номера телефонов ниже.</p>
+    <div class="share-promo"><p>Пригласи <strong>3 друзей</strong> → получи <strong style="color:var(--gold)">1 кино бесплатно</strong> 🎬</p></div>
+    <div class="share-friends">
+      <div class="share-friend-row"><input class="share-friend-num" type="tel" placeholder="Друг 1: +992 XX XXX XXXX"><span class="share-badge">Друг 1</span></div>
+      <div class="share-friend-row"><input class="share-friend-num" type="tel" placeholder="Друг 2: +992 XX XXX XXXX"><span class="share-badge">Друг 2</span></div>
+      <div class="share-friend-row"><input class="share-friend-num" type="tel" placeholder="Друг 3: +992 XX XXX XXXX"><span class="share-badge">Друг 3</span></div>
+    </div>
+    <button class="btn-gold" style="width:100%;justify-content:center;" onclick="doShare()">📨 Отправить приглашения</button>
+  </div>
+</div>
+
+<!-- COMPLAINT MODAL -->
+<div class="overlay" id="complaintModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('complaintModal')">×</button>
+    <h2>⚠️ Жалоба</h2>
+    <p>Выберите причину жалобы. Мы рассмотрим её в течение 24 часов.</p>
+    <div class="complaint-options">
+      <div class="complaint-opt"><input type="radio" name="cr" id="cr1"><label for="cr1">🚫 Нарушение авторских прав</label></div>
+      <div class="complaint-opt"><input type="radio" name="cr" id="cr2"><label for="cr2">🔞 Неподходящий контент</label></div>
+      <div class="complaint-opt"><input type="radio" name="cr" id="cr3"><label for="cr3">🐛 Технические неполадки</label></div>
+      <div class="complaint-opt"><input type="radio" name="cr" id="cr4"><label for="cr4">💬 Некорректное описание</label></div>
+      <div class="complaint-opt"><input type="radio" name="cr" id="cr5"><label for="cr5">📝 Другое</label></div>
+    </div>
+    <textarea class="modal-review-area" placeholder="Опишите проблему подробнее..." style="min-height:70px;"></textarea>
+    <button class="btn-gold" style="width:100%;justify-content:center;" onclick="submitComplaint()">📤 Отправить жалобу</button>
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="overlay" id="receiptModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('receiptModal')">×</button>
+    <h2>🧾 Чек об оплате</h2>
+    <p>Ваш платёж отправлен. Сохраните этот чек и перешлите его в колл-центр для подтверждения пополнения.</p>
+    <div class="receipt-card">
+      <div class="receipt-row"><span class="r-key">Дата / Время</span><span class="r-val" id="rcDate">—</span></div>
+      <div class="receipt-row"><span class="r-key">Сумма</span><span class="r-val gold" id="rcAmt">—</span></div>
+      <div class="receipt-row"><span class="r-key">Способ оплаты</span><span class="r-val" id="rcMethod">—</span></div>
+      <div class="receipt-row"><span class="r-key">Номер карты</span><span class="r-val" id="rcCard">—</span></div>
+      <div class="receipt-row"><span class="r-key">Статус</span><span class="r-val" style="color:var(--green);">⏳ Ожидает подтверждения</span></div>
+      <div class="receipt-row"><span class="r-key">ID транзакции</span><span class="r-val" id="rcId">—</span></div>
+    </div>
+    <div class="receipt-footer">
+      Отправьте этот чек в колл-центр:<br>
+      <strong>📞 <a href="tel:+992929612111" style="color:var(--blue);">+992 92 961 21 11</a></strong><br>
+      Telegram / WhatsApp — 24/7
+    </div>
+    <button class="btn-gold" style="width:100%;justify-content:center;margin-top:16px;" onclick="shareReceipt()">📤 Отправить в Telegram / WhatsApp</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="t-icon" id="tIcon">✅</span>
+  <div><span class="t-title" id="tTitle">Готово!</span><span class="t-sub" id="tSub"></span></div>
+</div>
+
+<!-- ═══════════════════════════
+   JAVASCRIPT
+═══════════════════════════ -->
+<script src="assets/js/engine.js"></script>
+<script>
+/* ── DATA ── */
+const FILMS = [
+  {id:1,title:"Аватар: VFX Издание",emoji:"🌊",bg:"bg1",genre:"Фантастика",price:25,tag:"VFX",stars:4.8,views:12400,trailerUrl:"",fullUrl:"",desc:"Легендарный фильм с потрясающими VFX-эффектами. Полный режиссёрский монтаж в 4K HDR. Каждый кадр — произведение визуального искусства."},
+  {id:2,title:"Дракон Горных Вершин",emoji:"🐉",bg:"bg9",genre:"Приключения",price:10,tag:"NEW",stars:4.5,views:8300,trailerUrl:"",fullUrl:"",desc:"Таджикское эпическое кино о могущественном драконе, хранящем тайны Памирских гор."},
+  {id:3,title:"Космос 3000",emoji:"🚀",bg:"bg3",genre:"Sci-Fi",price:20,tag:"VFX",stars:4.7,views:9600,trailerUrl:"",fullUrl:"",desc:"Захватывающая фантастика о первой таджикской экспедиции к далёким планетам. Невероятный VFX студийного уровня."},
+  {id:4,title:"Горный Ветер",emoji:"🏔️",bg:"bg4",genre:"Драма",price:10,tag:"NEW",stars:4.3,views:5200,trailerUrl:"",fullUrl:"",desc:"Лирическая драма о любви и потере в горах Таджикистана. Реальные горные съёмки."},
+  {id:5,title:"Цифровой Мир",emoji:"💻",bg:"bg5",genre:"Триллер",price:15,tag:"HOT",stars:4.6,views:11200,trailerUrl:"",fullUrl:"",desc:"Технологический триллер о хакерах и цифровой войне будущего. Захватывающий сюжет до последней секунды."},
+  {id:6,title:"Огонь и Кровь",emoji:"🔥",bg:"bg2",genre:"Экшн",price:10,tag:"TOP",stars:4.4,views:7800,trailerUrl:"",fullUrl:"",desc:"Зрелищный боевик с живописными съёмками в горах Таджикистана. Динамичный экшн-фильм с сильными персонажами."},
+  {id:7,title:"Звёзды Памира",emoji:"⭐",bg:"bg7",genre:"Мелодрама",price:10,tag:"NEW",stars:4.2,views:4100,trailerUrl:"",fullUrl:"",desc:"Красивая история любви на фоне звёздного неба над Памиром. Удостоена национальной кинопремии."},
+  {id:8,title:"Портал Времени",emoji:"🌀",bg:"bg6",genre:"Фэнтези",price:20,tag:"VFX",stars:4.9,views:13700,trailerUrl:"",fullUrl:"",desc:"Фэнтезийный фильм с магическими порталами и захватывающими VFX. Один из лучших таджикских фэнтези-проектов."},
+];
+
+const CARDS = {
+  dushanbe:   {num:"9762 0002 2592 0270", bank:"Душанбе Сити"},
+  amonat:     {num:"9762 5108 3933 4494", bank:"Амонат Банк"},
+  alif1:      {num:"5058 2702 8390 6120", bank:"Алиф — карта"},
+  imon:       {num:"5058 2701 4586 2198", bank:"ИМОН"},
+  visa_alif:  {num:"4444 8888 1002 3568", bank:"Visa — Алиф Банк"},
+  visa_esh:   {num:"4439 1900 2060 1748", bank:"Visa — Банк Эсхата"},
+};
+
+let balance = 0;
+let currentMethod = null;
+let currentCard = null;
+let currentFilm = null;
+let userRating = 0;
+let smsStep = {login:false, register:false};
+
+/* ── VIEWS COUNTER ── */
+let siteViews = 14827;
+setInterval(function(){
+  siteViews += Math.floor(Math.random()*3);
+  var el = document.getElementById('siteViews');
+  if(el) el.textContent = siteViews.toLocaleString('ru');
+}, 8000);
+let online = 347;
+setInterval(function(){
+  online += Math.floor(Math.random()*5) - 2;
+  if(online < 280) online = 280;
+  var el = document.getElementById('onlineCount');
+  if(el) el.textContent = online;
+}, 5000);
+
+/* ── FILM RENDER ── */
+function renderFilms(){
+  var grid = document.getElementById('filmsGrid');
+  grid.innerHTML = FILMS.map(function(f){
+    return '<div class="film-card">' +
+      '<div class="film-poster '+f.bg+'" onclick="openTrailer(FILMS['+(f.id-1)+'])">' +
+        f.emoji +
+        '<span class="film-tag tag-'+f.tag.toLowerCase()+'">'+f.tag+'</span>' +
+        '<div class="film-views"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'+(f.views/1000).toFixed(1)+'k</div>' +
+        '<div class="film-play"><svg viewBox="0 0 48 48" fill="white"><circle cx="24" cy="24" r="22" fill="rgba(0,0,0,.55)"/><polygon points="19,14 38,24 19,34" fill="white"/></svg></div>' +
+      '</div>' +
+      '<div class="film-info">' +
+        '<div class="film-stars">'+'★'.repeat(Math.floor(f.stars))+'☆'.repeat(5-Math.floor(f.stars))+' '+f.stars+'</div>' +
+        '<div class="film-title">'+f.title+'</div>' +
+        '<div class="film-bottom"><span class="film-genre">'+f.genre+'</span><span class="film-price">'+f.price+' см.</span></div>' +
+      '</div>' +
+      '<div class="film-actions">' +
+        '<button class="fa-btn fa-buy" onclick="openTrailer(FILMS['+(f.id-1)+'])">▶ Трейлер</button>' +
+        '<button class="fa-btn fa-review" onclick="openFilmDetail(\''+f.title.replace(/'/g,"\\'")+'\',\''+f.bg+'\',\''+f.emoji+'\',\''+f.desc.replace(/'/g,"\\'")+'\',\''+f.genre+'\','+f.price+',\''+f.tag+'\')">★ Отзыв</button>' +
+        '<button class="fa-btn fa-share" onclick="openModal(\'shareModal\')">↗ Друг</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+renderFilms();
+
+/* ── FILM DETAIL ── */
+function openFilmDetail(title, bg, emoji, desc, meta, price, tag){
+  currentFilm = {title:title,bg:bg,emoji:emoji,desc:desc,meta:meta,price:price,tag:tag};
+  document.getElementById('fmPoster').className = 'film-modal-poster '+bg;
+  document.getElementById('fmPoster').textContent = emoji;
+  document.getElementById('fmTitle').textContent = title;
+  document.getElementById('fmMeta').innerHTML = '<span class="modal-meta-chip">'+meta+'</span><span class="modal-meta-chip">'+price+' сомони</span><span class="modal-meta-chip">'+tag+'</span>';
+  document.getElementById('fmDesc').textContent = desc;
+  document.getElementById('fmBuyBtn').textContent = '🛒 Купить — '+price+' сомони';
+  document.getElementById('fmBuyBtn').onclick = function(){buyFilm(title, price);};
+  userRating = 0;
+  document.querySelectorAll('.star-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('starLabel').textContent = '';
+  document.getElementById('reviewText').value = '';
+  openModal('filmModal');
+}
+
+/* ── STARS RATING ── */
+function rateStar(n){
+  userRating = n;
+  var labels = ['','Плохо','Так себе','Нормально','Хорошо','Отлично!'];
+  document.querySelectorAll('.star-btn').forEach(function(b){
+    b.classList.toggle('active', parseInt(b.dataset.s) <= n);
+  });
+  document.getElementById('starLabel').textContent = labels[n];
+}
+
+/* ── REVIEW ── */
+function submitReview(){
+  if(window.dmEngine&&window.dmEngine.requireProfileCompletion&&!window.dmEngine.requireProfileCompletion('Отправка отзыва'))return;
+  var txt = document.getElementById('reviewText').value.trim();
+  if(!userRating){showToast('⚠️','Поставьте оценку','Выберите от 1 до 5 звёзд');return;}
+  if(!txt){showToast('⚠️','Напишите отзыв','Поле отзыва не должно быть пустым');return;}
+  var currentUser = window.dmEngine && window.dmEngine.auth ? window.dmEngine.auth.currentUser() : null;
+  var reviews = [];
+  try { reviews = JSON.parse(localStorage.getItem('dm_reviews')) || []; } catch(e) { reviews = []; }
+  reviews.unshift({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    title: currentFilm && currentFilm.title ? currentFilm.title : 'Отзыв по фильму',
+    text: txt,
+    rating: userRating,
+    authorId: currentUser ? currentUser.id : '',
+    authorName: currentUser ? currentUser.name : 'Аноним',
+    date: new Date().toISOString()
+  });
+  localStorage.setItem('dm_reviews', JSON.stringify(reviews));
+  closeModal('filmModal');
+  showToast('✅','Отзыв отправлен','Спасибо! Оценка: '+userRating+'★');
+}
+
+/* ── QUICK BUY ── */
+function quickBuy(title, price){
+  if(balance >= price){
+    balance -= price;
+    updateBal();
+    showToast('✅','Куплено!','"'+title+'" добавлен в вашу библиотеку');
+  } else {
+    showToast('💳','Недостаточно средств','Пополните баланс на '+(price - balance)+' сомони');
+    setTimeout(function(){document.getElementById('payment').scrollIntoView({behavior:'smooth'});},700);
+  }
+}
+function buyFilm(title, price){
+  closeModal('filmModal');
+  quickBuy(title, price);
+}
+
+/* ── PAYMENT ── */
+function selectPayMethod(key, num, name){
+  currentMethod = name;
+  currentCard = num;
+  document.querySelectorAll('.method-btn').forEach(function(b){b.classList.remove('active');});
+  event.currentTarget.classList.add('active');
+  var card = CARDS[key];
+  document.getElementById('cardBankLabel').textContent = card.bank+' — Реквизиты для перевода';
+  document.getElementById('cardNumber').textContent = card.num;
+  document.getElementById('cardBank').textContent = card.bank;
+  document.getElementById('cardDisplay').classList.add('visible');
+  showToast('💳','Реквизиты готовы','Переведите средства на карту '+card.bank);
+}
+
+function copyCard(){
+  if(currentCard){
+    navigator.clipboard.writeText(currentCard.replace(/\s/g,'')).catch(function(){});
+    showToast('📋','Скопировано!','Номер карты скопирован в буфер обмена');
+  }
+}
+
+function setAmt(v){document.getElementById('topupAmt').value=v;}
+
+function doTopup(){
+  var amt = parseFloat(document.getElementById('topupAmt').value);
+  if(!amt || amt < 10){showToast('❌','Ошибка','Введите сумму от 10 сомони');return;}
+  if(!currentMethod){showToast('⚠️','Выберите способ','Пожалуйста, выберите способ оплаты');return;}
+  var now = new Date();
+  document.getElementById('rcDate').textContent = now.toLocaleString('ru');
+  document.getElementById('rcAmt').textContent = amt+' сомони';
+  document.getElementById('rcMethod').textContent = currentMethod;
+  document.getElementById('rcCard').textContent = currentCard || '—';
+  document.getElementById('rcId').textContent = 'CTX-'+Date.now().toString(36).toUpperCase();
+  document.getElementById('topupAmt').value = '';
+  openModal('receiptModal');
+}
+
+function shareReceipt(){
+  var amt = document.getElementById('rcAmt').textContent;
+  var id = document.getElementById('rcId').textContent;
+  var msg = 'CINEMATIX Чек\nСумма: '+amt+'\nID: '+id+'\nСпособ: '+currentMethod+'\nКарта: '+currentCard+'\n\nПрошу подтвердить пополнение.';
+  var tgUrl = 'https://t.me/+992929612111?text='+encodeURIComponent(msg);
+  window.open(tgUrl,'_blank');
+}
+
+/* ── AUTH ── */
+function switchTab(t){
+  document.querySelectorAll('.auth-tab').forEach(function(b,i){b.classList.toggle('active',(i===0&&t==='login')||(i===1&&t==='register'));});
+  document.getElementById('loginForm').style.display = t==='login'?'':'none';
+  document.getElementById('registerForm').style.display = t==='register'?'':'none';
+}
+
+function sendSmsCode(type){
+  if(type==='login'){
+    var phone = document.getElementById('loginPhone').value;
+    if(!phone){showToast('⚠️','Введите телефон','Укажите ваш номер телефона');return;}
+    if(!smsStep.login){
+      document.getElementById('loginSmsField').style.display='';
+      document.getElementById('loginEmailField').style.display='';
+      smsStep.login = true;
+      showToast('📱','SMS отправлен','Код отправлен на '+phone);
+    } else {
+      var code = document.getElementById('loginCode').value;
+      if(code.length < 4){showToast('⚠️','Неверный код','Введите 4-значный код из SMS');return;}
+      closeModal('authModal');
+      showToast('✅','Вход выполнен!','Добро пожаловать в CINEMATIX!');
+      smsStep.login = false;
+    }
+  } else {
+    var name = document.getElementById('regName').value;
+    var phone2 = document.getElementById('regPhone').value;
+    if(!name||!phone2){showToast('⚠️','Заполните поля','Укажите имя и номер телефона');return;}
+    if(!smsStep.register){
+      document.getElementById('regSmsField').style.display='';
+      smsStep.register = true;
+      showToast('📱','SMS отправлен','Код подтверждения отправлен на '+phone2);
+    } else {
+      var code2 = document.getElementById('regCode').value;
+      if(code2.length < 4){showToast('⚠️','Неверный код','Введите 4-значный код из SMS');return;}
+      closeModal('authModal');
+      showToast('🎉','Аккаунт создан!','Добро пожаловать, '+name+'!');
+      smsStep.register = false;
+    }
+  }
+}
+
+/* ── SHARE ── */
+function doShare(){
+  var inputs = document.querySelectorAll('.share-friend-num');
+  var filled = 0;
+  inputs.forEach(function(i){if(i.value.trim())filled++;});
+  if(filled < 3){showToast('⚠️','Введите 3 номера','Укажите номера всех трёх друзей');return;}
+  closeModal('shareModal');
+  balance += 1;
+  updateBal();
+  showToast('🎁','Приглашения отправлены!','Вам начислено 1 бесплатное кино! Баланс обновлён.');
+}
+
+/* ── COMPLAINT ── */
+function submitComplaint(){
+  if(window.dmEngine&&window.dmEngine.requireProfileCompletion&&!window.dmEngine.requireProfileCompletion('Отправка жалобы'))return;
+  var chosen = document.querySelector('input[name="cr"]:checked');
+  if(!chosen){showToast('⚠️','Выберите причину','Отметьте причину жалобы');return;}
+  closeModal('complaintModal');
+  showToast('✅','Жалоба отправлена','Мы рассмотрим её в течение 24 часов');
+}
+
+/* ── MODALS ── */
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(function(ov){
+  ov.addEventListener('click',function(e){if(e.target===ov)ov.classList.remove('open');});
+});
+
+/* ── TOAST ── */
+function showToast(icon, title, sub){
+  document.getElementById('tIcon').textContent = icon;
+  document.getElementById('tTitle').textContent = title;
+  document.getElementById('tSub').textContent = sub;
+  var t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function(){t.classList.remove('show');}, 3800);
+}
+
+/* ══════════════════════════════
+   TRAILER + FULL FILM PLAYER
+══════════════════════════════ */
+var currentTrailerFilm = null;
+
+function openTrailer(film){
+  currentTrailerFilm = film;
+  document.getElementById('trailerEmoji').textContent = film.emoji;
+  document.getElementById('trailerName').textContent  = film.title;
+  document.getElementById('trailerSub').textContent   = film.genre+' · '+film.price+' сомони — полный фильм';
+  document.getElementById('trailerFullPrice').textContent = film.price+' см.';
+  document.getElementById('trailerBalShow').textContent   = balance+' см.';
+  var iframe = document.getElementById('trailerIframe');
+  var ph     = document.getElementById('trailerPlaceholder');
+  if(film.trailerUrl){
+    iframe.src = film.trailerUrl+'?autoplay=1&rel=0';
+    iframe.style.display = 'block';
+    ph.style.display = 'none';
+  } else {
+    iframe.src = '';
+    iframe.style.display = 'none';
+    ph.style.display = 'flex';
+  }
+  document.getElementById('trailerModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTrailer(){
+  document.getElementById('trailerModal').classList.remove('open');
+  document.getElementById('trailerIframe').src = '';
+  document.body.style.overflow = '';
+}
+
+function watchFullFilm(){
+  if(!currentTrailerFilm) return;
+  var f = currentTrailerFilm;
+  closeTrailer();
+  if(balance >= f.price){
+    balance -= f.price;
+    updateBal();
+    openFullFilm(f, true);
+    showToast('✅','Оплачено!', f.price+' сомони списано. Приятного просмотра!');
+  } else {
+    openFullFilm(f, false);
+  }
+}
+
+function openFullFilm(f, hasMoney){
+  document.getElementById('ffTitle').textContent = f.title;
+  document.getElementById('ffMeta').textContent  = f.genre+' · VFX · 4K';
+  document.getElementById('ffBalAmt').textContent = balance;
+  var iframe  = document.getElementById('ffIframe');
+  var noMoney = document.getElementById('ffNoMoney');
+  if(hasMoney && f.fullUrl){
+    iframe.src = f.fullUrl+'?autoplay=1&rel=0';
+    iframe.style.display = 'block';
+    noMoney.classList.remove('show');
+  } else if(hasMoney && !f.fullUrl){
+    iframe.style.display = 'none';
+    noMoney.classList.add('show');
+    document.getElementById('ffNoMoneyText').textContent = 'Ссылка на полный фильм скоро будет добавлена. Деньги не списаны.';
+    balance += f.price; updateBal();
+  } else {
+    iframe.style.display = 'none';
+    noMoney.classList.add('show');
+    var need = f.price - balance;
+    document.getElementById('ffNoMoneyText').textContent =
+      'Для просмотра «'+f.title+'» нужно ещё '+need+' сомони. Пополните баланс и попробуйте снова.';
+  }
+  document.getElementById('fullFilmModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFullFilm(){
+  document.getElementById('fullFilmModal').classList.remove('open');
+  document.getElementById('ffIframe').src = '';
+  document.getElementById('ffIframe').style.display = 'none';
+  document.getElementById('ffNoMoney').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('trailerModal').addEventListener('click',function(e){if(e.target===this)closeTrailer();});
+document.getElementById('fullFilmModal').addEventListener('click',function(e){if(e.target===this)closeFullFilm();});
+
+var deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredPrompt = e;
+});
+function installPWA(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(r){
+      if(r.outcome==='accepted') showToast('✅','Установлено!','CINEMATIX добавлен на главный экран');
+      deferredPrompt = null;
+    });
+  } else {
+    showToast('📲','Как установить','Нажмите ⋮ в Chrome → «Добавить на главный экран»');
+  }
+}
+
+function updateBal(){
+  var el = document.getElementById('navBal');
+  if(el) el.textContent = balance;
+}
+</script>
+</body>
+</html>
+
